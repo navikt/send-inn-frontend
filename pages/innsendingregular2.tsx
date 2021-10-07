@@ -7,9 +7,7 @@ import { useState } from 'react';
 
 
 type FormValues = {
-    firstName: string;
-    lastName: string;
-    email: string;
+    filnavn: string;
     file: File;
   };
   
@@ -34,6 +32,7 @@ const Home: NextPage = () => {
       */
       const onSubmit: SubmitHandler<FormValues> = data => { console.log(data);
         addFile(data)
+        console.log(data)
 
     }
   return (
@@ -45,14 +44,12 @@ const Home: NextPage = () => {
       </Head>
 
       {files.map((input , index) => (
-        <p key={index}>{index} : {input.file.toString()} </p>
+        <p key={index}>{index} : {input.filnavn + ' ' + input.file.toString()} </p>
       ))}
 
       <main className={styles.main}>
       <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register("firstName")} />
-      <input {...register("lastName")} />
-      <input type="email" {...register("email")} />
+      <input {...register("filnavn")} />
       <input type="file" {...register("file")} />
 
       <input type="submit" />
