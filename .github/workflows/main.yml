@@ -1,7 +1,7 @@
 name: Build, push, and deploy
 on: [push]
 env:
-  IMAGE: docker.pkg.github.com/${{ github.repository }}/soknadsadmin:${{ github.sha }}
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/send-inn-frontend:${{ github.sha }}
   CI: true
   TZ: Europe/Oslo
 
