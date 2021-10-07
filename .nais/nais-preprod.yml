@@ -29,7 +29,7 @@ spec:
     requests:
       memory: 512Mi
   ingresses:
-    - "https://dev.nav.no/send-inn-frontend"
+    - "https://send-inn-frontend.dev.nav.no"
   vault:
     enabled: true
   env:
