@@ -1,7 +1,7 @@
 name: Build, push, and deploy
 on: [push]
 env:
-  IMAGE: docker.pkg.github.com/${{ github.repository }}/soknadsadmin:${{ github.sha }}
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/send-inn-frontend:${{ github.sha }}
   CI: true
   TZ: Europe/Oslo
 
@@ -9,12 +9,12 @@ jobs:
   build:
     name: Test and build
     runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/q0-pipeline' && github.ref != 'refs/heads/q1-pipeline' && github.ref != 'refs/heads/preprod-pipeline' && github.ref != 'refs/heads/main'
+    if: github.ref != 'refs/heads/preprod-pipeline' && github.ref != 'refs/heads/main'
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: '14.9.0'
+          node-version: '16.10.0'
       - uses: actions/cache@v1
         with:
           path: ~/.npm
@@ -29,7 +29,7 @@ jobs:
       # - name: Test
       #   run: npm run test
       - name: Build
-        run: npm run build
+        run: npm run build:static
       - name: Publish Docker image
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -40,13 +40,13 @@ jobs:
 
   build-and-push:
     name: Build and push Docker container
-    if: github.ref == 'refs/heads/q0-pipeline' || github.ref == 'refs/heads/q1-pipeline' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/preprod-pipeline'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/preprod-pipeline'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: '14.9.0'
+          node-version: '16.10.0'
       - uses: actions/cache@v1
         with:
           path: ~/.npm
@@ -60,48 +60,8 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       # - name: Test
       #   run: npm run test
-      - name: Set environment variables (main)
-        if: github.ref == 'refs/heads/main'
-        run: | 
-          echo -e "\n\
-          REACT_APP_API_URL=https://soknadsarkiverer.intern.nav.no/ \n\
-          REACT_APP_AZURE_CLIENT_ID=4dda8ec4-d3e7-4549-ad51-f3600b4f9133 \n\
-          REACT_APP_AZURE_REDIRECT_URL=https://soknadsadmins.intern.nav.no \n\
-          REACT_APP_AZURE_API_CLIENT_ID=50ceb8ef-995a-4b4c-8c2a-d801b5699924 \n\
-          REACT_APP_AZURE_AUTHORITY=https://login.microsoftonline.com/62366534-1ec3-4962-8869-9b5535279d0b \n\
-          " >> .env
-      - name: Set environment variables (q0)
-        if: github.ref == 'refs/heads/q0-pipeline'
-        run: | 
-          echo -e "\n\
-          REACT_APP_API_URL=https://soknadsarkiverer-q0.dev.intern.nav.no/ \n\
-          REACT_APP_AZURE_CLIENT_ID=39877362-cc8f-40d9-8d15-5436b233bd8e \n\
-          REACT_APP_AZURE_REDIRECT_URL=https://soknadsadmins-q0.dev.intern.nav.no \n\
-          REACT_APP_AZURE_API_CLIENT_ID=7b9e459e-225f-4fa8-b79f-2a15b993dae8 \n\
-          REACT_APP_AZURE_AUTHORITY=https://login.microsoftonline.com/966ac572-f5b7-4bbe-aa88-c76419c0f851 \n\
-          " >> .env
-      - name: Set environment variables (q1)
-        if: github.ref == 'refs/heads/q1-pipeline'
-        run: | 
-          echo -e "\n\
-          REACT_APP_API_URL=https://soknadsarkiverer-q1.dev.intern.nav.no/ \n\
-          REACT_APP_AZURE_CLIENT_ID=39877362-cc8f-40d9-8d15-5436b233bd8e \n\
-          REACT_APP_AZURE_REDIRECT_URL=https://soknadsadmins-q1.dev.intern.nav.no \n\
-          REACT_APP_AZURE_API_CLIENT_ID=7b9e459e-225f-4fa8-b79f-2a15b993dae8 \n\
-          REACT_APP_AZURE_AUTHORITY=https://login.microsoftonline.com/966ac572-f5b7-4bbe-aa88-c76419c0f851 \n\
-          " >> .env
-      - name: Set environment variables (team-soknad)
-        if: github.ref == 'refs/heads/preprod-pipeline'
-        run: | 
-          echo -e "\n\
-          REACT_APP_API_URL=https://soknadsarkiverer.dev.intern.nav.no/ \n\
-          REACT_APP_AZURE_CLIENT_ID=39877362-cc8f-40d9-8d15-5436b233bd8e \n\
-          REACT_APP_AZURE_REDIRECT_URL=https://soknadsadmins-q1.dev.intern.nav.no \n\
-          REACT_APP_AZURE_API_CLIENT_ID=7b9e459e-225f-4fa8-b79f-2a15b993dae8 \n\
-          REACT_APP_AZURE_AUTHORITY=https://login.microsoftonline.com/966ac572-f5b7-4bbe-aa88-c76419c0f851 \n\
-          " >> .env
       - name: Build
-        run: npm run build
+        run: npm run build:static
       - name: Publish Docker image
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -110,37 +70,7 @@ jobs:
           docker build --tag ${IMAGE} .
           docker push ${IMAGE}
 
-  deploy-til-q0:
-    name: Deploy to preprod (q0)
-    needs: build-and-push
-    if: github.ref == 'refs/heads/q0-pipeline'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          DRY_RUN: false
-          PRINT_PAYLOAD: true
-          CLUSTER: dev-fss
-          RESOURCE: .nais/nais-q0.yml
-          VAR: app_version=${{ github.sha }}
 
-  deploy-til-q1:
-    name: Deploy to preprod (q1)
-    needs: build-and-push
-    if: github.ref == 'refs/heads/q1-pipeline'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          DRY_RUN: false
-          PRINT_PAYLOAD: true
-          CLUSTER: dev-fss
-          RESOURCE: .nais/nais-q1.yml
-          VAR: app_version=${{ github.sha }}
 
   deploy-til-team-soknad:
     name: Deploy to preprod namespace team-soknad
@@ -154,7 +84,7 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           DRY_RUN: false
           PRINT_PAYLOAD: true
-          CLUSTER: dev-fss
+          CLUSTER: dev-sbs
           RESOURCE: .nais/nais-preprod.yml
           VAR: app_version=${{ github.sha }}
 
@@ -170,6 +100,6 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           DRY_RUN: false
           PRINT_PAYLOAD: true
-          CLUSTER: prod-fss
+          CLUSTER: prod-sbs
           RESOURCE: .nais/nais.yml
           VAR: app_version=${{ github.sha }}
