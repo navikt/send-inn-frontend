@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { useForm, SubmitHandler } from "react-hook-form";
+import Link from 'next/link'
 
 const Home: NextPage = () => {
 

@@ -3,7 +3,7 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from 'react';
-
+import Link  from 'next/link'
 // todo https://dev.to/fadiamg/multiple-file-inputs-with-one-submit-button-with-react-hooks-kle
     
 type FormValues = {
@@ -35,6 +35,11 @@ const Home: NextPage = () => {
 
       <input type="submit" />
     </form>
+
+
+    <Link href="/dokumentinnsending/opprettsoknadresource">
+    this page
+</Link>
       </main>
 
       <footer className={styles.footer}>
