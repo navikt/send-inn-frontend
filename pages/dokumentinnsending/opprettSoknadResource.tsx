@@ -1,17 +1,32 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import styles from '../../styles/Home.module.css'
-import { useForm, SubmitHandler } from "react-hook-form";
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import styles from '../../styles/Home.module.css';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
-import { useRouter } from "next/router";
-import { GetServerSideProps } from 'next'
+import { useRouter, NextRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
+import axios from 'axios';
+
+const qs = require('qs');
 // todo https://dev.to/fadiamg/multiple-file-inputs-with-one-submit-button-with-react-hooks-kle
-    
+
 type FormValues = {
     file: File;
-  };
-  //https://tjenester-q1.nav.no/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&erEttersendelse=false&vedleggsIder=W2,W1
-  //http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&erEttersendelse=false&vedleggsIder=W2,W1,
+    brukerid: string;
+};
+
+type Query = {
+    query: {
+        skjemanummer: string;
+        erEttersendelse: string;
+        vedleggsIder: string;
+        brukerid: string;
+        sprak: string;
+    };
+};
+
+//https://tjenester-q1.nav.no/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&erEttersendelse=false&vedleggsIder=W2,W1
+//http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&erEttersendelse=false&vedleggsIder=W2,W1,
 // todo make the url case insensitive?
 // todo get qparams    https://reactgo.com/next-get-query-params/   <p>{query.name}</p>
 
@@ -29,34 +44,57 @@ interface Props {
 
  */
 const OpprettSoknadResource: NextPage = () => {
-  const { query } = useRouter();
+    const { query }: Query = useRouter();
 
     const [filesUploaded, setFilesUploaded] = useState<File[]>([]);
 
-      const { register, handleSubmit } = useForm<FormValues>();
-      const onSubmit: SubmitHandler<FormValues> = data => { 
-          setFilesUploaded(filesUploaded => [...filesUploaded, data.file])
-          console.log(data);
-          console.log(filesUploaded)
-      }
-  return (
-    <div className={styles.container}>
-
-      <Head>
-        <title>Send inn her</title>
-        <meta name="description" content="Her kan du sende inn vedlegg" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className={styles.main}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="file" {...register("file")} />
-
-      <input type="submit" /> 
-      <div> {JSON.stringify(query)} </div>
-      <p>{query.skjemanummer}</p>
-      <p>{query.erEttersendelse}</p>
-      <p>{query.vedleggsIder}</p>
-      {/*
+    const { register, handleSubmit } = useForm<FormValues>();
+    const onSubmit: SubmitHandler<FormValues> = (data) => {
+        // setFilesUploaded((filesUploaded) => [
+        //     ...filesUploaded,
+        //     data.file,
+        // ]);
+        console.log(data);
+        const { brukerid } = data;
+        const { vedleggsIder } = query;
+        // console.log(filesUploaded);
+        axios
+            .post(
+                'http://localhost:9064/frontend/soknad',
+                qs.stringify({
+                    brukerid,
+                    skjemanummer: query.skjemanummer,
+                    sprak: query.sprak,
+                    vedleggsListe: query.vedleggsIder.split(','),
+                }),
+            )
+            .then(() => {});
+    };
+    return (
+        <div className={styles.container}>
+            <Head>
+                <title>Send inn her</title>
+                <meta
+                    name="description"
+                    content="Her kan du sende inn vedlegg"
+                />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+            <main className={styles.main}>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    {/* <input type="file" {...register("file")} /> */}
+                    <input
+                        type="text"
+                        placeholder="brukerid"
+                        defaultValue={'12345678901'}
+                        {...register('brukerid')}
+                    />
+                    <input type="submit" />
+                    <div> {JSON.stringify(query)} </div>
+                    <p>{query.skjemanummer}</p>
+                    <p>{query.erEttersendelse}</p>
+                    <p>{query.vedleggsIder}</p>
+                    {/*
       https://tjenester-q1.nav.no/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&erEttersendelse=false&vedleggsIder=W2,W1]&brukerid=12345678901&sprak=NO_NB&vedleggListe=W1,W2
       opprettSoknadResource?skjemanummer=NAV%2054-00.04&erEttersendelse=false&vedleggsIder=W2,W1]&brukerid=12345678901&sprak=NO_NB&vedleggListe=W1,W2
       ting vi har:
@@ -69,15 +107,13 @@ const OpprettSoknadResource: NextPage = () => {
       sprak=NO_NB
       vedleggListe=W1,W2 (samme som vedleggsliste)
       */}
+                </form>
+            </main>
 
-</form>
-      </main>
-
-      <footer className={styles.footer}>
-      </footer>
-    </div>
-  )
-}
+            <footer className={styles.footer}></footer>
+        </div>
+    );
+};
 
 /*
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -86,7 +122,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   prop : Props = {somevalue = 'string'}
   return prop
 }
-*/    
+*/
 
-
-export default OpprettSoknadResource
+export default OpprettSoknadResource;
