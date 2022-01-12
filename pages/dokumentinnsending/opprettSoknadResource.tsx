@@ -15,15 +15,15 @@ type FormValues = {
     brukerid: string;
 };
 
-type Query = {
-    query: {
-        skjemanummer: string;
-        erEttersendelse: string;
-        vedleggsIder: string;
-        brukerid: string;
-        sprak: string;
-    };
-};
+// type Query = NextRouter & {
+//     query: {
+//         skjemanummer: string;
+//         erEttersendelse: string;
+//         vedleggsIder: string;
+//         brukerid: string;
+//         sprak: string;
+//     };
+// };
 
 //https://tjenester-q1.nav.no/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&erEttersendelse=false&vedleggsIder=W2,W1
 //http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&erEttersendelse=false&vedleggsIder=W2,W1,
@@ -44,7 +44,7 @@ interface Props {
 
  */
 const OpprettSoknadResource: NextPage = () => {
-    const { query }: Query = useRouter();
+    const { query } = useRouter();
 
     const [filesUploaded, setFilesUploaded] = useState<File[]>([]);
 
@@ -57,17 +57,25 @@ const OpprettSoknadResource: NextPage = () => {
         console.log(data);
         const { brukerid } = data;
         const { vedleggsIder } = query;
-        // console.log(filesUploaded);
+        console.log(
+            qs.stringify({
+                brukerid,
+                skjemanummer: query.skjemanummer,
+                sprak: query.sprak,
+                vedleggsListe: (vedleggsIder as string)?.split(','),
+            }),
+        );
         axios
-            .post(
-                'http://localhost:9064/frontend/soknad',
-                qs.stringify({
+            .post('http://localhost:9064/frontend/soknad', null, {
+                params: {
                     brukerid,
                     skjemanummer: query.skjemanummer,
                     sprak: query.sprak,
-                    vedleggsListe: query.vedleggsIder.split(','),
-                }),
-            )
+                    vedleggsListe: (vedleggsIder as string)?.split(
+                        ',',
+                    ),
+                },
+            })
             .then(() => {});
     };
     return (
