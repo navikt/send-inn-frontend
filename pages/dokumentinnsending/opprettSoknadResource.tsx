@@ -13,6 +13,7 @@ const qs = require('qs');
 type FormValues = {
     file: File;
     brukerid: string;
+    sprak: string;
 };
 
 // type Query = NextRouter & {
@@ -27,6 +28,8 @@ type FormValues = {
 
 //https://tjenester-q1.nav.no/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&erEttersendelse=false&vedleggsIder=W2,W1
 //http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&erEttersendelse=false&vedleggsIder=W2,W1,
+
+// http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&erEttersendelse=false&vedleggsIder=C1,W1,
 // todo make the url case insensitive?
 // todo get qparams    https://reactgo.com/next-get-query-params/   <p>{query.name}</p>
 
@@ -55,27 +58,17 @@ const OpprettSoknadResource: NextPage = () => {
         //     data.file,
         // ]);
         console.log(data);
-        const { brukerid } = data;
+        const { brukerid, sprak } = data;
         const { vedleggsIder } = query;
-        console.log(
-            qs.stringify({
+
+        axios
+            .post('http://localhost:9064/frontend/soknad', {
                 brukerid,
                 skjemanummer: query.skjemanummer,
-                sprak: query.sprak,
-                vedleggsListe: (vedleggsIder as string)?.split(','),
-            }),
-        );
-        axios
-            .post('http://localhost:9064/frontend/soknad', null, {
-                params: {
-                    brukerid,
-                    skjemanummer: query.skjemanummer,
-                    sprak: query.sprak,
-                    vedleggsListe: (vedleggsIder as string)?.split(
-                        ',',
-                    ),
-                },
-            })
+                sprak,
+                vedleggsListe: (vedleggsIder as string)?.split(
+                    ',',
+                )})
             .then(() => {});
     };
     return (
@@ -96,6 +89,12 @@ const OpprettSoknadResource: NextPage = () => {
                         placeholder="brukerid"
                         defaultValue={'12345678901'}
                         {...register('brukerid')}
+                    />
+                    <input
+                        type="text"
+                        placeholder="sprak"
+                        defaultValue={'NO_NB'}
+                        {...register('sprak')}
                     />
                     <input type="submit" />
                     <div> {JSON.stringify(query)} </div>
