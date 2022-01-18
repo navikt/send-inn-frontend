@@ -53,15 +53,16 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - name: Install dependencies
-        run: npm install
-        env:
+      #- name: Install dependencies
+      #  run: npm install
+      #  env:
           # Github krever autentisering for tilgang til packages
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      #    NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      # fjernet fordi den bare gjør det samme som docker imaget inntil vi har tester/linting
       # - name: Test
       #   run: npm run test
-      - name: Build
-        run: npm run build:static
+      #- name: Build
+      #  run: npm run build:static
       - name: Publish Docker image
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
