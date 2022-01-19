@@ -48,7 +48,7 @@ interface Props {
  */
 const OpprettSoknadResource: NextPage = () => {
     const { query } = useRouter();
-    const [dokumenter, setDokumenter] = useState(null);
+    const [soknad, setSoknad] = useState<{} | null>(null);
     const [filesUploaded, setFilesUploaded] = useState<File[]>([]);
 
     const { register, handleSubmit } = useForm<FormValues>();
@@ -68,10 +68,12 @@ const OpprettSoknadResource: NextPage = () => {
                 skjemanr: query.skjemanummer,
                 sprak: query.sprak, // set bokmål som default
                 // TODO rett til vedleggsListe
-                vedleggListe: (vedleggsIder as string)?.split(
-                    ',',
-                )})
-            .then(() => {});
+                vedleggListe: (vedleggsIder as string)?.split(','),
+            })
+            .then((response) => {
+                setSoknad(response.data);
+                console.log({ response: response.data });
+            });
     };
     return (
         <div className={styles.container}>
@@ -112,8 +114,7 @@ const OpprettSoknadResource: NextPage = () => {
       vedleggListe=W1,W2 (samme som vedleggsliste)
       */}
 
-
-                    { /*
+                    {/*
                     vi tar inn dette
                     vi har en skjema/søknad komponent
                     denne har en dokument komponent, dette er
