@@ -1,4 +1,5 @@
 import React, { FC, ReactElement } from 'react';
+import Link from 'next/link';
 
 /*
 
@@ -69,7 +70,14 @@ function Vedlegg({   id,
                      opplastingsStatus,
                      opprettetdato,}:VedleggProps){
 
-    return <div> {vedleggsnr} {opprettetdato}</div>;
+    return <>
+        <div>
+            <Link href="{skjemaurl}">
+                {skjemaurl}
+            </Link>
+        </div>
+        <div> {vedleggsnr} {opprettetdato}</div>
+    </>;
 
 }
 export default Vedlegg;

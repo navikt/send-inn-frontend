@@ -6,6 +6,7 @@ import { useState } from 'react';
 import Link  from 'next/link'
 import Vedlegg from '../components/Vedlegg'
 import Vedlegg2 from '../components/Vedlegg2'
+
 const VedleggSide: NextPage = () => {
     let propexample = {
         id: 13,
@@ -33,7 +34,7 @@ const VedleggSide: NextPage = () => {
             erHoveddokument={false}
             erVariant={false}
             erPdfa={false}
-            skjemaurl=""
+            skjemaurl="https://cdn.sanity.io/files/gx9wf39f/soknadsveiviser-p/b896b856728119c489376644df4a189b339ffe62.pdf"
             opplastingsStatus="IKKE_VALGT"
             opprettetdato="2022-01-19T13:35:51.091965"/>
         </div>
