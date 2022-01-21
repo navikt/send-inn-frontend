@@ -4,8 +4,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from 'react';
 
 type FormValues = {
-    filnavn: string;
-    file: File;
+    filnavn: string | null;
+    file: File | null;
 };
 
 /*
@@ -76,30 +76,52 @@ function Vedlegg({   id,
                      skjemaurl,
                      opplastingsStatus,
                      opprettetdato,}:VedleggProps){
-    const [files , setFiles] = useState<FormValues[]>([]);
+    const [opplastetFil , setOpplastetFil] = useState<FormValues>({
+        filnavn: null,
+        file: null
+    });
 
-    function addFile(input : FormValues) {
-        setFiles(files.concat(input))
+    function leggTilFil(input : FormValues) {
+        setOpplastetFil(input)
     }
 
+    React.useEffect(() => {
+        if (formState.isSubmitSuccessful) {
+            reset({ something: '' });
+        }
+    }, [formState, submittedData, reset]);
+
+    
     const { register, handleSubmit } = useForm<FormValues>();
     /*
     const {files : FormValues[], setFiles} = useState([])
     */
-    const onSubmit: SubmitHandler<FormValues> = data => { console.log(data);
-        addFile(data)
-        console.log(data)
+    const onSubmit: SubmitHandler<FormValues> = data => {
+        if(opplastetFil.file) {
+            console.log("last opp fil først!")
+        } else {
+            if(!data.filnavn) {
+                data.filnavn="Opplastetfil"
+            }
+        console.log(data);
+        leggTilFil(data);
+        console.log(data);
+        setOpplastetFil({
+                filnavn: null,
+                    file: null
+            });
+        }
     }
     return <>
         <div>
-            <Link href="{skjemaurl}">
+            <Link href={skjemaurl} >
                 {skjemaurl}
             </Link>
         </div>
         <div> {vedleggsnr} {opprettetdato}</div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <input {...register("filnavn")} />
-            <input type="file" {...register("file")} />
+        <form onSubmit={handleSubmit(onSubmit)}><br/>
+            Beskriv vedlegg:<input {...register("filnavn")} /><br/>
+            <input type="file" {...register("file")} /><br/>
 
             <input type="submit" />
         </form>
