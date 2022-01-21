@@ -1,6 +1,6 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, useRef } from 'react';
 import Link from 'next/link';
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
 
 type FormValues = {
@@ -26,18 +26,18 @@ type FormValues = {
     }
  */
 type VedleggProps = {
-    id: number,
-    vedleggsnr: string,
-    tittel: string,
-    uuid: string,
-    mimetype: string,
-    document: string,
-    erHoveddokument: boolean,
-    erVariant: boolean,
-    erPdfa: boolean,
-    skjemaurl: string,
-    opplastingsStatus: string,
-    opprettetdato: string,
+    id: number;
+    vedleggsnr: string;
+    tittel: string;
+    uuid: string;
+    mimetype: string;
+    document: string;
+    erHoveddokument: boolean;
+    erVariant: boolean;
+    erPdfa: boolean;
+    skjemaurl: string;
+    opplastingsStatus: string;
+    opprettetdato: string;
 };
 /*
 let props = {
@@ -64,68 +64,85 @@ const Vedlegg: FC<VedleggProps> = (
 };
 */
 
-function Vedlegg({   id,
-                     vedleggsnr,
-                     tittel,
-                     uuid,
-                     mimetype,
-                     document,
-                     erHoveddokument,
-                     erVariant,
-                     erPdfa,
-                     skjemaurl,
-                     opplastingsStatus,
-                     opprettetdato,}:VedleggProps){
-    const [opplastetFil , setOpplastetFil] = useState<FormValues>({
+function Vedlegg({
+    id,
+    vedleggsnr,
+    tittel,
+    uuid,
+    mimetype,
+    document,
+    erHoveddokument,
+    erVariant,
+    erPdfa,
+    skjemaurl,
+    opplastingsStatus,
+    opprettetdato,
+}: VedleggProps) {
+    const [opplastetFil, setOpplastetFil] = useState<FormValues>({
         filnavn: null,
-        file: null
+        file: null,
     });
 
-    function leggTilFil(input : FormValues) {
-        setOpplastetFil(input)
+    const { register, handleSubmit, reset, setValue } =
+        useForm<FormValues>();
+
+    function leggTilFil(input: FormValues) {
+        setOpplastetFil(input);
     }
 
-    React.useEffect(() => {
-        if (formState.isSubmitSuccessful) {
-            reset({ something: '' });
-        }
-    }, [formState, submittedData, reset]);
+    const fileRef = useRef<HTMLInputElement | null>(null);
+    const { ref, ...rest } = register('file');
 
-    
-    const { register, handleSubmit } = useForm<FormValues>();
     /*
     const {files : FormValues[], setFiles} = useState([])
     */
-    const onSubmit: SubmitHandler<FormValues> = data => {
-        if(opplastetFil.file) {
-            console.log("last opp fil først!")
+    const onSubmit: SubmitHandler<FormValues> = (data) => {
+        if (!data.file) {
+            console.log('last opp fil først!');
         } else {
-            if(!data.filnavn) {
-                data.filnavn="Opplastetfil"
+            if (!data.filnavn) {
+                data.filnavn = 'Opplastetfil';
             }
-        console.log(data);
-        leggTilFil(data);
-        console.log(data);
-        setOpplastetFil({
+            console.log(data);
+            leggTilFil(data);
+            console.log(data);
+            reset({ filnavn: null });
+            setOpplastetFil({
                 filnavn: null,
-                    file: null
+                file: null,
             });
+            setValue('file', null);
+            if (fileRef.current) {
+                fileRef.current.value = '';
+            }
         }
-    }
-    return <>
-        <div>
-            <Link href={skjemaurl} >
-                {skjemaurl}
-            </Link>
-        </div>
-        <div> {vedleggsnr} {opprettetdato}</div>
-        <form onSubmit={handleSubmit(onSubmit)}><br/>
-            Beskriv vedlegg:<input {...register("filnavn")} /><br/>
-            <input type="file" {...register("file")} /><br/>
-
-            <input type="submit" />
-        </form>
-    </>;
-
+    };
+    return (
+        <>
+            <div>
+                <Link href={skjemaurl}>{skjemaurl}</Link>
+            </div>
+            <div>
+                {' '}
+                {vedleggsnr} {opprettetdato}
+            </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <br />
+                Beskriv vedlegg:
+                <input {...register('filnavn')} />
+                <br />
+                <input
+                    {...rest}
+                    type="file"
+                    ref={(e) => {
+                        ref(e);
+                        fileRef.current = e; // you can still assign to ref
+                    }}
+                />
+                <br />
+                <input type="submit" />
+            </form>
+        </>
+    );
 }
 export default Vedlegg;
