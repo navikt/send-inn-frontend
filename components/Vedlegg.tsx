@@ -1,5 +1,12 @@
 import React, { FC, ReactElement } from 'react';
 import Link from 'next/link';
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useState } from 'react';
+
+type FormValues = {
+    filnavn: string;
+    file: File;
+};
 
 /*
 
@@ -69,7 +76,20 @@ function Vedlegg({   id,
                      skjemaurl,
                      opplastingsStatus,
                      opprettetdato,}:VedleggProps){
+    const [files , setFiles] = useState<FormValues[]>([]);
 
+    function addFile(input : FormValues) {
+        setFiles(files.concat(input))
+    }
+
+    const { register, handleSubmit } = useForm<FormValues>();
+    /*
+    const {files : FormValues[], setFiles} = useState([])
+    */
+    const onSubmit: SubmitHandler<FormValues> = data => { console.log(data);
+        addFile(data)
+        console.log(data)
+    }
     return <>
         <div>
             <Link href="{skjemaurl}">
@@ -77,6 +97,12 @@ function Vedlegg({   id,
             </Link>
         </div>
         <div> {vedleggsnr} {opprettetdato}</div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <input {...register("filnavn")} />
+            <input type="file" {...register("file")} />
+
+            <input type="submit" />
+        </form>
     </>;
 
 }
