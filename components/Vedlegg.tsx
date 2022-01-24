@@ -2,6 +2,7 @@ import React, { FC, ReactElement, useRef } from 'react';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
+import axios from 'axios';
 
 type FormValues = {
     filnavn: string | null;
@@ -26,6 +27,19 @@ type FormValues = {
     }
  */
 type VedleggProps = {
+    innsendingsId: string,
+    id: number,
+    vedleggsnr: string,
+    tittel: string,
+    uuid: string,
+    mimetype: string,
+    document: string,
+    erHoveddokument: boolean,
+    erVariant: boolean,
+    erPdfa: boolean,
+    skjemaurl: string,
+    opplastingsStatus: string,
+    opprettetdato: string,
     id: number;
     vedleggsnr: string;
     tittel: string;
@@ -64,6 +78,20 @@ const Vedlegg: FC<VedleggProps> = (
 };
 */
 
+function Vedlegg({   innsendingsId,
+                     id,
+                     vedleggsnr,
+                     tittel,
+                     uuid,
+                     mimetype,
+                     document,
+                     erHoveddokument,
+                     erVariant,
+                     erPdfa,
+                     skjemaurl,
+                     opplastingsStatus,
+                     opprettetdato,}:VedleggProps){
+    const [files , setFiles] = useState<FormValues[]>([]);
 function Vedlegg({
     id,
     vedleggsnr,
