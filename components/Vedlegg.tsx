@@ -40,18 +40,6 @@ type VedleggProps = {
     skjemaurl: string,
     opplastingsStatus: string,
     opprettetdato: string,
-    id: number;
-    vedleggsnr: string;
-    tittel: string;
-    uuid: string;
-    mimetype: string;
-    document: string;
-    erHoveddokument: boolean;
-    erVariant: boolean;
-    erPdfa: boolean;
-    skjemaurl: string;
-    opplastingsStatus: string;
-    opprettetdato: string;
 };
 /*
 let props = {
@@ -123,6 +111,12 @@ function Vedlegg({
 
     /*
     const {files : FormValues[], setFiles} = useState([])
+
+    filDto *
+object
+file *
+string($binary)
+
     */
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         if (!data.file) {
@@ -134,6 +128,23 @@ function Vedlegg({
             console.log(data);
             leggTilFil(data);
             console.log(data);
+
+            let formData = new FormData();
+            formData.append("filDto", "sdfsdf");
+            formData.append("file", data.file);
+
+            axios
+                .post(`http://localhost:9064/frontend/soknad/${innsendingsId}/vedlegg/${id}/fil`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then((response) => {
+                    //setSoknad(response.data);
+                    console.log({ response: response.data });
+                });
+
+
             reset({ filnavn: null });
             setOpplastetFil({
                 filnavn: null,
