@@ -2,6 +2,7 @@ import React, { FC, ReactElement, useRef } from 'react';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
+import axios from 'axios';
 
 type FormValues = {
     filnavn: string | null;
@@ -26,18 +27,19 @@ type FormValues = {
     }
  */
 type VedleggProps = {
-    id: number;
-    vedleggsnr: string;
-    tittel: string;
-    uuid: string;
-    mimetype: string;
-    document: string;
-    erHoveddokument: boolean;
-    erVariant: boolean;
-    erPdfa: boolean;
-    skjemaurl: string;
-    opplastingsStatus: string;
-    opprettetdato: string;
+    innsendingsId: string,
+    id: number,
+    vedleggsnr: string,
+    tittel: string,
+    uuid: string,
+    mimetype: string,
+    document: string,
+    erHoveddokument: boolean,
+    erVariant: boolean,
+    erPdfa: boolean,
+    skjemaurl: string,
+    opplastingsStatus: string,
+    opprettetdato: string,
 };
 /*
 let props = {
@@ -64,6 +66,20 @@ const Vedlegg: FC<VedleggProps> = (
 };
 */
 
+function Vedlegg({   innsendingsId,
+                     id,
+                     vedleggsnr,
+                     tittel,
+                     uuid,
+                     mimetype,
+                     document,
+                     erHoveddokument,
+                     erVariant,
+                     erPdfa,
+                     skjemaurl,
+                     opplastingsStatus,
+                     opprettetdato,}:VedleggProps){
+    const [files , setFiles] = useState<FormValues[]>([]);
 function Vedlegg({
     id,
     vedleggsnr,
@@ -95,6 +111,12 @@ function Vedlegg({
 
     /*
     const {files : FormValues[], setFiles} = useState([])
+
+    filDto *
+object
+file *
+string($binary)
+
     */
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         if (!data.file) {
@@ -106,6 +128,23 @@ function Vedlegg({
             console.log(data);
             leggTilFil(data);
             console.log(data);
+
+            let formData = new FormData();
+            formData.append("filDto", "sdfsdf");
+            formData.append("file", data.file);
+
+            axios
+                .post(`http://localhost:9064/frontend/soknad/${innsendingsId}/vedlegg/${id}/fil`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then((response) => {
+                    //setSoknad(response.data);
+                    console.log({ response: response.data });
+                });
+
+
             reset({ filnavn: null });
             setOpplastetFil({
                 filnavn: null,
