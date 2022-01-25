@@ -39,8 +39,6 @@ interface PropStructure{
   lastName: number;
 }
 
-
-
 interface Props {
   somevalue?: string;
 }
