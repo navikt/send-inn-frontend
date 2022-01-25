@@ -27,19 +27,19 @@ type FormValues = {
     }
  */
 type VedleggProps = {
-    innsendingsId: string,
-    id: number,
-    vedleggsnr: string,
-    tittel: string,
-    uuid: string,
-    mimetype: string,
-    document: string,
-    erHoveddokument: boolean,
-    erVariant: boolean,
-    erPdfa: boolean,
-    skjemaurl: string,
-    opplastingsStatus: string,
-    opprettetdato: string,
+    innsendingsId: string;
+    id: number;
+    vedleggsnr: string;
+    tittel: string;
+    uuid: string;
+    mimetype: string;
+    document: string;
+    erHoveddokument: boolean;
+    erVariant: boolean;
+    erPdfa: boolean;
+    skjemaurl: string;
+    opplastingsStatus: string;
+    opprettetdato: string;
 };
 /*
 let props = {
@@ -66,21 +66,8 @@ const Vedlegg: FC<VedleggProps> = (
 };
 */
 
-function Vedlegg({   innsendingsId,
-                     id,
-                     vedleggsnr,
-                     tittel,
-                     uuid,
-                     mimetype,
-                     document,
-                     erHoveddokument,
-                     erVariant,
-                     erPdfa,
-                     skjemaurl,
-                     opplastingsStatus,
-                     opprettetdato,}:VedleggProps){
-    const [files , setFiles] = useState<FormValues[]>([]);
 function Vedlegg({
+    innsendingsId,
     id,
     vedleggsnr,
     tittel,
@@ -130,30 +117,37 @@ string($binary)
             console.log(data);
 
             let formData = new FormData();
-            formData.append("filDto", "sdfsdf");
-            formData.append("file", data.file);
+            formData.append('filDto', 'sdfsdf');
+            formData.append('file', data.file[0]);
 
             axios
-                .post(`http://localhost:9064/frontend/soknad/${innsendingsId}/vedlegg/${id}/fil`, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                })
+                .post(
+                    `http://localhost:9064/frontend/soknad/${innsendingsId}/vedlegg/${id}/fil`,
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    },
+                )
                 .then((response) => {
                     //setSoknad(response.data);
                     console.log({ response: response.data });
+                })
+                .catch((error) => {
+                    console.error(error);
+                })
+                .finally(() => {
+                    reset({ filnavn: null });
+                    setOpplastetFil({
+                        filnavn: null,
+                        file: null,
+                    });
+                    setValue('file', null);
+                    if (fileRef.current) {
+                        fileRef.current.value = '';
+                    }
                 });
-
-
-            reset({ filnavn: null });
-            setOpplastetFil({
-                filnavn: null,
-                file: null,
-            });
-            setValue('file', null);
-            if (fileRef.current) {
-                fileRef.current.value = '';
-            }
         }
     };
     return (
