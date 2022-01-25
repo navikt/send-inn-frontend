@@ -6,7 +6,7 @@ import axios from 'axios';
 
 type FormValues = {
     filnavn: string | null;
-    file: File | null;
+    file: FileList | null;
 };
 
 /*
@@ -81,7 +81,7 @@ function Vedlegg({
     opplastingsStatus,
     opprettetdato,
 }: VedleggProps) {
-    const [opplastetFil, setOpplastetFil] = useState<FormValues>({
+    const [opplastedeFiler, setOpplastedeFiler] = useState<FormValues>({
         filnavn: null,
         file: null,
     });
@@ -90,7 +90,7 @@ function Vedlegg({
         useForm<FormValues>();
 
     function leggTilFil(input: FormValues) {
-        setOpplastetFil(input);
+        setOpplastedeFiler(input);
     }
 
     const fileRef = useRef<HTMLInputElement | null>(null);
@@ -118,7 +118,9 @@ string($binary)
 
             let formData = new FormData();
             formData.append('filDto', 'sdfsdf');
-            formData.append('file', data.file[0]);
+            if (!data.file.length) {
+                formData.append('file', data.file[0]);
+            }
 
             axios
                 .post(
@@ -139,7 +141,7 @@ string($binary)
                 })
                 .finally(() => {
                     reset({ filnavn: null });
-                    setOpplastetFil({
+                    setOpplastedeFiler({
                         filnavn: null,
                         file: null,
                     });
