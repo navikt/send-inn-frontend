@@ -21,22 +21,29 @@ type FormValues = {
     sprak: string;
 };
 
+interface VedleggProps {
+    innsendingsId: string;
+    id: number;
+    vedleggsnr: string;
+    tittel: string;
+    uuid: string;
+    mimetype: string | null;
+    document: string | null;
+    erHoveddokument: boolean;
+    erVariant: boolean;
+    erPdfa: boolean;
+    skjemaurl: string | null;
+    opplastingsStatus: string;
+    opprettetdato: string;
+};
+
+interface contextValue {
+    value: VedleggProps | null
+}
+
 // same const ThemeContext = React.createContext(themes.light);
 // why is this duplicated?
-export const AppContext = React.createContext({
-    "id": 12,
-    "vedleggsnr": "NAV 10-07.75",
-    "tittel": "Arbeidslogg for utprøving av Innowalk som grunnlag for helhetsvurdering og vedlegg til søknad ",
-    "uuid": "85190897-e17b-43d6-a8ac-375e87d7af8e",
-    "mimetype": null,
-    "document": null,
-    "erHoveddokument": false,
-    "erVariant": false,
-    "erPdfa": false,
-    "skjemaurl": "",
-    "opplastingsStatus": "IKKE_VALGT",
-    "opprettetdato": "2022-01-19T13:35:51.087687"
-});
+export const AppContext = React.createContext<VedleggProps | undefined>(undefined);
 
 // type Query = NextRouter & {
 //     query: {
@@ -93,25 +100,30 @@ const OpprettSoknadResource: NextPage = () => {
             .then((response) => {
                 setSoknad(response.data);
                 console.log({ response: response.data });
+                let context = React.useContext(AppContext)
+                context = {
+                    innsendingsId: "sdadas",
+                    "id": 13,
+                    "vedleggsnr": "W1",
+                    "tittel": "Dokumentasjon på mottatt bidrag",
+                    "uuid": "6a2b67d2-b6aa-45bd-874b-7efaf9876f66",
+                    "mimetype": null,
+                    "document": null,
+                    "erHoveddokument": false,
+                    "erVariant": false,
+                    "erPdfa": false,
+                    "skjemaurl": null,
+                    "opplastingsStatus": "IKKE_VALGT",
+                    "opprettetdato": "2022-01-19T13:35:51.091965"
+                }
             });
             // set authenticated to false
+
+
     };
 
     return (
-        <AppContext.Provider value={ {
-            "id": 12,
-            "vedleggsnr": "NAV 10-07.75",
-            "tittel": "Arbeidslogg for utprøving av Innowalk som grunnlag for helhetsvurdering og vedlegg til søknad ",
-            "uuid": "85190897-e17b-43d6-a8ac-375e87d7af8e",
-            "mimetype": null,
-            "document": null,
-            "erHoveddokument": false,
-            "erVariant": false,
-            "erPdfa": false,
-            "skjemaurl": "",
-            "opplastingsStatus": "IKKE_VALGT",
-            "opprettetdato": "2022-01-19T13:35:51.087687"
-        } }>
+        <AppContext.Provider value={undefined}>
             {/* <ThemeContext.Provider value={themes.dark}>
             same
  */}

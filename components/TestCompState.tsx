@@ -31,7 +31,7 @@ function TestCompState() {
 
     const appContext = useContext(AppContext)
     return (
-                <h1>Vedleggsnr: {appContext.vedleggsnr}</h1>
+                <h1>Vedleggsnr: {appContext && appContext.vedleggsnr}</h1>
 
     )
 }
