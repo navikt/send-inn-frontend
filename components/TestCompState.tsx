@@ -31,7 +31,7 @@ function TestCompState() {
 
     const appContext = useContext(AppContext)
     return (
-                <h1>Lang status is: {appContext.lang}</h1>
+                <h1>Vedleggsnr: {appContext.vedleggsnr}</h1>
 
     )
 }
