@@ -21,7 +21,7 @@ type FormValues = {
     sprak: string;
 };
 
-
+// same const ThemeContext = React.createContext(themes.light);
 export const AppContext = React.createContext({
     authenticated: true,
     lang: 'en',
@@ -92,7 +92,11 @@ const OpprettSoknadResource: NextPage = () => {
             authenticated: true,
             theme: 'light'
         } }>
-        <TestComp/>
+            {/* <ThemeContext.Provider value={themes.dark}>
+            same
+ */}
+
+            <TestComp/>
         <TestCompState/>
 
         <div className={styles.container}>
