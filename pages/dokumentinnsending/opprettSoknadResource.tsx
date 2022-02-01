@@ -22,10 +22,20 @@ type FormValues = {
 };
 
 // same const ThemeContext = React.createContext(themes.light);
+// why is this duplicated?
 export const AppContext = React.createContext({
-    authenticated: true,
-    lang: 'en',
-    theme: 'dark'
+    "id": 12,
+    "vedleggsnr": "NAV 10-07.75",
+    "tittel": "Arbeidslogg for utprøving av Innowalk som grunnlag for helhetsvurdering og vedlegg til søknad ",
+    "uuid": "85190897-e17b-43d6-a8ac-375e87d7af8e",
+    "mimetype": null,
+    "document": null,
+    "erHoveddokument": false,
+    "erVariant": false,
+    "erPdfa": false,
+    "skjemaurl": "",
+    "opplastingsStatus": "IKKE_VALGT",
+    "opprettetdato": "2022-01-19T13:35:51.087687"
 });
 
 // type Query = NextRouter & {
@@ -86,11 +96,21 @@ const OpprettSoknadResource: NextPage = () => {
             });
             // set authenticated to false
     };
+
     return (
         <AppContext.Provider value={ {
-            lang: 'de',
-            authenticated: true,
-            theme: 'light'
+            "id": 12,
+            "vedleggsnr": "NAV 10-07.75",
+            "tittel": "Arbeidslogg for utprøving av Innowalk som grunnlag for helhetsvurdering og vedlegg til søknad ",
+            "uuid": "85190897-e17b-43d6-a8ac-375e87d7af8e",
+            "mimetype": null,
+            "document": null,
+            "erHoveddokument": false,
+            "erVariant": false,
+            "erPdfa": false,
+            "skjemaurl": "",
+            "opplastingsStatus": "IKKE_VALGT",
+            "opprettetdato": "2022-01-19T13:35:51.087687"
         } }>
             {/* <ThemeContext.Provider value={themes.dark}>
             same
