@@ -1,11 +1,16 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import React from 'react';
 import styles from '../../styles/Home.module.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useState } from 'react';
+import { useState, createContext } from 'react';
 import { useRouter, NextRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import axios from 'axios';
+import Vedlegg from '../../components/Vedlegg'
+import TestComp from '../../components/TestComp'
+import TestCompState from '../../components/TestCompState';
+
 
 const qs = require('qs');
 // todo https://dev.to/fadiamg/multiple-file-inputs-with-one-submit-button-with-react-hooks-kle
@@ -15,6 +20,13 @@ type FormValues = {
     brukerid: string;
     sprak: string;
 };
+
+// same const ThemeContext = React.createContext(themes.light);
+export const AppContext = React.createContext({
+    authenticated: true,
+    lang: 'en',
+    theme: 'dark'
+});
 
 // type Query = NextRouter & {
 //     query: {
@@ -38,8 +50,6 @@ interface PropStructure{
   firstName: string;
   lastName: number;
 }
-
-
 
 interface Props {
   somevalue?: string;
@@ -74,8 +84,21 @@ const OpprettSoknadResource: NextPage = () => {
                 setSoknad(response.data);
                 console.log({ response: response.data });
             });
+            // set authenticated to false
     };
     return (
+        <AppContext.Provider value={ {
+            lang: 'de',
+            authenticated: true,
+            theme: 'light'
+        } }>
+            {/* <ThemeContext.Provider value={themes.dark}>
+            same
+ */}
+
+            <TestComp/>
+        <TestCompState/>
+
         <div className={styles.container}>
             <Head>
                 <title>Send inn her</title>
@@ -87,7 +110,20 @@ const OpprettSoknadResource: NextPage = () => {
             </Head>
             <main className={styles.main}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    {/* <input type="file" {...register("file")} /> */}
+                    {/* <input type="file" {...registe {
+      "id": 11,
+      "vedleggsnr": "NAV 54-00.04",
+      "tittel": "Svar på forhåndsvarsel i sak om barnebidrag (bidragsmottaker)",
+      "uuid": "85941dba-27ee-4b18-a263-51e24f89d57b",
+      "mimetype": null,
+      "document": null,
+      "erHoveddokument": true,
+      "erVariant": false,
+      "erPdfa": true,
+      "skjemaurl": "https://cdn.sanity.io/files/gx9wf39f/soknadsveiviser-p/b896b856728119c489376644df4a189b339ffe62.pdf",
+      "opplastingsStatus": "IKKE_VALGT",
+      "opprettetdato": "2022-01-19T13:35:51.082981"
+    },r("file")} /> */}
                     <input
                         type="text"
                         placeholder="brukerid"
@@ -134,20 +170,7 @@ const OpprettSoknadResource: NextPage = () => {
   "endretDato": "2022-01-19T13:35:51.064339",
   "innsendtDato": null,
   "vedleggsListe": [
-    {
-      "id": 11,
-      "vedleggsnr": "NAV 54-00.04",
-      "tittel": "Svar på forhåndsvarsel i sak om barnebidrag (bidragsmottaker)",
-      "uuid": "85941dba-27ee-4b18-a263-51e24f89d57b",
-      "mimetype": null,
-      "document": null,
-      "erHoveddokument": true,
-      "erVariant": false,
-      "erPdfa": true,
-      "skjemaurl": "https://cdn.sanity.io/files/gx9wf39f/soknadsveiviser-p/b896b856728119c489376644df4a189b339ffe62.pdf",
-      "opplastingsStatus": "IKKE_VALGT",
-      "opprettetdato": "2022-01-19T13:35:51.082981"
-    },
+
     {
       "id": 12,
       "vedleggsnr": "NAV 10-07.75",
@@ -184,6 +207,8 @@ const OpprettSoknadResource: NextPage = () => {
 
             <footer className={styles.footer}></footer>
         </div>
+        </AppContext.Provider>
+
     );
 };
 

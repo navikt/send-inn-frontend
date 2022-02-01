@@ -6,26 +6,9 @@ import axios from 'axios';
 
 type FormValues = {
     filnavn: string | null;
-    file: File | null;
+    file: FileList | null;
 };
 
-/*
-
-   {
-      "id": 13,
-      "vedleggsnr": "W1",
-      "tittel": "Dokumentasjon på mottatt bidrag",
-      "uuid": "6a2b67d2-b6aa-45bd-874b-7efaf9876f66",
-      "mimetype": null,
-      "document": null,
-      "erHoveddokument": false,
-      "erVariant": false,
-      "erPdfa": false,
-      "skjemaurl": null,
-      "opplastingsStatus": "IKKE_VALGT",
-      "opprettetdato": "2022-01-19T13:35:51.091965"
-    }
- */
 type VedleggProps = {
     innsendingsId: string;
     id: number;
@@ -41,30 +24,6 @@ type VedleggProps = {
     opplastingsStatus: string;
     opprettetdato: string;
 };
-/*
-let props = {
-    id,
-    vedleggsnr,
-    tittel,
-    uuid,
-    mimetype,
-    document,
-    erHoveddokument,
-    erVariant,
-    erPdfa,
-    skjemaurl,
-    opplastingsStatus,
-    opprettetdato,
-}
-*/
-/*
-const Vedlegg: FC<VedleggProps> = (
-    propexample
-): ReactElement => {
-    return <div> {props.vedleggsnr}</div>;
-
-};
-*/
 
 function Vedlegg({
     innsendingsId,
@@ -81,7 +40,7 @@ function Vedlegg({
     opplastingsStatus,
     opprettetdato,
 }: VedleggProps) {
-    const [opplastetFil, setOpplastetFil] = useState<FormValues>({
+    const [opplastedeFiler, setOpplastedeFiler] = useState<FormValues>({
         filnavn: null,
         file: null,
     });
@@ -90,23 +49,14 @@ function Vedlegg({
         useForm<FormValues>();
 
     function leggTilFil(input: FormValues) {
-        setOpplastetFil(input);
+        setOpplastedeFiler(input);
     }
 
     const fileRef = useRef<HTMLInputElement | null>(null);
     const { ref, ...rest } = register('file');
 
-    /*
-    const {files : FormValues[], setFiles} = useState([])
-
-    filDto *
-object
-file *
-string($binary)
-
-    */
     const onSubmit: SubmitHandler<FormValues> = (data) => {
-        if (!data.file) {
+        if (!data.file?.length) {
             console.log('last opp fil først!');
         } else {
             if (!data.filnavn) {
@@ -117,7 +67,6 @@ string($binary)
             console.log(data);
 
             let formData = new FormData();
-            formData.append('filDto', 'sdfsdf');
             formData.append('file', data.file[0]);
 
             axios
@@ -139,7 +88,7 @@ string($binary)
                 })
                 .finally(() => {
                     reset({ filnavn: null });
-                    setOpplastetFil({
+                    setOpplastedeFiler({
                         filnavn: null,
                         file: null,
                     });

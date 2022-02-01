@@ -23,12 +23,12 @@ const VedleggSide: NextPage = () => {
         opprettetdato: "2022-01-19T13:35:51.091965"
     }
     return (
-        // TODO Can you send this in as an object?
+        // TODO: Can you send this in as an object?
         <div className={styles.container}>
             <Vedlegg2 id={13}/>
             <Vedlegg
-                innsendingsId="7835e28d-b9cf-403f-b68d-db625fefa017"
-                id={13} vedleggsnr="W1"
+                innsendingsId="cc013466-b53d-4e8a-96cd-43981d1b8df7"
+                id={1} vedleggsnr="NAV 54-00.04"
                 tittel="Dokumentasjon på mottatt bidrag"
                 uuid="6a2b67d2-b6aa-45bd-874b-7efaf9876f66"
                 mimetype=""
