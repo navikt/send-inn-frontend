@@ -25,6 +25,8 @@ type VedleggProps = {
     opprettetdato: string;
 };
 
+
+
 function TestComp({
     innsendingsId,
     id,

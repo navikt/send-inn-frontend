@@ -10,6 +10,7 @@ import axios from 'axios';
 import Vedlegg from '../../components/Vedlegg';
 import TestComp from '../../components/TestComp';
 import TestCompState from '../../components/TestCompState';
+import VedleggsListe from '../../components/VedleggsListe';
 
 const qs = require('qs');
 // todo https://dev.to/fadiamg/multiple-file-inputs-with-one-submit-button-with-react-hooks-kle
@@ -20,6 +21,7 @@ type FormValues = {
     sprak: string;
 };
 
+/*
 interface VedleggProps {
     innsendingsId: string;
     id: number;
@@ -35,6 +37,25 @@ interface VedleggProps {
     opplastingsStatus: string;
     opprettetdato: string;
 }
+*/
+
+
+type VedleggProps = {
+    innsendingsId: string;
+    id: number;
+    vedleggsnr: string;
+    tittel: string;
+    uuid: string;
+    mimetype: string;
+    document: string;
+    erHoveddokument: boolean;
+    erVariant: boolean;
+    erPdfa: boolean;
+    skjemaurl: string;
+    opplastingsStatus: string;
+    opprettetdato: string;
+};
+
 
 interface contextValue {
     value: VedleggProps | null;
@@ -46,6 +67,51 @@ export const AppContext = React.createContext<
     VedleggProps | undefined
 >(undefined);
 
+const vedleggsListe : VedleggProps[] =  [{
+    innsendingsId: 'sdadas',
+    id: 1,
+    vedleggsnr: 'W1',
+    tittel: 'Dokumentasjon på mottatt bidrag',
+    uuid: '6a2b67d2-b6aa-45bd-874b-7efaf9876f66',
+    mimetype: 'dkwaop',
+    document: 'dkwaop',
+    erHoveddokument: false,
+    erVariant: false,
+    erPdfa: false,
+    skjemaurl: 'dkwaop',
+    opplastingsStatus: 'IKKE_VALGT',
+    opprettetdato: '2022-01-19T13:35:51.091965',
+},
+    {
+        innsendingsId: 'sdadas',
+        id: 2,
+        vedleggsnr: 'W1',
+        tittel: 'Dokumentasjon på mottatt bidrag',
+        uuid: '6a2b67d2-b6aa-45bd-874b-7efaf9876f66',
+        mimetype: 'dkwaop',
+        document: 'dkwaop',
+        erHoveddokument: false,
+        erVariant: false,
+        erPdfa: false,
+        skjemaurl: 'dkwaop',
+        opplastingsStatus: 'IKKE_VALGT',
+        opprettetdato: '2022-01-19T13:35:51.091965',
+    },
+    {
+        innsendingsId: 'sdadas',
+        id: 3,
+        vedleggsnr: 'W1',
+        tittel: 'Dokumentasjon på mottatt bidrag',
+        uuid: '6a2b67d2-b6aa-45bd-874b-7efaf9876f66',
+        mimetype: 'dkwaop',
+        document: 'dkwaop',
+        erHoveddokument: false,
+        erVariant: false,
+        erPdfa: false,
+        skjemaurl: 'dkwaop',
+        opplastingsStatus: 'IKKE_VALGT',
+        opprettetdato: '2022-01-19T13:35:51.091965',
+    }]
 
 // type Query = NextRouter & {
 //     query: {
@@ -146,6 +212,8 @@ const OpprettSoknadResource: NextPage = () => {
             })} */}
             <TestComp {...obj} />
             <TestCompState />
+            <VedleggsListe {...vedleggsListe} />
+
 
             <div className={styles.container}>
                 <Head>

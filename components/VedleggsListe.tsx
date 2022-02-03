@@ -10,6 +10,7 @@ type FormValues = {
     file: FileList | null;
 };
 
+
 type VedleggProps = {
     innsendingsId: string;
     id: number;
@@ -33,15 +34,24 @@ type VedleggProps = {
 //     [index:number]: VedleggProps;
 // }
 
+
+/*
 export interface VedleggPropsList extends Array<{
     [index: number]: VedleggProps;
 }> { };
 
-function VedleggsListe(vedleggsListe : VedleggPropsList) {
+ */
+
+//let array: VedleggProps[] = []; // https://www.codegrepper.com/code-examples/typescript/array+of+jsx+element+typescript
+
+function VedleggsListe(vedleggsListe : VedleggProps[]) {
 
     return (
         <div>
-                <TestComp {...vedleggsListe.pop()} />
+            { vedleggsListe.map((vedlegg) => {
+              <TestComp {...vedlegg} />;
+            })}
+
         </div>
 
     );
