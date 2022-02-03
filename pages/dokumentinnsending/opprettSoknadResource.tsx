@@ -7,10 +7,9 @@ import { useState, createContext } from 'react';
 import { useRouter, NextRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import axios from 'axios';
-import Vedlegg from '../../components/Vedlegg'
-import TestComp from '../../components/TestComp'
+import Vedlegg from '../../components/Vedlegg';
+import TestComp from '../../components/TestComp';
 import TestCompState from '../../components/TestCompState';
-
 
 const qs = require('qs');
 // todo https://dev.to/fadiamg/multiple-file-inputs-with-one-submit-button-with-react-hooks-kle
@@ -35,15 +34,17 @@ interface VedleggProps {
     skjemaurl: string | null;
     opplastingsStatus: string;
     opprettetdato: string;
-};
+}
 
 interface contextValue {
-    value: VedleggProps | null
+    value: VedleggProps | null;
 }
 
 // same const ThemeContext = React.createContext(themes.light);
 // why is this duplicated?
-export const AppContext = React.createContext<VedleggProps | undefined>(undefined);
+export const AppContext = React.createContext<
+    VedleggProps | undefined
+>(undefined);
 
 // type Query = NextRouter & {
 //     query: {
@@ -100,49 +101,63 @@ const OpprettSoknadResource: NextPage = () => {
             .then((response) => {
                 setSoknad(response.data);
                 console.log({ response: response.data });
-                let context = React.useContext(AppContext)
-                context = {
-                    innsendingsId: "sdadas",
-                    "id": 13,
-                    "vedleggsnr": "W1",
-                    "tittel": "Dokumentasjon på mottatt bidrag",
-                    "uuid": "6a2b67d2-b6aa-45bd-874b-7efaf9876f66",
-                    "mimetype": null,
-                    "document": null,
-                    "erHoveddokument": false,
-                    "erVariant": false,
-                    "erPdfa": false,
-                    "skjemaurl": null,
-                    "opplastingsStatus": "IKKE_VALGT",
-                    "opprettetdato": "2022-01-19T13:35:51.091965"
-                }
+                // let context = React.useContext(AppContext);
+                // context = {
+                //     innsendingsId: 'sdadas',
+                //     id: 13,
+                //     vedleggsnr: 'W1',
+                //     tittel: 'Dokumentasjon på mottatt bidrag',
+                //     uuid: '6a2b67d2-b6aa-45bd-874b-7efaf9876f66',
+                //     mimetype: null,
+                //     document: null,
+                //     erHoveddokument: false,
+                //     erVariant: false,
+                //     erPdfa: false,
+                //     skjemaurl: null,
+                //     opplastingsStatus: 'IKKE_VALGT',
+                //     opprettetdato: '2022-01-19T13:35:51.091965',
+                // };
             });
-            // set authenticated to false
-
-
+        // set authenticated to false
     };
-
+    const obj = {
+        innsendingsId: 'sdadas',
+        id: 13,
+        vedleggsnr: 'W1',
+        tittel: 'Dokumentasjon på mottatt bidrag',
+        uuid: '6a2b67d2-b6aa-45bd-874b-7efaf9876f66',
+        mimetype: 'dkwaop',
+        document: 'dkwaop',
+        erHoveddokument: false,
+        erVariant: false,
+        erPdfa: false,
+        skjemaurl: 'dkwaop',
+        opplastingsStatus: 'IKKE_VALGT',
+        opprettetdato: '2022-01-19T13:35:51.091965',
+    };
     return (
         <AppContext.Provider value={undefined}>
             {/* <ThemeContext.Provider value={themes.dark}>
             same
  */}
+            {/* {VedleggsListe.map((vedlegg) => {
+              <Vedlegg {...vedlegg} />;
+            })} */}
+            <TestComp {...obj} />
+            <TestCompState />
 
-            <TestComp/>
-        <TestCompState/>
-
-        <div className={styles.container}>
-            <Head>
-                <title>Send inn her</title>
-                <meta
-                    name="description"
-                    content="Her kan du sende inn vedlegg"
-                />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
-            <main className={styles.main}>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    {/* <input type="file" {...registe {
+            <div className={styles.container}>
+                <Head>
+                    <title>Send inn her</title>
+                    <meta
+                        name="description"
+                        content="Her kan du sende inn vedlegg"
+                    />
+                    <link rel="icon" href="/favicon.ico" />
+                </Head>
+                <main className={styles.main}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        {/* <input type="file" {...registe {
       "id": 11,
       "vedleggsnr": "NAV 54-00.04",
       "tittel": "Svar på forhåndsvarsel i sak om barnebidrag (bidragsmottaker)",
@@ -156,19 +171,19 @@ const OpprettSoknadResource: NextPage = () => {
       "opplastingsStatus": "IKKE_VALGT",
       "opprettetdato": "2022-01-19T13:35:51.082981"
     },r("file")} /> */}
-                    <input
-                        type="text"
-                        placeholder="brukerid"
-                        defaultValue={'12345678901'}
-                        {...register('brukerid')}
-                    />
+                        <input
+                            type="text"
+                            placeholder="brukerid"
+                            defaultValue={'12345678901'}
+                            {...register('brukerid')}
+                        />
 
-                    <input type="submit" />
-                    <div> {JSON.stringify(query)} </div>
-                    <p>{query.skjemanummer}</p>
-                    <p>{query.erEttersendelse}</p>
-                    <p>{query.vedleggsIder}</p>
-                    {/*
+                        <input type="submit" />
+                        <div> {JSON.stringify(query)} </div>
+                        <p>{query.skjemanummer}</p>
+                        <p>{query.erEttersendelse}</p>
+                        <p>{query.vedleggsIder}</p>
+                        {/*
       https://tjenester-q1.nav.no/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&erEttersendelse=false&vedleggsIder=W2,W1]&brukerid=12345678901&sprak=NO_NB&vedleggListe=W1,W2
       opprettSoknadResource?skjemanummer=NAV%2054-00.04&erEttersendelse=false&vedleggsIder=W2,W1]&brukerid=12345678901&sprak=NO_NB&vedleggListe=W1,W2
       ting vi har:
@@ -182,7 +197,7 @@ const OpprettSoknadResource: NextPage = () => {
       vedleggListe=W1,W2 (samme som vedleggsliste)
       */}
 
-                    {/*
+                        {/*
                     vi tar inn dette
                     vi har en skjema/søknad komponent
                     denne har en dokument komponent, dette er
@@ -234,13 +249,12 @@ const OpprettSoknadResource: NextPage = () => {
   ]
 }
                     */}
-                </form>
-            </main>
+                    </form>
+                </main>
 
-            <footer className={styles.footer}></footer>
-        </div>
+                <footer className={styles.footer}></footer>
+            </div>
         </AppContext.Provider>
-
     );
 };
 
