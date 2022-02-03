@@ -108,7 +108,7 @@ function TestComp({
             </div>
             <div>
                 {' '}
-                {vedleggsnr} {opprettetdato}
+                {vedleggsnr} {opprettetdato} {tittel}
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <br />

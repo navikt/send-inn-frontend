@@ -67,7 +67,7 @@ export const AppContext = React.createContext<
     VedleggProps | undefined
 >(undefined);
 
-const vedleggsListe : VedleggProps[] =  [{
+const initialVedleggsliste : VedleggProps[] =  [{
     innsendingsId: 'sdadas',
     id: 1,
     vedleggsnr: 'W1',
@@ -145,6 +145,7 @@ const OpprettSoknadResource: NextPage = () => {
     const { query } = useRouter();
     const [soknad, setSoknad] = useState<{} | null>(null);
     const [filesUploaded, setFilesUploaded] = useState<File[]>([]);
+    const [vedleggsListe, getVedleggsListe] = useState<VedleggProps[]>(initialVedleggsliste);
 
     const { register, handleSubmit } = useForm<FormValues>();
     const onSubmit: SubmitHandler<FormValues> = (data) => {
@@ -212,16 +213,21 @@ const OpprettSoknadResource: NextPage = () => {
             })}
 
             <VedleggsListe {...vedleggsListe} />
-            */}
-            <TestComp {...obj} />
+
+             <TestComp {...obj} />
             <TestCompState />
 
             start
-            {vedleggsListe && vedleggsListe.map((vedlegg, key) => {
-                vedlegg.id
+            {vedleggsListe.length}
+
+            end
+
+            */}
+
+            {vedleggsListe.map((vedlegg, key) => {
+                return <TestComp key={key} {...obj} />
 
             })}
-            end
             <div className={styles.container}>
                 <Head>
                     <title>Send inn her</title>
