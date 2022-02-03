@@ -59,8 +59,9 @@ function VedleggsListe(vedleggsListe : VedleggProps[]) {
         }
     }
     }
-    
+
      */
+    //let newlist = Array.from(props.data);
 
 
 
@@ -70,19 +71,16 @@ function VedleggsListe(vedleggsListe : VedleggProps[]) {
             { console.log(vedleggsListe)}
             {vedleggsListe.toString()}
 
-            <div>
-                {list}
-            </div>
-
             {/*vedleggsListe.map(item => {
                 return(
                     <TestComp key={item["id"]} {...item}/>
                 )
             })
             }
-            {/*vedleggsListe.map((vedlegg) => {
+            */}
+            {vedleggsListe.map((vedlegg) => {
               <TestComp {...vedlegg} />;
-            })*/}
+            })}
 
         </div>
 

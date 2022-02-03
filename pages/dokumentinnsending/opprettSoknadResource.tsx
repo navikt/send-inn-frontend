@@ -209,12 +209,19 @@ const OpprettSoknadResource: NextPage = () => {
  */}
             {/* {VedleggsListe.map((vedlegg) => {
               <Vedlegg {...vedlegg} />;
-            })} */}
+            })}
+
+            <VedleggsListe {...vedleggsListe} />
+            */}
             <TestComp {...obj} />
             <TestCompState />
-            <VedleggsListe {...vedleggsListe} />
 
+            start
+            {vedleggsListe && vedleggsListe.map((vedlegg, key) => {
+                vedlegg.id
 
+            })}
+            end
             <div className={styles.container}>
                 <Head>
                     <title>Send inn her</title>
