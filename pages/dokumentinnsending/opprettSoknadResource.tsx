@@ -46,6 +46,7 @@ export const AppContext = React.createContext<
     VedleggProps | undefined
 >(undefined);
 
+
 // type Query = NextRouter & {
 //     query: {
 //         skjemanummer: string;
