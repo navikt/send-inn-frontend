@@ -46,11 +46,43 @@ export interface VedleggPropsList extends Array<{
 
 function VedleggsListe(vedleggsListe : VedleggProps[]) {
 
+    /*let list = vedleggsListe.map((vedlegg) => {
+        <TestComp {...vedlegg} />;
+    })
+    list = Object.keys(vedleggsListe).map(function(key, index) {
+        vedleggsListe[key] *= 2;
+    });
+    list = (vedleggsListe) => {
+    for (var key in myObject) {
+        if (myObject.hasOwnProperty(key)) {
+            myObject[key] *= 2;
+        }
+    }
+    }
+    
+     */
+
+
+
+
     return (
         <div>
-            { vedleggsListe.map((vedlegg) => {
+            { console.log(vedleggsListe)}
+            {vedleggsListe.toString()}
+
+            <div>
+                {list}
+            </div>
+
+            {/*vedleggsListe.map(item => {
+                return(
+                    <TestComp key={item["id"]} {...item}/>
+                )
+            })
+            }
+            {/*vedleggsListe.map((vedlegg) => {
               <TestComp {...vedlegg} />;
-            })}
+            })*/}
 
         </div>
 
