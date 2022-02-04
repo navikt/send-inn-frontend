@@ -67,51 +67,7 @@ export const AppContext = React.createContext<
     VedleggProps | undefined
 >(undefined);
 
-const initialVedleggsliste : VedleggProps[] =  [{
-    innsendingsId: 'sdadas',
-    id: 1,
-    vedleggsnr: 'W1',
-    tittel: 'Dokumentasjon på mottatt bidrag',
-    uuid: '6a2b67d2-b6aa-45bd-874b-7efaf9876f66',
-    mimetype: 'dkwaop',
-    document: 'dkwaop',
-    erHoveddokument: false,
-    erVariant: false,
-    erPdfa: false,
-    skjemaurl: 'dkwaop',
-    opplastingsStatus: 'IKKE_VALGT',
-    opprettetdato: '2022-01-19T13:35:51.091965',
-},
-    {
-        innsendingsId: 'sdadas',
-        id: 2,
-        vedleggsnr: 'W1',
-        tittel: 'Dokumentasjon på mottatt bidrag',
-        uuid: '6a2b67d2-b6aa-45bd-874b-7efaf9876f66',
-        mimetype: 'dkwaop',
-        document: 'dkwaop',
-        erHoveddokument: false,
-        erVariant: false,
-        erPdfa: false,
-        skjemaurl: 'dkwaop',
-        opplastingsStatus: 'IKKE_VALGT',
-        opprettetdato: '2022-01-19T13:35:51.091965',
-    },
-    {
-        innsendingsId: 'sdadas',
-        id: 3,
-        vedleggsnr: 'W1',
-        tittel: 'Dokumentasjon på mottatt bidrag',
-        uuid: '6a2b67d2-b6aa-45bd-874b-7efaf9876f66',
-        mimetype: 'dkwaop',
-        document: 'dkwaop',
-        erHoveddokument: false,
-        erVariant: false,
-        erPdfa: false,
-        skjemaurl: 'dkwaop',
-        opplastingsStatus: 'IKKE_VALGT',
-        opprettetdato: '2022-01-19T13:35:51.091965',
-    }]
+const initialVedleggsliste : VedleggProps[] | [] =  []
 
 // type Query = NextRouter & {
 //     query: {
@@ -127,6 +83,7 @@ const initialVedleggsliste : VedleggProps[] =  [{
 //http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&erEttersendelse=false&vedleggsIder=W2,W1,
 
 // http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,
+// http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2,
 // todo make the url case insensitive?
 // todo get qparams    https://reactgo.com/next-get-query-params/   <p>{query.name}</p>
 
@@ -145,7 +102,7 @@ const OpprettSoknadResource: NextPage = () => {
     const { query } = useRouter();
     const [soknad, setSoknad] = useState<{} | null>(null);
     const [filesUploaded, setFilesUploaded] = useState<File[]>([]);
-    const [vedleggsListe, getVedleggsListe] = useState<VedleggProps[]>(initialVedleggsliste);
+    const [vedleggsListe, setVedleggsListe] = useState<VedleggProps[]>(initialVedleggsliste);
 
     const { register, handleSubmit } = useForm<FormValues>();
     const onSubmit: SubmitHandler<FormValues> = (data) => {
@@ -159,7 +116,7 @@ const OpprettSoknadResource: NextPage = () => {
         const { vedleggsIder } = query;
 
         axios
-            .post('http://localhost:9064/frontend/soknad', {
+            .post('http://localhost:9064/frontend/v1/soknad', {
                 brukerId: brukerid,
                 skjemanr: query.skjemanummer,
                 sprak: query.sprak, // set bokmål som default
@@ -168,7 +125,9 @@ const OpprettSoknadResource: NextPage = () => {
             })
             .then((response) => {
                 setSoknad(response.data);
+                setVedleggsListe(response.data.vedleggsListe)
                 console.log({ response: response.data });
+
                 // let context = React.useContext(AppContext);
                 // context = {
                 //     innsendingsId: 'sdadas',
@@ -228,10 +187,7 @@ const OpprettSoknadResource: NextPage = () => {
 
             */}
 
-            {vedleggsListe.map((vedlegg, key) => {
-                return <TestComp key={key} {...obj} />
 
-            })}
 
             <div className={styles.container}>
                 <Head>
@@ -337,6 +293,12 @@ const OpprettSoknadResource: NextPage = () => {
 }
                     */}
                     </form>
+
+                    {vedleggsListe.length !== 0 && <h1>Vedlegg:</h1>}
+                    {vedleggsListe.map((vedlegg, key) => {
+                        return <TestComp key={key} {...obj} />
+
+                    })}
                 </main>
 
                 <footer className={styles.footer}></footer>
