@@ -10,6 +10,7 @@ import axios from 'axios';
 import Vedlegg from '../../components/Vedlegg';
 import TestComp from '../../components/TestComp';
 import TestCompState from '../../components/TestCompState';
+import VedleggsListe from '../../components/VedleggsListe';
 
 const qs = require('qs');
 // todo https://dev.to/fadiamg/multiple-file-inputs-with-one-submit-button-with-react-hooks-kle
@@ -20,6 +21,7 @@ type FormValues = {
     sprak: string;
 };
 
+/*
 interface VedleggProps {
     innsendingsId: string;
     id: number;
@@ -35,6 +37,25 @@ interface VedleggProps {
     opplastingsStatus: string;
     opprettetdato: string;
 }
+*/
+
+
+type VedleggProps = {
+    innsendingsId: string;
+    id: number;
+    vedleggsnr: string;
+    tittel: string;
+    uuid: string;
+    mimetype: string;
+    document: string;
+    erHoveddokument: boolean;
+    erVariant: boolean;
+    erPdfa: boolean;
+    skjemaurl: string;
+    opplastingsStatus: string;
+    opprettetdato: string;
+};
+
 
 interface contextValue {
     value: VedleggProps | null;
@@ -45,6 +66,8 @@ interface contextValue {
 export const AppContext = React.createContext<
     VedleggProps | undefined
 >(undefined);
+
+const initialVedleggsliste : VedleggProps[] | [] =  []
 
 // type Query = NextRouter & {
 //     query: {
@@ -60,6 +83,7 @@ export const AppContext = React.createContext<
 //http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&erEttersendelse=false&vedleggsIder=W2,W1,
 
 // http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,
+// http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2,
 // todo make the url case insensitive?
 // todo get qparams    https://reactgo.com/next-get-query-params/   <p>{query.name}</p>
 
@@ -78,6 +102,7 @@ const OpprettSoknadResource: NextPage = () => {
     const { query } = useRouter();
     const [soknad, setSoknad] = useState<{} | null>(null);
     const [filesUploaded, setFilesUploaded] = useState<File[]>([]);
+    const [vedleggsListe, setVedleggsListe] = useState<VedleggProps[]>(initialVedleggsliste);
 
     const { register, handleSubmit } = useForm<FormValues>();
     const onSubmit: SubmitHandler<FormValues> = (data) => {
@@ -91,7 +116,7 @@ const OpprettSoknadResource: NextPage = () => {
         const { vedleggsIder } = query;
 
         axios
-            .post('http://localhost:9064/frontend/soknad', {
+            .post('http://localhost:9064/frontend/v1/soknad', {
                 brukerId: brukerid,
                 skjemanr: query.skjemanummer,
                 sprak: query.sprak, // set bokmål som default
@@ -100,7 +125,9 @@ const OpprettSoknadResource: NextPage = () => {
             })
             .then((response) => {
                 setSoknad(response.data);
+                setVedleggsListe(response.data.vedleggsListe)
                 console.log({ response: response.data });
+
                 // let context = React.useContext(AppContext);
                 // context = {
                 //     innsendingsId: 'sdadas',
@@ -142,9 +169,25 @@ const OpprettSoknadResource: NextPage = () => {
  */}
             {/* {VedleggsListe.map((vedlegg) => {
               <Vedlegg {...vedlegg} />;
-            })} */}
-            <TestComp {...obj} />
+            })}
+
+            <VedleggsListe {...vedleggsListe} />
+
+             <TestComp {...obj} />
             <TestCompState />
+
+            start
+            {vedleggsListe.length}
+
+
+            <div>
+                <VedleggsListe Vedleggsliste=vedleggsListe />
+            </div>
+            end
+
+            */}
+
+
 
             <div className={styles.container}>
                 <Head>
@@ -250,6 +293,12 @@ const OpprettSoknadResource: NextPage = () => {
 }
                     */}
                     </form>
+
+                    {vedleggsListe.length !== 0 && <h1>Vedlegg:</h1>}
+                    {vedleggsListe.map((vedlegg, key) => {
+                        return <TestComp key={key} {...obj} />
+
+                    })}
                 </main>
 
                 <footer className={styles.footer}></footer>
