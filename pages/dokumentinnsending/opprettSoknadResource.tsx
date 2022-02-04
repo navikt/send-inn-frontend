@@ -220,6 +220,10 @@ const OpprettSoknadResource: NextPage = () => {
             start
             {vedleggsListe.length}
 
+
+            <div>
+                <VedleggsListe Vedleggsliste=vedleggsListe />
+            </div>
             end
 
             */}
@@ -228,6 +232,7 @@ const OpprettSoknadResource: NextPage = () => {
                 return <TestComp key={key} {...obj} />
 
             })}
+
             <div className={styles.container}>
                 <Head>
                     <title>Send inn her</title>
