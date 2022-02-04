@@ -11,6 +11,7 @@ import Vedlegg from '../../components/Vedlegg';
 import TestComp from '../../components/TestComp';
 import TestCompState from '../../components/TestCompState';
 import VedleggsListe from '../../components/VedleggsListe';
+import { VedleggType, SoknadType } from '../../types/api';
 
 const qs = require('qs');
 // todo https://dev.to/fadiamg/multiple-file-inputs-with-one-submit-button-with-react-hooks-kle
@@ -39,23 +40,9 @@ interface VedleggProps {
 }
 */
 
-
-type VedleggProps = {
-    innsendingsId: string;
-    id: number;
-    vedleggsnr: string;
-    tittel: string;
-    uuid: string;
-    mimetype: string;
-    document: string;
-    erHoveddokument: boolean;
-    erVariant: boolean;
-    erPdfa: boolean;
-    skjemaurl: string;
-    opplastingsStatus: string;
-    opprettetdato: string;
+type VedleggProps = VedleggType & {
+    innsendingsId: string | undefined;
 };
-
 
 interface contextValue {
     value: VedleggProps | null;
@@ -67,7 +54,7 @@ export const AppContext = React.createContext<
     VedleggProps | undefined
 >(undefined);
 
-const initialVedleggsliste : VedleggProps[] | [] =  []
+const initialVedleggsliste: VedleggType[] | [] = [];
 
 // type Query = NextRouter & {
 //     query: {
@@ -100,9 +87,11 @@ interface Props {
  */
 const OpprettSoknadResource: NextPage = () => {
     const { query } = useRouter();
-    const [soknad, setSoknad] = useState<{} | null>(null);
+    const [soknad, setSoknad] = useState<SoknadType | null>(null);
     const [filesUploaded, setFilesUploaded] = useState<File[]>([]);
-    const [vedleggsListe, setVedleggsListe] = useState<VedleggProps[]>(initialVedleggsliste);
+    const [vedleggsListe, setVedleggsListe] = useState<VedleggType[]>(
+        initialVedleggsliste,
+    );
 
     const { register, handleSubmit } = useForm<FormValues>();
     const onSubmit: SubmitHandler<FormValues> = (data) => {
@@ -121,11 +110,11 @@ const OpprettSoknadResource: NextPage = () => {
                 skjemanr: query.skjemanummer,
                 sprak: query.sprak, // set bokmål som default
                 // TODO rett til vedleggsListe
-                vedleggListe: (vedleggsIder as string)?.split(','),
+                vedleggsListe: (vedleggsIder as string)?.split(','),
             })
             .then((response) => {
                 setSoknad(response.data);
-                setVedleggsListe(response.data.vedleggsListe)
+                setVedleggsListe(response.data.vedleggsListe);
                 console.log({ response: response.data });
 
                 // let context = React.useContext(AppContext);
@@ -148,19 +137,18 @@ const OpprettSoknadResource: NextPage = () => {
         // set authenticated to false
     };
     const obj = {
-        innsendingsId: 'sdadas',
-        id: 13,
+        id: 21,
         vedleggsnr: 'W1',
-        tittel: 'Dokumentasjon på mottatt bidrag',
-        uuid: '6a2b67d2-b6aa-45bd-874b-7efaf9876f66',
-        mimetype: 'dkwaop',
-        document: 'dkwaop',
+        tittel: 'Dokumentasjon pÃ¥ mottatt bidrag',
+        uuid: 'c5a840c2-136f-4b79-bb6b-8670be41e5fa',
+        mimetype: null,
+        document: null,
         erHoveddokument: false,
         erVariant: false,
         erPdfa: false,
-        skjemaurl: 'dkwaop',
+        skjemaurl: null,
         opplastingsStatus: 'IKKE_VALGT',
-        opprettetdato: '2022-01-19T13:35:51.091965',
+        opprettetdato: '2022-02-04T09:58:08.7191684',
     };
     return (
         <AppContext.Provider value={undefined}>
@@ -186,8 +174,6 @@ const OpprettSoknadResource: NextPage = () => {
             end
 
             */}
-
-
 
             <div className={styles.container}>
                 <Head>
@@ -295,10 +281,19 @@ const OpprettSoknadResource: NextPage = () => {
                     </form>
 
                     {vedleggsListe.length !== 0 && <h1>Vedlegg:</h1>}
-                    {vedleggsListe.map((vedlegg, key) => {
-                        return <TestComp key={key} {...obj} />
-
-                    })}
+                    {soknad &&
+                        vedleggsListe.map((vedlegg, key) => {
+                            console.log(vedlegg);
+                            return (
+                                <TestComp
+                                    key={key}
+                                    innsendingsId={
+                                        soknad.innsendingsId
+                                    }
+                                    {...vedlegg}
+                                />
+                            );
+                        })}
                 </main>
 
                 <footer className={styles.footer}></footer>
