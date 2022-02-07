@@ -120,12 +120,14 @@ function TestComp({
         <>
             <div>
                 {skjemaurl && (
-                    <Link href={skjemaurl}>{skjemaurl}</Link>
+                    <a target="_blank" style={{ color: 'blue' }} href={skjemaurl} rel="noopener noreferrer">
+                        Åpne skjema
+                    </a>
+
                 )}
             </div>
             <div>
-                {' '}
-                {vedleggsnr} {opprettetdato} {tittel}
+                {vedleggsnr}:  {tittel}
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <br />
@@ -143,9 +145,9 @@ function TestComp({
                 <br />
                 <input type="submit" />
             </form>
-            {filListe.length && (
+            {filListe.length > 0 && (
                 <div>
-                    <span>Vedlegg du har lastet opp nå:</span>
+                    <span>Dokumenter du har lastet opp nå:</span>
 
                     {filListe.map((fil) => {
                         return (

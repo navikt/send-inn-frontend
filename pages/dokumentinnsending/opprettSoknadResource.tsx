@@ -125,14 +125,23 @@ const OpprettSoknadResource: NextPage = () => {
 
             <div className={styles.container}>
                 <Head>
-                    <title>Send inn her</title>
+                    <title>Trykk </title>
                     <meta
                         name="description"
-                        content="Her kan du sende inn vedlegg"
+                        content="Her kan du opprette en søknad "
                     />
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
                 <main className={styles.main}>
+
+                        {/*<div> {JSON.stringify(query)} </div>*/}
+                        <h3>Data hentet fra URL parametre: </h3>
+                        <p>skjemanummer: {query.skjemanummer}</p>
+                        <p>erEttersendelse: {query.erEttersendelse}</p>
+                        <p>språk: {query.erEttersendelse}</p>
+                        <p>vedleggsIder: {query.vedleggsIder}</p>
+                    <h3>Opprett en søknad basert på disse parametrene: </h3>
+
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <input
                             type="text"
@@ -141,15 +150,10 @@ const OpprettSoknadResource: NextPage = () => {
                             {...register('brukerid')}
                         />
 
-                        <input type="submit" />
-                        <div> {JSON.stringify(query)} </div>
-                        <p>{query.skjemanummer}</p>
-                        <p>{query.erEttersendelse}</p>
-                        <p>{query.vedleggsIder}</p>
-
+                        <input type="submit"  value="opprett"/>
                     </form>
 
-                    {vedleggsListe.length !== 0 && <h1>Vedlegg:</h1>}
+                    {vedleggsListe.length !== 0 && <h1>Last opp vedlegg her:</h1>}
                     {soknad &&
                         vedleggsListe.map((vedlegg, key) => {
                             console.log(vedlegg);
@@ -161,13 +165,14 @@ const OpprettSoknadResource: NextPage = () => {
                                     }
                                     {...vedlegg}
                                 />
+
+
                             );
                         })}
                 </main>
 
                 <footer className={styles.footer}></footer>
             </div>
-        </AppContext.Provider>
     );
 };
 
