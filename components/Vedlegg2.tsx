@@ -25,7 +25,7 @@ type VedleggProps = {
     opprettetdato: string;
 };
 
-function Vedlegg({
+function Vedlegg2({
     innsendingsId,
     id,
     vedleggsnr,
@@ -127,4 +127,4 @@ function Vedlegg({
         </>
     );
 }
-export default Vedlegg;
+export default Vedlegg2;

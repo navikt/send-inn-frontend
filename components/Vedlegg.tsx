@@ -30,7 +30,7 @@ type OpplastetFil = {
     filNavn: string;
 };
 
-function TestComp({
+function Vedlegg({
     innsendingsId,
     id,
     vedleggsnr,
@@ -169,4 +169,4 @@ function TestComp({
         </>
     );
 }
-export default TestComp;
+export default Vedlegg;

@@ -8,7 +8,6 @@ import { useRouter, NextRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import axios from 'axios';
 import Vedlegg from '../../components/Vedlegg';
-import TestComp from '../../components/TestComp';
 import TestCompState from '../../components/TestCompState';
 import VedleggsListe from '../../components/VedleggsListe';
 import { VedleggType, SoknadType } from '../../types/api';
@@ -158,7 +157,7 @@ const OpprettSoknadResource: NextPage = () => {
                         vedleggsListe.map((vedlegg, key) => {
                             console.log(vedlegg);
                             return (
-                                <TestComp
+                                <Vedlegg
                                     key={key}
                                     innsendingsId={
                                         soknad.innsendingsId
