@@ -4,8 +4,7 @@ import styles from '../styles/Home.module.css'
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from 'react';
 import Link  from 'next/link'
-import Vedlegg from '../components/Vedlegg'
-import Vedlegg2 from '../components/Vedlegg2'
+import Vedlegg2 from '../../components/Vedlegg2'
 
 const VedleggSide: NextPage = () => {
     let propexample = {
@@ -25,8 +24,7 @@ const VedleggSide: NextPage = () => {
     return (
         // TODO: Can you send this in as an object?
         <div className={styles.container}>
-            <Vedlegg2 id={13}/>
-            <Vedlegg
+            <Vedlegg2
                 innsendingsId="cc013466-b53d-4e8a-96cd-43981d1b8df7"
                 id={1} vedleggsnr="NAV 54-00.04"
                 tittel="Dokumentasjon på mottatt bidrag"

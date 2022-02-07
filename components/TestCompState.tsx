@@ -10,24 +10,8 @@ import { AppContext } from "../pages/dokumentinnsending/opprettSoknadResource"
 
 
 
-function TestCompState() {
-    /*
-    const theme = useContext(ThemeContext);
+function VedleggState() {
 
-    OLD:
-
-       <AppContext.Consumer>
-        {
-            ({authenticated}) => {
-                if(authenticated) {
-                    return <h1>Logged in!</h1>
-                }
-                return <h1>You need to sign in</h1>
-            }
-        }
-    </AppContext.Consumer>
-
-    */
 
     const appContext = useContext(AppContext)
     return (
@@ -35,4 +19,4 @@ function TestCompState() {
 
     )
 }
-export default TestCompState;
+export default VedleggState;

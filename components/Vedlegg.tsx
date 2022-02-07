@@ -25,6 +25,11 @@ type VedleggProps = {
     opprettetdato: string;
 };
 
+type OpplastetFil = {
+    id: string;
+    filNavn: string;
+};
+
 function Vedlegg({
     innsendingsId,
     id,
@@ -40,16 +45,20 @@ function Vedlegg({
     opplastingsStatus,
     opprettetdato,
 }: VedleggProps) {
-    const [opplastedeFiler, setOpplastedeFiler] = useState<FormValues>({
-        filnavn: null,
-        file: null,
-    });
+    const [opplastedeFiler, setOpplastedeFiler] =
+        useState<FormValues>({
+            filnavn: null,
+            file: null,
+        });
+
+    const [filListe, setFilListe] = useState<OpplastetFil[]>([]);
 
     const { register, handleSubmit, reset, setValue } =
         useForm<FormValues>();
 
     function leggTilFil(input: FormValues) {
         setOpplastedeFiler(input);
+        console.log({ input });
     }
 
     const fileRef = useRef<HTMLInputElement | null>(null);
@@ -62,16 +71,17 @@ function Vedlegg({
             if (!data.filnavn) {
                 data.filnavn = 'Opplastetfil';
             }
+            const fil = data.file[0];
             console.log(data);
             leggTilFil(data);
-            console.log(data);
+            console.log({ fil });
 
             let formData = new FormData();
-            formData.append('file', data.file[0]);
+            formData.append('file', fil);
 
             axios
                 .post(
-                    `http://localhost:9064/frontend/soknad/${innsendingsId}/vedlegg/${id}/fil`,
+                    `http://localhost:9064/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil`,
                     formData,
                     {
                         headers: {
@@ -81,6 +91,13 @@ function Vedlegg({
                 )
                 .then((response) => {
                     //setSoknad(response.data);
+                    setFilListe([
+                        ...filListe,
+                        {
+                            id: response.data.id,
+                            filNavn: fil.name,
+                        },
+                    ]);
                     console.log({ response: response.data });
                 })
                 .catch((error) => {
@@ -102,11 +119,15 @@ function Vedlegg({
     return (
         <>
             <div>
-                <Link href={skjemaurl}>{skjemaurl}</Link>
+                {skjemaurl && (
+                    <a target="_blank" style={{ color: 'blue' }} href={skjemaurl} rel="noopener noreferrer">
+                        Åpne skjema
+                    </a>
+
+                )}
             </div>
             <div>
-                {' '}
-                {vedleggsnr} {opprettetdato}
+                {vedleggsnr}:  {tittel}
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <br />
@@ -124,6 +145,27 @@ function Vedlegg({
                 <br />
                 <input type="submit" />
             </form>
+            {filListe.length > 0 && (
+                <div>
+                    <span>Dokumenter du har lastet opp nå:</span>
+
+                    {filListe.map((fil) => {
+                        return (
+                            <div key={fil.id}>
+                                <a
+                                    target="_blank"
+                                    style={{ color: 'blue' }}
+                                    href={`http://localhost:9064/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil/${fil.id}`}
+                                    rel="noreferrer"
+                                >
+                                    {fil.filNavn}
+                                </a>
+                            </div>
+                        );
+                    })}
+                    <br />
+                </div>
+            )}
         </>
     );
 }

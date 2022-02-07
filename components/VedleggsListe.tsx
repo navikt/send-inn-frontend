@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
 import axios from 'axios';
-import TestComp from '../components/TestComp';
+import Vedlegg from '../components/Vedlegg';
 
 type FormValues = {
     filnavn: string | null;
@@ -47,7 +47,7 @@ export interface VedleggPropsList extends Array<{
 function VedleggsListe(vedleggsListe : VedleggProps[]) {
 
     /*let list = vedleggsListe.map((vedlegg) => {
-        <TestComp {...vedlegg} />;
+        <Vedlegg {...vedlegg} />;
     })
     list = Object.keys(vedleggsListe).map(function(key, index) {
         vedleggsListe[key] *= 2;
@@ -73,13 +73,13 @@ function VedleggsListe(vedleggsListe : VedleggProps[]) {
 
             {/*vedleggsListe.map(item => {
                 return(
-                    <TestComp key={item["id"]} {...item}/>
+                    <Vedlegg key={item["id"]} {...item}/>
                 )
             })
             }
             */}
             {vedleggsListe.map((vedlegg) => {
-              <TestComp {...vedlegg} />;
+              <Vedlegg {...vedlegg} />;
             })}
 
         </div>

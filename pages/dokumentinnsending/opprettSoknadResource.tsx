@@ -8,7 +8,6 @@ import { useRouter, NextRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import axios from 'axios';
 import Vedlegg from '../../components/Vedlegg';
-import TestComp from '../../components/TestComp';
 import TestCompState from '../../components/TestCompState';
 import VedleggsListe from '../../components/VedleggsListe';
 import { VedleggType, SoknadType } from '../../types/api';
@@ -117,89 +116,32 @@ const OpprettSoknadResource: NextPage = () => {
                 setVedleggsListe(response.data.vedleggsListe);
                 console.log({ response: response.data });
 
-                // let context = React.useContext(AppContext);
-                // context = {
-                //     innsendingsId: 'sdadas',
-                //     id: 13,
-                //     vedleggsnr: 'W1',
-                //     tittel: 'Dokumentasjon på mottatt bidrag',
-                //     uuid: '6a2b67d2-b6aa-45bd-874b-7efaf9876f66',
-                //     mimetype: null,
-                //     document: null,
-                //     erHoveddokument: false,
-                //     erVariant: false,
-                //     erPdfa: false,
-                //     skjemaurl: null,
-                //     opplastingsStatus: 'IKKE_VALGT',
-                //     opprettetdato: '2022-01-19T13:35:51.091965',
-                // };
+
             });
-        // set authenticated to false
-    };
-    const obj = {
-        id: 21,
-        vedleggsnr: 'W1',
-        tittel: 'Dokumentasjon pÃ¥ mottatt bidrag',
-        uuid: 'c5a840c2-136f-4b79-bb6b-8670be41e5fa',
-        mimetype: null,
-        document: null,
-        erHoveddokument: false,
-        erVariant: false,
-        erPdfa: false,
-        skjemaurl: null,
-        opplastingsStatus: 'IKKE_VALGT',
-        opprettetdato: '2022-02-04T09:58:08.7191684',
     };
     return (
-        <AppContext.Provider value={undefined}>
-            {/* <ThemeContext.Provider value={themes.dark}>
-            same
- */}
-            {/* {VedleggsListe.map((vedlegg) => {
-              <Vedlegg {...vedlegg} />;
-            })}
 
-            <VedleggsListe {...vedleggsListe} />
-
-             <TestComp {...obj} />
-            <TestCompState />
-
-            start
-            {vedleggsListe.length}
-
-
-            <div>
-                <VedleggsListe Vedleggsliste=vedleggsListe />
-            </div>
-            end
-
-            */}
 
             <div className={styles.container}>
                 <Head>
-                    <title>Send inn her</title>
+                    <title>Trykk </title>
                     <meta
                         name="description"
-                        content="Her kan du sende inn vedlegg"
+                        content="Her kan du opprette en søknad "
                     />
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
                 <main className={styles.main}>
+
+                        {/*<div> {JSON.stringify(query)} </div>*/}
+                        <h3>Data hentet fra URL parametre: </h3>
+                        <p>skjemanummer: {query.skjemanummer}</p>
+                        <p>erEttersendelse: {query.erEttersendelse}</p>
+                        <p>språk: {query.erEttersendelse}</p>
+                        <p>vedleggsIder: {query.vedleggsIder}</p>
+                    <h3>Opprett en søknad basert på disse parametrene: </h3>
+
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        {/* <input type="file" {...registe {
-      "id": 11,
-      "vedleggsnr": "NAV 54-00.04",
-      "tittel": "Svar på forhåndsvarsel i sak om barnebidrag (bidragsmottaker)",
-      "uuid": "85941dba-27ee-4b18-a263-51e24f89d57b",
-      "mimetype": null,
-      "document": null,
-      "erHoveddokument": true,
-      "erVariant": false,
-      "erPdfa": true,
-      "skjemaurl": "https://cdn.sanity.io/files/gx9wf39f/soknadsveiviser-p/b896b856728119c489376644df4a189b339ffe62.pdf",
-      "opplastingsStatus": "IKKE_VALGT",
-      "opprettetdato": "2022-01-19T13:35:51.082981"
-    },r("file")} /> */}
                         <input
                             type="text"
                             placeholder="brukerid"
@@ -207,98 +149,29 @@ const OpprettSoknadResource: NextPage = () => {
                             {...register('brukerid')}
                         />
 
-                        <input type="submit" />
-                        <div> {JSON.stringify(query)} </div>
-                        <p>{query.skjemanummer}</p>
-                        <p>{query.erEttersendelse}</p>
-                        <p>{query.vedleggsIder}</p>
-                        {/*
-      https://tjenester-q1.nav.no/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&erEttersendelse=false&vedleggsIder=W2,W1]&brukerid=12345678901&sprak=NO_NB&vedleggListe=W1,W2
-      opprettSoknadResource?skjemanummer=NAV%2054-00.04&erEttersendelse=false&vedleggsIder=W2,W1]&brukerid=12345678901&sprak=NO_NB&vedleggListe=W1,W2
-      ting vi har:
-      skjemanummer=NAV%2054-00
-      erEttersendelse=false
-      vedleggsIder=W2,W1
-      
-
-      brukerid=12345678901
-      sprak=NO_NB
-      vedleggListe=W1,W2 (samme som vedleggsliste)
-      */}
-
-                        {/*
-                    vi tar inn dette
-                    vi har en skjema/søknad komponent
-                    denne har en dokument komponent, dette er
-                    {
-
-  {
-  "id": 7,
-  "innsendingsId": "7835e28d-b9cf-403f-b68d-db625fefa017",
-  "ettersendingsId": null,
-  "brukerId": "12345678901",
-  "skjemanr": "NAV 54-00.04",
-  "tittel": "Svar på forhåndsvarsel i sak om barnebidrag (bidragsmottaker)",
-  "tema": "BID",
-  "spraak": "NO_NB",
-  "status": "Opprettet",
-  "opprettetDato": "2022-01-19T13:35:51.064305",
-  "endretDato": "2022-01-19T13:35:51.064339",
-  "innsendtDato": null,
-  "vedleggsListe": [
-
-    {
-      "id": 12,
-      "vedleggsnr": "NAV 10-07.75",
-      "tittel": "Arbeidslogg for utprøving av Innowalk som grunnlag for helhetsvurdering og vedlegg til søknad ",
-      "uuid": "85190897-e17b-43d6-a8ac-375e87d7af8e",
-      "mimetype": null,
-      "document": null,
-      "erHoveddokument": false,
-      "erVariant": false,
-      "erPdfa": false,
-      "skjemaurl": "",
-      "opplastingsStatus": "IKKE_VALGT",
-      "opprettetdato": "2022-01-19T13:35:51.087687"
-    },
-    {
-      "id": 13,
-      "vedleggsnr": "W1",
-      "tittel": "Dokumentasjon på mottatt bidrag",
-      "uuid": "6a2b67d2-b6aa-45bd-874b-7efaf9876f66",
-      "mimetype": null,
-      "document": null,
-      "erHoveddokument": false,
-      "erVariant": false,
-      "erPdfa": false,
-      "skjemaurl": null,
-      "opplastingsStatus": "IKKE_VALGT",
-      "opprettetdato": "2022-01-19T13:35:51.091965"
-    }
-  ]
-}
-                    */}
+                        <input type="submit"  value="opprett"/>
                     </form>
 
-                    {vedleggsListe.length !== 0 && <h1>Vedlegg:</h1>}
+                    {vedleggsListe.length !== 0 && <h1>Last opp vedlegg her:</h1>}
                     {soknad &&
                         vedleggsListe.map((vedlegg, key) => {
                             console.log(vedlegg);
                             return (
-                                <TestComp
+                                <Vedlegg
                                     key={key}
                                     innsendingsId={
                                         soknad.innsendingsId
                                     }
                                     {...vedlegg}
                                 />
+
+
                             );
                         })}
                 </main>
 
                 <footer className={styles.footer}></footer>
             </div>
-        </AppContext.Provider>
     );
 };
 
