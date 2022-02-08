@@ -55,49 +55,15 @@ export const AppContext = React.createContext<
 
 const initialVedleggsliste: VedleggType[] | [] = [];
 
-// type Query = NextRouter & {
-//     query: {
-//         skjemanummer: string;
-//         erEttersendelse: string;
-//         vedleggsIder: string;
-//         brukerid: string;
-//         sprak: string;
-//     };
-// };
-
-//https://tjenester-q1.nav.no/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&erEttersendelse=false&vedleggsIder=W2,W1
-//http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&erEttersendelse=false&vedleggsIder=W2,W1,
-
-// http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,
-// http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2,
-// todo make the url case insensitive?
-// todo get qparams    https://reactgo.com/next-get-query-params/   <p>{query.name}</p>
-
-/* 
-interface PropStructure{
-  firstName: string;
-  lastName: number;
-}
-
-interface Props {
-  somevalue?: string;
-}
-
- */
 const OpprettSoknadResource: NextPage = () => {
     const { query } = useRouter();
     const [soknad, setSoknad] = useState<SoknadType | null>(null);
-    const [filesUploaded, setFilesUploaded] = useState<File[]>([]);
     const [vedleggsListe, setVedleggsListe] = useState<VedleggType[]>(
         initialVedleggsliste,
     );
 
     const { register, handleSubmit } = useForm<FormValues>();
     const onSubmit: SubmitHandler<FormValues> = (data) => {
-        // setFilesUploaded((filesUploaded) => [
-        //     ...filesUploaded,
-        //     data.file,
-        // ]);
         console.log(data);
 
         const { brukerid } = data;
@@ -115,63 +81,81 @@ const OpprettSoknadResource: NextPage = () => {
                 setSoknad(response.data);
                 setVedleggsListe(response.data.vedleggsListe);
                 console.log({ response: response.data });
-
-
             });
     };
+    const onSendInn = () => {
+        axios
+            .post(
+                `http://localhost:9064/frontend/v1/sendInn/${soknad?.innsendingsId}`,
+            )
+            .finally(() => {
+                resetState();
+                //TODO: Endre til "then", og gå til kvitteringside
+                alert('Sendt inn');
+            })
+            .catch((e) => {
+                //TODO: Error håndtering
+                console.error(e);
+            });
+    };
+
+    const resetState = () => {
+        setVedleggsListe(initialVedleggsliste);
+        setSoknad(null);
+    };
     return (
+        <div className={styles.container}>
+            <Head>
+                <title>Trykk </title>
+                <meta
+                    name="description"
+                    content="Her kan du opprette en søknad "
+                />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+            <main className={styles.main}>
+                {/*<div> {JSON.stringify(query)} </div>*/}
+                <h3>Data hentet fra URL parametre: </h3>
+                <p>skjemanummer: {query.skjemanummer}</p>
+                <p>erEttersendelse: {query.erEttersendelse}</p>
+                <p>språk: {query.erEttersendelse}</p>
+                <p>vedleggsIder: {query.vedleggsIder}</p>
+                <h3>
+                    Opprett en søknad basert på disse parametrene:{' '}
+                </h3>
 
-
-            <div className={styles.container}>
-                <Head>
-                    <title>Trykk </title>
-                    <meta
-                        name="description"
-                        content="Her kan du opprette en søknad "
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <input
+                        type="text"
+                        placeholder="brukerid"
+                        defaultValue={'12345678901'}
+                        {...register('brukerid')}
                     />
-                    <link rel="icon" href="/favicon.ico" />
-                </Head>
-                <main className={styles.main}>
 
-                        {/*<div> {JSON.stringify(query)} </div>*/}
-                        <h3>Data hentet fra URL parametre: </h3>
-                        <p>skjemanummer: {query.skjemanummer}</p>
-                        <p>erEttersendelse: {query.erEttersendelse}</p>
-                        <p>språk: {query.erEttersendelse}</p>
-                        <p>vedleggsIder: {query.vedleggsIder}</p>
-                    <h3>Opprett en søknad basert på disse parametrene: </h3>
+                    <input type="submit" value="opprett" />
+                </form>
 
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <input
-                            type="text"
-                            placeholder="brukerid"
-                            defaultValue={'12345678901'}
-                            {...register('brukerid')}
-                        />
+                {vedleggsListe.length !== 0 && (
+                    <h1>Last opp vedlegg her:</h1>
+                )}
+                {soknad &&
+                    vedleggsListe.map((vedlegg, key) => {
+                        console.log(vedlegg);
+                        return (
+                            <Vedlegg
+                                key={key}
+                                innsendingsId={soknad.innsendingsId}
+                                {...vedlegg}
+                            />
+                        );
+                    })}
+                {soknad && (
+                    <button onClick={onSendInn}>Send inn</button>
+                )}
+            </main>
 
-                        <input type="submit"  value="opprett"/>
-                    </form>
-
-                    {vedleggsListe.length !== 0 && <h1>Last opp vedlegg her:</h1>}
-                    {soknad &&
-                        vedleggsListe.map((vedlegg, key) => {
-                            console.log(vedlegg);
-                            return (
-                                <Vedlegg
-                                    key={key}
-                                    innsendingsId={
-                                        soknad.innsendingsId
-                                    }
-                                    {...vedlegg}
-                                />
-
-
-                            );
-                        })}
-                </main>
-
-                <footer className={styles.footer}></footer>
-            </div>
+            <footer className={styles.footer}></footer>
+        </div>
     );
 };
 
