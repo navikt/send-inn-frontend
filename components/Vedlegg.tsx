@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
 import axios from 'axios';
+import { Button, Panel } from "@navikt/ds-react";
 
 type FormValues = {
     filnavn: string | null;
@@ -158,7 +159,7 @@ function Vedlegg({
         }
     };
     return (
-        <>
+        <Panel border>
             <div>
                 {skjemaurl && (
                     <a target="_blank" style={{ color: 'blue' }} href={skjemaurl} rel="noopener noreferrer">
@@ -206,7 +207,7 @@ function Vedlegg({
                     <br />
                 </div>
             )}
-        </>
+        </Panel>
     );
 }
 export default Vedlegg;

@@ -11,9 +11,12 @@ import Vedlegg from '../../components/Vedlegg';
 import TestCompState from '../../components/TestCompState';
 import VedleggsListe2 from '../../components/VedleggsListe2';
 import VedleggsListe from '../../components/VedleggsListe';
+import { VedleggType, SoknadType } from '../../types/api';
+import { Button, Panel } from "@navikt/ds-react";
+import "@navikt/ds-css";
+import "@navikt/ds-css-internal";
 import type { ReactElement } from 'react'
 import Layout from '../../components/Layout'
-import { VedleggType, SoknadType } from '../../types/types';
 import Link from 'next/link';
 
 const qs = require('qs');
@@ -42,7 +45,7 @@ interface VedleggProps {
     opprettetdato: string;
 }
 */
-const erEttersending = false;
+
 type VedleggProps = VedleggType & {
     innsendingsId: string | undefined;
 };
@@ -51,7 +54,6 @@ interface contextValue {
     value: VedleggProps | null;
 }
 
-// same const ThemeContext = React.createContext(themes.light);
 // why is this duplicated?
 export const AppContext = React.createContext<
     VedleggProps | undefined
@@ -102,6 +104,8 @@ const OpprettSoknadResource: NextPage = () => {
             </Head>
             <main>
                 {/*<div> {JSON.stringify(query)} </div>*/}
+                <Panel border>
+
                 <h3>Data hentet fra URL parametre: </h3>
                 <p>skjemanummer: {query.skjemanummer}</p>
                 <p>erEttersendelse: {query.erEttersendelse}</p>
@@ -115,6 +119,7 @@ const OpprettSoknadResource: NextPage = () => {
                 
                 {soknad && <div> soknad.innsendingsId: {soknad.innsendingsId} </div>}
                 
+                </Panel>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <input
                         type="text"
@@ -126,6 +131,7 @@ const OpprettSoknadResource: NextPage = () => {
                     <input type="submit" value="opprett" />
                 </form>
                 {soknad && (
+                    <Button onClick={onSendInn}>Send inn</Button>
                     <VedleggsListe soknad={soknad} setSoknad={setSoknad} vedleggsliste={vedleggsListe} setVedleggsListe={setVedleggsListe} erEttersending={erEttersending}/>
                 )}
 
