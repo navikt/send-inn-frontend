@@ -86,4 +86,4 @@ function VedleggsListe2(vedleggsListe : VedleggProps[]) {
 
     );
 }
-export default VedleggsListe;
+export default VedleggsListe2;

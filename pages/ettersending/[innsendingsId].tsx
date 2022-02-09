@@ -59,7 +59,7 @@ const initialVedleggsliste: VedleggType[] | [] = [];
 
 
 
-const OpprettSoknadResource: NextPage = () => {
+const EttersendingSide: NextPage = () => {
     const { query } = useRouter();
     const [soknad, setSoknad] = useState<SoknadType | null>(null);
     const [vedleggsListe, setVedleggsListe] = useState<VedleggType[]>(
@@ -69,18 +69,18 @@ const OpprettSoknadResource: NextPage = () => {
     const { register, handleSubmit } = useForm<FormValues>();
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         console.log(data);
-
-        const { brukerid } = data;
-        const { vedleggsIder } = query;
+        const innsendingsId = query.innsendingsId
+        //const { brukerid } = data;
+        //const { vedleggsIder } = query;
 
         axios
-            .post('http://localhost:9064/frontend/v1/soknad', {
+            .get(`http://localhost:9064/frontend/v1/soknad/${innsendingsId}` /*, {
                 brukerId: brukerid,
                 skjemanr: query.skjemanummer,
                 sprak: query.sprak, // set bokmål som default
                 // TODO rett til vedleggsListe
                 vedleggsListe: (vedleggsIder as string)?.split(','),
-            })
+            }*/)
             .then((response) => {
                 setSoknad(response.data);
                 setVedleggsListe(response.data.vedleggsListe);
@@ -94,30 +94,33 @@ const OpprettSoknadResource: NextPage = () => {
                 <title>Trykk </title>
                 <meta
                     name="description"
-                    content="Her kan du opprette en søknad "
+                    content="Her kan du ettersende vedlegg til en søknad"
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className={styles.main}>
-                {/*<div> {JSON.stringify(query)} </div>*/}
+                {/*<div> {JSON.stringify(query)} </div>
                 <h3>Data hentet fra URL parametre: </h3>
                 <p>skjemanummer: {query.skjemanummer}</p>
                 <p>erEttersendelse: {query.erEttersendelse}</p>
                 <p>språk: {query.erEttersendelse}</p>
                 <p>vedleggsIder: {query.vedleggsIder}</p>
+                */}
+                <h3>Data hentet fra URL parametre: </h3>
+                <p>innsendingsId: {query.innsendingsId}</p>
                 <h3>
-                    Opprett en søknad basert på disse parametrene:{' '}
+                    Hent en søknad basert på disse parametrene:{' '}
                 </h3>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <input
+                    {/*<input
                         type="text"
                         placeholder="brukerid"
                         defaultValue={'12345678901'}
                         {...register('brukerid')}
-                    />
+                    />*/}
 
-                    <input type="submit" value="opprett" />
+                    <input type="submit" value="hent" />
                 </form>
                 {soknad && (
                     <VedleggsListe soknad={soknad} setSoknad={setSoknad} vedleggsliste={vedleggsListe} setVedleggsListe={setVedleggsListe}/>
@@ -140,4 +143,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 */
 
-export default OpprettSoknadResource;
+export default EttersendingSide;
