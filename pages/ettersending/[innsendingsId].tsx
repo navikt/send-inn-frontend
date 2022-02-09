@@ -73,6 +73,7 @@ const EttersendingSide: NextPage = () => {
         // const innsendingsId = "d83c88e4-a3f3-4217-b561-fe0572e391e8";
         //const { brukerid } = data;
         //const { vedleggsIder } = query;
+        if (innsendingsId) {
 
         axios
             .get(`http://localhost:9064/frontend/v1/soknad/${innsendingsId}` /*, {
@@ -90,6 +91,7 @@ const EttersendingSide: NextPage = () => {
             .catch((error) => {
                 console.log(error)
             })
+        }
 
     }, [innsendingsId]);
 
@@ -125,36 +127,10 @@ const EttersendingSide: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className={styles.main}>
-                {/*<div> {JSON.stringify(query)} </div>
-                <h3>Data hentet fra URL parametre: </h3>
-                <p>skjemanummer: {query.skjemanummer}</p>
-                <p>erEttersendelse: {query.erEttersendelse}</p>
-                <p>språk: {query.erEttersendelse}</p>
-                <p>vedleggsIder: {query.vedleggsIder}</p>
-                */}
-                <h3>Data hentet fra URL parametre: </h3>
-                <p>innsendingsId: {query.innsendingsId}</p>
-                <h3>
-                    Hent en søknad basert på disse parametrene:{' '}
-                </h3>
-
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    {/*<input
-                        type="text"
-                        placeholder="brukerid"
-                        defaultValue={'12345678901'}
-                        {...register('brukerid')}
-                    />*/}
-
-                    <input type="submit" value="hent" />
-                </form>
                 {soknad && (
                     <VedleggsListe soknad={soknad} setSoknad={setSoknad} vedleggsliste={vedleggsListe} setVedleggsListe={setVedleggsListe}/>
                 )}
-
-
             </main>
-
             <footer className={styles.footer}></footer>
         </div>
     );
