@@ -20,9 +20,9 @@ const Home: NextPage = () => {
                     Sider under utvikling:
                 </h1>
 
-
+                {/* TODO fix trailing comma buggen ... http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2," <- ,*/}
                 <a
-                    href="http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2,"
+                    href="http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2"
                     target="_blank"
                     rel="noopener noreferrer"
                 >

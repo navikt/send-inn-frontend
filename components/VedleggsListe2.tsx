@@ -44,7 +44,7 @@ export interface VedleggPropsList extends Array<{
 
 //let array: VedleggProps[] = []; // https://www.codegrepper.com/code-examples/typescript/array+of+jsx+element+typescript
 
-function VedleggsListe(vedleggsListe : VedleggProps[]) {
+function VedleggsListe2(vedleggsListe : VedleggProps[]) {
 
     /*let list = vedleggsListe.map((vedlegg) => {
         <Vedlegg {...vedlegg} />;
