@@ -67,10 +67,10 @@ const EttersendingSide: NextPage = () => {
     );
 
     const { register, handleSubmit } = useForm<FormValues>();
-
+    const innsendingsId = query.innsendingsId
     useEffect(() => {
         //const innsendingsId = query.innsendingsId // todo fix, fungerer ikke med en gang om man henter herifra, må kan
-        const innsendingsId = "d83c88e4-a3f3-4217-b561-fe0572e391e8";
+        // const innsendingsId = "d83c88e4-a3f3-4217-b561-fe0572e391e8";
         //const { brukerid } = data;
         //const { vedleggsIder } = query;
 
@@ -86,8 +86,12 @@ const EttersendingSide: NextPage = () => {
                 setSoknad(response.data);
                 setVedleggsListe(response.data.vedleggsListe);
 
-            });
-    }, []);
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+
+    }, [innsendingsId]);
 
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         console.log(data);
