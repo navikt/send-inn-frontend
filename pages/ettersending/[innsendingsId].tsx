@@ -3,7 +3,7 @@ import Head from 'next/head';
 import React from 'react';
 import styles from '../../styles/Home.module.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useState, createContext } from 'react';
+import { useState, createContext, useEffect } from 'react';
 import { useRouter, NextRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import axios from 'axios';
@@ -59,7 +59,7 @@ const initialVedleggsliste: VedleggType[] | [] = [];
 
 
 
-const OpprettSoknadResource: NextPage = () => {
+const EttersendingSide: NextPage = () => {
     const { query } = useRouter();
     const [soknad, setSoknad] = useState<SoknadType | null>(null);
     const [vedleggsListe, setVedleggsListe] = useState<VedleggType[]>(
@@ -67,20 +67,48 @@ const OpprettSoknadResource: NextPage = () => {
     );
 
     const { register, handleSubmit } = useForm<FormValues>();
-    const onSubmit: SubmitHandler<FormValues> = (data) => {
-        console.log(data);
-
-        const { brukerid } = data;
-        const { vedleggsIder } = query;
+    const innsendingsId = query.innsendingsId
+    useEffect(() => {
+        //const innsendingsId = query.innsendingsId // todo fix, fungerer ikke med en gang om man henter herifra, må kan
+        // const innsendingsId = "d83c88e4-a3f3-4217-b561-fe0572e391e8";
+        //const { brukerid } = data;
+        //const { vedleggsIder } = query;
+        if (innsendingsId) {
 
         axios
-            .post('http://localhost:9064/frontend/v1/soknad', {
+            .get(`http://localhost:9064/frontend/v1/soknad/${innsendingsId}` /*, {
                 brukerId: brukerid,
                 skjemanr: query.skjemanummer,
                 sprak: query.sprak, // set bokmål som default
                 // TODO rett til vedleggsListe
                 vedleggsListe: (vedleggsIder as string)?.split(','),
+            }*/)
+            .then((response) => {
+                setSoknad(response.data);
+                setVedleggsListe(response.data.vedleggsListe);
+
             })
+            .catch((error) => {
+                console.log(error)
+            })
+        }
+
+    }, [innsendingsId]);
+
+    const onSubmit: SubmitHandler<FormValues> = (data) => {
+        console.log(data);
+        const innsendingsId = query.innsendingsId
+        //const { brukerid } = data;
+        //const { vedleggsIder } = query;
+
+        axios
+            .get(`http://localhost:9064/frontend/v1/soknad/${innsendingsId}` /*, {
+                brukerId: brukerid,
+                skjemanr: query.skjemanummer,
+                sprak: query.sprak, // set bokmål som default
+                // TODO rett til vedleggsListe
+                vedleggsListe: (vedleggsIder as string)?.split(','),
+            }*/)
             .then((response) => {
                 setSoknad(response.data);
                 setVedleggsListe(response.data.vedleggsListe);
@@ -94,38 +122,15 @@ const OpprettSoknadResource: NextPage = () => {
                 <title>Trykk </title>
                 <meta
                     name="description"
-                    content="Her kan du opprette en søknad "
+                    content="Her kan du ettersende vedlegg til en søknad"
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className={styles.main}>
-                {/*<div> {JSON.stringify(query)} </div>*/}
-                <h3>Data hentet fra URL parametre: </h3>
-                <p>skjemanummer: {query.skjemanummer}</p>
-                <p>erEttersendelse: {query.erEttersendelse}</p>
-                <p>språk: {query.erEttersendelse}</p>
-                <p>vedleggsIder: {query.vedleggsIder}</p>
-                <h3>
-                    Opprett en søknad basert på disse parametrene:{' '}
-                </h3>
-
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <input
-                        type="text"
-                        placeholder="brukerid"
-                        defaultValue={'12345678901'}
-                        {...register('brukerid')}
-                    />
-
-                    <input type="submit" value="opprett" />
-                </form>
                 {soknad && (
                     <VedleggsListe soknad={soknad} setSoknad={setSoknad} vedleggsliste={vedleggsListe} setVedleggsListe={setVedleggsListe}/>
                 )}
-
-
             </main>
-
             <footer className={styles.footer}></footer>
         </div>
     );
@@ -140,4 +145,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 */
 
-export default OpprettSoknadResource;
+export default EttersendingSide;
