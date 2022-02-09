@@ -3,7 +3,7 @@ import Head from 'next/head';
 import React from 'react';
 import styles from '../../styles/Home.module.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useState, createContext } from 'react';
+import { useState, createContext, useEffect } from 'react';
 import { useRouter, NextRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import axios from 'axios';
@@ -67,6 +67,28 @@ const EttersendingSide: NextPage = () => {
     );
 
     const { register, handleSubmit } = useForm<FormValues>();
+
+    useEffect(() => {
+        //const innsendingsId = query.innsendingsId // todo fix, fungerer ikke med en gang om man henter herifra, må kan
+        const innsendingsId = "d83c88e4-a3f3-4217-b561-fe0572e391e8";
+        //const { brukerid } = data;
+        //const { vedleggsIder } = query;
+
+        axios
+            .get(`http://localhost:9064/frontend/v1/soknad/${innsendingsId}` /*, {
+                brukerId: brukerid,
+                skjemanr: query.skjemanummer,
+                sprak: query.sprak, // set bokmål som default
+                // TODO rett til vedleggsListe
+                vedleggsListe: (vedleggsIder as string)?.split(','),
+            }*/)
+            .then((response) => {
+                setSoknad(response.data);
+                setVedleggsListe(response.data.vedleggsListe);
+
+            });
+    }, []);
+
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         console.log(data);
         const innsendingsId = query.innsendingsId
