@@ -27,8 +27,10 @@ export type SoknadType = {
     opprettetDato: string;
     endretDato: string;
     innsendtDato: null;
-    vedleggsListe: [];
+    vedleggsListe: [] | VedleggType;
 };
+
+
 
 // APP
 export interface VedleggsListeProps {

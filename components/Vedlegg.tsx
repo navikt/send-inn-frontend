@@ -58,34 +58,53 @@ function Vedlegg({
     const { register, handleSubmit, reset, setValue } =
         useForm<FormValues>();
 
-    
+
 useEffect(() => {
     //const innsendingsId = query.innsendingsId // todo fix, fungerer ikke med en gang om man henter herifra, må kan
     // const innsendingsId = "d83c88e4-a3f3-4217-b561-fe0572e391e8";
     //const { brukerid } = data;
     //const { vedleggsIder } = query;
-    if (innsendingsId) {
+    if (innsendingsId && id ) {
 
     axios
-        .get(`http://localhost:9064/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}` /*, {
-            brukerId: brukerid,
-            skjemanr: query.skjemanummer,
-            sprak: query.sprak, // set bokmål som default
-            // TODO rett til vedleggsListe
-            vedleggsListe: (vedleggsIder as string)?.split(','),
-        }*/)
+        .get(`http://localhost:9064/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil/` )
         .then((response) => {
             //setSoknad(response.data);
             //setVedleggsListe(response.data.vedleggsListe);
-            setFilListe(response.data)
+            //setFilListe(response.data)
             console.log(response.data)
+            
+            /*
+            [
+  {
+    "id": 12,
+    "vedleggsid": 138,
+    "filnavn": "2 Feb 2022 at 16-48.pdf",
+    "mimetype": "application/pdf",
+    "storrelse": 255706,
+    "data": null,
+    "opprettetdato": "2022-02-10T12:29:10.505681"
+  }
+]
+            */
+let nyFilListe : OpplastetFil[]
+            // let nyFilListe = response.data.map(x =>  {id: x.id, filnavn: x.filnavn});
+            for (const item in response.data) {
+
+            }
+            console.log("Nyfilliste" + nyFilListe)
+
+            setFilListe([
+                ...filListe,
+                ...nyFilListe
+            ]);
         })
         .catch((error) => {
             console.log(error)
         })
     }
 
-}, [innsendingsId]);
+}, [innsendingsId, id]);
 
     function leggTilFil(input: FormValues) {
         setOpplastedeFiler(input);
@@ -179,7 +198,7 @@ useEffect(() => {
             {filListe.length > 0 && (
                 <div>
                     <span>Dokumenter du har lastet opp nå:</span>
-
+                    
                     {filListe.map((fil) => {
                         return (
                             <div key={fil.id}>
