@@ -13,6 +13,7 @@ import VedleggsListe2 from '../../components/VedleggsListe2';
 import VedleggsListe from '../../components/VedleggsListe';
 
 import { VedleggType, SoknadType } from '../../types/api';
+import Link from 'next/link';
 
 const qs = require('qs');
 // todo https://dev.to/fadiamg/multiple-file-inputs-with-one-submit-button-with-react-hooks-kle
@@ -108,7 +109,10 @@ const OpprettSoknadResource: NextPage = () => {
                 <h3>
                     Opprett en søknad basert på disse parametrene:{' '}
                 </h3>
-
+                {soknad && <a href={'/ettersending/' + soknad.innsendingsId}> lenke til ettersending </a>}
+                
+                {soknad && <div> soknad.innsendingsId: {soknad.innsendingsId} </div>}
+                
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <input
                         type="text"
