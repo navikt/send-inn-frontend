@@ -1,3 +1,4 @@
+// API
 export type VedleggType = {
     id: number;
     vedleggsnr: string;
@@ -28,3 +29,13 @@ export type SoknadType = {
     innsendtDato: null;
     vedleggsListe: [];
 };
+
+// APP
+export interface VedleggsListeProps {
+    soknad: SoknadType,
+    setSoknad: React.Dispatch<React.SetStateAction<SoknadType | null>>,
+    vedleggsliste: VedleggType[] | [];
+    setVedleggsListe: React.Dispatch<React.SetStateAction<VedleggType[] | []>>,
+    erEttersending: boolean,
+};
+

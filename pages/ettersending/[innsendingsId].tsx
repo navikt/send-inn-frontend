@@ -12,11 +12,11 @@ import TestCompState from '../../components/TestCompState';
 import VedleggsListe2 from '../../components/VedleggsListe2';
 import VedleggsListe from '../../components/VedleggsListe';
 
-import { VedleggType, SoknadType } from '../../types/api';
+import { VedleggType, SoknadType } from '../../types/types';
 
 const qs = require('qs');
 // todo https://dev.to/fadiamg/multiple-file-inputs-with-one-submit-button-with-react-hooks-kle
-
+const erEttersending = true;
 type FormValues = {
     file: File;
     brukerid: string;
@@ -128,7 +128,7 @@ const EttersendingSide: NextPage = () => {
             </Head>
             <main className={styles.main}>
                 {soknad && (
-                    <VedleggsListe soknad={soknad} setSoknad={setSoknad} vedleggsliste={vedleggsListe} setVedleggsListe={setVedleggsListe}/>
+                    <VedleggsListe soknad={soknad} setSoknad={setSoknad} vedleggsliste={vedleggsListe} setVedleggsListe={setVedleggsListe} erEttersending={erEttersending}/>
                 )}
             </main>
             <footer className={styles.footer}></footer>
