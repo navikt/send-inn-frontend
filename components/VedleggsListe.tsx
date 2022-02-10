@@ -3,17 +3,9 @@ import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
 import axios from 'axios';
-import { VedleggType, SoknadType } from '../types/api';
+import { VedleggType, SoknadType } from '../types/types';
 import Vedlegg from "../components/Vedlegg"
-
-interface VedleggsListeProps {
-    soknad: SoknadType,
-    setSoknad: React.Dispatch<React.SetStateAction<SoknadType | null>>,
-    vedleggsliste: VedleggType[] | [];
-    setVedleggsListe: React.Dispatch<React.SetStateAction<VedleggType[] | []>>,
-
-};
-
+import { VedleggsListeProps } from '../types/types';
 
 const initialVedleggsliste: VedleggType[] | [] = [];
 
@@ -51,6 +43,7 @@ function VedleggsListe({
                             setSoknad,
                            vedleggsliste,
                            setVedleggsListe,
+                           erEttersending,
                        } : VedleggsListeProps) {
 
 
@@ -82,7 +75,7 @@ function VedleggsListe({
             )
             .finally(() => {
                 resetState();
-                //TODO: Endre til "then", og gå til kvitteringside
+                //TODO: Endre til "then", og gå til kvitteringside, nils arnes endringer skal nå gjøre at dette virker
                 alert('Sendt inn');
             })
             .catch((e) => {
@@ -109,8 +102,9 @@ function VedleggsListe({
             {vedleggsliste.length !== 0 && (
                 <h1>Last opp vedlegg her:</h1>
             )}
-            {soknad && vedleggsliste.length > 0 &&
-                vedleggsliste.map((vedlegg, key) => {
+      
+             {soknad && vedleggsliste.length > 0 &&
+                vedleggsliste.filter(x => !erEttersending || !x.erHoveddokument).map((vedlegg, key) => {
                     console.log(vedlegg);
                     return (
                         <Vedlegg
@@ -120,10 +114,7 @@ function VedleggsListe({
                         />
                     );
                 })}
-            {soknad && (
-                <button>HELLO</button>
-            )}
-
+       
             {soknad && (
                 <button onClick={onSendInn}>Send inn</button>
             )}
