@@ -109,8 +109,8 @@ const OpprettSoknadResource: NextPage = () => {
                 <h3>
                     Opprett en søknad basert på disse parametrene:{' '}
                 </h3>
-                {soknad && <a href={'/ettersending/' + soknad.innsendingsId}> lenke til ettersending </a>}
-                {soknad && <a href={'/dokumentinnsending/' + soknad.innsendingsId}> lenke til jobb-videre-med </a>}
+                {soknad && <Link href={'/ettersending/' + soknad.innsendingsId}> lenke til ettersending </Link>}
+                {soknad && <Link href={'/dokumentinnsending/' + soknad.innsendingsId}> lenke til jobb-videre-med </Link>}
                 
                 {soknad && <div> soknad.innsendingsId: {soknad.innsendingsId} </div>}
                 
