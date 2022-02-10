@@ -28,7 +28,15 @@ const Home: NextPage = () => {
                 >
                     opprettSoknadResource 1:  http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2,
                 </a>
+                <a
+                    href="http://localhost:3000/soknader/12347"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    se soknadsliste (mocket):  http://localhost:3000/soknader/12347
+                </a>
 
+                
 
             </main>
 
