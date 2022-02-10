@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useRef } from 'react';
+import React, { FC, ReactElement, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
@@ -30,6 +30,8 @@ type OpplastetFil = {
     filNavn: string;
 };
 
+
+
 function Vedlegg({
     innsendingsId,
     id,
@@ -55,6 +57,35 @@ function Vedlegg({
 
     const { register, handleSubmit, reset, setValue } =
         useForm<FormValues>();
+
+    
+useEffect(() => {
+    //const innsendingsId = query.innsendingsId // todo fix, fungerer ikke med en gang om man henter herifra, må kan
+    // const innsendingsId = "d83c88e4-a3f3-4217-b561-fe0572e391e8";
+    //const { brukerid } = data;
+    //const { vedleggsIder } = query;
+    if (innsendingsId) {
+
+    axios
+        .get(`http://localhost:9064/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}` /*, {
+            brukerId: brukerid,
+            skjemanr: query.skjemanummer,
+            sprak: query.sprak, // set bokmål som default
+            // TODO rett til vedleggsListe
+            vedleggsListe: (vedleggsIder as string)?.split(','),
+        }*/)
+        .then((response) => {
+            //setSoknad(response.data);
+            //setVedleggsListe(response.data.vedleggsListe);
+            setFilListe(response.data)
+            console.log(response.data)
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
+
+}, [innsendingsId]);
 
     function leggTilFil(input: FormValues) {
         setOpplastedeFiler(input);
