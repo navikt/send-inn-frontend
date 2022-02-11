@@ -42,6 +42,13 @@ http://localhost:3000/dokumentinnsending/f414b0d2-c278-477c-b770-e85c3e35130a
 
 [{"id":22,"vedleggsid":201,"filnavn":"2 Feb 2022 at 16-48.pdf","mimetype":"application/pdf","storrelse":255706,"data":null,"opprettetdato":"2022-02-11T14:30:35.233694"}]
 
+setFilListe([
+                        ...filListe,
+                        {
+                            id: response.data.id,
+                            filnavn: fil.name,
+                        },
+                    ]);
 
 */
 
@@ -67,7 +74,7 @@ function Vedlegg({
     const { register, handleSubmit, reset, setValue } =
         useForm<FormValues>();
 
-/*
+
     useEffect(() => {
         //const innsendingsId = query.innsendingsId // todo fix, fungerer ikke med en gang om man henter herifra, må kan
         // const innsendingsId = "d83c88e4-a3f3-4217-b561-fe0572e391e8";
@@ -78,32 +85,27 @@ function Vedlegg({
         axios
             .get(`http://localhost:9064/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil/` )
             .then((response) => {
-            //setSoknad(response.data);
-            //setVedleggsListe(response.data.vedleggsListe);
-            //setFilListe(response.data)
-            console.log(response.data)
+            let responseJSON = response.data
+            for (const item in responseJSON) {
+                let jsonitem = responseJSON[item]
+                let nyFil : OpplastetFil = {id: jsonitem.id, filnavn: jsonitem.filnavn}
+                let nyFilListe 
+                setFilListe([
+                    ...filListe, 
+                    nyFil
+                ]);
 
-            let nyFilListe : OpplastetFil[] =[]
-            // let nyFilListe = response.data.map(x =>  {id: x.id, filnavn: x.filnavn});
-            let nyFilListe = OpplastetFil[]
-            for (const item in response.data) {
-                console.log(item)
-                nyFilListe.push(item)
             }
-            console.log("Nyfilliste" + nyFilListe)
 
-            setFilListe([
-                ...filListe,
-                ...nyFilListe
-            ]);
         })
         .catch((error) => {
             console.log(error)
         })
     }
 
+// }, [innsendingsId, id, filListe]); // loop
 }, [innsendingsId, id]);
-*/
+
 
 
     const fileRef = useRef<HTMLInputElement | null>(null);
@@ -187,7 +189,6 @@ function Vedlegg({
             {filListe.length > 0 && (
                 <div>
                     <span>Dokumenter du har lastet opp nå:</span>
-                    
                     {filListe.map((fil) => {
                         return (
                             <div key={fil.id}>
