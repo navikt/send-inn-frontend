@@ -81,7 +81,7 @@ function Vedlegg({
         //const { brukerid } = data;
         //const { vedleggsIder } = query;
         if (innsendingsId && id ) {
-
+        let nyFilListe : OpplastetFil[] = []
         axios
             .get(`http://localhost:9064/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil/` )
             .then((response) => {
@@ -89,14 +89,14 @@ function Vedlegg({
             for (const item in responseJSON) {
                 let jsonitem = responseJSON[item]
                 let nyFil : OpplastetFil = {id: jsonitem.id, filnavn: jsonitem.filnavn}
-                let nyFilListe 
-                setFilListe([
-                    ...filListe, 
-                    nyFil
-                ]);
+                nyFilListe.push(nyFil)
+               
 
             }
-
+            setFilListe([
+                ...filListe, 
+                ...nyFilListe
+            ]);
         })
         .catch((error) => {
             console.log(error)
