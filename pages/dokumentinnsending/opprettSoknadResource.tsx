@@ -12,7 +12,7 @@ import TestCompState from '../../components/TestCompState';
 import VedleggsListe2 from '../../components/VedleggsListe2';
 import VedleggsListe from '../../components/VedleggsListe';
 
-import { VedleggType, SoknadType } from '../../types/api';
+import { VedleggType, SoknadType } from '../../types/types';
 import Link from 'next/link';
 
 const qs = require('qs');
