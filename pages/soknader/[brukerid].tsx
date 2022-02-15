@@ -40,7 +40,7 @@ const EttersendingSide: NextPage = () => {
         initialSoknadsliste,
     );
 
-    const brukerId = "1234567890" // query.brukerId // TODO hent fra brukerid isteden
+    const brukerId = "1234567890" // query.brukerId // TODO hent fra brukerid isteden, må eventuelt støttes i kallet
     useEffect(() => {
         //const brukerId = query.brukerId // todo fix, fungerer ikke med en gang om man henter herifra, må kan
         // const brukerId = "d83c88e4-a3f3-4217-b561-fe0572e391e8";
