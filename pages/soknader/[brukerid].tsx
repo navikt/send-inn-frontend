@@ -1,7 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import React from 'react';
-import styles from '../../styles/Home.module.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState, createContext, useEffect } from 'react';
 import { useRouter, NextRouter } from 'next/router';

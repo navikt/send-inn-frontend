@@ -23,7 +23,7 @@ const VedleggSide: NextPage = () => {
     }
     return (
         // TODO: Can you send this in as an object?
-        <div className={styles.container}>
+        <div>
             <Vedlegg2
                 innsendingsId="cc013466-b53d-4e8a-96cd-43981d1b8df7"
                 id={1} vedleggsnr="NAV 54-00.04"

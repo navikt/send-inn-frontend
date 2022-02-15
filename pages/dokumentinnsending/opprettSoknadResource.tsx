@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import React from 'react';
-import styles from '../../styles/Home.module.css';
+// import styles from '../../styles/Home.module.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState, createContext } from 'react';
 import { useRouter, NextRouter } from 'next/router';
@@ -11,7 +11,8 @@ import Vedlegg from '../../components/Vedlegg';
 import TestCompState from '../../components/TestCompState';
 import VedleggsListe2 from '../../components/VedleggsListe2';
 import VedleggsListe from '../../components/VedleggsListe';
-
+import type { ReactElement } from 'react'
+import Layout from '../../components/Layout'
 import { VedleggType, SoknadType } from '../../types/types';
 import Link from 'next/link';
 
@@ -90,7 +91,8 @@ const OpprettSoknadResource: NextPage = () => {
     };
        return (
 
-        <div className={styles.container}>
+        <div>
+        
             <Head>
                 <title>Trykk </title>
                 <meta
@@ -99,7 +101,7 @@ const OpprettSoknadResource: NextPage = () => {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <main className={styles.main}>
+            <main>
                 {/*<div> {JSON.stringify(query)} </div>*/}
                 <h3>Data hentet fra URL parametre: </h3>
                 <p>skjemanummer: {query.skjemanummer}</p>
@@ -131,7 +133,7 @@ const OpprettSoknadResource: NextPage = () => {
 
             </main>
 
-            <footer className={styles.footer}></footer>
+            <footer></footer>
         </div>
     );
 };

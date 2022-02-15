@@ -1,11 +1,12 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+// import styles from '../styles/Home.module.css';
 import Link from 'next/link';
 
 const Home: NextPage = () => {
     return (
-        <div className={styles.container}>
+        // <div>
+    <div>
             <Head>
                 <title>Create Next App</title>
                 <meta
@@ -15,19 +16,21 @@ const Home: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <main className={styles.main}>
-                <h1 className={styles.title}>
+            <main>
+                <h1>
                     Sider under utvikling:
                 </h1>
 
+                
                 {/* TODO fix trailing comma buggen ... http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2," <- ,*/}
-                <a
+                <div><a
                     href="http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
                     opprettSoknadResource 1:  http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2,
-                </a>
+                </a></div>
+                <div>
                 <a
                     href="http://localhost:3000/soknader/12347"
                     target="_blank"
@@ -35,14 +38,15 @@ const Home: NextPage = () => {
                 >
                     se soknadsliste (mocket):  http://localhost:3000/soknader/12347
                 </a>
+                </div>
 
                 
 
             </main>
 
 
-
-            <footer className={styles.footer}>
+            
+            <footer>
                 <a
                     href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
                     target="_blank"
