@@ -1,9 +1,11 @@
 const Layout = ({ children }) => {
   return (
     <div className="content">
-        this is in a layout
+
+       <h1 Style="background-color:blue;color:blue"> 0 </h1>
       { children }
       {/* footer could go here */}
+      <h1 Style="background-color:blue;color:blue"> 1  </h1>
     </div>
   );
 }

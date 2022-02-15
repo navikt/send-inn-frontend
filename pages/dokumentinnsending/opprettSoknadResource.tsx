@@ -79,8 +79,7 @@ const OpprettSoknadResource: NextPage = () => {
             .post('http://localhost:9064/frontend/v1/soknad', {
                 brukerId: brukerid,
                 skjemanr: query.skjemanummer,
-                sprak: query.sprak, // set bokmål som default
-                // TODO rett til vedleggsListe
+                sprak: query.sprak || "NO_NB", // set bokmål som default
                 vedleggsListe: (vedleggsIder as string)?.split(','),
             })
             .then((response) => {
