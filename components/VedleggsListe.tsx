@@ -6,6 +6,7 @@ import axios from 'axios';
 import { VedleggType, SoknadType } from '../types/types';
 import Vedlegg from "../components/Vedlegg"
 import { VedleggsListeProps } from '../types/types';
+import { Button } from '@navikt/ds-react';
 
 const initialVedleggsliste: VedleggType[] | [] = [];
 
@@ -116,7 +117,7 @@ function VedleggsListe({
                 })}
        
             {soknad && (
-                <button onClick={onSendInn}>Send inn</button>
+                <Button onClick={onSendInn}>Send inn</Button>
             )}
 
         </div>

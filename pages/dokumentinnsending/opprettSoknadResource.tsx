@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import React from 'react';
-import styles from '../../styles/Home.module.css';
+// import styles from '../../styles/Home.module.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState, createContext } from 'react';
 import { useRouter, NextRouter } from 'next/router';
@@ -11,8 +11,12 @@ import Vedlegg from '../../components/Vedlegg';
 import TestCompState from '../../components/TestCompState';
 import VedleggsListe2 from '../../components/VedleggsListe2';
 import VedleggsListe from '../../components/VedleggsListe';
-
 import { VedleggType, SoknadType } from '../../types/types';
+import { Button, Panel } from "@navikt/ds-react";
+import "@navikt/ds-css";
+import "@navikt/ds-css-internal";
+import type { ReactElement } from 'react'
+import Layout from '../../components/Layout'
 import Link from 'next/link';
 
 const qs = require('qs');
@@ -41,7 +45,7 @@ interface VedleggProps {
     opprettetdato: string;
 }
 */
-const erEttersending = false;
+
 type VedleggProps = VedleggType & {
     innsendingsId: string | undefined;
 };
@@ -50,7 +54,6 @@ interface contextValue {
     value: VedleggProps | null;
 }
 
-// same const ThemeContext = React.createContext(themes.light);
 // why is this duplicated?
 export const AppContext = React.createContext<
     VedleggProps | undefined
@@ -78,8 +81,7 @@ const OpprettSoknadResource: NextPage = () => {
             .post('http://localhost:9064/frontend/v1/soknad', {
                 brukerId: brukerid,
                 skjemanr: query.skjemanummer,
-                sprak: query.sprak, // set bokmål som default
-                // TODO rett til vedleggsListe
+                sprak: query.sprak || "NO_NB", // set bokmål som default
                 vedleggsListe: (vedleggsIder as string)?.split(','),
             })
             .then((response) => {
@@ -90,7 +92,8 @@ const OpprettSoknadResource: NextPage = () => {
     };
        return (
 
-        <div className={styles.container}>
+        <div>
+        
             <Head>
                 <title>Trykk </title>
                 <meta
@@ -99,8 +102,10 @@ const OpprettSoknadResource: NextPage = () => {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <main className={styles.main}>
+            <main>
                 {/*<div> {JSON.stringify(query)} </div>*/}
+                <Panel border>
+
                 <h3>Data hentet fra URL parametre: </h3>
                 <p>skjemanummer: {query.skjemanummer}</p>
                 <p>erEttersendelse: {query.erEttersendelse}</p>
@@ -109,11 +114,13 @@ const OpprettSoknadResource: NextPage = () => {
                 <h3>
                     Opprett en søknad basert på disse parametrene:{' '}
                 </h3>
-                {soknad && <Link href={'/ettersending/' + soknad.innsendingsId}> lenke til ettersending </Link>}
-                {soknad && <Link href={'/dokumentinnsending/' + soknad.innsendingsId}> lenke til jobb-videre-med </Link>}
+                
+                {soknad && <div><Link href={'/ettersending/' + soknad.innsendingsId}> lenke til ettersending </Link></div>}
+                {soknad && <div><Link href={'/dokumentinnsending/' + soknad.innsendingsId}> lenke til jobb-videre-med </Link></div>}
                 
                 {soknad && <div> soknad.innsendingsId: {soknad.innsendingsId} </div>}
                 
+                </Panel>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <input
                         type="text"
@@ -125,13 +132,13 @@ const OpprettSoknadResource: NextPage = () => {
                     <input type="submit" value="opprett" />
                 </form>
                 {soknad && (
-                    <VedleggsListe soknad={soknad} setSoknad={setSoknad} vedleggsliste={vedleggsListe} setVedleggsListe={setVedleggsListe} erEttersending={erEttersending}/>
+                    <VedleggsListe soknad={soknad} setSoknad={setSoknad} vedleggsliste={vedleggsListe} setVedleggsListe={setVedleggsListe} erEttersending={query.erEttersendelse}/>
                 )}
 
 
             </main>
 
-            <footer className={styles.footer}></footer>
+            <footer></footer>
         </div>
     );
 };

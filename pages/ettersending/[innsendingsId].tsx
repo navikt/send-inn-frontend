@@ -1,7 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import React from 'react';
-import styles from '../../styles/Home.module.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState, createContext, useEffect } from 'react';
 import { useRouter, NextRouter } from 'next/router';
@@ -117,7 +116,7 @@ const EttersendingSide: NextPage = () => {
     };
        return (
 
-        <div className={styles.container}>
+        <div>
             <Head>
                 <title>Trykk </title>
                 <meta
@@ -126,12 +125,12 @@ const EttersendingSide: NextPage = () => {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <main className={styles.main}>
+           <main>
                 {soknad && (
                     <VedleggsListe soknad={soknad} setSoknad={setSoknad} vedleggsliste={vedleggsListe} setVedleggsListe={setVedleggsListe} erEttersending={erEttersending}/>
                 )}
             </main>
-            <footer className={styles.footer}></footer>
+            <footer></footer>
         </div>
     );
 };
