@@ -39,6 +39,14 @@ const ChildConmponent = ({stateChanger, ...rest}) => {
 
 
  */
+
+function skjulHovedskjemaOm(erHovedskjema : boolean, erEttersending : boolean) : boolean {
+    if (erEttersending) { // vi viser en ettersending
+        return !erHovedskjema;  // om det ikke er et hovedskjema returneres det sant og vises
+    } else {
+        return true; // om det ikke er en ettersending skal vi alltid vise alt og returnerer true
+    }
+}     
 function VedleggsListe({
                            soknad,
                             setSoknad,
@@ -105,8 +113,7 @@ function VedleggsListe({
             )}
       
              {soknad && vedleggsliste.length > 0 &&
-                vedleggsliste.filter(x => !erEttersending || !x.erHoveddokument).map((vedlegg, key) => {
-                    console.log(vedlegg);
+                    vedleggsliste.filter(x => skjulHovedskjemaOm(x.erHoveddokument, erEttersending)).map((vedlegg, key) => { 
                     return (
                         <Vedlegg
                             key={key}
