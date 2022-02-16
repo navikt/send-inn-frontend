@@ -11,7 +11,7 @@ import Vedlegg from '../../components/Vedlegg';
 import TestCompState from '../../components/TestCompState';
 import VedleggsListe2 from '../../components/VedleggsListe2';
 import VedleggsListe from '../../components/VedleggsListe';
-import { VedleggType, SoknadType } from '../../types/api';
+import { VedleggType, SoknadType } from '../../types/types';
 import { Button, Panel } from "@navikt/ds-react";
 import "@navikt/ds-css";
 import "@navikt/ds-css-internal";
@@ -114,8 +114,9 @@ const OpprettSoknadResource: NextPage = () => {
                 <h3>
                     Opprett en søknad basert på disse parametrene:{' '}
                 </h3>
-                {soknad && <Link href={'/ettersending/' + soknad.innsendingsId}> lenke til ettersending </Link>}
-                {soknad && <Link href={'/dokumentinnsending/' + soknad.innsendingsId}> lenke til jobb-videre-med </Link>}
+                
+                {soknad && <div><Link href={'/ettersending/' + soknad.innsendingsId}> lenke til ettersending </Link></div>}
+                {soknad && <div><Link href={'/dokumentinnsending/' + soknad.innsendingsId}> lenke til jobb-videre-med </Link></div>}
                 
                 {soknad && <div> soknad.innsendingsId: {soknad.innsendingsId} </div>}
                 
@@ -131,8 +132,7 @@ const OpprettSoknadResource: NextPage = () => {
                     <input type="submit" value="opprett" />
                 </form>
                 {soknad && (
-                    <Button onClick={onSendInn}>Send inn</Button>
-                    <VedleggsListe soknad={soknad} setSoknad={setSoknad} vedleggsliste={vedleggsListe} setVedleggsListe={setVedleggsListe} erEttersending={erEttersending}/>
+                    <VedleggsListe soknad={soknad} setSoknad={setSoknad} vedleggsliste={vedleggsListe} setVedleggsListe={setVedleggsListe} erEttersending={query.erEttersendelse}/>
                 )}
 
 
