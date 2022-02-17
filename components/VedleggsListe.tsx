@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useRef } from 'react';
+import React, { FC, ReactElement, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
@@ -40,6 +40,34 @@ const ChildConmponent = ({stateChanger, ...rest}) => {
 
  */
 
+function soknadKlarForInnsending(vedleggsliste : VedleggType[], erEttersending : boolean) : boolean {
+    /*
+    muligheter for opplastingsstatus per 17 feb 2022:
+    enum class OpplastingsStatus {
+        IKKE_VALGT, // det er ikke blitt lastet opp noe på vedlegget
+        SEND_SENERE, // ikke i bruk for frontend
+        LASTET_OPP, // det er lastet en eller flere filer på dette vedlegget 
+        SEND_I_POST, // ikke i bruk
+        SENDES_AV_ANDRE, // ikke i bruk
+        SENDES_IKKE, // ikke i bruk
+        INNSENDT, // det er blitt sendt inn en fil til NAV (aktuelt ved ettersending).  
+        VEDLEGG_ALLEREDE_SENDT // ikke i bruk
+    }
+    */
+    let returnValue = true;
+    vedleggsliste.forEach(element => {
+        // om det er ettersending kan vi ignorere hoveddokumentet/skjema, alle andre dokumenter må fortsatt være lastet opp
+        const elementErRelevant =  !(element.erHoveddokument && erEttersending);
+        console.log("1" + elementErRelevant)
+        console.log("2" + erEttersending)
+        console.log("3" + element.opplastingsStatus)
+        if (elementErRelevant && element.opplastingsStatus === "IKKE_VALGT") {
+            console.log("return false")
+            returnValue = returnValue && false; 
+        }
+    })
+    return returnValue;
+}
 function skjulHovedskjemaOm(erHovedskjema : boolean, erEttersending : boolean) : boolean {
     if (erEttersending) { // vi viser en ettersending
         return !erHovedskjema;  // om det ikke er et hovedskjema returneres det sant og vises
@@ -54,8 +82,7 @@ function VedleggsListe({
                            setVedleggsListe,
                            erEttersending,
                        } : VedleggsListeProps) {
-
-
+    const [soknadKlar, setSoknadKlar] = useState<boolean>(true);
 
     /*let list = vedleggsListe.map((vedlegg) => {
         <Vedlegg {...vedlegg} />;
@@ -76,6 +103,29 @@ function VedleggsListe({
 
      */
     //let newlist = Array.from(props.data);
+    /*
+    const [komplettStatus, setFilListe] = useState<OpplastetFil[]>([]);
+
+    useEffect(() => {
+        //const innsendingsId = query.innsendingsId // todo fix, fungerer ikke med en gang om man henter herifra, må kan
+        // const innsendingsId = "d83c88e4-a3f3-4217-b561-fe0572e391e8";
+        //const { brukerid } = data;
+        //const { vedleggsIder } = query;
+        
+
+// }, [innsendingsId, id, filListe]); // loop
+}, [vedleggsliste]);
+*/         
+useEffect(() => {
+    //const innsendingsId = query.innsendingsId // todo fix, fungerer ikke med en gang om man henter herifra, må kan
+    // const innsendingsId = "d83c88e4-a3f3-4217-b561-fe0572e391e8";
+    //const { brukerid } = data;
+    //const { vedleggsIder } = query;
+    setSoknadKlar(soknadKlarForInnsending(vedleggsliste, erEttersending));
+// }, [innsendingsId, id, filListe]); // loop
+}, [vedleggsliste, erEttersending]);
+
+    
 
     const onSendInn = () => {
         axios
@@ -111,7 +161,9 @@ function VedleggsListe({
             {vedleggsliste.length !== 0 && (
                 <h1>Last opp vedlegg her:</h1>
             )}
-      
+            {soknadKlar ? <div> er kjempe klar </div> : <div> er ikke klar </div>  // dette virker nå, men du må reloade
+            }
+            {soknadKlarForInnsending(vedleggsliste, erEttersending).toString()  }
              {soknad && vedleggsliste.length > 0 &&
                     vedleggsliste.filter(x => skjulHovedskjemaOm(x.erHoveddokument, erEttersending)).map((vedlegg, key) => { 
                     return (
