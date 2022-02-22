@@ -32,7 +32,7 @@ interface VedleggProps {
     uuid: string;
     mimetype: string | null;
     document: string | null;
-    erHoveddokument: boolean;
+    erHoveddokument: boolean; 
     erVariant: boolean;
     erPdfa: boolean;
     skjemaurl: string | null;

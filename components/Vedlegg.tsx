@@ -10,7 +10,10 @@ type FormValues = {
     file: FileList | null;
 };
 
-type VedleggProps = {
+type setListeType = (vedleggsListe: VedleggProps[]) => void;
+
+
+interface VedleggProps {
     innsendingsId: string;
     id: number;
     vedleggsnr: string;
@@ -24,7 +27,9 @@ type VedleggProps = {
     skjemaurl: string;
     opplastingsStatus: string;
     opprettetdato: string;
-};
+    setListe: setListeType;
+    // (x: string): void;
+}
 
 type OpplastetFil = {
     id: string;
@@ -67,7 +72,8 @@ function Vedlegg({
     erPdfa,
     skjemaurl,
     opplastingsStatus,
-    opprettetdato,
+    opprettetdato,  
+    setListe,
 }: VedleggProps) {
 
     const [filListe, setFilListe] = useState<OpplastetFil[]>([]);

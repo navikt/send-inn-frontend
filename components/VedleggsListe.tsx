@@ -40,6 +40,7 @@ const ChildConmponent = ({stateChanger, ...rest}) => {
 
  */
 
+
 function soknadKlarForInnsending(vedleggsliste : VedleggType[], erEttersending : boolean) : boolean {
     /*
     muligheter for opplastingsstatus per 17 feb 2022:
@@ -170,6 +171,7 @@ useEffect(() => {
                         <Vedlegg
                             key={key}
                             innsendingsId={soknad.innsendingsId}
+                            setListe={setVedleggsListe}
                             {...vedlegg}
                         />
                     );
