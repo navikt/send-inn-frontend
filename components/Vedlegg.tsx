@@ -10,7 +10,7 @@ type FormValues = {
     file: FileList | null;
 };
 
-type setListeType = (vedleggsListe: VedleggProps[]) => void;
+type setListeType = (id : string, vedlegg: VedleggProps) => void;
 
 
 interface VedleggProps {

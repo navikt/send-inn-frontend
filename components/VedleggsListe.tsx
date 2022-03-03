@@ -85,6 +85,16 @@ function VedleggsListe({
                        } : VedleggsListeProps) {
     const [soknadKlar, setSoknadKlar] = useState<boolean>(true);
 
+    function setListe(id : number, vedlegg : VedleggType) : void {
+        let currentListe = [...vedleggsliste]
+        let newListe = currentListe.map(el => (
+            el.id===id ? {...vedlegg}: el
+      ))
+
+      setVedleggsListe(newListe);
+      
+    }
+
     /*let list = vedleggsListe.map((vedlegg) => {
         <Vedlegg {...vedlegg} />;
     })
@@ -171,7 +181,7 @@ useEffect(() => {
                         <Vedlegg
                             key={key}
                             innsendingsId={soknad.innsendingsId}
-                            setListe={setVedleggsListe}
+                            setListe={setListe}
                             {...vedlegg}
                         />
                     );
