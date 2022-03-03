@@ -59,22 +59,23 @@ setFilListe([
 */
 
 
-function Vedlegg({
-    innsendingsId,
-    id,
-    vedleggsnr,
-    tittel,
-    uuid,
-    mimetype,
-    document,
-    erHoveddokument,
-    erVariant,
-    erPdfa,
-    skjemaurl,
-    opplastingsStatus,
-    opprettetdato,  
-    setListe,
-}: VedleggProps) {
+function Vedlegg(props : VedleggProps) {
+    const {
+        innsendingsId,
+        id,
+        vedleggsnr,
+        tittel,
+        uuid,
+        mimetype,
+        document,
+        erHoveddokument,
+        erVariant,
+        erPdfa,
+        skjemaurl,
+        opplastingsStatus,
+        opprettetdato,  
+        setListe,
+    } = props;
 
     const [filListe, setFilListe] = useState<OpplastetFil[]>([]);
 
