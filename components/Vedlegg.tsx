@@ -10,7 +10,10 @@ type FormValues = {
     file: FileList | null;
 };
 
-type VedleggProps = {
+type setOpplastingStatusType = (id : string, opplastingStatus: string) => void;
+
+
+interface VedleggProps {
     innsendingsId: string;
     id: number;
     vedleggsnr: string;
@@ -24,7 +27,9 @@ type VedleggProps = {
     skjemaurl: string;
     opplastingsStatus: string;
     opprettetdato: string;
-};
+    setOpplastingStatus: setOpplastingStatusType;
+    // (x: string): void;
+}
 
 type OpplastetFil = {
     id: string;
@@ -54,21 +59,23 @@ setFilListe([
 */
 
 
-function Vedlegg({
-    innsendingsId,
-    id,
-    vedleggsnr,
-    tittel,
-    uuid,
-    mimetype,
-    document,
-    erHoveddokument,
-    erVariant,
-    erPdfa,
-    skjemaurl,
-    opplastingsStatus,
-    opprettetdato,
-}: VedleggProps) {
+function Vedlegg(props : VedleggProps) {
+    const {
+        innsendingsId,
+        id,
+        vedleggsnr,
+        tittel,
+        uuid,
+        mimetype,
+        document,
+        erHoveddokument,
+        erVariant,
+        erPdfa,
+        skjemaurl,
+        opplastingsStatus,
+        opprettetdato,  
+        setOpplastingStatus,
+    } = props;
 
     const [filListe, setFilListe] = useState<OpplastetFil[]>([]);
 
@@ -144,6 +151,7 @@ function Vedlegg({
                             filnavn: fil.name,
                         },
                     ]);
+                    setOpplastingStatus(id, "LASTET_OPP")
                     console.log({ response: response.data });
                 })
                 .catch((error) => {
@@ -190,6 +198,7 @@ function Vedlegg({
             {filListe.length > 0 && (
                 <div>
                     <span>Dokumenter du har lastet opp nå:</span>
+                    <div>opplastingstatus: {opplastingsStatus}</div>
                     {filListe.map((fil) => {
                         return (
                             <div key={fil.id}>
