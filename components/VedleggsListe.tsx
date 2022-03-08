@@ -7,6 +7,7 @@ import { VedleggType, SoknadType } from '../types/types';
 import Vedlegg from "../components/Vedlegg"
 import { VedleggsListeProps } from '../types/types';
 import { Button } from '@navikt/ds-react';
+import { useRouter } from 'next/router'
 
 const initialVedleggsliste: VedleggType[] | [] = [];
 
@@ -84,6 +85,7 @@ function VedleggsListe({
                            erEttersending,
                        } : VedleggsListeProps) {
     const [soknadKlar, setSoknadKlar] = useState<boolean>(true);
+    const router = useRouter()
 
     function setOpplastingStatus(id : number, status : string) : void {
         alert("utløst" + id + status)
@@ -94,7 +96,54 @@ function VedleggsListe({
 
       setVedleggsListe(newListe);
       
-    }
+    }       
+
+
+
+
+
+    const tilMittNav = () => {
+        router.push('https://www.nav.no/no/ditt-nav')
+      }
+    
+      
+    const onSendInn = () => {
+        axios
+            .post(
+                `http://localhost:9064/frontend/v1/sendInn/${soknad?.innsendingsId}`,
+            )
+            .finally(() => {
+                resetState();
+                //TODO: Endre til "then", og gå til kvitteringside, nils arnes endringer skal nå gjøre at dette virker
+                alert('Sendt inn');
+                // tilMittNav()
+
+            })
+            .catch((e) => {
+                //TODO: Error håndtering
+                console.error(e);
+            });
+    };
+
+    const slett = () => {
+        axios
+            .delete(
+                `http://localhost:9064/frontend/v1/sendInn/${soknad?.innsendingsId}`,
+            )
+            .finally(() => {
+                resetState();
+                alert('slettet');
+
+                //TODO: Endre til "then", og gå til kvitteringside, nils arnes endringer skal nå gjøre at dette virker
+                // tilMittNav()
+
+            })
+            .catch((e) => {
+                //TODO: Error håndtering
+                console.error(e);
+            });
+    };
+
 
     /*let list = vedleggsListe.map((vedlegg) => {
         <Vedlegg {...vedlegg} />;
@@ -139,22 +188,6 @@ useEffect(() => {
 
     
 
-    const onSendInn = () => {
-        axios
-            .post(
-                `http://localhost:9064/frontend/v1/sendInn/${soknad?.innsendingsId}`,
-            )
-            .finally(() => {
-                resetState();
-                //TODO: Endre til "then", og gå til kvitteringside, nils arnes endringer skal nå gjøre at dette virker
-                alert('Sendt inn');
-            })
-            .catch((e) => {
-                //TODO: Error håndtering
-                console.error(e);
-            });
-    };
-
     const resetState = () => {
         setVedleggsListe(initialVedleggsliste);
         setSoknad(null);
@@ -173,8 +206,7 @@ useEffect(() => {
             {vedleggsliste.length !== 0 && (
                 <h1>Last opp vedlegg her:</h1>
             )}
-            {soknadKlar ? <div> er kjempe klar </div> : <div> er ikke klar </div>  // dette virker nå, men du må reloade
-            }
+            
             {soknadKlarForInnsending(vedleggsliste, erEttersending).toString()  }
              {soknad && vedleggsliste.length > 0 &&
                     vedleggsliste.filter(x => skjulHovedskjemaOm(x.erHoveddokument, erEttersending)).map((vedlegg, key) => { 
@@ -187,11 +219,29 @@ useEffect(() => {
                         />
                     );
                 })}
-       
-            {soknad && (
-                <Button onClick={onSendInn}>Send inn</Button>
-            )}
 
+
+
+            {/**{soknad && (
+                <Button onClick={onSendInn}>Send inn</Button>
+            )} */}
+            
+        <div>
+        {soknadKlar ? <Button onClick={onSendInn}>Send inn komplett søknad</Button> : <Button onClick={onSendInn}>Send inn ufullstendig søknad</Button>  // dette virker nå, men du må reloade
+
+}
+
+        </div>
+
+        <div>
+        {/* lagre og fortsett senere */}
+        <Button onClick={tilMittNav}>Lagre og fortsett senere</Button>
+        </div>
+        <div>
+        {/*kall slettsøknad på api, deretter, gå til ditt nav
+kanskje popup om at dette vil slette innhold? */}
+        <Button onClick={slett } variant="secondary">Avbryt søknad</Button>
+        </div>
         </div>
 
     );
