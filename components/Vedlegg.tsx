@@ -10,7 +10,7 @@ type FormValues = {
     file: FileList | null;
 };
 
-type setOpplastingStatusType = (id : string, opplastingStatus: string) => void;
+type setOpplastingStatusType = (id : number, opplastingStatus: string) => void;
 
 
 interface VedleggProps {
@@ -42,6 +42,7 @@ type OpplastetFil = {
 GET
 
 	http://localhost:9064/frontend/v1/soknad/f414b0d2-c278-477c-b770-e85c3e35130a/vedlegg/201/fil/
+
 
 
 http://localhost:3000/dokumentinnsending/f414b0d2-c278-477c-b770-e85c3e35130a
