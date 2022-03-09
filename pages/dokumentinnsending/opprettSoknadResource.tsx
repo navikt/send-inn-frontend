@@ -70,6 +70,8 @@ const OpprettSoknadResource: NextPage = () => {
         initialVedleggsliste,
     );
 
+    // const erEttersending : boolean = 
+
     const { register, handleSubmit } = useForm<FormValues>();
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         console.log(data);
@@ -132,7 +134,7 @@ const OpprettSoknadResource: NextPage = () => {
                     <input type="submit" value="opprett" />
                 </form>
                 {soknad && (
-                    <VedleggsListe soknad={soknad} setSoknad={setSoknad} vedleggsliste={vedleggsListe} setVedleggsListe={setVedleggsListe} erEttersending={query.erEttersendelse}/>
+                    <VedleggsListe soknad={soknad} setSoknad={setSoknad} vedleggsliste={vedleggsListe} setVedleggsListe={setVedleggsListe} erEttersending={query.erEttersendelse === 'true'}/>
                 )}
 
 
