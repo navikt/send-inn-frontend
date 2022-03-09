@@ -14,6 +14,7 @@ via fyll ut, det sendes en pakke fra dem til vårt api, api oppretter en lenke o
 ## 03 ettersendingsknapp
 bruker er logget inn, velger en sak selv, skal vi opprette en ny sak eller ikke... det er fortsatt ikke helt sikkert hvordan dette ser ut og virker, Rune har en skisse på det
 
+9 mars 22 nils arne sier det nå opprettes ettersending per pageload ... men det vil bety at brukere ikke kan gå tilbake å fortsette å jobbe med det de har lagt inn på samme måte som i søknaden
+
 møtenotater 22.02.16
 ![[Pasted image 20220216163212.png]]
-
