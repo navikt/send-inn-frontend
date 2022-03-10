@@ -202,10 +202,6 @@ function VedleggsListe({
                 <h1>Last opp vedlegg her:</h1>
             )}
 
-            {soknadKlarForInnsending(
-                vedleggsliste,
-                erEttersending,
-            ).toString()}
             {soknad &&
                 vedleggsliste.length > 0 &&
                 vedleggsliste
