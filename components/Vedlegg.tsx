@@ -20,6 +20,8 @@ interface VedleggProps {
     id: number;
     vedleggsnr: string;
     tittel: string;
+    label: string;
+    beskrivelse: string;
     uuid: string;
     mimetype: string;
     document: string;
@@ -67,6 +69,8 @@ function Vedlegg(props: VedleggProps) {
         id,
         vedleggsnr,
         tittel,
+        label,
+        beskrivelse,
         uuid,
         mimetype,
         document,
@@ -180,7 +184,7 @@ function Vedlegg(props: VedleggProps) {
                 )}
             </div>
             <div>
-                {vedleggsnr}: {tittel}
+                {vedleggsnr}: {label}
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <br />
