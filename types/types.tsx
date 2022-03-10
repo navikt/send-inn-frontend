@@ -12,6 +12,8 @@ export type VedleggType = {
     skjemaurl: string;
     opplastingsStatus: string;
     opprettetdato: string;
+    label: string;
+    beskrivelse: string;
 };
 
 export type SoknadType = {
@@ -30,14 +32,15 @@ export type SoknadType = {
     vedleggsListe: [] | VedleggType;
 };
 
-
-
 // APP
 export interface VedleggsListeProps {
-    soknad: SoknadType,
-    setSoknad: React.Dispatch<React.SetStateAction<SoknadType | null>>,
+    soknad: SoknadType;
+    setSoknad: React.Dispatch<
+        React.SetStateAction<SoknadType | null>
+    >;
     vedleggsliste: VedleggType[] | [];
-    setVedleggsListe: React.Dispatch<React.SetStateAction<VedleggType[] | []>>,
-    erEttersending: boolean,
-};
-
+    setVedleggsListe: React.Dispatch<
+        React.SetStateAction<VedleggType[] | []>
+    >;
+    erEttersending: boolean;
+}

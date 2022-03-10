@@ -57,8 +57,6 @@ export const AppContext = React.createContext<
 
 const initialVedleggsliste: VedleggType[] | [] = [];
 
-
-
 const EttersendingSide: NextPage = () => {
     const { query } = useRouter();
     const [soknad, setSoknad] = useState<SoknadType | null>(null);
@@ -67,56 +65,56 @@ const EttersendingSide: NextPage = () => {
     );
 
     const { register, handleSubmit } = useForm<FormValues>();
-    const innsendingsId = query.innsendingsId
+    const innsendingsId = query.innsendingsId;
     useEffect(() => {
         //const innsendingsId = query.innsendingsId // todo fix, fungerer ikke med en gang om man henter herifra, må kan
         // const innsendingsId = "d83c88e4-a3f3-4217-b561-fe0572e391e8";
         //const { brukerid } = data;
         //const { vedleggsIder } = query;
         if (innsendingsId) {
-
-        axios
-            .get(`http://localhost:9064/frontend/v1/soknad/${innsendingsId}` /*, {
+            axios
+                .get(
+                    `http://localhost:9064/frontend/v1/soknad/${innsendingsId}` /*, {
                 brukerId: brukerid,
                 skjemanr: query.skjemanummer,
                 sprak: query.sprak, // set bokmål som default
                 // TODO rett til vedleggsListe
                 vedleggsListe: (vedleggsIder as string)?.split(','),
-            }*/)
-            .then((response) => {
-                setSoknad(response.data);
-                setVedleggsListe(response.data.vedleggsListe);
-
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+            }*/,
+                )
+                .then((response) => {
+                    setSoknad(response.data);
+                    setVedleggsListe(response.data.vedleggsListe);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         }
-
     }, [innsendingsId]);
 
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         console.log(data);
-        const innsendingsId = query.innsendingsId
+        const innsendingsId = query.innsendingsId;
         //const { brukerid } = data;
         //const { vedleggsIder } = query;
 
         axios
-            .get(`http://localhost:9064/frontend/v1/soknad/${innsendingsId}` /*, {
+            .get(
+                `http://localhost:9064/frontend/v1/soknad/${innsendingsId}` /*, {
                 brukerId: brukerid,
                 skjemanr: query.skjemanummer,
                 sprak: query.sprak, // set bokmål som default
                 // TODO rett til vedleggsListe
                 vedleggsListe: (vedleggsIder as string)?.split(','),
-            }*/)
+            }*/,
+            )
             .then((response) => {
                 setSoknad(response.data);
                 setVedleggsListe(response.data.vedleggsListe);
                 console.log({ response: response.data });
             });
     };
-       return (
-
+    return (
         <div>
             <Head>
                 <title>Trykk </title>
@@ -126,9 +124,14 @@ const EttersendingSide: NextPage = () => {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-           <main>
+            <main>
                 {soknad && (
-                    <VedleggsListe soknad={soknad} setSoknad={setSoknad} vedleggsliste={vedleggsListe} setVedleggsListe={setVedleggsListe} erEttersending={erEttersending} // TODO you can get this from soknad ettersendingsid empty or not ... if it is then it's empty ... but maybe you should not mess with this yet?
+                    <VedleggsListe
+                        soknad={soknad}
+                        setSoknad={setSoknad}
+                        vedleggsliste={vedleggsListe}
+                        setVedleggsListe={setVedleggsListe}
+                        erEttersending={erEttersending} // TODO you can get this from soknad ettersendingsid empty or not ... if it is then it's empty ... but maybe you should not mess with this yet?
                     />
                 )}
             </main>

@@ -4,13 +4,12 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
 import axios from 'axios';
 import { VedleggType, SoknadType } from '../types/types';
-import Vedlegg from "../components/Vedlegg"
+import Vedlegg from '../components/Vedlegg';
 import { VedleggsListeProps } from '../types/types';
 import { Button } from '@navikt/ds-react';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
 const initialVedleggsliste: VedleggType[] | [] = [];
-
 
 /*
 
@@ -41,8 +40,10 @@ const ChildConmponent = ({stateChanger, ...rest}) => {
 
  */
 
-
-function soknadKlarForInnsending(vedleggsliste : VedleggType[], erEttersending : boolean) : boolean {
+function soknadKlarForInnsending(
+    vedleggsliste: VedleggType[],
+    erEttersending: boolean,
+): boolean {
     /*
     // TODO vi bør bruke enum i typescript
     muligheter for opplastingsstatus per 17 feb 2022:
@@ -58,56 +59,59 @@ function soknadKlarForInnsending(vedleggsliste : VedleggType[], erEttersending :
     }
     */
     let returnValue = true;
-    vedleggsliste.forEach(element => {
+    vedleggsliste.forEach((element) => {
         // om det er ettersending kan vi ignorere hoveddokumentet/skjema, alle andre dokumenter må fortsatt være lastet opp
-        const elementErRelevant =  !(element.erHoveddokument && erEttersending);
-        console.log("1" + elementErRelevant)
-        console.log("2" + erEttersending)
-        console.log("3" + element.opplastingsStatus)
-        if (elementErRelevant && element.opplastingsStatus === "IKKE_VALGT") {
-            console.log("return false")
-            returnValue = returnValue && false; 
+        const elementErRelevant = !(
+            element.erHoveddokument && erEttersending
+        );
+        console.log('1' + elementErRelevant);
+        console.log('2' + erEttersending);
+        console.log('3' + element.opplastingsStatus);
+        if (
+            elementErRelevant &&
+            element.opplastingsStatus === 'IKKE_VALGT'
+        ) {
+            console.log('return false');
+            returnValue = returnValue && false;
         }
-    })
+    });
     return returnValue;
 }
-function skjulHovedskjemaOm(erHovedskjema : boolean, erEttersending : boolean) : boolean {
-    if (erEttersending) { // vi viser en ettersending
-        return !erHovedskjema;  // om det ikke er et hovedskjema returneres det sant og vises
+function skjulHovedskjemaOm(
+    erHovedskjema: boolean,
+    erEttersending: boolean,
+): boolean {
+    if (erEttersending) {
+        // vi viser en ettersending
+        return !erHovedskjema; // om det ikke er et hovedskjema returneres det sant og vises
     } else {
         return true; // om det ikke er en ettersending skal vi alltid vise alt og returnerer true
     }
-}     
+}
 function VedleggsListe({
-                           soknad,
-                            setSoknad,
-                           vedleggsliste,
-                           setVedleggsListe,
-                           erEttersending,
-                       } : VedleggsListeProps) {
+    soknad,
+    setSoknad,
+    vedleggsliste,
+    setVedleggsListe,
+    erEttersending,
+}: VedleggsListeProps) {
     const [soknadKlar, setSoknadKlar] = useState<boolean>(true);
-    const router = useRouter()
+    const router = useRouter();
 
-    function setOpplastingStatus(id : number, status : string) : void {
-        alert("utløst" + id + status)
-        let currentListe = [...vedleggsliste]
-        let newListe = currentListe.map(el => (
-            el.id===id ? {...el, opplastingsStatus: status}: el
-      ))
+    function setOpplastingStatus(id: number, status: string): void {
+        alert('utløst' + id + status);
+        let currentListe = [...vedleggsliste];
+        let newListe = currentListe.map((el) =>
+            el.id === id ? { ...el, opplastingsStatus: status } : el,
+        );
 
-      setVedleggsListe(newListe);
-      
-    }       
-
-
-
-
+        setVedleggsListe(newListe);
+    }
 
     const tilMittNav = () => {
-        router.push('https://www.nav.no/no/ditt-nav')
-      }
-    
-      
+        router.push('https://www.nav.no/no/ditt-nav');
+    };
+
     const onSendInn = () => {
         axios
             .post(
@@ -118,7 +122,6 @@ function VedleggsListe({
                 //TODO: Endre til "then", og gå til kvitteringside, nils arnes endringer skal nå gjøre at dette virker
                 alert('Sendt inn');
                 // tilMittNav()
-
             })
             .catch((e) => {
                 //TODO: Error håndtering
@@ -137,14 +140,12 @@ function VedleggsListe({
 
                 //TODO: Endre til "then", og gå til kvitteringside, nils arnes endringer skal nå gjøre at dette virker
                 // tilMittNav()
-
             })
             .catch((e) => {
                 //TODO: Error håndtering
                 console.error(e);
             });
     };
-
 
     /*let list = vedleggsListe.map((vedlegg) => {
         <Vedlegg {...vedlegg} />;
@@ -177,74 +178,88 @@ function VedleggsListe({
 
 // }, [innsendingsId, id, filListe]); // loop
 }, [vedleggsliste]);
-*/         
-useEffect(() => {
-    //const innsendingsId = query.innsendingsId // todo fix, fungerer ikke med en gang om man henter herifra, må kan
-    // const innsendingsId = "d83c88e4-a3f3-4217-b561-fe0572e391e8";
-    //const { brukerid } = data;
-    //const { vedleggsIder } = query;
-    setSoknadKlar(soknadKlarForInnsending(vedleggsliste, erEttersending));
-// }, [innsendingsId, id, filListe]); // loop
-}, [vedleggsliste, erEttersending]);
-
-    
+*/
+    useEffect(() => {
+        //const innsendingsId = query.innsendingsId // todo fix, fungerer ikke med en gang om man henter herifra, må kan
+        // const innsendingsId = "d83c88e4-a3f3-4217-b561-fe0572e391e8";
+        //const { brukerid } = data;
+        //const { vedleggsIder } = query;
+        setSoknadKlar(
+            soknadKlarForInnsending(vedleggsliste, erEttersending),
+        );
+        // }, [innsendingsId, id, filListe]); // loop
+    }, [vedleggsliste, erEttersending]);
 
     const resetState = () => {
         setVedleggsListe(initialVedleggsliste);
         setSoknad(null);
     };
 
-
-
-
     return (
         <div>
-
-
-            {vedleggsliste.length === 0 && (
-                soknad.tittel
-            )}
+            {vedleggsliste.length === 0 && soknad.tittel}
             {vedleggsliste.length !== 0 && (
                 <h1>Last opp vedlegg her:</h1>
             )}
-            
-            {soknadKlarForInnsending(vedleggsliste, erEttersending).toString()  }
-             {soknad && vedleggsliste.length > 0 &&
-                    vedleggsliste.filter(x => skjulHovedskjemaOm(x.erHoveddokument, erEttersending)).map((vedlegg, key) => { 
-                    return (
-                        <Vedlegg
-                            key={key}
-                            innsendingsId={soknad.innsendingsId}
-                            setOpplastingStatus={setOpplastingStatus}
-                            {...vedlegg}
-                        />
-                    );
-                })}
 
-
+            {soknadKlarForInnsending(
+                vedleggsliste,
+                erEttersending,
+            ).toString()}
+            {soknad &&
+                vedleggsliste.length > 0 &&
+                vedleggsliste
+                    .filter((x) =>
+                        skjulHovedskjemaOm(
+                            x.erHoveddokument,
+                            erEttersending,
+                        ),
+                    )
+                    .map((vedlegg, key) => {
+                        return (
+                            <Vedlegg
+                                key={key}
+                                innsendingsId={soknad.innsendingsId}
+                                setOpplastingStatus={
+                                    setOpplastingStatus
+                                }
+                                {...vedlegg}
+                            />
+                        );
+                    })}
 
             {/**{soknad && (
                 <Button onClick={onSendInn}>Send inn</Button>
             )} */}
-            
-        <div>
-        {soknadKlar ? <Button onClick={onSendInn}>Send inn komplett søknad</Button> : <Button onClick={onSendInn}>Send inn ufullstendig søknad</Button>  // dette virker nå, men du må reloade
 
-}
+            <div>
+                {
+                    soknadKlar ? (
+                        <Button onClick={onSendInn}>
+                            Send inn komplett søknad
+                        </Button>
+                    ) : (
+                        <Button onClick={onSendInn}>
+                            Send inn ufullstendig søknad
+                        </Button>
+                    ) // dette virker nå, men du må reloade
+                }
+            </div>
 
-        </div>
-
-        <div>
-        {/* lagre og fortsett senere */}
-        <Button onClick={tilMittNav}>Lagre og fortsett senere</Button>
-        </div>
-        <div>
-        {/*kall slettsøknad på api, deretter, gå til ditt nav
+            <div>
+                {/* lagre og fortsett senere */}
+                <Button onClick={tilMittNav}>
+                    Lagre og fortsett senere
+                </Button>
+            </div>
+            <div>
+                {/*kall slettsøknad på api, deretter, gå til ditt nav
 kanskje popup om at dette vil slette innhold? */}
-        <Button onClick={slett } variant="secondary">Avbryt søknad</Button>
+                <Button onClick={slett} variant="secondary">
+                    Avbryt søknad
+                </Button>
+            </div>
         </div>
-        </div>
-
     );
 }
 export default VedleggsListe;

@@ -6,7 +6,7 @@ import Link from 'next/link';
 const Home: NextPage = () => {
     return (
         // <div>
-    <div>
+        <div>
             <Head>
                 <title>Create Next App</title>
                 <meta
@@ -17,38 +17,32 @@ const Home: NextPage = () => {
             </Head>
 
             <main>
-                <h1>
-                    Sider under utvikling:
-                </h1>
+                <h1>Sider under utvikling:</h1>
 
-                
                 {/* TODO fix trailing comma buggen ... http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2," <- ,*/}
-                <div><a
-                    href="http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    opprettSoknadResource 1:  http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2,
-                </a></div>
                 <div>
-                <a
-                    href="http://localhost:3000/soknader/12347"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    se soknadsliste (mocket):  http://localhost:3000/soknader/12347
-                </a>
+                    <a
+                        href="http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        opprettSoknadResource 1:
+                        http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2,
+                    </a>
                 </div>
-
-                
-
+                <div>
+                    <a
+                        href="http://localhost:3000/soknader/12347"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        se soknadsliste (mocket):
+                        http://localhost:3000/soknader/12347
+                    </a>
+                </div>
             </main>
 
-
-            
-            <footer>
-              
-            </footer>
+            <footer></footer>
         </div>
     );
 };
