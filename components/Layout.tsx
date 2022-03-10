@@ -8,6 +8,7 @@ const Content = styled.div`
     max-width: 900px;
 `;
 
+// TODO fix: Binding element 'children' implicitly has an 'any' type.ts(7031)
 const Layout = ({ children }) => {
     return (
         <div className="content">
