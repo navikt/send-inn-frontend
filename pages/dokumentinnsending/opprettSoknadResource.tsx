@@ -45,7 +45,6 @@ interface VedleggProps {
     opprettetdato: string;
 }
 */
-
 type VedleggProps = VedleggType & {
     innsendingsId: string | undefined;
 };
@@ -64,6 +63,7 @@ const initialVedleggsliste: VedleggType[] | [] = [];
 
 
 const OpprettSoknadResource: NextPage = () => {
+    let x = 10;
     const { query } = useRouter();
     const [soknad, setSoknad] = useState<SoknadType | null>(null);
     const [vedleggsListe, setVedleggsListe] = useState<VedleggType[]>(

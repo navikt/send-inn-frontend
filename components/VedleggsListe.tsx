@@ -44,6 +44,7 @@ const ChildConmponent = ({stateChanger, ...rest}) => {
 
 function soknadKlarForInnsending(vedleggsliste : VedleggType[], erEttersending : boolean) : boolean {
     /*
+    // TODO vi bør bruke enum i typescript
     muligheter for opplastingsstatus per 17 feb 2022:
     enum class OpplastingsStatus {
         IKKE_VALGT, // det er ikke blitt lastet opp noe på vedlegget
