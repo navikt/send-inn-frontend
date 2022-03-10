@@ -128,7 +128,8 @@ const EttersendingSide: NextPage = () => {
             </Head>
            <main>
                 {soknad && (
-                    <VedleggsListe soknad={soknad} setSoknad={setSoknad} vedleggsliste={vedleggsListe} setVedleggsListe={setVedleggsListe} erEttersending={erEttersending}/>
+                    <VedleggsListe soknad={soknad} setSoknad={setSoknad} vedleggsliste={vedleggsListe} setVedleggsListe={setVedleggsListe} erEttersending={erEttersending} // TODO you can get this from soknad ettersendingsid empty or not ... if it is then it's empty ... but maybe you should not mess with this yet?
+                    />
                 )}
             </main>
             <footer></footer>
