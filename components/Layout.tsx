@@ -11,12 +11,12 @@ const Content = styled.div`
 const Layout = ({ children }) => {
     return (
         <div className="content">
-            <h1 Style="background-color:grey;color:grey"> 0 </h1>
+            <h1> header</h1>
             <Content>
                 {children}
                 {/* footer could go here */}
             </Content>
-            <h1 Style="background-color:grey;color:grey"> 1 </h1>
+            <h1> footer</h1>
         </div>
     );
 };
