@@ -3,15 +3,17 @@ import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
 import axios from 'axios';
-import { Button, Panel } from "@navikt/ds-react";
+import { Button, Panel } from '@navikt/ds-react';
 
 type FormValues = {
     filnavn: string | null;
     file: FileList | null;
 };
 
-type setOpplastingStatusType = (id : number, opplastingStatus: string) => void;
-
+type setOpplastingStatusType = (
+    id: number,
+    opplastingStatus: string,
+) => void;
 
 interface VedleggProps {
     innsendingsId: string;
@@ -59,8 +61,7 @@ setFilListe([
 
 */
 
-
-function Vedlegg(props : VedleggProps) {
+function Vedlegg(props: VedleggProps) {
     const {
         innsendingsId,
         id,
@@ -74,7 +75,7 @@ function Vedlegg(props : VedleggProps) {
         erPdfa,
         skjemaurl,
         opplastingsStatus,
-        opprettetdato,  
+        opprettetdato,
         setOpplastingStatus,
     } = props;
 
@@ -83,39 +84,36 @@ function Vedlegg(props : VedleggProps) {
     const { register, handleSubmit, reset, setValue } =
         useForm<FormValues>();
 
-
     useEffect(() => {
         //const innsendingsId = query.innsendingsId // todo fix, fungerer ikke med en gang om man henter herifra, må kan
         // const innsendingsId = "d83c88e4-a3f3-4217-b561-fe0572e391e8";
         //const { brukerid } = data;
         //const { vedleggsIder } = query;
-        if (innsendingsId && id ) {
-        let nyFilListe : OpplastetFil[] = []
-        axios
-            .get(`http://localhost:9064/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil/` )
-            .then((response) => {
-            let responseJSON = response.data
-            for (const item in responseJSON) {
-                let jsonitem = responseJSON[item]
-                let nyFil : OpplastetFil = {id: jsonitem.id, filnavn: jsonitem.filnavn}
-                nyFilListe.push(nyFil)
-               
+        if (innsendingsId && id) {
+            let nyFilListe: OpplastetFil[] = [];
+            axios
+                .get(
+                    `http://localhost:9064/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil/`,
+                )
+                .then((response) => {
+                    let responseJSON = response.data;
+                    for (const item in responseJSON) {
+                        let jsonitem = responseJSON[item];
+                        let nyFil: OpplastetFil = {
+                            id: jsonitem.id,
+                            filnavn: jsonitem.filnavn,
+                        };
+                        nyFilListe.push(nyFil);
+                    }
+                    setFilListe([...filListe, ...nyFilListe]);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
 
-            }
-            setFilListe([
-                ...filListe, 
-                ...nyFilListe
-            ]);
-        })
-        .catch((error) => {
-            console.log(error)
-        })
-    }
-
-// }, [innsendingsId, id, filListe]); // loop
-}, [innsendingsId, id]);
-
-
+        // }, [innsendingsId, id, filListe]); // loop
+    }, [innsendingsId, id]);
 
     const fileRef = useRef<HTMLInputElement | null>(null);
     const { ref, ...rest } = register('file');
@@ -152,7 +150,7 @@ function Vedlegg(props : VedleggProps) {
                             filnavn: fil.name,
                         },
                     ]);
-                    setOpplastingStatus(id, "LASTET_OPP")
+                    setOpplastingStatus(id, 'LASTET_OPP');
                     console.log({ response: response.data });
                 })
                 .catch((error) => {
@@ -171,14 +169,18 @@ function Vedlegg(props : VedleggProps) {
         <Panel border>
             <div>
                 {skjemaurl && (
-                    <a target="_blank" style={{ color: 'blue' }} href={skjemaurl} rel="noopener noreferrer">
+                    <a
+                        target="_blank"
+                        style={{ color: 'blue' }}
+                        href={skjemaurl}
+                        rel="noopener noreferrer"
+                    >
                         Åpne skjema
                     </a>
-
                 )}
             </div>
             <div>
-                {vedleggsnr}:  {tittel}
+                {vedleggsnr}: {tittel}
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <br />

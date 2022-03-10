@@ -10,7 +10,6 @@ type FormValues = {
     file: FileList | null;
 };
 
-
 type VedleggProps = {
     innsendingsId: string;
     id: number;
@@ -27,13 +26,10 @@ type VedleggProps = {
     opprettetdato: string;
 };
 
-
-
 // https://stackoverflow.com/a/35435158
 // type VedleggPropsList = {
 //     [index:number]: VedleggProps;
 // }
-
 
 /*
 export interface VedleggPropsList extends Array<{
@@ -44,8 +40,7 @@ export interface VedleggPropsList extends Array<{
 
 //let array: VedleggProps[] = []; // https://www.codegrepper.com/code-examples/typescript/array+of+jsx+element+typescript
 
-function VedleggsListe2(vedleggsListe : VedleggProps[]) {
-
+function VedleggsListe2(vedleggsListe: VedleggProps[]) {
     /*let list = vedleggsListe.map((vedlegg) => {
         <Vedlegg {...vedlegg} />;
     })
@@ -63,12 +58,9 @@ function VedleggsListe2(vedleggsListe : VedleggProps[]) {
      */
     //let newlist = Array.from(props.data);
 
-
-
-
     return (
         <div>
-            { console.log(vedleggsListe)}
+            {console.log(vedleggsListe)}
             {vedleggsListe.toString()}
 
             {/*vedleggsListe.map(item => {
@@ -79,11 +71,9 @@ function VedleggsListe2(vedleggsListe : VedleggProps[]) {
             }
             */}
             {vedleggsListe.map((vedlegg) => {
-              <Vedlegg {...vedlegg} />;
+                <Vedlegg {...vedlegg} />;
             })}
-
         </div>
-
     );
 }
 export default VedleggsListe2;

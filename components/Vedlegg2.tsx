@@ -40,10 +40,11 @@ function Vedlegg2({
     opplastingsStatus,
     opprettetdato,
 }: VedleggProps) {
-    const [opplastedeFiler, setOpplastedeFiler] = useState<FormValues>({
-        filnavn: null,
-        file: null,
-    });
+    const [opplastedeFiler, setOpplastedeFiler] =
+        useState<FormValues>({
+            filnavn: null,
+            file: null,
+        });
 
     const { register, handleSubmit, reset, setValue } =
         useForm<FormValues>();

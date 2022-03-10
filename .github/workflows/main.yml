@@ -1,106 +1,104 @@
 name: Build, push, and deploy
 on: [push]
 env:
-  IMAGE: docker.pkg.github.com/${{ github.repository }}/send-inn-frontend:${{ github.sha }}
-  CI: true
-  TZ: Europe/Oslo
+    IMAGE: docker.pkg.github.com/${{ github.repository }}/send-inn-frontend:${{ github.sha }}
+    CI: true
+    TZ: Europe/Oslo
 
 jobs:
-  build:
-    name: Test and build
-    runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/preprod-pipeline' && github.ref != 'refs/heads/main'
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '16.10.0'
-      - uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - name: Install dependencies
-        run: npm install
-        env:
-          # Github krever autentisering for tilgang til packages
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-      # - name: Test
-      #   run: npm run test
-      - name: Build
-        run: npm run build:static
-      - name: Publish Docker image
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
-          docker build --tag ${IMAGE} .
-          docker push ${IMAGE}
+    build:
+        name: Test and build
+        runs-on: ubuntu-latest
+        if: github.ref != 'refs/heads/preprod-pipeline' && github.ref != 'refs/heads/main'
+        steps:
+            - uses: actions/checkout@v1
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: '16.10.0'
+            - uses: actions/cache@v1
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
+            - name: Install dependencies
+              run: npm install
+              env:
+                  # Github krever autentisering for tilgang til packages
+                  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+            # - name: Test
+            #   run: npm run test
+            - name: Build
+              run: npm run build:static
+            - name: Publish Docker image
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
+                  docker build --tag ${IMAGE} .
+                  docker push ${IMAGE}
 
-  build-and-push:
-    name: Build and push Docker container
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/preprod-pipeline'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '16.10.0'
-      - uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      #- name: Install dependencies
-      #  run: npm install
-      #  env:
-          # Github krever autentisering for tilgang til packages
-      #    NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-      # fjernet fordi den bare gjør det samme som docker imaget inntil vi har tester/linting
-      # - name: Test
-      #   run: npm run test
-      #- name: Build
-      #  run: npm run build:static
-      - name: Publish Docker image
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
-          docker build --tag ${IMAGE} .
-          docker push ${IMAGE}
+    build-and-push:
+        name: Build and push Docker container
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/preprod-pipeline'
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v1
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: '16.10.0'
+            - uses: actions/cache@v1
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
+            #- name: Install dependencies
+            #  run: npm install
+            #  env:
+            # Github krever autentisering for tilgang til packages
+            #    NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+            # fjernet fordi den bare gjør det samme som docker imaget inntil vi har tester/linting
+            # - name: Test
+            #   run: npm run test
+            #- name: Build
+            #  run: npm run build:static
+            - name: Publish Docker image
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
+                  docker build --tag ${IMAGE} .
+                  docker push ${IMAGE}
 
+    deploy-til-team-soknad:
+        name: Deploy to preprod namespace team-soknad
+        needs: build-and-push
+        if: github.ref == 'refs/heads/preprod-pipeline'
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v1
+            - uses: nais/deploy/actions/deploy@v1
+              env:
+                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+                  DRY_RUN: false
+                  PRINT_PAYLOAD: true
+                  CLUSTER: dev-sbs
+                  RESOURCE: .nais/nais-preprod.yml
+                  VAR: app_version=${{ github.sha }}
 
-
-  deploy-til-team-soknad:
-    name: Deploy to preprod namespace team-soknad
-    needs: build-and-push
-    if: github.ref == 'refs/heads/preprod-pipeline'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          DRY_RUN: false
-          PRINT_PAYLOAD: true
-          CLUSTER: dev-sbs
-          RESOURCE: .nais/nais-preprod.yml
-          VAR: app_version=${{ github.sha }}
-
-  deploy-prod:
-    name: Deploy to prod
-    needs: build-and-push
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          DRY_RUN: false
-          PRINT_PAYLOAD: true
-          CLUSTER: prod-sbs
-          RESOURCE: .nais/nais.yml
-          VAR: app_version=${{ github.sha }}
+    deploy-prod:
+        name: Deploy to prod
+        needs: build-and-push
+        if: github.ref == 'refs/heads/main'
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v1
+            - uses: nais/deploy/actions/deploy@v1
+              env:
+                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+                  DRY_RUN: false
+                  PRINT_PAYLOAD: true
+                  CLUSTER: prod-sbs
+                  RESOURCE: .nais/nais.yml
+                  VAR: app_version=${{ github.sha }}
