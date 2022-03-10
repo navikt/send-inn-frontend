@@ -63,6 +63,7 @@ const EttersendingSide: NextPage = () => {
                 //setsoknadListe(response.data.soknadListe);    
                 setsoknadListe(nySoknadListe);
                 */ 
+               // sdfljsdfl
             }
 
             )
