@@ -102,10 +102,6 @@ function VedleggsListe({
     const router = useRouter();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [harVistBekreftNavnModal, setHarVistBekreftNavnModal] =
-        useState(false);
-    const [bekreftNavnModalIsOpen, setBekreftNavnModalIsOpen] =
-        useState(false);
 
     function setOpplastingStatus(id: number, status: string): void {
         alert('utløst' + id + status);
