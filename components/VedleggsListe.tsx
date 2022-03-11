@@ -117,11 +117,11 @@ function VedleggsListe({
     }
 
     const tilMittNav = () => {
-        if (!harVistBekreftNavnModal && !response.etternavnMatch) {
+        if (!harVistBekreftNavnModal) {
             setBekreftNavnModalIsOpen(true);
             setHarVistBekreftNavnModal(true);
         }
-        router.push('https://www.nav.no/no/ditt-nav');
+        // router.push('https://www.nav.no/no/ditt-nav');
     };
 
     const onSendInn = () => {
@@ -267,12 +267,11 @@ kanskje popup om at dette vil slette innhold? */}
                     Avbryt søknad
                 </Button>
 
-                {
-                    <BekreftNavnModal
-                        isOpen={bekreftNavnModalIsOpen}
-                        setModalIsOpen={setBekreftNavnModalIsOpen}
-                    />
-                }
+                {/* open={open} onClose={() => setOpen(false)} */}
+                <BekreftNavnModal
+                    open={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                />
             </div>
         </div>
     );
