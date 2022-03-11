@@ -103,6 +103,7 @@ function VedleggsListe({
     const router = useRouter();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentModal, setCurrentModal] = useState('');
 
     function setOpplastingStatus(id: number, status: string): void {
         alert('utløst' + id + status);
@@ -271,6 +272,26 @@ kanskje popup om at dette vil slette innhold? */}
                 {/* open={open} onClose={() => setOpen(false)} */}
 
                 {/*     const [isModalOpen, setIsModalOpen] = useState(false); */}
+
+                {/*
+
+                TODO: adding the new modals
+
+                hvis fremgang her
+                1. send inn komplett onSendInn()
+                2. send inn uferdig onSendInn()
+                3 avbryt (slett)
+                4 avslutt slett()
+
+                jeg tror vi trenger flere av dem
+
+                kanskje noe state for å bestemme aktiv modal?
+
+                teksten er fucka og har rare formateringstegn, jeg måtte avbryte forsøk pga rot med de tegnene
+
+                har laget currentmodalstate
+                
+                */}
 
                 <FellesModal
                     open={isModalOpen}
