@@ -10,6 +10,7 @@ import { Button } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
 import { BekreftNavnModal } from './BekreftNavnModal';
 //import { BekreftNavnModal } from '../components/BekreftNavnModal'
+import { Modal, Heading, BodyLong } from '@navikt/ds-react';
 
 const initialVedleggsliste: VedleggType[] | [] = [];
 
@@ -117,11 +118,11 @@ function VedleggsListe({
     }
 
     const tilMittNav = () => {
-        if (!harVistBekreftNavnModal) {
-            setBekreftNavnModalIsOpen(true);
-            setHarVistBekreftNavnModal(true);
+        if (!isModalOpen) {
+            setIsModalOpen(true);
+            //setHarVistBekreftNavnModal(true);
         }
-        // router.push('https://www.nav.no/no/ditt-nav');
+        router.push('https://www.nav.no/no/ditt-nav');
     };
 
     const onSendInn = () => {
@@ -268,10 +269,29 @@ kanskje popup om at dette vil slette innhold? */}
                 </Button>
 
                 {/* open={open} onClose={() => setOpen(false)} */}
-                <BekreftNavnModal
+
+                {/*     const [isModalOpen, setIsModalOpen] = useState(false); */}
+
+                <Modal
                     open={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
-                />
+                >
+                    <Modal.Content>
+                        <Heading spacing level="1" size="large">
+                            Header
+                        </Heading>
+                        <Heading spacing level="2" size="medium">
+                            Subheading
+                        </Heading>
+                        <BodyLong spacing>
+                            Cupidatat irure ipsum veniam ad in esse.
+                        </BodyLong>
+                        <BodyLong>
+                            Cillum tempor pariatur amet ut laborum
+                            Lorem enim enim.
+                        </BodyLong>
+                    </Modal.Content>
+                </Modal>
             </div>
         </div>
     );
