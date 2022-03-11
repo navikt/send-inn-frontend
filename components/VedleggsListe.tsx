@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import { BekreftNavnModal } from './BekreftNavnModal';
 //import { BekreftNavnModal } from '../components/BekreftNavnModal'
 import { Modal, Heading, BodyLong } from '@navikt/ds-react';
+import { FellesModal } from './FellesModal';
 
 const initialVedleggsliste: VedleggType[] | [] = [];
 
@@ -105,8 +106,8 @@ function VedleggsListe({
 
     function setOpplastingStatus(id: number, status: string): void {
         alert('utløst' + id + status);
-        let currentListe = [...vedleggsliste];
-        let newListe = currentListe.map((el) =>
+        const currentListe = [...vedleggsliste];
+        const newListe = currentListe.map((el) =>
             el.id === id ? { ...el, opplastingsStatus: status } : el,
         );
 
@@ -114,10 +115,7 @@ function VedleggsListe({
     }
 
     const tilMittNav = () => {
-        if (!isModalOpen) {
-            setIsModalOpen(true);
-            //setHarVistBekreftNavnModal(true);
-        }
+        console.log('TilMittNav');
         router.push('https://www.nav.no/no/ditt-nav');
     };
 
@@ -253,7 +251,13 @@ function VedleggsListe({
 
             <div>
                 {/* lagre og fortsett senere */}
-                <Button onClick={tilMittNav}>
+                <Button
+                    onClick={() => {
+                        if (!isModalOpen) {
+                            setIsModalOpen(true);
+                        }
+                    }}
+                >
                     Lagre og fortsett senere
                 </Button>
             </div>
@@ -268,26 +272,33 @@ kanskje popup om at dette vil slette innhold? */}
 
                 {/*     const [isModalOpen, setIsModalOpen] = useState(false); */}
 
-                <Modal
+                <FellesModal
                     open={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
+                    setOpen={setIsModalOpen}
+                    onAccept={tilMittNav}
+                    acceptButtonText="Ja, lagre og fortsett senere"
                 >
-                    <Modal.Content>
-                        <Heading spacing level="1" size="large">
-                            Header
-                        </Heading>
-                        <Heading spacing level="2" size="medium">
-                            Subheading
-                        </Heading>
-                        <BodyLong spacing>
-                            Cupidatat irure ipsum veniam ad in esse.
-                        </BodyLong>
-                        <BodyLong>
-                            Cillum tempor pariatur amet ut laborum
-                            Lorem enim enim.
-                        </BodyLong>
-                    </Modal.Content>
-                </Modal>
+                    <Heading spacing level="1" size="large">
+                        Er du sikker på at du vil lagre søknaden og
+                        fortsette senere?
+                    </Heading>
+                    <Heading spacing level="2" size="medium">
+                        Vær oppmerksom på:
+                    </Heading>
+                    <BodyLong spacing>
+                        Søknaden blir IKKE sendt til saksbehandler i
+                        NAV nå, men kunmellomlagret slik at du kan
+                        gjenoppta den senere.
+                    </BodyLong>
+                    <BodyLong>
+                        Hvis du ønsker å sette dagens dato som
+                        startdato for søknaden må du klikke på knappen
+                        “Send inn til NAV”. Du kan gjøre dette selv om
+                        du ikke har all dokumentasjon nå. Du kan
+                        ettersende manglende dokumentasjon her på
+                        nav.no innen (dato/antall uker/dager)
+                    </BodyLong>
+                </FellesModal>
             </div>
         </div>
     );
