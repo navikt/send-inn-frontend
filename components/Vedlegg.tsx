@@ -85,7 +85,7 @@ function Vedlegg(props: VedleggProps) {
 
     const [filListe, setFilListe] = useState<OpplastetFil[]>([]);
 
-    const { register, handleSubmit, reset, setValue } =
+    const { register, handleSubmit, reset, setValue, watch } =
         useForm<FormValues>();
 
     useEffect(() => {
@@ -94,16 +94,16 @@ function Vedlegg(props: VedleggProps) {
         //const { brukerid } = data;
         //const { vedleggsIder } = query;
         if (innsendingsId && id) {
-            let nyFilListe: OpplastetFil[] = [];
+            const nyFilListe: OpplastetFil[] = [];
             axios
                 .get(
                     `http://localhost:9064/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil/`,
                 )
                 .then((response) => {
-                    let responseJSON = response.data;
+                    const responseJSON = response.data;
                     for (const item in responseJSON) {
-                        let jsonitem = responseJSON[item];
-                        let nyFil: OpplastetFil = {
+                        const jsonitem = responseJSON[item];
+                        const nyFil: OpplastetFil = {
                             id: jsonitem.id,
                             filnavn: jsonitem.filnavn,
                         };
@@ -121,6 +121,11 @@ function Vedlegg(props: VedleggProps) {
 
     const fileRef = useRef<HTMLInputElement | null>(null);
     const { ref, ...rest } = register('file');
+    const watchFile = watch('file');
+
+    useEffect(() => {
+        console.log('watch:', watchFile);
+    }, [watchFile]);
 
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         if (!data.file?.length) {
@@ -132,7 +137,7 @@ function Vedlegg(props: VedleggProps) {
             const fil = data.file[0];
             console.log(data);
 
-            let formData = new FormData();
+            const formData = new FormData();
             formData.append('file', fil);
 
             axios
