@@ -8,6 +8,9 @@ import Vedlegg from '../components/Vedlegg';
 import { VedleggsListeProps } from '../types/types';
 import { Button } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
+import { BekreftNavnModal } from './BekreftNavnModal';
+//import { BekreftNavnModal } from '../components/BekreftNavnModal'
+import { Modal, Heading, BodyLong } from '@navikt/ds-react';
 
 const initialVedleggsliste: VedleggType[] | [] = [];
 
@@ -98,6 +101,8 @@ function VedleggsListe({
     const [soknadKlar, setSoknadKlar] = useState<boolean>(true);
     const router = useRouter();
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     function setOpplastingStatus(id: number, status: string): void {
         alert('utløst' + id + status);
         let currentListe = [...vedleggsliste];
@@ -109,6 +114,10 @@ function VedleggsListe({
     }
 
     const tilMittNav = () => {
+        if (!isModalOpen) {
+            setIsModalOpen(true);
+            //setHarVistBekreftNavnModal(true);
+        }
         router.push('https://www.nav.no/no/ditt-nav');
     };
 
@@ -254,6 +263,31 @@ kanskje popup om at dette vil slette innhold? */}
                 <Button onClick={slett} variant="secondary">
                     Avbryt søknad
                 </Button>
+
+                {/* open={open} onClose={() => setOpen(false)} */}
+
+                {/*     const [isModalOpen, setIsModalOpen] = useState(false); */}
+
+                <Modal
+                    open={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                >
+                    <Modal.Content>
+                        <Heading spacing level="1" size="large">
+                            Header
+                        </Heading>
+                        <Heading spacing level="2" size="medium">
+                            Subheading
+                        </Heading>
+                        <BodyLong spacing>
+                            Cupidatat irure ipsum veniam ad in esse.
+                        </BodyLong>
+                        <BodyLong>
+                            Cillum tempor pariatur amet ut laborum
+                            Lorem enim enim.
+                        </BodyLong>
+                    </Modal.Content>
+                </Modal>
             </div>
         </div>
     );
