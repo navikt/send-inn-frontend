@@ -127,11 +127,24 @@ function Vedlegg(props: VedleggProps) {
             <div>
                 {vedleggsnr}: {label}
             </div>
-            <Filopplaster
-                id={id}
-                innsendingsId={innsendingsId}
-                setOpplastingStatus={setOpplastingStatus}
-            />
+            {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
+            {beskrivelse && <div>{beskrivelse}</div>}
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <br />
+                Beskriv vedlegg:
+                <input {...register('filnavn')} />
+                <br />
+                <input
+                    {...rest}
+                    type="file"
+                    ref={(e) => {
+                        ref(e);
+                        fileRef.current = e; // you can still assign to ref
+                    }}
+                />
+                <br />
+                <input type="submit" />
+            </form>
             {filListe.length > 0 && (
                 <div>
                     <span>Dokumenter du har lastet opp nå:</span>
