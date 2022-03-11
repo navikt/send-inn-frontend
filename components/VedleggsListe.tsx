@@ -8,6 +8,8 @@ import Vedlegg from '../components/Vedlegg';
 import { VedleggsListeProps } from '../types/types';
 import { Button } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
+import { BekreftNavnModal } from './BekreftNavnModal';
+//import { BekreftNavnModal } from '../components/BekreftNavnModal'
 
 const initialVedleggsliste: VedleggType[] | [] = [];
 
@@ -98,6 +100,12 @@ function VedleggsListe({
     const [soknadKlar, setSoknadKlar] = useState<boolean>(true);
     const router = useRouter();
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [harVistBekreftNavnModal, setHarVistBekreftNavnModal] =
+        useState(false);
+    const [bekreftNavnModalIsOpen, setBekreftNavnModalIsOpen] =
+        useState(false);
+
     function setOpplastingStatus(id: number, status: string): void {
         alert('utløst' + id + status);
         let currentListe = [...vedleggsliste];
@@ -109,6 +117,10 @@ function VedleggsListe({
     }
 
     const tilMittNav = () => {
+        if (!harVistBekreftNavnModal && !response.etternavnMatch) {
+            setBekreftNavnModalIsOpen(true);
+            setHarVistBekreftNavnModal(true);
+        }
         router.push('https://www.nav.no/no/ditt-nav');
     };
 
@@ -254,6 +266,13 @@ kanskje popup om at dette vil slette innhold? */}
                 <Button onClick={slett} variant="secondary">
                     Avbryt søknad
                 </Button>
+
+                {
+                    <BekreftNavnModal
+                        isOpen={bekreftNavnModalIsOpen}
+                        setModalIsOpen={setBekreftNavnModalIsOpen}
+                    />
+                }
             </div>
         </div>
     );
