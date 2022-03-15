@@ -102,16 +102,14 @@ function VedleggsListe({
     const [soknadKlar, setSoknadKlar] = useState<boolean>(true);
     const router = useRouter();
 
+
     const [avbrytSoknadModal, setAvbrytSoknadModal] = useState(false);
     const [slettSoknadModal, setSlettSoknadModal] = useState(false);
-    const [sendInnUferdigSoknadModal, setSendInnUferdigSoknadModal] =
-        useState(false);
-    const [
-        sendInnKomplettSoknadModal,
-        setSendInnKomplettSoknadModal,
-    ] = useState(false);
+    const [sendInnUferdigSoknadModal, setSendInnUferdigSoknadModal] = useState(false);
+    const [sendInnKomplettSoknadModal, setSendInnKomplettSoknadModal] = useState(false);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    
 
     function setOpplastingStatus(id: number, status: string): void {
         alert('utløst' + id + status);
@@ -247,27 +245,19 @@ function VedleggsListe({
             <div>
                 {
                     soknadKlar ? (
-                        <Button
-                            onClick={() => {
-                                if (!sendInnKomplettSoknadModal) {
-                                    setSendInnKomplettSoknadModal(
-                                        true,
-                                    );
-                                }
-                            }}
-                        >
+                        <Button onClick={() => {
+                            if (!sendInnKomplettSoknadModal) {
+                                setSendInnKomplettSoknadModal(true);
+                            }
+                        }}>
                             Send inn komplett søknad
                         </Button>
                     ) : (
-                        <Button
-                            onClick={() => {
-                                if (!sendInnUferdigSoknadModal) {
-                                    setSendInnUferdigSoknadModal(
-                                        true,
-                                    );
-                                }
-                            }}
-                        >
+                        <Button onClick={() => {
+                            if (!sendInnUferdigSoknadModal) {
+                                setSendInnUferdigSoknadModal(true);
+                            }
+                        }}>
                             Send inn ufullstendig søknad
                         </Button>
                     ) // dette virker nå, men du må reloade
@@ -289,14 +279,11 @@ function VedleggsListe({
             <div>
                 {/*kall slettsøknad på api, deretter, gå til ditt nav
 kanskje popup om at dette vil slette innhold? */}
-                <Button
-                    onClick={() => {
+                <Button onClick={() => {
                         if (!slettSoknadModal) {
                             setSlettSoknadModal(true);
                         }
-                    }}
-                    variant="secondary"
-                >
+                    }} variant="secondary">
                     Avbryt søknad
                 </Button>
 
@@ -326,7 +313,9 @@ kanskje popup om at dette vil slette innhold? */}
                 
                 */}
 
-                <FellesModal
+
+
+<FellesModal
                     open={avbrytSoknadModal}
                     setOpen={setAvbrytSoknadModal}
                     onAccept={tilMittNav}
@@ -354,6 +343,7 @@ kanskje popup om at dette vil slette innhold? */}
                     </BodyLong>
                 </FellesModal>
 
+
                 <FellesModal
                     open={avbrytSoknadModal}
                     setOpen={setAvbrytSoknadModal}
@@ -366,9 +356,14 @@ kanskje popup om at dette vil slette innhold? */}
                     <Heading spacing level="2" size="medium">
                         Vær oppmerksom på:
                     </Heading>
-                    <BodyLong spacing></BodyLong>
-                    <BodyLong></BodyLong>
+                    <BodyLong spacing>
+                       
+                    </BodyLong>
+                    <BodyLong>
+                      
+                    </BodyLong>
                 </FellesModal>
+
 
                 <FellesModal
                     open={sendInnUferdigSoknadModal}
@@ -382,9 +377,15 @@ kanskje popup om at dette vil slette innhold? */}
                     <Heading spacing level="2" size="medium">
                         Vær oppmerksom på:
                     </Heading>
-                    <BodyLong spacing></BodyLong>
-                    <BodyLong></BodyLong>
+                    <BodyLong spacing>
+                       
+                    </BodyLong>
+                    <BodyLong>
+
+                    </BodyLong>
                 </FellesModal>
+
+                
 
                 <FellesModal
                     open={sendInnKomplettSoknadModal}
@@ -398,11 +399,17 @@ kanskje popup om at dette vil slette innhold? */}
                     <Heading spacing level="2" size="medium">
                         Vær oppmerksom på:
                     </Heading>
-                    <BodyLong spacing></BodyLong>
-                    <BodyLong></BodyLong>
+                    <BodyLong spacing>
+                       
+                    </BodyLong>
+                    <BodyLong>
+                       
+                    </BodyLong>
                 </FellesModal>
+
             </div>
         </div>
+        
     );
 }
 export default VedleggsListe;
