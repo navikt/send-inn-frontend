@@ -102,7 +102,8 @@ function VedleggsListe({
     const [soknadKlar, setSoknadKlar] = useState<boolean>(true);
     const router = useRouter();
 
-    const [avbrytSoknadModal, setAvbrytSoknadModal] = useState(false);
+    const [fortsettSenereSoknadModal, setForstettSenereSoknadModal] =
+        useState(false);
     const [slettSoknadModal, setSlettSoknadModal] = useState(false);
     const [sendInnUferdigSoknadModal, setSendInnUferdigSoknadModal] =
         useState(false);
@@ -278,8 +279,8 @@ function VedleggsListe({
                 {/* lagre og fortsett senere */}
                 <Button
                     onClick={() => {
-                        if (!avbrytSoknadModal) {
-                            setAvbrytSoknadModal(true);
+                        if (!fortsettSenereSoknadModal) {
+                            setForstettSenereSoknadModal(true);
                         }
                     }}
                 >
@@ -327,8 +328,8 @@ kanskje popup om at dette vil slette innhold? */}
                 */}
 
                 <FellesModal
-                    open={avbrytSoknadModal}
-                    setOpen={setAvbrytSoknadModal}
+                    open={fortsettSenereSoknadModal}
+                    setOpen={setForstettSenereSoknadModal}
                     onAccept={tilMittNav}
                     acceptButtonText="Ja, lagre og fortsett senere"
                 >
@@ -355,51 +356,79 @@ kanskje popup om at dette vil slette innhold? */}
                 </FellesModal>
 
                 <FellesModal
-                    open={avbrytSoknadModal}
-                    setOpen={setAvbrytSoknadModal}
+                    open={slettSoknadModal}
+                    setOpen={setSlettSoknadModal}
                     onAccept={slett}
-                    acceptButtonText="Ja, lagre og fortsett senere"
+                    acceptButtonText="Ja, avbryt og slett søknaden"
                 >
                     <Heading spacing level="1" size="large">
-                        slett søknad
+                        Er du sikker på at du vil avbryte søknaden?
                     </Heading>
                     <Heading spacing level="2" size="medium">
                         Vær oppmerksom på:
                     </Heading>
-                    <BodyLong spacing></BodyLong>
-                    <BodyLong></BodyLong>
+                    <BodyLong spacing>
+                        Søknaden og all dokumentasjon du har lastet
+                        opp på denne siden vil bli slettet.
+                    </BodyLong>
+                    <BodyLong>
+                        Hvis du ønsker å komme tilbake og fortsette
+                        søknaden senere, må du klikke på knappen
+                        “Lagre og fortsett senere”.
+                    </BodyLong>
                 </FellesModal>
 
                 <FellesModal
                     open={sendInnUferdigSoknadModal}
                     setOpen={setSendInnUferdigSoknadModal}
                     onAccept={onSendInn}
-                    acceptButtonText="Ja, lagre og fortsett senere"
+                    acceptButtonText="Ja, send søknaden nå"
                 >
                     <Heading spacing level="1" size="large">
-                        send uferdig søknad
+                        Er du sikker på at du vil sende søknaden nå?
                     </Heading>
                     <Heading spacing level="2" size="medium">
                         Vær oppmerksom på:
                     </Heading>
-                    <BodyLong spacing></BodyLong>
-                    <BodyLong></BodyLong>
+                    <BodyLong spacing>
+                        Dagens dato vil bli satt som startdato for
+                        søknaden din.
+                    </BodyLong>
+                    <BodyLong>
+                        Du har ikke lastet opp all nødvendig
+                        dokumentasjon. Vi kan ikke behandle søknaden
+                        din før du har ettersendt denne
+                        dokumentasjonen.Hvis du velger å sende
+                        søknaden nå må du ettersende
+                        dokumentasjonensom mangler innen DATO. Vi vil
+                        sende deg en notifikasjon på DittNAV som
+                        spesifiserer hva som må ettersendes. Klikk på
+                        notifikasjonen når du har skaffet
+                        dokumentasjonen og er klar til å ettersende
+                        dette.
+                    </BodyLong>
                 </FellesModal>
 
                 <FellesModal
                     open={sendInnKomplettSoknadModal}
                     setOpen={setSendInnKomplettSoknadModal}
                     onAccept={tilMittNav}
-                    acceptButtonText="Ja, lagre og fortsett senere"
+                    acceptButtonText="Ja, send søknaden nå"
                 >
                     <Heading spacing level="1" size="large">
-                        send komplett søknad
+                        Er du sikker på at du vil sende søknaden nå?
                     </Heading>
                     <Heading spacing level="2" size="medium">
                         Vær oppmerksom på:
                     </Heading>
-                    <BodyLong spacing></BodyLong>
-                    <BodyLong></BodyLong>
+                    <BodyLong spacing>
+                        Dagens dato vil bli satt som startdato for
+                        søknaden din.
+                    </BodyLong>
+                    <BodyLong>
+                        Du har lastet opp all dokumentasjon som er
+                        nødvendig for å behandle søknaden din.
+                    </BodyLong>
                 </FellesModal>
             </div>
         </div>
