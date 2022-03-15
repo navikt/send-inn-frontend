@@ -102,8 +102,16 @@ function VedleggsListe({
     const [soknadKlar, setSoknadKlar] = useState<boolean>(true);
     const router = useRouter();
 
+    const [avbrytSoknadModal, setAvbrytSoknadModal] = useState(false);
+    const [slettSoknadModal, setSlettSoknadModal] = useState(false);
+    const [sendInnUferdigSoknadModal, setSendInnUferdigSoknadModal] =
+        useState(false);
+    const [
+        sendInnKomplettSoknadModal,
+        setSendInnKomplettSoknadModal,
+    ] = useState(false);
+
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currentModal, setCurrentModal] = useState('');
 
     function setOpplastingStatus(id: number, status: string): void {
         alert('utløst' + id + status);
@@ -239,11 +247,27 @@ function VedleggsListe({
             <div>
                 {
                     soknadKlar ? (
-                        <Button onClick={onSendInn}>
+                        <Button
+                            onClick={() => {
+                                if (!sendInnKomplettSoknadModal) {
+                                    setSendInnKomplettSoknadModal(
+                                        true,
+                                    );
+                                }
+                            }}
+                        >
                             Send inn komplett søknad
                         </Button>
                     ) : (
-                        <Button onClick={onSendInn}>
+                        <Button
+                            onClick={() => {
+                                if (!sendInnUferdigSoknadModal) {
+                                    setSendInnUferdigSoknadModal(
+                                        true,
+                                    );
+                                }
+                            }}
+                        >
                             Send inn ufullstendig søknad
                         </Button>
                     ) // dette virker nå, men du må reloade
@@ -254,8 +278,8 @@ function VedleggsListe({
                 {/* lagre og fortsett senere */}
                 <Button
                     onClick={() => {
-                        if (!isModalOpen) {
-                            setIsModalOpen(true);
+                        if (!avbrytSoknadModal) {
+                            setAvbrytSoknadModal(true);
                         }
                     }}
                 >
@@ -265,7 +289,14 @@ function VedleggsListe({
             <div>
                 {/*kall slettsøknad på api, deretter, gå til ditt nav
 kanskje popup om at dette vil slette innhold? */}
-                <Button onClick={slett} variant="secondary">
+                <Button
+                    onClick={() => {
+                        if (!slettSoknadModal) {
+                            setSlettSoknadModal(true);
+                        }
+                    }}
+                    variant="secondary"
+                >
                     Avbryt søknad
                 </Button>
 
@@ -283,6 +314,8 @@ kanskje popup om at dette vil slette innhold? */}
                 3 avbryt (slett)
                 4 avslutt slett()
 
+                bare lag en state per modal?
+
                 jeg tror vi trenger flere av dem
 
                 kanskje noe state for å bestemme aktiv modal?
@@ -294,8 +327,8 @@ kanskje popup om at dette vil slette innhold? */}
                 */}
 
                 <FellesModal
-                    open={isModalOpen}
-                    setOpen={setIsModalOpen}
+                    open={avbrytSoknadModal}
+                    setOpen={setAvbrytSoknadModal}
                     onAccept={tilMittNav}
                     acceptButtonText="Ja, lagre og fortsett senere"
                 >
@@ -319,6 +352,54 @@ kanskje popup om at dette vil slette innhold? */}
                         ettersende manglende dokumentasjon her på
                         nav.no innen (dato/antall uker/dager)
                     </BodyLong>
+                </FellesModal>
+
+                <FellesModal
+                    open={avbrytSoknadModal}
+                    setOpen={setAvbrytSoknadModal}
+                    onAccept={slett}
+                    acceptButtonText="Ja, lagre og fortsett senere"
+                >
+                    <Heading spacing level="1" size="large">
+                        slett søknad
+                    </Heading>
+                    <Heading spacing level="2" size="medium">
+                        Vær oppmerksom på:
+                    </Heading>
+                    <BodyLong spacing></BodyLong>
+                    <BodyLong></BodyLong>
+                </FellesModal>
+
+                <FellesModal
+                    open={sendInnUferdigSoknadModal}
+                    setOpen={setSendInnUferdigSoknadModal}
+                    onAccept={onSendInn}
+                    acceptButtonText="Ja, lagre og fortsett senere"
+                >
+                    <Heading spacing level="1" size="large">
+                        send uferdig søknad
+                    </Heading>
+                    <Heading spacing level="2" size="medium">
+                        Vær oppmerksom på:
+                    </Heading>
+                    <BodyLong spacing></BodyLong>
+                    <BodyLong></BodyLong>
+                </FellesModal>
+
+                <FellesModal
+                    open={sendInnKomplettSoknadModal}
+                    setOpen={setSendInnKomplettSoknadModal}
+                    onAccept={tilMittNav}
+                    acceptButtonText="Ja, lagre og fortsett senere"
+                >
+                    <Heading spacing level="1" size="large">
+                        send komplett søknad
+                    </Heading>
+                    <Heading spacing level="2" size="medium">
+                        Vær oppmerksom på:
+                    </Heading>
+                    <BodyLong spacing></BodyLong>
+                    <BodyLong></BodyLong>
                 </FellesModal>
             </div>
         </div>
