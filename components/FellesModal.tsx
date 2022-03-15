@@ -32,7 +32,11 @@ export const FellesModal = (props: FellesModalProps) => {
                     >
                         {acceptButtonText || 'Ja'}
                     </Button>
-                    <Button variant="secondary" size="medium">
+                    <Button
+                        variant="secondary"
+                        size="medium"
+                        onClick={() => setOpen(false)}
+                    >
                         {cancelButtonText || 'Nei'}
                     </Button>
                 </Modal.Content>
