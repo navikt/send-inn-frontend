@@ -1,9 +1,16 @@
-import React, { FC, ReactElement, useEffect, useRef } from 'react';
+import React, {
+    FC,
+    ReactElement,
+    useCallback,
+    useEffect,
+    useRef,
+} from 'react';
 import Link from 'next/link';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, useWatch } from 'react-hook-form';
 import { useState } from 'react';
 import axios from 'axios';
 import { Button, Panel } from '@navikt/ds-react';
+import { Download } from '@navikt/ds-icons';
 
 type FormValues = {
     filnavn: string | null;
@@ -84,8 +91,9 @@ function Vedlegg(props: VedleggProps) {
     } = props;
 
     const [filListe, setFilListe] = useState<OpplastetFil[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const { register, handleSubmit, reset, setValue, watch } =
+    const { register, handleSubmit, reset, setValue, control } =
         useForm<FormValues>();
 
     useEffect(() => {
@@ -121,59 +129,78 @@ function Vedlegg(props: VedleggProps) {
 
     const fileRef = useRef<HTMLInputElement | null>(null);
     const { ref, ...rest } = register('file');
-    const watchFile = watch('file');
+    const watchFile = useWatch({
+        control,
+        name: 'file',
+    });
+
+    const onSubmit: SubmitHandler<FormValues> = useCallback(
+        (data) => {
+            if (!data.file?.length) {
+                console.log('Fil ikke valgt!');
+            } else {
+                if (!data.filnavn) {
+                    data.filnavn = 'Opplastetfil';
+                }
+                const fil = data.file[0];
+                console.log(data);
+
+                const formData = new FormData();
+                formData.append('file', fil);
+
+                setIsLoading(true);
+                axios
+                    .post(
+                        `http://localhost:9064/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil`,
+                        formData,
+                        {
+                            headers: {
+                                'Content-Type': 'multipart/form-data',
+                            },
+                        },
+                    )
+                    .then((response) => {
+                        //setSoknad(response.data);
+                        setFilListe([
+                            ...filListe,
+                            {
+                                id: response.data.id,
+                                filnavn: fil.name,
+                            },
+                        ]);
+                        setOpplastingStatus(id, 'LASTET_OPP');
+                        console.log({ response: response.data });
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    })
+                    .finally(() => {
+                        reset({ filnavn: null });
+                        setValue('file', null);
+                        setIsLoading(false);
+                        if (fileRef.current) {
+                            fileRef.current.value = '';
+                        }
+                    });
+            }
+        },
+        [
+            filListe,
+            id,
+            innsendingsId,
+            reset,
+            setOpplastingStatus,
+            setValue,
+        ],
+    );
 
     useEffect(() => {
-        console.log('watch:', watchFile);
-    }, [watchFile]);
-
-    const onSubmit: SubmitHandler<FormValues> = (data) => {
-        if (!data.file?.length) {
-            console.log('last opp fil først!');
-        } else {
-            if (!data.filnavn) {
-                data.filnavn = 'Opplastetfil';
-            }
-            const fil = data.file[0];
-            console.log(data);
-
-            const formData = new FormData();
-            formData.append('file', fil);
-
-            axios
-                .post(
-                    `http://localhost:9064/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil`,
-                    formData,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                        },
-                    },
-                )
-                .then((response) => {
-                    //setSoknad(response.data);
-                    setFilListe([
-                        ...filListe,
-                        {
-                            id: response.data.id,
-                            filnavn: fil.name,
-                        },
-                    ]);
-                    setOpplastingStatus(id, 'LASTET_OPP');
-                    console.log({ response: response.data });
-                })
-                .catch((error) => {
-                    console.error(error);
-                })
-                .finally(() => {
-                    reset({ filnavn: null });
-                    setValue('file', null);
-                    if (fileRef.current) {
-                        fileRef.current.value = '';
-                    }
-                });
+        console.log('Fil endret', watchFile);
+        if (watchFile) {
+            console.log('Starter filopplasting...');
+            handleSubmit(onSubmit)();
         }
-    };
+    }, [watchFile, handleSubmit, onSubmit]);
     return (
         <Panel border>
             <div>
@@ -191,21 +218,30 @@ function Vedlegg(props: VedleggProps) {
             <div>
                 {vedleggsnr}: {label}
             </div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form>
                 <br />
                 Beskriv vedlegg:
                 <input {...register('filnavn')} />
                 <br />
-                <input
-                    {...rest}
-                    type="file"
-                    ref={(e) => {
-                        ref(e);
-                        fileRef.current = e; // you can still assign to ref
-                    }}
-                />
-                <br />
-                <input type="submit" />
+                <Button
+                    as="label"
+                    variant="secondary"
+                    loading={isLoading}
+                >
+                    <Download />
+                    Velg dine filer
+                    <input
+                        {...rest}
+                        multiple
+                        type="file"
+                        // TODO?: Støtte for drag&drop. Kan ikke bruke display: none. Eksempel på løsning: https://stackoverflow.com/a/44277812/15886307
+                        style={{ display: 'none' }}
+                        ref={(e) => {
+                            ref(e);
+                            fileRef.current = e; // you can still assign to ref
+                        }}
+                    />
+                </Button>
             </form>
             {filListe.length > 0 && (
                 <div>
