@@ -1,16 +1,10 @@
-import React, { FC, ReactElement, useEffect, useRef } from 'react';
-import Link from 'next/link';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
-import { Button, Panel } from '@navikt/ds-react';
+import { Panel } from '@navikt/ds-react';
+import { Filopplaster } from './Filopplaster';
 
-type FormValues = {
-    filnavn: string | null;
-    file: FileList | null;
-};
-
-type setOpplastingStatusType = (
+export type setOpplastingStatusType = (
     id: number,
     opplastingStatus: string,
 ) => void;
@@ -85,25 +79,22 @@ function Vedlegg(props: VedleggProps) {
 
     const [filListe, setFilListe] = useState<OpplastetFil[]>([]);
 
-    const { register, handleSubmit, reset, setValue } =
-        useForm<FormValues>();
-
     useEffect(() => {
         //const innsendingsId = query.innsendingsId // todo fix, fungerer ikke med en gang om man henter herifra, må kan
         // const innsendingsId = "d83c88e4-a3f3-4217-b561-fe0572e391e8";
         //const { brukerid } = data;
         //const { vedleggsIder } = query;
         if (innsendingsId && id) {
-            let nyFilListe: OpplastetFil[] = [];
+            const nyFilListe: OpplastetFil[] = [];
             axios
                 .get(
                     `http://localhost:9064/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil/`,
                 )
                 .then((response) => {
-                    let responseJSON = response.data;
+                    const responseJSON = response.data;
                     for (const item in responseJSON) {
-                        let jsonitem = responseJSON[item];
-                        let nyFil: OpplastetFil = {
+                        const jsonitem = responseJSON[item];
+                        const nyFil: OpplastetFil = {
                             id: jsonitem.id,
                             filnavn: jsonitem.filnavn,
                         };
@@ -119,56 +110,6 @@ function Vedlegg(props: VedleggProps) {
         // }, [innsendingsId, id, filListe]); // loop
     }, [innsendingsId, id]);
 
-    const fileRef = useRef<HTMLInputElement | null>(null);
-    const { ref, ...rest } = register('file');
-
-    const onSubmit: SubmitHandler<FormValues> = (data) => {
-        if (!data.file?.length) {
-            console.log('last opp fil først!');
-        } else {
-            if (!data.filnavn) {
-                data.filnavn = 'Opplastetfil';
-            }
-            const fil = data.file[0];
-            console.log(data);
-
-            let formData = new FormData();
-            formData.append('file', fil);
-
-            axios
-                .post(
-                    `http://localhost:9064/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil`,
-                    formData,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                        },
-                    },
-                )
-                .then((response) => {
-                    //setSoknad(response.data);
-                    setFilListe([
-                        ...filListe,
-                        {
-                            id: response.data.id,
-                            filnavn: fil.name,
-                        },
-                    ]);
-                    setOpplastingStatus(id, 'LASTET_OPP');
-                    console.log({ response: response.data });
-                })
-                .catch((error) => {
-                    console.error(error);
-                })
-                .finally(() => {
-                    reset({ filnavn: null });
-                    setValue('file', null);
-                    if (fileRef.current) {
-                        fileRef.current.value = '';
-                    }
-                });
-        }
-    };
     return (
         <Panel border>
             <div>
@@ -188,22 +129,11 @@ function Vedlegg(props: VedleggProps) {
             </div>
             {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
             {beskrivelse && <div>{beskrivelse}</div>}
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <br />
-                Beskriv vedlegg:
-                <input {...register('filnavn')} />
-                <br />
-                <input
-                    {...rest}
-                    type="file"
-                    ref={(e) => {
-                        ref(e);
-                        fileRef.current = e; // you can still assign to ref
-                    }}
-                />
-                <br />
-                <input type="submit" />
-            </form>
+            <Filopplaster
+                id={id}
+                innsendingsId={innsendingsId}
+                setOpplastingStatus={setOpplastingStatus}
+            />
             {filListe.length > 0 && (
                 <div>
                     <span>Dokumenter du har lastet opp nå:</span>
