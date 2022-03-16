@@ -127,6 +127,8 @@ function Vedlegg(props: VedleggProps) {
             <div>
                 {vedleggsnr}: {label}
             </div>
+            {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
+            {beskrivelse && <div>{beskrivelse}</div>}
             <Filopplaster
                 id={id}
                 innsendingsId={innsendingsId}
