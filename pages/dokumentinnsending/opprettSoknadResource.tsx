@@ -12,11 +12,11 @@ import TestCompState from '../../components/TestCompState';
 import VedleggsListe2 from '../../components/VedleggsListe2';
 import VedleggsListe from '../../components/VedleggsListe';
 import { VedleggType, SoknadType } from '../../types/types';
-import { Button, Panel } from "@navikt/ds-react";
-import "@navikt/ds-css";
-import "@navikt/ds-css-internal";
-import type { ReactElement } from 'react'
-import Layout from '../../components/Layout'
+import { Button, Panel } from '@navikt/ds-react';
+import '@navikt/ds-css';
+import '@navikt/ds-css-internal';
+import type { ReactElement } from 'react';
+import Layout from '../../components/Layout';
 import Link from 'next/link';
 
 const qs = require('qs');
@@ -61,8 +61,6 @@ export const AppContext = React.createContext<
 
 const initialVedleggsliste: VedleggType[] | [] = [];
 
-
-
 const OpprettSoknadResource: NextPage = () => {
     const { query } = useRouter();
     const [soknad, setSoknad] = useState<SoknadType | null>(null);
@@ -81,7 +79,7 @@ const OpprettSoknadResource: NextPage = () => {
             .post('http://localhost:9064/frontend/v1/soknad', {
                 brukerId: brukerid,
                 skjemanr: query.skjemanummer,
-                sprak: query.sprak || "NO_NB", // set bokmål som default
+                sprak: query.sprak || 'NO_NB', // set bokmål som default
                 vedleggsListe: (vedleggsIder as string)?.split(','),
             })
             .then((response) => {
@@ -90,10 +88,8 @@ const OpprettSoknadResource: NextPage = () => {
                 console.log({ response: response.data });
             });
     };
-       return (
-
+    return (
         <div>
-        
             <Head>
                 <title>Trykk </title>
                 <meta
@@ -105,21 +101,47 @@ const OpprettSoknadResource: NextPage = () => {
             <main>
                 {/*<div> {JSON.stringify(query)} </div>*/}
                 <Panel border>
+                    <h3>Data hentet fra URL parametre: </h3>
+                    <p>skjemanummer: {query.skjemanummer}</p>
+                    <p>erEttersendelse: {query.erEttersendelse}</p>
+                    <p>språk: {query.erEttersendelse}</p>
+                    <p>vedleggsIder: {query.vedleggsIder}</p>
+                    <h3>
+                        Opprett en søknad basert på disse parametrene:{' '}
+                    </h3>
 
-                <h3>Data hentet fra URL parametre: </h3>
-                <p>skjemanummer: {query.skjemanummer}</p>
-                <p>erEttersendelse: {query.erEttersendelse}</p>
-                <p>språk: {query.erEttersendelse}</p>
-                <p>vedleggsIder: {query.vedleggsIder}</p>
-                <h3>
-                    Opprett en søknad basert på disse parametrene:{' '}
-                </h3>
-                
-                {soknad && <div><Link href={'/ettersending/' + soknad.innsendingsId}> lenke til ettersending </Link></div>}
-                {soknad && <div><Link href={'/dokumentinnsending/' + soknad.innsendingsId}> lenke til jobb-videre-med </Link></div>}
-                
-                {soknad && <div> soknad.innsendingsId: {soknad.innsendingsId} </div>}
-                
+                    {soknad && (
+                        <div>
+                            <Link
+                                href={
+                                    '/ettersending/' +
+                                    soknad.innsendingsId
+                                }
+                            >
+                                lenke til ettersending
+                            </Link>
+                        </div>
+                    )}
+                    {soknad && (
+                        <div>
+                            <Link
+                                href={
+                                    '/dokumentinnsending/' +
+                                    soknad.innsendingsId
+                                }
+                            >
+                                lenke til jobb-videre-med
+                            </Link>
+                        </div>
+                    )}
+
+                    {soknad && (
+                        <div>
+                            {' '}
+                            soknad.innsendingsId:{' '}
+                            {soknad.innsendingsId}{' '}
+                        </div>
+                    )}
                 </Panel>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <input
@@ -132,10 +154,14 @@ const OpprettSoknadResource: NextPage = () => {
                     <input type="submit" value="opprett" />
                 </form>
                 {soknad && (
-                    <VedleggsListe soknad={soknad} setSoknad={setSoknad} vedleggsliste={vedleggsListe} setVedleggsListe={setVedleggsListe} erEttersending={query.erEttersendelse}/>
+                    <VedleggsListe
+                        soknad={soknad}
+                        setSoknad={setSoknad}
+                        vedleggsliste={vedleggsListe}
+                        setVedleggsListe={setVedleggsListe}
+                        erEttersending={query.erEttersendelse}
+                    />
                 )}
-
-
             </main>
 
             <footer></footer>
