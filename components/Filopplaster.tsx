@@ -32,6 +32,7 @@ export function Filopplaster(props: FilopplasterProps) {
 
     const [filListe, setFilListe] = useState<OpplastetFil[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [progress, setProgress] = useState(0);
 
     const { register, handleSubmit, reset, setValue, control } =
         useForm<FormValues>();
@@ -58,15 +59,33 @@ export function Filopplaster(props: FilopplasterProps) {
                 formData.append('file', fil);
 
                 setIsLoading(true);
+                const config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    onUploadProgress: (
+                        progressEvent: ProgressEvent,
+                    ) => {
+                        console.log('start');
+                        setProgress(
+                            Math.round(
+                                (progressEvent.loaded * 100) /
+                                    progressEvent.total,
+                            ),
+                        );
+                        console.log(
+                            Math.round(
+                                (progressEvent.loaded * 100) /
+                                    progressEvent.total,
+                            ),
+                        );
+                    },
+                };
                 axios
                     .post(
                         `http://localhost:9064/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil`,
                         formData,
-                        {
-                            headers: {
-                                'Content-Type': 'multipart/form-data',
-                            },
-                        },
+                        config,
                     )
                     .then((response) => {
                         //setSoknad(response.data);
@@ -86,6 +105,7 @@ export function Filopplaster(props: FilopplasterProps) {
                     .finally(() => {
                         reset({ filnavn: null });
                         setValue('file', null);
+                        setProgress(0);
                         setIsLoading(false);
                         if (fileRef.current) {
                             fileRef.current.value = '';
@@ -131,6 +151,7 @@ export function Filopplaster(props: FilopplasterProps) {
                     }}
                 />
             </Button>
+            {isLoading && `${progress}%`}
             <TextField
                 label="Gi en beskrivende tittel på vedlegget"
                 description="Hvis dette er en av flere sider i et dokument, oppgi sidetall av totalt antall sider (eks. Epikrise, side 1 av 5)."
