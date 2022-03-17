@@ -2,14 +2,9 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useForm, SubmitHandler, useWatch } from 'react-hook-form';
 import { useState } from 'react';
 import axios from 'axios';
-import {
-    Button,
-    Label,
-    BodyShort,
-    TextField,
-} from '@navikt/ds-react';
+import { Button, TextField } from '@navikt/ds-react';
 import { Download } from '@navikt/ds-icons';
-import { setOpplastingStatusType } from './Vedlegg';
+import { setOpplastingStatusType, OpplastetFil } from './Vedlegg';
 
 type FormValues = {
     filnavn: string | null;
@@ -20,17 +15,17 @@ interface FilopplasterProps {
     innsendingsId: string;
     id: number;
     setOpplastingStatus: setOpplastingStatusType;
+    oppdaterFilListe: (fil: OpplastetFil) => void;
 }
 
-type OpplastetFil = {
-    id: string;
-    filnavn: string;
-};
-
 export function Filopplaster(props: FilopplasterProps) {
-    const { innsendingsId, id, setOpplastingStatus } = props;
+    const {
+        innsendingsId,
+        id,
+        setOpplastingStatus,
+        oppdaterFilListe,
+    } = props;
 
-    const [filListe, setFilListe] = useState<OpplastetFil[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
     const { register, handleSubmit, reset, setValue, control } =
@@ -70,13 +65,10 @@ export function Filopplaster(props: FilopplasterProps) {
                     )
                     .then((response) => {
                         //setSoknad(response.data);
-                        setFilListe([
-                            ...filListe,
-                            {
-                                id: response.data.id,
-                                filnavn: fil.name,
-                            },
-                        ]);
+                        oppdaterFilListe({
+                            id: response.data.id,
+                            filnavn: fil.name,
+                        });
                         setOpplastingStatus(id, 'LASTET_OPP');
                         console.log({ response: response.data });
                     })
@@ -94,7 +86,7 @@ export function Filopplaster(props: FilopplasterProps) {
             }
         },
         [
-            filListe,
+            oppdaterFilListe,
             id,
             innsendingsId,
             reset,
