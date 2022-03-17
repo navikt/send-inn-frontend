@@ -29,7 +29,7 @@ interface VedleggProps {
     // (x: string): void;
 }
 
-type OpplastetFil = {
+export type OpplastetFil = {
     id: string;
     filnavn: string;
 };
@@ -78,6 +78,10 @@ function Vedlegg(props: VedleggProps) {
     } = props;
 
     const [filListe, setFilListe] = useState<OpplastetFil[]>([]);
+
+    const oppdaterFilListe = (filData: OpplastetFil) => {
+        setFilListe([...filListe, filData]);
+    };
 
     useEffect(() => {
         //const innsendingsId = query.innsendingsId // todo fix, fungerer ikke med en gang om man henter herifra, må kan
@@ -133,6 +137,7 @@ function Vedlegg(props: VedleggProps) {
                 id={id}
                 innsendingsId={innsendingsId}
                 setOpplastingStatus={setOpplastingStatus}
+                oppdaterFilListe={oppdaterFilListe}
             />
             {filListe.length > 0 && (
                 <div>
