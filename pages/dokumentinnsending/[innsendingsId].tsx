@@ -73,7 +73,7 @@ const EttersendingSide: NextPage = () => {
         if (innsendingsId) {
             axios
                 .get(
-                    `http://localhost:9064/frontend/v1/soknad/${innsendingsId}` /*, {
+                    `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}` /*, {
                 brukerId: brukerid,
                 skjemanr: query.skjemanummer,
                 sprak: query.sprak, // set bokmål som default
@@ -99,7 +99,7 @@ const EttersendingSide: NextPage = () => {
 
         axios
             .get(
-                `http://localhost:9064/frontend/v1/soknad/${innsendingsId}` /*, {
+                `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}` /*, {
                 brukerId: brukerid,
                 skjemanr: query.skjemanummer,
                 sprak: query.sprak, // set bokmål som default

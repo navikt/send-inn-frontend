@@ -23,24 +23,29 @@ const Home: NextPage = () => {
                 <div>
                     <a
                         href={
-                            process.env.NEXT_PUBLIC_API_URL +
+                            process.env.NEXT_PUBLIC_FRONTEND_URL +
                             '/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2'
                         }
                         target="_blank"
                         rel="noopener noreferrer"
                     >
                         opprettSoknadResource 1:
-                        http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2,
+                        {process.env.NEXT_PUBLIC_FRONTEND_URL}
+                        /dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2,
                     </a>
                 </div>
                 <div>
                     <a
-                        href="http://localhost:3000/soknader/12347"
+                        href={
+                            process.env.NEXT_PUBLIC_FRONTEND_URL +
+                            '/soknader/12347'
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                     >
                         se soknadsliste (mocket):
-                        http://localhost:3000/soknader/12347
+                        {process.env.NEXT_PUBLIC_FRONTEND_URL}
+                        /soknader/12347
                     </a>
                 </div>
             </main>

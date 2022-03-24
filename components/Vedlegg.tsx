@@ -33,7 +33,7 @@ export interface VedleggProps {
 
 GET
 
-	http://localhost:9064/frontend/v1/soknad/f414b0d2-c278-477c-b770-e85c3e35130a/vedlegg/201/fil/
+	process.env.NEXT_PUBLIC_API_URL/frontend/v1/soknad/f414b0d2-c278-477c-b770-e85c3e35130a/vedlegg/201/fil/
 
 
 
@@ -86,7 +86,7 @@ function Vedlegg(props: VedleggProps) {
             const nyFilListe: OpplastetFil[] = [];
             axios
                 .get(
-                    `http://localhost:9064/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil/`,
+                    `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil/`,
                 )
                 .then((response) => {
                     const responseJSON = response.data;
@@ -143,7 +143,7 @@ function Vedlegg(props: VedleggProps) {
                                 <a
                                     target="_blank"
                                     style={{ color: 'blue' }}
-                                    href={`http://localhost:9064/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil/${fil.id}`}
+                                    href={`${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil/${fil.id}`}
                                     rel="noreferrer"
                                 >
                                     {fil.filnavn}

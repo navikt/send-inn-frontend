@@ -75,12 +75,18 @@ const OpprettSoknadResource: NextPage = () => {
         const { vedleggsIder } = query;
 
         axios
-            .post('http://localhost:9064/frontend/v1/soknad', {
-                brukerId: brukerid,
-                skjemanr: query.skjemanummer,
-                sprak: query.sprak || 'NO_NB', // set bokmål som default
-                vedleggsListe: (vedleggsIder as string)?.split(','),
-            })
+            .post(
+                process.env.NEXT_PUBLIC_API_URL +
+                    '/frontend/v1/soknad',
+                {
+                    brukerId: brukerid,
+                    skjemanr: query.skjemanummer,
+                    sprak: query.sprak || 'NO_NB', // set bokmål som default
+                    vedleggsListe: (vedleggsIder as string)?.split(
+                        ',',
+                    ),
+                },
+            )
             .then((response) => {
                 setSoknad(response.data);
                 setVedleggsListe(response.data.vedleggsListe);

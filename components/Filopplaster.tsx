@@ -81,7 +81,7 @@ export function Filopplaster(props: FilopplasterProps) {
                 };
                 axios
                     .post(
-                        `http://localhost:9064/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil`,
+                        `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil`,
                         formData,
                         config,
                     )

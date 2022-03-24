@@ -143,7 +143,7 @@ function VedleggsListe({
     const onSendInn = () => {
         axios
             .post(
-                `http://localhost:9064/frontend/v1/sendInn/${soknad?.innsendingsId}`,
+                `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/sendInn/${soknad?.innsendingsId}`,
             )
             .finally(() => {
                 resetState();
@@ -160,7 +160,7 @@ function VedleggsListe({
     const slett = () => {
         axios
             .delete(
-                `http://localhost:9064/frontend/v1/sendInn/${soknad?.innsendingsId}`,
+                `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/sendInn/${soknad?.innsendingsId}`,
             )
             .finally(() => {
                 resetState();
