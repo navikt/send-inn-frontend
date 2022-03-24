@@ -4,7 +4,10 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Button, TextField } from '@navikt/ds-react';
 import { Download } from '@navikt/ds-icons';
-import { setOpplastingStatusType, OpplastetFil } from './Vedlegg';
+import {
+    setOpplastingStatusType,
+    OpplastetFil,
+} from '../types/types';
 
 type FormValues = {
     filnavn: string | null;

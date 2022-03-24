@@ -15,6 +15,11 @@ const Layout = ({ children }) => {
                     font-family: arial;
                     line-height: 1.5;
                     max-width: 900px;
+
+                    display: grid;
+                    grid-gap: 1em;
+                    grid-template-columns: repeat(7, 1fr);
+                    padding: 0 1em;
                 }
             `}</style>
         </div>

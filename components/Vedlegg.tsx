@@ -4,12 +4,11 @@ import axios from 'axios';
 import { Panel } from '@navikt/ds-react';
 import { Filopplaster } from './Filopplaster';
 
-export type setOpplastingStatusType = (
-    id: number,
-    opplastingStatus: string,
-) => void;
+import { setOpplastingStatusType } from '../types/types';
 
-interface VedleggProps {
+import { OpplastetFil } from '../types/types';
+
+export interface VedleggProps {
     innsendingsId: string;
     id: number;
     vedleggsnr: string;
@@ -28,11 +27,6 @@ interface VedleggProps {
     setOpplastingStatus: setOpplastingStatusType;
     // (x: string): void;
 }
-
-export type OpplastetFil = {
-    id: string;
-    filnavn: string;
-};
 
 /*
 

@@ -22,7 +22,10 @@ const Home: NextPage = () => {
                 {/* TODO fix trailing comma buggen ... http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2," <- ,*/}
                 <div>
                     <a
-                        href="http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2"
+                        href={
+                            process.env.NEXT_PUBLIC_API_URL +
+                            '/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2'
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                     >

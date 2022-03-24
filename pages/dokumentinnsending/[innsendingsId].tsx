@@ -9,7 +9,6 @@ import { GetServerSideProps } from 'next';
 import axios from 'axios';
 import Vedlegg from '../../components/Vedlegg';
 import TestCompState from '../../components/TestCompState';
-import VedleggsListe2 from '../../components/VedleggsListe2';
 import VedleggsListe from '../../components/VedleggsListe';
 
 import { VedleggType, SoknadType } from '../../types/types';

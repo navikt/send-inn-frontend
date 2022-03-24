@@ -5,15 +5,26 @@ import { useState } from 'react';
 import axios from 'axios';
 import { VedleggType, SoknadType } from '../types/types';
 import Vedlegg from '../components/Vedlegg';
-import { VedleggsListeProps } from '../types/types';
+import { VedleggProps } from '../components/Vedlegg';
 import { Button } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
-import { BekreftNavnModal } from './BekreftNavnModal';
 //import { BekreftNavnModal } from '../components/BekreftNavnModal'
 import { Modal, Heading, BodyLong } from '@navikt/ds-react';
 import { FellesModal } from './FellesModal';
 
 const initialVedleggsliste: VedleggType[] | [] = [];
+
+export interface VedleggsListeProps {
+    soknad: SoknadType;
+    setSoknad: React.Dispatch<
+        React.SetStateAction<SoknadType | null>
+    >;
+    vedleggsliste: VedleggType[] | [];
+    setVedleggsListe: React.Dispatch<
+        React.SetStateAction<VedleggType[] | []>
+    >;
+    erEttersending: boolean;
+}
 
 /*
 

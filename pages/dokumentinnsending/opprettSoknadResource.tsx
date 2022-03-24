@@ -9,7 +9,6 @@ import { GetServerSideProps } from 'next';
 import axios from 'axios';
 import Vedlegg from '../../components/Vedlegg';
 import TestCompState from '../../components/TestCompState';
-import VedleggsListe2 from '../../components/VedleggsListe2';
 import VedleggsListe from '../../components/VedleggsListe';
 import { VedleggType, SoknadType } from '../../types/types';
 import { Button, Panel } from '@navikt/ds-react';
@@ -90,6 +89,7 @@ const OpprettSoknadResource: NextPage = () => {
     };
     return (
         <div>
+            {process.env.NEXT_PUBLIC_API_URL}
             <Head>
                 <title>Trykk </title>
                 <meta
@@ -159,7 +159,9 @@ const OpprettSoknadResource: NextPage = () => {
                         setSoknad={setSoknad}
                         vedleggsliste={vedleggsListe}
                         setVedleggsListe={setVedleggsListe}
-                        erEttersending={query.erEttersendelse}
+                        erEttersending={
+                            query.erEttersendelse === 'true'
+                        }
                     />
                 )}
             </main>
