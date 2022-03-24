@@ -18,7 +18,7 @@ const Layout = ({ children }) => {
 
                     display: grid;
                     grid-gap: 1em;
-                    grid-template-columns: repeat(7, 1fr);
+                    grid-template-columns: repeat(1, 1fr);
                     padding: 0 1em;
                 }
             `}</style>
