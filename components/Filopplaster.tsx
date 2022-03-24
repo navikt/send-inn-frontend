@@ -3,11 +3,8 @@ import { useForm, SubmitHandler, useWatch } from 'react-hook-form';
 import { useState } from 'react';
 import axios from 'axios';
 import { Button, TextField } from '@navikt/ds-react';
-import { Download } from '@navikt/ds-icons';
-import {
-    setOpplastingStatusType,
-    OpplastetFil,
-} from '../types/types';
+import { Upload } from '@navikt/ds-icons';
+import { setOpplastingStatusType, OpplastetFil } from './Vedlegg';
 
 type FormValues = {
     filnavn: string | null;
@@ -132,7 +129,7 @@ export function Filopplaster(props: FilopplasterProps) {
                 variant="secondary"
                 loading={isLoading}
             >
-                <Download />
+                <Upload />
                 Velg dine filer
                 <input
                     {...rest}
