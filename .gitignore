@@ -38,3 +38,6 @@ yarn-error.log*
 .idea/
 
 docs/.obsidian/
+
+# eslint cache
+.eslintcache
