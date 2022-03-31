@@ -1,23 +1,25 @@
 import styled from 'styled-components';
 
-const Content = styled.div`
-    font-size: 1.5em;
-    text-align: center;
-    font-family: arial;
-    line-height: 1.5;
-    max-width: 900px;
+const Style = styled.div`
+    min-height: 100vh;
+    padding: 4vmin 4vmin 30vmin;
+    contentmaxwidth: 30rem;
+    layoutmaxwidth: 50rem;
+    max-width: 50rem;
+    margin: 0 auto;
+    > * {
+        margin-left: auto;
+        margin-right: auto;
+    }
 `;
 
-// TODO fix: Binding element 'children' implicitly has an 'any' type.ts(7031)
 const LayoutSC = ({ children }) => {
     return (
         <div className="content">
-            <h1> header</h1>
-            <Content>
+            <Style>
                 {children}
                 {/* footer could go here */}
-            </Content>
-            <h1> footer</h1>
+            </Style>
         </div>
     );
 };
