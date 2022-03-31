@@ -8,7 +8,6 @@ import Vedlegg from '../components/Vedlegg';
 import { VedleggProps } from '../components/Vedlegg';
 import { Button } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
-//import { BekreftNavnModal } from '../components/BekreftNavnModal'
 import { Modal, Heading, BodyLong } from '@navikt/ds-react';
 import { FellesModal } from './FellesModal';
 
@@ -25,35 +24,6 @@ export interface VedleggsListeProps {
     >;
     erEttersending: boolean;
 }
-
-/*
-
-Updating state in parent:
-https://stackoverflow.com/a/66186184
-
-
-
-This is how we can do it with the new useState hook. Method - Pass the state changer function as a props to the child component and do whatever you want to do with the function
-
-import React, {useState} from 'react';
-
-const ParentComponent = () => {
-  const[state, setState]=useState('');
-
-  return(
-    <ChildConmponent stateChanger={setState} />
-  )
-}
-
-
-const ChildConmponent = ({stateChanger, ...rest}) => {
-  return(
-    <button onClick={() => stateChanger('New data')}></button>
-  )
-}
-
-
- */
 
 function soknadKlarForInnsending(
     vedleggsliste: VedleggType[],
@@ -165,9 +135,6 @@ function VedleggsListe({
             .finally(() => {
                 resetState();
                 alert('slettet');
-
-                //TODO: Endre til "then", og gå til kvitteringside, nils arnes endringer skal nå gjøre at dette virker
-                // tilMittNav()
             })
             .catch((e) => {
                 //TODO: Error håndtering
@@ -175,47 +142,10 @@ function VedleggsListe({
             });
     };
 
-    /*let list = vedleggsListe.map((vedlegg) => {
-        <Vedlegg {...vedlegg} />;
-    })
-    list = Object.keys(vedleggsListe).map(function(key, index) {
-        vedleggsListe[key] *= 2;
-    });
-    list = (vedleggsListe) => {
-    for (var key in myObject) {
-        if (myObject.hasOwnProperty(key)) {
-            myObject[key] *= 2;
-        }
-    }g} />;
-    })
-    list = Object.keys(vedleggsListe).map(function(key, index) {
-        vedleggsListe[key] *= 2;
-    }
-
-     */
-    //let newlist = Array.from(props.data);
-    /*
-    const [komplettStatus, setFilListe] = useState<OpplastetFil[]>([]);
-
     useEffect(() => {
-        //const innsendingsId = query.innsendingsId // todo fix, fungerer ikke med en gang om man henter herifra, må kan
-        // const innsendingsId = "d83c88e4-a3f3-4217-b561-fe0572e391e8";
-        //const { brukerid } = data;
-        //const { vedleggsIder } = query;
-        
-
-// }, [innsendingsId, id, filListe]); // loop
-}, [vedleggsliste]);
-*/
-    useEffect(() => {
-        //const innsendingsId = query.innsendingsId // todo fix, fungerer ikke med en gang om man henter herifra, må kan
-        // const innsendingsId = "d83c88e4-a3f3-4217-b561-fe0572e391e8";
-        //const { brukerid } = data;
-        //const { vedleggsIder } = query;
         setSoknadKlar(
             soknadKlarForInnsending(vedleggsliste, erEttersending),
         );
-        // }, [innsendingsId, id, filListe]); // loop
     }, [vedleggsliste, erEttersending]);
 
     const resetState = () => {
