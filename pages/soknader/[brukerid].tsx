@@ -7,7 +7,6 @@ import { useRouter, NextRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import axios from 'axios';
 import Vedlegg from '../../components/Vedlegg';
-import TestCompState from '../../components/TestCompState';
 
 import { VedleggType, SoknadType } from '../../types/types';
 import Link from 'next/link';
