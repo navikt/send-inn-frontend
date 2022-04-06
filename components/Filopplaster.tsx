@@ -4,10 +4,12 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Button, TextField } from '@navikt/ds-react';
 import { Upload } from '@navikt/ds-icons';
-import { setOpplastingStatusType, OpplastetFil } from './Vedlegg';
+import {
+    setOpplastingStatusType,
+    OpplastetFil,
+} from '../types/types';
 
 type FormValues = {
-    filnavn: string | null;
     file: FileList | null;
 };
 
@@ -44,9 +46,6 @@ export function Filopplaster(props: FilopplasterProps) {
             if (!data.file?.length) {
                 console.log('Fil ikke valgt!');
             } else {
-                if (!data.filnavn) {
-                    data.filnavn = 'Opplastetfil';
-                }
                 const fil = data.file[0];
                 console.log(data);
 
@@ -95,7 +94,6 @@ export function Filopplaster(props: FilopplasterProps) {
                         console.error(error);
                     })
                     .finally(() => {
-                        reset({ filnavn: null });
                         setValue('file', null);
                         setProgress(0);
                         setIsLoading(false);
@@ -109,7 +107,6 @@ export function Filopplaster(props: FilopplasterProps) {
             oppdaterFilListe,
             id,
             innsendingsId,
-            reset,
             setOpplastingStatus,
             setValue,
         ],
@@ -144,11 +141,6 @@ export function Filopplaster(props: FilopplasterProps) {
                 />
             </Button>
             {isLoading && `${progress}%`}
-            <TextField
-                label="Gi en beskrivende tittel på vedlegget"
-                description="Hvis dette er en av flere sider i et dokument, oppgi sidetall av totalt antall sider (eks. Epikrise, side 1 av 5)."
-                {...register('filnavn')}
-            />
         </form>
     );
 }
