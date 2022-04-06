@@ -10,6 +10,7 @@ import { Button } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
 import { Modal, Heading, BodyLong } from '@navikt/ds-react';
 import { FellesModal } from './FellesModal';
+import { useTranslation } from 'react-i18next';
 
 const initialVedleggsliste: VedleggType[] | [] = [];
 
@@ -94,6 +95,7 @@ function VedleggsListe({
     ] = useState(false);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { t, i18n } = useTranslation();
 
     function setOpplastingStatus(id: number, status: string): void {
         alert('utløst' + id + status);
@@ -148,6 +150,18 @@ function VedleggsListe({
         );
     }, [vedleggsliste, erEttersending]);
 
+    useEffect(() => {
+        const changeLang = (lng) => {
+            if (lng === 'no') {
+                i18n.changeLanguage('nb');
+            }
+            if (lng === 'nn') {
+                i18n.changeLanguage('nn');
+            }
+        };
+        changeLang(soknad.spraak);
+    }, [soknad, i18n]);
+
     const resetState = () => {
         setVedleggsListe(initialVedleggsliste);
         setSoknad(null);
@@ -155,6 +169,10 @@ function VedleggsListe({
 
     return (
         <div>
+            {/* t('test')  dette tester flerspråksfuknsjonalitet*/}
+
+            {/* soknad.spraak skriver ut språk */}
+
             {vedleggsliste.length === 0 && soknad.tittel}
             {vedleggsliste.length !== 0 && (
                 <h1>Last opp vedlegg her:</h1>
