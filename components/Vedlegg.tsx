@@ -1,12 +1,21 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
-import { Panel } from '@navikt/ds-react';
+import {
+    Panel,
+    Heading,
+    Button,
+    Link as NavLink,
+} from '@navikt/ds-react';
 import { Filopplaster } from './Filopplaster';
+import css from 'styled-jsx/css';
+import styled from 'styled-components';
 
-import { setOpplastingStatusType } from '../types/types';
-
-import { OpplastetFil } from '../types/types';
+import {
+    setOpplastingStatusType,
+    OpplastetFil,
+} from '../types/types';
+import { EndreVedlegg } from './EndreVedlegg';
 
 export interface VedleggProps {
     innsendingsId: string;
@@ -25,6 +34,8 @@ export interface VedleggProps {
     opplastingsStatus: string;
     opprettetdato: string;
     setOpplastingStatus: setOpplastingStatusType;
+    erAnnetVedlegg: boolean;
+
     // (x: string): void;
 }
 
@@ -51,6 +62,10 @@ setFilListe([
 
 */
 
+const VedleggPanel = styled(Panel)`
+    background-color: var(--navds-semantic-color-canvas-background);
+`;
+
 function Vedlegg(props: VedleggProps) {
     const {
         innsendingsId,
@@ -69,9 +84,11 @@ function Vedlegg(props: VedleggProps) {
         opplastingsStatus,
         opprettetdato,
         setOpplastingStatus,
+        erAnnetVedlegg = true,
     } = props;
 
     const [filListe, setFilListe] = useState<OpplastetFil[]>([]);
+    const [endrer, setEndrer] = useState(false);
 
     const oppdaterFilListe = (filData: OpplastetFil) => {
         setFilListe([...filListe, filData]);
@@ -109,52 +126,78 @@ function Vedlegg(props: VedleggProps) {
     }, [innsendingsId, id]);
 
     return (
-        <Panel border>
-            <div>
-                {skjemaurl && (
-                    <a
-                        target="_blank"
-                        style={{ color: 'blue' }}
-                        href={skjemaurl}
-                        rel="noopener noreferrer"
+        <VedleggPanel>
+            {endrer ? (
+                <EndreVedlegg tittel={label} setEndrer={setEndrer} />
+            ) : (
+                <>
+                    <div>
+                        {skjemaurl && (
+                            <a
+                                className="navds-link"
+                                target="_blank"
+                                style={{ color: 'blue' }}
+                                href={skjemaurl}
+                                rel="noopener noreferrer"
+                            >
+                                Åpne skjema
+                            </a>
+                        )}
+                    </div>
+                    <div
+                        style={{
+                            display: 'flex',
+                            alignContent: 'center',
+                        }}
                     >
-                        Åpne skjema
-                    </a>
-                )}
-            </div>
-            <div>
-                {vedleggsnr}: {label}
-            </div>
-            {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
-            {beskrivelse && <div>{beskrivelse}</div>}
-            <Filopplaster
-                id={id}
-                innsendingsId={innsendingsId}
-                setOpplastingStatus={setOpplastingStatus}
-                oppdaterFilListe={oppdaterFilListe}
-            />
-            {filListe.length > 0 && (
-                <div>
-                    <span>Dokumenter du har lastet opp nå:</span>
-                    <div>opplastingstatus: {opplastingsStatus}</div>
-                    {filListe.map((fil) => {
-                        return (
-                            <div key={fil.id}>
-                                <a
-                                    target="_blank"
-                                    style={{ color: 'blue' }}
-                                    href={`${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil/${fil.id}`}
-                                    rel="noreferrer"
-                                >
-                                    {fil.filnavn}
-                                </a>
+                        <Heading size="small" spacing>
+                            {vedleggsnr}: {label}
+                        </Heading>
+                        {erAnnetVedlegg && (
+                            <NavLink
+                                as="button"
+                                onClick={() => setEndrer(true)}
+                            >
+                                Endre
+                            </NavLink>
+                        )}
+                    </div>
+                    {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
+                    {beskrivelse && <div>{beskrivelse}</div>}
+                    <Filopplaster
+                        id={id}
+                        innsendingsId={innsendingsId}
+                        setOpplastingStatus={setOpplastingStatus}
+                        oppdaterFilListe={oppdaterFilListe}
+                    />
+                    {filListe.length > 0 && (
+                        <div>
+                            <span>
+                                Dokumenter du har lastet opp nå:
+                            </span>
+                            <div>
+                                opplastingstatus: {opplastingsStatus}
                             </div>
-                        );
-                    })}
-                    <br />
-                </div>
+                            {filListe.map((fil) => {
+                                return (
+                                    <div key={fil.id}>
+                                        <a
+                                            target="_blank"
+                                            style={{ color: 'blue' }}
+                                            href={`${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil/${fil.id}`}
+                                            rel="noreferrer"
+                                        >
+                                            {fil.filnavn}
+                                        </a>
+                                    </div>
+                                );
+                            })}
+                            <br />
+                        </div>
+                    )}
+                </>
             )}
-        </Panel>
+        </VedleggPanel>
     );
 }
 export default Vedlegg;
