@@ -6,21 +6,21 @@ metadata:
     labels:
         team: team-soknad
 spec:
-    image: '{{ image }}'
-    port: 80
+    image: "{{ image }}"
+    port: 3000
     liveness:
-        path: isAlive
-        initialDelay: 120
+        path: /api/isAlive
+        initialDelay: 20
         timeout: 10
         periodSeconds: 5
         failureThreshold: 10
     readiness:
-        path: isReady
-        initialDelay: 120
+        path: /api/isReady
+        initialDelay: 20
         timeout: 10
     replicas:
-        min: 2
-        max: 4
+        min: 1
+        max: 2
         cpuThresholdPercentage: 50
     prometheus:
         enabled: true
@@ -31,9 +31,7 @@ spec:
         requests:
             memory: 512Mi
     ingresses:
-        - 'https://send-inn-frontend.nais.oera.no'
-    vault:
-        enabled: true
+        - "https://send-inn-frontend.intern.nav.no"
     env:
         - name: APP_VERSION
-          value: { { app_version } }
+          value: {{ app_version }}

@@ -5,17 +5,19 @@ metadata:
     namespace: team-soknad
     labels:
         team: team-soknad
-    annotations:
-        nais.io/security-does-not-matter: "true"
 spec:
     image: "{{ image }}"
     port: 3000
     liveness:
         path: /api/isAlive
         initialDelay: 20
+        timeout: 10
+        periodSeconds: 5
+        failureThreshold: 10        
     readiness:
         path: /api/isReady
         initialDelay: 20
+        timeout: 10
     replicas:
         min: 1
         max: 2
