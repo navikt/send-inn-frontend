@@ -83,7 +83,7 @@ jobs:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
                   DRY_RUN: false
                   PRINT_PAYLOAD: true
-                  CLUSTER: dev-sbs
+                  CLUSTER: dev-gcp
                   RESOURCE: .nais/nais-preprod.yml
                   VAR: app_version=${{ github.sha }}
 
