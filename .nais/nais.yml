@@ -31,7 +31,7 @@ spec:
         requests:
             memory: 512Mi
     ingresses:
-        - 'https://send-inn-frontend.nais.oera.no'
+        - 'https://send-inn-frontend.intern.nav.no'
     vault:
         enabled: true
     env:
