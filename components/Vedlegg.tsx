@@ -34,7 +34,7 @@ export interface VedleggProps {
     opplastingsStatus: string;
     opprettetdato: string;
     setOpplastingStatus: setOpplastingStatusType;
-    erAnnetVedlegg: boolean;
+    erAnnetVedlegg?: boolean;
 
     // (x: string): void;
 }
