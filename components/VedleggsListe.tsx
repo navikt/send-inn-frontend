@@ -247,7 +247,7 @@ function VedleggsListe({
                                 setOpplastingStatus={
                                     setOpplastingStatus
                                 }
-                                {...vedlegg}
+                                vedlegg={vedlegg}
                             />
                         );
                     })}

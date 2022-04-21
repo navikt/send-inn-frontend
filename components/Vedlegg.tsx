@@ -1,66 +1,67 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
-import {
-    Panel,
-    Heading,
-    Button,
-    Link as NavLink,
-} from '@navikt/ds-react';
-import { Filopplaster } from './Filopplaster';
-import css from 'styled-jsx/css';
+import { Panel, Heading, Link as NavLink } from '@navikt/ds-react';
+import { Filvelger } from './Filopplaster';
 import styled from 'styled-components';
+import { v4 as uuidv4 } from 'uuid';
 
 import {
     setOpplastingStatusType,
     OpplastetFil,
+    VedleggType,
 } from '../types/types';
 import { EndreVedlegg } from './EndreVedlegg';
+import { Fil } from './Fil';
 
 export interface VedleggProps {
+    vedlegg: VedleggType | null;
     innsendingsId: string;
-    id: number;
-    vedleggsnr: string;
-    tittel: string;
-    label: string;
-    beskrivelse: string;
-    uuid: string;
-    mimetype: string;
-    document: string;
-    erHoveddokument: boolean;
-    erVariant: boolean;
-    erPdfa: boolean;
-    skjemaurl: string;
     opplastingsStatus: string;
-    opprettetdato: string;
     setOpplastingStatus: setOpplastingStatusType;
     erAnnetVedlegg: boolean;
 
     // (x: string): void;
 }
 
-/*
+export interface FilData {
+    komponentID?: string;
+    lokalFil?: File;
+    opplastetFil?: OpplastetFil;
+}
 
+export const ACTIONS = {
+    NY_FIL: 'NY_FIL',
+    SLETT_FIL: 'SLETT_FIL',
+    RESET_LISTE: 'RESET_LISTE',
+} as const;
 
-GET
+export interface ActionType {
+    type: typeof ACTIONS[keyof typeof ACTIONS];
+    filData?: FilData;
+}
 
-	process.env.NEXT_PUBLIC_API_URL/frontend/v1/soknad/f414b0d2-c278-477c-b770-e85c3e35130a/vedlegg/201/fil/
+const filListeReducer = (filListe: FilData[], action: ActionType) => {
+    switch (action.type) {
+        case ACTIONS.NY_FIL: {
+            return [
+                ...filListe,
+                { komponentID: uuidv4(), ...action.filData },
+            ];
+        }
+        case ACTIONS.SLETT_FIL: {
+            return filListe.filter(
+                (fil) =>
+                    fil.komponentID !== action.filData.komponentID,
+            );
+        }
+        case ACTIONS.RESET_LISTE: {
+            return initialState;
+        }
+    }
+};
 
-
-
-http://localhost:3000/dokumentinnsending/f414b0d2-c278-477c-b770-e85c3e35130a
-
-[{"id":22,"vedleggsid":201,"filnavn":"2 Feb 2022 at 16-48.pdf","mimetype":"application/pdf","storrelse":255706,"data":null,"opprettetdato":"2022-02-11T14:30:35.233694"}]
-
-setFilListe([
-                        ...filListe,
-                        {
-                            id: response.data.id,
-                            filnavn: fil.name,
-                        },
-                    ]);
-
-*/
+const initialState: FilData[] = [];
 
 const VedleggPanel = styled(Panel)`
     background-color: var(--navds-semantic-color-canvas-background);
@@ -69,75 +70,72 @@ const VedleggPanel = styled(Panel)`
 function Vedlegg(props: VedleggProps) {
     const {
         innsendingsId,
-        id,
-        vedleggsnr,
-        tittel,
-        label,
-        beskrivelse,
-        uuid,
-        mimetype,
-        document,
-        erHoveddokument,
-        erVariant,
-        erPdfa,
-        skjemaurl,
-        opplastingsStatus,
-        opprettetdato,
+        vedlegg,
         setOpplastingStatus,
+        opplastingsStatus,
         erAnnetVedlegg = true,
     } = props;
 
-    const [filListe, setFilListe] = useState<OpplastetFil[]>([]);
+    const [filListe, dispatch] = useReducer(
+        filListeReducer,
+        initialState,
+    );
     const [endrer, setEndrer] = useState(false);
 
-    const oppdaterFilListe = (filData: OpplastetFil) => {
-        setFilListe([...filListe, filData]);
-    };
+    useEffect(() => {
+        console.log({ filListe });
+    }, [filListe]);
 
     useEffect(() => {
-        //const innsendingsId = query.innsendingsId // todo fix, fungerer ikke med en gang om man henter herifra, må kan
-        // const innsendingsId = "d83c88e4-a3f3-4217-b561-fe0572e391e8";
-        //const { brukerid } = data;
-        //const { vedleggsIder } = query;
-        if (innsendingsId && id) {
-            const nyFilListe: OpplastetFil[] = [];
+        if (innsendingsId && vedlegg.id) {
             axios
                 .get(
-                    `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil/`,
+                    `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/`,
                 )
                 .then((response) => {
                     const responseJSON = response.data;
+                    console.log({ responseJSON });
                     for (const item in responseJSON) {
                         const jsonitem = responseJSON[item];
-                        const nyFil: OpplastetFil = {
-                            id: jsonitem.id,
-                            filnavn: jsonitem.filnavn,
+                        const nyFil: FilData = {
+                            opplastetFil: {
+                                id: jsonitem.id,
+                                filnavn: jsonitem.filnavn,
+                            },
                         };
-                        nyFilListe.push(nyFil);
+                        dispatch({
+                            type: ACTIONS.NY_FIL,
+                            filData: nyFil,
+                        });
                     }
-                    setFilListe([...filListe, ...nyFilListe]);
                 })
                 .catch((error) => {
                     console.log(error);
                 });
         }
 
-        // }, [innsendingsId, id, filListe]); // loop
-    }, [innsendingsId, id]);
+        return () =>
+            dispatch({
+                type: ACTIONS.RESET_LISTE,
+            });
+    }, [innsendingsId, vedlegg.id]);
 
     return (
         <VedleggPanel>
             {endrer ? (
-                <EndreVedlegg tittel={label} setEndrer={setEndrer} />
+                <EndreVedlegg
+                    tittel={vedlegg.label}
+                    setEndrer={setEndrer}
+                />
             ) : (
                 <>
                     <div>
-                        {skjemaurl && (
+                        {vedlegg.skjemaurl && (
                             <a
                                 className="navds-link"
                                 target="_blank"
                                 style={{ color: 'blue' }}
-                                href={skjemaurl}
+                                href={vedlegg.skjemaurl}
                                 rel="noopener noreferrer"
                             >
                                 Åpne skjema
@@ -151,7 +149,7 @@ function Vedlegg(props: VedleggProps) {
                         }}
                     >
                         <Heading size="small" spacing>
-                            {vedleggsnr}: {label}
+                            {vedlegg.vedleggsnr}: {vedlegg.label}
                         </Heading>
                         {erAnnetVedlegg && (
                             <NavLink
@@ -163,13 +161,10 @@ function Vedlegg(props: VedleggProps) {
                         )}
                     </div>
                     {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
-                    {beskrivelse && <div>{beskrivelse}</div>}
-                    <Filopplaster
-                        id={id}
-                        innsendingsId={innsendingsId}
-                        setOpplastingStatus={setOpplastingStatus}
-                        oppdaterFilListe={oppdaterFilListe}
-                    />
+                    {vedlegg.beskrivelse && (
+                        <div>{vedlegg.beskrivelse}</div>
+                    )}
+                    <Filvelger filListeDispatch={dispatch} />
                     {filListe.length > 0 && (
                         <div>
                             <span>
@@ -180,16 +175,20 @@ function Vedlegg(props: VedleggProps) {
                             </div>
                             {filListe.map((fil) => {
                                 return (
-                                    <div key={fil.id}>
-                                        <a
-                                            target="_blank"
-                                            style={{ color: 'blue' }}
-                                            href={`${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil/${fil.id}`}
-                                            rel="noreferrer"
-                                        >
-                                            {fil.filnavn}
-                                        </a>
-                                    </div>
+                                    <Fil
+                                        key={fil.komponentID}
+                                        komponentID={fil.komponentID}
+                                        vedlegg={vedlegg}
+                                        innsendingsId={innsendingsId}
+                                        lokalFil={fil.lokalFil}
+                                        opplastetFil={
+                                            fil.opplastetFil
+                                        }
+                                        filListeDispatch={dispatch}
+                                        setOpplastingStatus={
+                                            setOpplastingStatus
+                                        }
+                                    />
                                 );
                             })}
                             <br />

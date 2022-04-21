@@ -1,37 +1,21 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useForm, SubmitHandler, useWatch } from 'react-hook-form';
-import { useState } from 'react';
-import axios from 'axios';
-import { Button, TextField } from '@navikt/ds-react';
+import { Button } from '@navikt/ds-react';
 import { Upload } from '@navikt/ds-icons';
-import {
-    setOpplastingStatusType,
-    OpplastetFil,
-} from '../types/types';
+import { ACTIONS, ActionType } from './Vedlegg';
 
 type FormValues = {
     file: FileList | null;
 };
 
-interface FilopplasterProps {
-    innsendingsId: string;
-    id: number;
-    setOpplastingStatus: setOpplastingStatusType;
-    oppdaterFilListe: (fil: OpplastetFil) => void;
+interface FilvelgerProps {
+    filListeDispatch: React.Dispatch<ActionType>;
 }
 
-export function Filopplaster(props: FilopplasterProps) {
-    const {
-        innsendingsId,
-        id,
-        setOpplastingStatus,
-        oppdaterFilListe,
-    } = props;
+export function Filvelger(props: FilvelgerProps) {
+    const { filListeDispatch } = props;
 
-    const [isLoading, setIsLoading] = useState(false);
-    const [progress, setProgress] = useState(0);
-
-    const { register, handleSubmit, reset, setValue, control } =
+    const { register, handleSubmit, setValue, control } =
         useForm<FormValues>();
 
     const fileRef = useRef<HTMLInputElement | null>(null);
@@ -47,69 +31,26 @@ export function Filopplaster(props: FilopplasterProps) {
                 console.log('Fil ikke valgt!');
             } else {
                 const fil = data.file[0];
-                console.log(data);
 
                 const formData = new FormData();
                 formData.append('file', fil);
 
-                setIsLoading(true);
-                const config = {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
+                console.log('Legger til fil');
+                filListeDispatch({
+                    type: ACTIONS.NY_FIL,
+                    filData: {
+                        lokalFil: data.file[0],
                     },
-                    onUploadProgress: (
-                        progressEvent: ProgressEvent,
-                    ) => {
-                        console.log('start');
-                        setProgress(
-                            Math.round(
-                                (progressEvent.loaded * 100) /
-                                    progressEvent.total,
-                            ),
-                        );
-                        console.log(
-                            Math.round(
-                                (progressEvent.loaded * 100) /
-                                    progressEvent.total,
-                            ),
-                        );
-                    },
-                };
-                axios
-                    .post(
-                        `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${id}/fil`,
-                        formData,
-                        config,
-                    )
-                    .then((response) => {
-                        //setSoknad(response.data);
-                        oppdaterFilListe({
-                            id: response.data.id,
-                            filnavn: fil.name,
-                        });
-                        setOpplastingStatus(id, 'LASTET_OPP');
-                        console.log({ response: response.data });
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    })
-                    .finally(() => {
-                        setValue('file', null);
-                        setProgress(0);
-                        setIsLoading(false);
-                        if (fileRef.current) {
-                            fileRef.current.value = '';
-                        }
-                    });
+                });
+
+                setValue('file', null);
+
+                if (fileRef.current) {
+                    fileRef.current.value = '';
+                }
             }
         },
-        [
-            oppdaterFilListe,
-            id,
-            innsendingsId,
-            setOpplastingStatus,
-            setValue,
-        ],
+        [setValue, filListeDispatch],
     );
 
     useEffect(() => {
@@ -121,11 +62,7 @@ export function Filopplaster(props: FilopplasterProps) {
     }, [watchFile, handleSubmit, onSubmit]);
     return (
         <form>
-            <Button
-                as="label"
-                variant="secondary"
-                loading={isLoading}
-            >
+            <Button as="label" variant="secondary">
                 <Upload />
                 Velg dine filer
                 <input
@@ -140,7 +77,6 @@ export function Filopplaster(props: FilopplasterProps) {
                     }}
                 />
             </Button>
-            {isLoading && `${progress}%`}
         </form>
     );
 }
