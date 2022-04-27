@@ -30,17 +30,14 @@ export function Filvelger(props: FilvelgerProps) {
             if (!data.file?.length) {
                 console.log('Fil ikke valgt!');
             } else {
-                const fil = data.file[0];
-
-                const formData = new FormData();
-                formData.append('file', fil);
-
-                console.log('Legger til fil');
-                filListeDispatch({
-                    type: ACTIONS.NY_FIL,
-                    filData: {
-                        lokalFil: data.file[0],
-                    },
+                Array.from(data.file).forEach((fil) => {
+                    console.log('Legger til fil');
+                    filListeDispatch({
+                        type: ACTIONS.NY_FIL,
+                        filData: {
+                            lokalFil: fil,
+                        },
+                    });
                 });
 
                 setValue('file', null);
