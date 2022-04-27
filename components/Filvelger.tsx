@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react';
-import { useForm, SubmitHandler, useWatch } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button } from '@navikt/ds-react';
 import { Upload } from '@navikt/ds-icons';
 import { ACTIONS, ActionType } from './Vedlegg';
@@ -15,23 +15,24 @@ interface FilvelgerProps {
 export function Filvelger(props: FilvelgerProps) {
     const { filListeDispatch } = props;
 
-    const { register, handleSubmit, setValue, control } =
+    const { register, handleSubmit, setValue, watch } =
         useForm<FormValues>();
 
     const fileRef = useRef<HTMLInputElement | null>(null);
     const { ref, ...rest } = register('file');
-    const watchFile = useWatch({
-        control,
-        name: 'file',
-    });
 
     const onSubmit: SubmitHandler<FormValues> = useCallback(
         (data) => {
             if (!data.file?.length) {
-                console.log('Fil ikke valgt!');
+                console.debug('Fil ikke valgt!');
             } else {
-                Array.from(data.file).forEach((fil) => {
-                    console.log('Legger til fil');
+                const fileListArray = Array.from(data.file);
+                fileListArray.forEach((fil, index) => {
+                    console.debug(
+                        `Legger til fil ${index + 1} av ${
+                            fileListArray.length
+                        }`,
+                    );
                     filListeDispatch({
                         type: ACTIONS.NY_FIL,
                         filData: {
@@ -51,12 +52,17 @@ export function Filvelger(props: FilvelgerProps) {
     );
 
     useEffect(() => {
-        console.log('Fil endret', watchFile);
-        if (watchFile) {
-            console.log('Starter filopplasting...');
-            handleSubmit(onSubmit)();
-        }
-    }, [watchFile, handleSubmit, onSubmit]);
+        const subscription = watch((value, { name }) => {
+            if (name === 'file') {
+                console.debug('Fil endret', value);
+                if (value?.file) {
+                    console.debug('Starter filopplasting...');
+                    handleSubmit(onSubmit)();
+                }
+            }
+        });
+        return () => subscription.unsubscribe();
+    }, [handleSubmit, onSubmit, watch]);
     return (
         <form>
             <Button as="label" variant="secondary">
