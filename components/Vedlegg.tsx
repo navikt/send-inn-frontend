@@ -2,7 +2,7 @@ import React, { useEffect, useReducer } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { Panel, Heading, Link as NavLink } from '@navikt/ds-react';
-import { Filvelger } from './Filopplaster';
+import { Filvelger } from './Filvelger';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
