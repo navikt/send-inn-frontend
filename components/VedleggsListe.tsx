@@ -98,7 +98,7 @@ function VedleggsListe({
     const { t, i18n } = useTranslation();
 
     function setOpplastingStatus(id: number, status: string): void {
-        alert('utløst' + id + status);
+        console.log('utløst' + id + status);
         const currentListe = [...vedleggsliste];
         const newListe = currentListe.map((el) =>
             el.id === id ? { ...el, opplastingsStatus: status } : el,
