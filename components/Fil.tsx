@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import axios from 'axios';
-import { ACTIONS, ActionType, FilData } from './Vedlegg';
+import { ACTIONS, ActionType } from './Vedlegg';
 import {
     OpplastetFil,
     VedleggType,
     setOpplastingStatusType,
 } from '../types/types';
+import { Button } from '@navikt/ds-react';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export interface FilProps {
     komponentID: string;
@@ -15,6 +18,12 @@ export interface FilProps {
     opplastetFil?: OpplastetFil;
     filListeDispatch: React.Dispatch<ActionType>;
     setOpplastingStatus: setOpplastingStatusType;
+}
+
+export interface FilData {
+    komponentID?: string;
+    lokalFil?: File;
+    opplastetFil?: OpplastetFil;
 }
 
 export const FIL_ACTIONS = {
@@ -32,6 +41,7 @@ const FIL_STATUS = {
     LASTER_OPP: 'LASTER_OPP',
     OPPLASTET: 'OPPLASTET',
     AVBRUTT: 'AVBRUTT',
+    SLETTER: 'SLETTER',
     FEIL: 'FEIL',
 } as const;
 
@@ -50,7 +60,7 @@ const filReducer = (
     filState: FilState,
     action: FilActionType,
 ): FilState => {
-    console.log('Dispatcher:', action.type);
+    console.debug('Dispatcher:', action.type);
     switch (action.type) {
         case FIL_ACTIONS.START_OPPLASTNING: {
             return {
@@ -85,7 +95,7 @@ const filReducer = (
             };
         }
         case FIL_ACTIONS.SETT_STATUS: {
-            console.log('Status:', action.filState.status);
+            console.debug('Status:', action.filState.status);
             return {
                 ...filState,
                 status: action.filState.status,
@@ -111,22 +121,34 @@ export function Fil({
 }: FilProps) {
     const [filState, dispatch] = useReducer(filReducer, initialState);
     const { status } = filState;
-    // const [progress, setProgress] = useState(0);
-    // const [opplastetFil, setOpplastetFil] =
-    //     useState(opplastetFilProp);
-
-    // const slettFil = () => {
-    //     filListeDispatch({
-    //         type: ACTIONS.SLETT_FIL,
-    //         filData: { komponentID },
-    //     });
-    // };
     const [controller] = useState(new AbortController());
+
+    const slettFil = () => {
+        dispatch({
+            type: FIL_ACTIONS.SETT_STATUS,
+            filState: { status: FIL_STATUS.SLETTER },
+        });
+        axios
+            .delete(
+                `${API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/${filState.filData.opplastetFil.id}`,
+            )
+            .then(() => {
+                filListeDispatch({
+                    type: ACTIONS.SLETT_FIL,
+                    filData: { komponentID },
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+                dispatch({
+                    type: FIL_ACTIONS.FEIL,
+                });
+            });
+    };
 
     useEffect(() => {
         console.log(status);
         if (status === FIL_STATUS.OPPRETTET) {
-            console.log('lokalFilProp0', lokalFilProp);
             dispatch({
                 type: opplastetFilProp
                     ? FIL_ACTIONS.OPPLASTET
@@ -141,8 +163,6 @@ export function Fil({
         }
         if (status !== FIL_STATUS.STARTER_OPPLASTNING) return;
 
-        console.log('lokalFil', filState.filData?.lokalFil);
-        console.log('lokalFilProp', lokalFilProp);
         const formData = new FormData();
         formData.append('file', filState.filData?.lokalFil);
         const config = {
@@ -151,22 +171,15 @@ export function Fil({
             },
             signal: controller.signal,
             onUploadProgress: (progressEvent: ProgressEvent) => {
-                console.log('start');
+                const progress = Math.round(
+                    (progressEvent.loaded * 100) /
+                        progressEvent.total,
+                );
                 dispatch({
                     type: FIL_ACTIONS.OPPDATER_PROGRESS,
-                    filState: {
-                        progress: Math.round(
-                            (progressEvent.loaded * 100) /
-                                progressEvent.total,
-                        ),
-                    },
+                    filState: { progress },
                 });
-                console.log(
-                    Math.round(
-                        (progressEvent.loaded * 100) /
-                            progressEvent.total,
-                    ),
-                );
+                console.debug({ progress });
             },
         };
         dispatch({
@@ -176,12 +189,11 @@ export function Fil({
 
         axios
             .post(
-                `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil`,
+                `${API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil`,
                 formData,
                 config,
             )
             .then((response) => {
-                //setSoknad(response.data);
                 dispatch({
                     type: FIL_ACTIONS.OPPLASTET,
                     filState: {
@@ -224,15 +236,15 @@ export function Fil({
 
     return (
         <div>
-            {/* <span>{status}</span>
+            <span>{status}</span>
             <a
                 target="_blank"
                 style={{ color: 'blue' }}
-                href={`${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/${opplastetFil.id}`}
+                href={`${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/${filState.filData.opplastetFil?.id}`}
                 rel="noreferrer"
             >
-                {opplastetFil.filnavn}
-            </a> */}
+                {filState.filData.opplastetFil?.filnavn}
+            </a>
             Fil:{' '}
             {filState.filData.opplastetFil?.filnavn ||
                 filState.filData.lokalFil?.name}{' '}
@@ -240,25 +252,27 @@ export function Fil({
             {status === FIL_STATUS.LASTER_OPP && (
                 <>Progress: {filState.progress} |</>
             )}
-            {status === FIL_STATUS.FEIL && (
-                <button
-                    onClick={() =>
-                        dispatch({
-                            type: FIL_ACTIONS.START_OPPLASTNING,
-                            filState: {
-                                filData: {
-                                    opplastetFil: opplastetFilProp,
-                                    lokalFil: lokalFilProp,
+            {status === FIL_STATUS.FEIL &&
+                !filState.filData?.opplastetFil && (
+                    <Button
+                        onClick={() =>
+                            dispatch({
+                                type: FIL_ACTIONS.START_OPPLASTNING,
+                                filState: {
+                                    filData: {
+                                        opplastetFil:
+                                            opplastetFilProp,
+                                        lokalFil: lokalFilProp,
+                                    },
                                 },
-                            },
-                        })
-                    }
-                >
-                    Prøv igjen
-                </button>
-            )}
+                            })
+                        }
+                    >
+                        Prøv igjen
+                    </Button>
+                )}
             {status === FIL_STATUS.LASTER_OPP && (
-                <button
+                <Button
                     onClick={() => {
                         controller.abort();
                         dispatch({
@@ -266,25 +280,19 @@ export function Fil({
                         });
                         filListeDispatch({
                             type: ACTIONS.SLETT_FIL,
-                            filData: {
-                                komponentID,
-                            },
+                            filData: { komponentID },
                         });
                     }}
                 >
                     Avbryt
-                </button>
+                </Button>
             )}
-            <button
-                onClick={() =>
-                    filListeDispatch({
-                        type: ACTIONS.SLETT_FIL,
-                        filData: { komponentID },
-                    })
-                }
+            <Button
+                loading={status === FIL_STATUS.SLETTER}
+                onClick={slettFil}
             >
                 Slett
-            </button>
+            </Button>
         </div>
     );
 }
