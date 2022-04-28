@@ -2,7 +2,6 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import React from 'react';
 // import styles from '../../styles/Home.module.css';
-import '../../i18n';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState, createContext } from 'react';
@@ -13,8 +12,6 @@ import Vedlegg from '../../components/Vedlegg';
 import VedleggsListe from '../../components/VedleggsListe';
 import { VedleggType, SoknadType } from '../../types/types';
 import { Button, Panel } from '@navikt/ds-react';
-import '@navikt/ds-css';
-import '@navikt/ds-css-internal';
 import type { ReactElement } from 'react';
 import Layout from '../../components/Layout';
 import Link from 'next/link';
