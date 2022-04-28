@@ -17,7 +17,6 @@ import { Fil } from './Fil';
 export interface VedleggProps {
     vedlegg: VedleggType | null;
     innsendingsId: string;
-    opplastingsStatus: string;
     setOpplastingStatus: setOpplastingStatusType;
     erAnnetVedlegg?: boolean;
 
@@ -72,7 +71,6 @@ function Vedlegg(props: VedleggProps) {
         innsendingsId,
         vedlegg,
         setOpplastingStatus,
-        opplastingsStatus,
         erAnnetVedlegg = true,
     } = props;
 
@@ -170,9 +168,6 @@ function Vedlegg(props: VedleggProps) {
                             <span>
                                 Dokumenter du har lastet opp nå:
                             </span>
-                            <div>
-                                opplastingstatus: {opplastingsStatus}
-                            </div>
                             {filListe.map((fil) => {
                                 return (
                                     <Fil
