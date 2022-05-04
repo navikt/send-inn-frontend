@@ -35,7 +35,7 @@ spec:
         sidecar:
             enabled: true
             level: Level4
-            autoLogin: true
+            autoLogin: false
     ingresses:
         - 'https://send-inn-frontend-alt.dev.nav.no'
     env:
