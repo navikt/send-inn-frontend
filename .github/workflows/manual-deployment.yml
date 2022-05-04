@@ -1,0 +1,76 @@
+name: Manually triggered deployment
+on:
+    workflow_dispatch:
+        inputs:
+            environment:
+                description: 'Environment to deploy'
+                required: true
+                default: 'preprod'
+                type: choice
+                options:
+                    - preprod
+                    - prod
+
+env:
+    IMAGE: docker.pkg.github.com/${{ github.repository }}/send-inn-frontend:${{ github.sha }}
+    CI: true
+    TZ: Europe/Oslo
+
+    build-and-push:
+        name: Build and push Docker container
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: '16'
+                  cache: 'npm'
+            #- name: Install dependencies
+            #  run: npm install
+            #  env:
+            # Github krever autentisering for tilgang til packages
+            #    NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+            # fjernet fordi den bare gjør det samme som docker imaget inntil vi har tester/linting
+            # - name: Test
+            #   run: npm run test
+            #- name: Build
+            #  run: npm run build:static
+            - name: Publish Docker image
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
+                  docker build --tag ${IMAGE} .
+                  docker push ${IMAGE}
+
+    deploy-preprod:
+        name: Deploy to preprod
+        needs: build-and-push
+        if: github.event.inputs.environment == 'preprod'
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: nais/deploy/actions/deploy@v1
+              env:
+                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+                  DRY_RUN: false
+                  PRINT_PAYLOAD: true
+                  CLUSTER: dev-gcp
+                  RESOURCE: .nais/nais-preprod.yml
+                  VAR: app_version=${{ github.sha }}
+
+    deploy-prod:
+        name: Deploy to prod
+        needs: build-and-push
+        if: github.event.inputs.environment == 'prod'
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: nais/deploy/actions/deploy@v1
+              env:
+                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+                  DRY_RUN: false
+                  PRINT_PAYLOAD: true
+                  CLUSTER: prod-gcp
+                  RESOURCE: .nais/nais.yml
+                  VAR: app_version=${{ github.sha }}
