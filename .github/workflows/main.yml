@@ -1,5 +1,21 @@
 name: Build, push, and deploy
-on: [push]
+on:
+    push:
+        branches:
+            - 'main'
+            - 'preprod'
+        paths-ignore:
+            - '**.md'
+            - '**/**.md'
+            - '.github/workflows/manual-deployment.yml'
+    pull_request:
+        branches:
+            - 'main'
+        paths-ignore:
+            - '**.md'
+            - '**/**.md'
+            - '.github/workflows/manual-deployment.yml'
+            - '.nais/**'
 env:
     IMAGE: docker.pkg.github.com/${{ github.repository }}/send-inn-frontend:${{ github.sha }}
     CI: true
@@ -11,16 +27,11 @@ jobs:
         runs-on: ubuntu-latest
         if: github.ref != 'refs/heads/preprod-pipeline' && github.ref != 'refs/heads/main'
         steps:
-            - uses: actions/checkout@v1
-            - uses: actions/setup-node@v1
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
               with:
-                  node-version: '16.10.0'
-            - uses: actions/cache@v1
-              with:
-                  path: ~/.npm
-                  key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-node-
+                  node-version: '16'
+                  cache: 'npm'
             - name: Install dependencies
               run: npm install
               env:
@@ -43,16 +54,11 @@ jobs:
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/preprod-pipeline'
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v1
-            - uses: actions/setup-node@v1
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
               with:
-                  node-version: '16.10.0'
-            - uses: actions/cache@v1
-              with:
-                  path: ~/.npm
-                  key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-node-
+                  node-version: '16'
+                  cache: 'npm'
             #- name: Install dependencies
             #  run: npm install
             #  env:
@@ -71,13 +77,13 @@ jobs:
                   docker build --tag ${IMAGE} .
                   docker push ${IMAGE}
 
-    deploy-til-team-soknad:
-        name: Deploy to preprod namespace team-soknad
+    deploy-preprod:
+        name: Deploy to preprod
         needs: build-and-push
         if: github.ref == 'refs/heads/preprod-pipeline'
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v1
+            - uses: actions/checkout@v3
             - uses: nais/deploy/actions/deploy@v1
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
@@ -93,7 +99,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v1
+            - uses: actions/checkout@v3
             - uses: nais/deploy/actions/deploy@v1
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
