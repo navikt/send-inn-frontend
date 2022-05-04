@@ -30,6 +30,12 @@ spec:
             memory: 786Mi
         requests:
             memory: 512Mi
+    idporten:
+        enabled: true
+        sidecar:
+            enabled: true
+            level: Level4
+            autoLogin: true
     ingresses:
         - 'https://send-inn-frontend-alt.dev.nav.no'
     env:
