@@ -1,14 +1,14 @@
 FROM node:16-alpine
 
-WORKDIR /app
+# WORKDIR /app
 
-COPY package.json package-lock.json /app/
+# COPY package.json package-lock.json /app/
 
-RUN npm ci
+# RUN npm ci
 
-ADD . /app/
+# ADD . /app/
 
-RUN npm run build
+# RUN npm run build
 
 EXPOSE 3000
 ENV PORT 3000
