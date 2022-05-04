@@ -44,7 +44,7 @@ jobs:
                   docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
                   docker build --tag ${IMAGE} .
                   docker push ${IMAGE}
-                
+
     deploy-preprod:
         name: Deploy to preprod
         needs: build-and-push
@@ -61,7 +61,7 @@ jobs:
                   RESOURCE: .nais/nais-preprod.yml
                   VAR: app_version=${{ github.sha }}
 
-        deploy-preprod-alt:
+    deploy-preprod-alt:
         name: Deploy to preprod-alt
         needs: build-and-push
         if: github.event.inputs.environment == 'preprod-alt'
