@@ -17,6 +17,7 @@ env:
     CI: true
     TZ: Europe/Oslo
 
+jobs:
     build-and-push:
         name: Build and push Docker container
         runs-on: ubuntu-latest
