@@ -16,68 +16,28 @@ import {
     Label,
 } from '@navikt/ds-react';
 import styled from 'styled-components';
+import { FIL_STATUS } from '../types/enums';
 import { Files, FileError, FileSuccess } from '@navikt/ds-icons';
+import { FilUploadIcon } from './FilUploadIcon';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-const StyledDiv = styled.div`
-    background-color: var(
-        --navds-semantic-color-feedback-danger-background
-    );
-
-    border-radius: 4px;
-    width: 40px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-items: center;
-    > * {
-        color: var(
-            --navds-semantic-color-interaction-danger-selected
-        );
-        margin-left: 10px;
-    }
-`;
 
 const FilePanel = styled(Panel)`
     border-width: 2px;
     border-radius: 8px;
 
-    /*background-color: red;     
-    
-    ${(props) =>
-        props.type === 'error'
-            ? 'background-color: orange'
-            : 'border: blue'};
-    */
-    /*
     .icon {
-        
-        background-color: red;
-        grid-area: icon;
-
-        
-        width: 40px;
-        height: 44px;
-        display: flex;
-        align-items: center;
-        justify-items: center;
-        > * {
-            background-color: blue;
-            color: white;
-        }
-    } */
-    // TODO legg inn sekundær og tertiær
-    // TODO i mobilformat stretch to fit container
+    }
     .filename {
         grid-area: filename;
         color: gray;
-        display: flex;
-        justify-content: left;
-        gap: 10px;
+        justify-items: left;
+        height: 25px;
     }
     .fileinfo {
         grid-area: fileinfo;
+        justify-items: left;
+        height: 25px;
     }
     .button {
         grid-area: button;
@@ -87,15 +47,15 @@ const FilePanel = styled(Panel)`
     }
 
     display: grid;
+
+    grid-template-columns: 53px auto auto;
     grid-template-areas:
         'icon filename button button'
         'icon fileinfo button button';
 
     ${(props) =>
-        props.type === 'error' &&
+        props.type === FIL_STATUS.FEIL &&
         'border-color: var(--navds-semantic-color-interaction-danger)'};
-
-    //    ${(props) => props.type === 'error' && 'border-width: 5px'};
 `;
 
 const StyledButton = styled.div`
@@ -106,8 +66,6 @@ const StyledButton = styled.div`
 
 const StyledSecondaryButton = styled(StyledButton)`
     > * {
-        //border-radius: 8px;
-        // border-color: var(--navds-semantic-color-feedback-info-background);
         --navds-button-color-secondary-border: var(
             --navds-semantic-color-feedback-info-background
         );
@@ -141,16 +99,6 @@ export const FIL_ACTIONS = {
     SETT_STATUS: 'SETT_STATUS',
     OPPLASTET: 'OPPLASTET',
     AVBRYT: 'AVBRYT',
-    FEIL: 'FEIL',
-} as const;
-
-const FIL_STATUS = {
-    OPPRETTET: 'OPPRETTET',
-    STARTER_OPPLASTNING: 'STARTER_OPPLASTNING',
-    LASTER_OPP: 'LASTER_OPP',
-    OPPLASTET: 'OPPLASTET',
-    AVBRUTT: 'AVBRUTT',
-    SLETTER: 'SLETTER',
     FEIL: 'FEIL',
 } as const;
 
@@ -349,29 +297,21 @@ export function Fil({
 
     return (
         <div>
-            <FilePanel type="error" border>
-                <StyledDiv>
-                    <Files />
-                </StyledDiv>
+            {/* TODO why does one status work but not the other styled div vs panel?*/}
+            <FilePanel type={status} border>
+                <FilUploadIcon filstatus={status} />
                 <div className="filename">
                     {status === FIL_STATUS.OPPLASTET ? (
-                        <a
-                            target="_blank"
-                            style={{ color: 'blue' }}
-                            href={`${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/${filState.filData.opplastetFil?.id}`}
-                            rel="noreferrer"
-                        >
-                            {filnavn}
-                        </a>
+                        <div>{filnavn}</div>
                     ) : (
                         filnavn
                     )}
                 </div>
-                {status === FIL_STATUS.LASTER_OPP && (
-                    <div className="fileinfo">
-                        <>Progress: {filState.progress}</>
-                    </div>
-                )}
+                <div className="fileinfo">
+                    {status === FIL_STATUS.LASTER_OPP && (
+                        <span>Progress: {filState.progress}</span>
+                    )}
+                </div>
 
                 <div className="button">
                     {status === FIL_STATUS.FEIL &&
