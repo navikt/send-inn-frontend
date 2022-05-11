@@ -36,8 +36,17 @@ spec:
             enabled: true
             level: Level4
             autoLogin: false
+    spec:
+        tokenx:
+            enabled: true
+        accessPolicy:
+            outbound:
+                rules:
+                - application: innsending-api
     ingresses:
         - 'https://send-inn-frontend-alt.dev.nav.no'
     env:
         - name: APP_VERSION
           value: {{ app_version }}
+        - name: INNSENDING_API_AUDIENCE
+          value: "dev-gcp:team-soknad:innsending-api"
