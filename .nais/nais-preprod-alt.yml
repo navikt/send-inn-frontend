@@ -36,13 +36,12 @@ spec:
             enabled: true
             level: Level4
             autoLogin: false
-    spec:
-        tokenx:
-            enabled: true
-        accessPolicy:
-            outbound:
-                rules:
-                - application: innsending-api
+    tokenx:
+        enabled: true
+    accessPolicy:
+        outbound:
+            rules:
+            - application: innsending-api
     ingresses:
         - 'https://send-inn-frontend-alt.dev.nav.no'
     env:
