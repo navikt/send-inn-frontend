@@ -1,7 +1,6 @@
 import axios, { AxiosRequestHeaders, Method } from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getTokenxToken } from '../../../auth/getTokenXToken';
-import curlirize from 'axios-curlirize';
 
 export const config = {
     api: {
@@ -14,12 +13,6 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse,
 ) {
-    // https://github.com/navikt/permitteringsportal/blob/6e68af2b3bd6b090226fd35e3566d12302e54755/src/server/konstanter.js
-    // const API_AUDIENCE = process.env.API_AUDIENCE || 'tokenx';
-
-    // initializing axios-curlirize with your axios instance
-    //curlirize(axios);
-
     let tokenxToken = '';
     if (process.env.NODE_ENV === 'production') {
         const idportenToken =
@@ -30,54 +23,27 @@ export default async function handler(
         );
     }
 
-    console.log('test');
-    console.log(req.headers);
+    const { all: nextPath, ...params } = req.query;
 
-    //TODO: Check if this works with query params
-
-    /*
-    if (req.query.all) {
-   const path =
-        typeof req.query.all === 'string'
-            ? req.query.all
-            : req.query.all.join('/');
-        } else {
-            const path = "";
-        }
-            
-*/
     let path = '';
-    if (typeof req.query.all === 'string') {
-        path = req.query.all;
+    if (typeof nextPath === 'string') {
+        path = nextPath;
     }
 
-    if (typeof req.query.all !== 'string' && req.query.all) {
-        path = req.query.all.join('/');
+    if (typeof nextPath !== 'string' && nextPath) {
+        path = nextPath.join('/');
     }
 
-    console.log(path);
     const method = req.method as Method;
-
-    // https://nodejs.dev/learn/get-http-request-body-data-using-nodejs
-    const buffers = [];
-    for await (const chunk of req) {
-        buffers.push(chunk);
-    }
-    const data = Buffer.concat(buffers);
 
     // Removed host-header because of certification issues with node
     const { host, ...headers } = req.headers as AxiosRequestHeaders;
 
-    //console.log({ data });
-
-    console.log(`${process.env.REMOTE_API_URL}/${path}`);
-
-    // tokenxToken
-
     const response = await axios({
         method: method,
         url: `${process.env.REMOTE_API_URL}/${path}`,
-        data: data,
+        params: params,
+        data: req, // Sender data videre som stream
         headers: {
             ...headers,
             authorization: `Bearer ${tokenxToken}`,
