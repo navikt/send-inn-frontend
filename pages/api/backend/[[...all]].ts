@@ -21,11 +21,6 @@ export default async function handler(
     ) {
         const idportenToken =
             req.headers.authorization!.split(' ')[1];
-        tokenxToken = await getTokenxToken(
-            idportenToken,
-            process.env.INNSENDING_API_AUDIENCE,
-        );
-
         try {
             await verifyIdportenAccessToken(idportenToken);
         } catch (e) {
@@ -35,6 +30,10 @@ export default async function handler(
             );
             return res.status(401).json({ message: 'Access denied' });
         }
+        tokenxToken = await getTokenxToken(
+            idportenToken,
+            process.env.INNSENDING_API_AUDIENCE,
+        );
     }
 
     const { all: nextPath, ...params } = req.query;
