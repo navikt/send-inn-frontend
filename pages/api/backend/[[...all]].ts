@@ -56,15 +56,15 @@ export default async function handler(
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx
 
-            // todo vurder å fjerne noen
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
+            console.log({
+                data: error.response.data,
+                status: error.response.status,
+                headers: error.response.headers,
+            });
 
-            res.status(error.response.status).json(
-                error.response.data,
-            );
-            return;
+            return res
+                .status(error.response.status)
+                .json(error.response.data);
         } else if (error.request) {
             // The request was made but no response was received
             // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
