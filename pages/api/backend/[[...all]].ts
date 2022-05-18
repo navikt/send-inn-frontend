@@ -1,6 +1,7 @@
 import axios, { AxiosRequestHeaders, Method } from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getTokenxToken } from '../../../auth/getTokenXToken';
+import { verifyIdportenAccessToken } from '../../../auth/verifyIdPortenToken';
 
 export const config = {
     api: {
@@ -14,13 +15,26 @@ export default async function handler(
     res: NextApiResponse,
 ) {
     let tokenxToken = '';
-    if (process.env.NODE_ENV === 'production') {
+    if (
+        process.env.NODE_ENV === 'production' ||
+        process.env.NODE_ENV === 'development'
+    ) {
         const idportenToken =
             req.headers.authorization!.split(' ')[1];
         tokenxToken = await getTokenxToken(
             idportenToken,
             process.env.INNSENDING_API_AUDIENCE,
         );
+
+        try {
+            await verifyIdportenAccessToken(idportenToken);
+        } catch (e) {
+            console.warn(
+                'kunne ikke validere idportentoken i beskyttetApi',
+                e,
+            );
+            return res.status(401).json({ message: 'Access denied' });
+        }
     }
 
     const { all: nextPath, ...params } = req.query;
