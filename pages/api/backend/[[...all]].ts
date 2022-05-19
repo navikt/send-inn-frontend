@@ -19,9 +19,9 @@ export default async function handler(
         process.env.NODE_ENV === 'production' ||
         process.env.NODE_ENV === 'development'
     ) {
-        let idportenToken;
+        let idportenToken: string;
         try {
-            idportenToken = req.headers.authorization!.split(' ')[1];
+            idportenToken = req.headers.authorization.split(' ')[1];
             await verifyIdportenAccessToken(idportenToken);
         } catch (e) {
             console.warn(
