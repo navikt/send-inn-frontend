@@ -14,6 +14,7 @@ export type VedleggType = {
     opprettetdato: string;
     label: string;
     beskrivelse: string;
+    erPakrevd: boolean;
 };
 
 export type OpplastetFil = {

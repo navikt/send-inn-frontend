@@ -47,15 +47,15 @@ function soknadKlarForInnsending(
     let returnValue = true;
     vedleggsliste.forEach((element) => {
         // om det er ettersending kan vi ignorere hoveddokumentet/skjema, alle andre dokumenter må fortsatt være lastet opp
-        const elementErRelevant = !(
-            element.erHoveddokument && erEttersending
-        );
+        const elementErRelevant =
+            !(element.erHoveddokument && erEttersending) &&
+            element.erPakrevd;
         console.log('1' + elementErRelevant);
         console.log('2' + erEttersending);
         console.log('3' + element.opplastingsStatus);
         if (
             elementErRelevant &&
-            element.opplastingsStatus === 'IKKE_VALGT'
+            element.opplastingsStatus === 'IkkeValgt'
         ) {
             console.log('return false');
             returnValue = returnValue && false;
@@ -63,6 +63,30 @@ function soknadKlarForInnsending(
     });
     return returnValue;
 }
+
+function noeHarblittInnlevert(
+    vedleggsliste: VedleggType[],
+    erEttersending: boolean,
+): boolean {
+    let returnValue = false;
+    vedleggsliste.forEach((element) => {
+        // om det er ettersending kan vi ignorere hoveddokumentet/skjema, alle andre dokumenter må fortsatt ha minst et dokument lastet opp
+        const elementErRelevant =
+            !(element.erHoveddokument && erEttersending) &&
+            element.erPakrevd;
+        console.log('1' + elementErRelevant);
+        console.log('2' + erEttersending);
+        console.log('3' + element.opplastingsStatus);
+        if (
+            elementErRelevant &&
+            element.opplastingsStatus !== 'IkkeValgt'
+        ) {
+            returnValue = returnValue || true;
+        }
+    });
+    return returnValue;
+}
+
 function skjulHovedskjemaOm(
     erHovedskjema: boolean,
     erEttersending: boolean,
@@ -81,7 +105,10 @@ function VedleggsListe({
     setVedleggsListe,
     erEttersending,
 }: VedleggsListeProps) {
-    const [soknadKlar, setSoknadKlar] = useState<boolean>(true);
+    const [soknadKlar, setSoknadKlar] = useState<boolean>(false);
+    const [soknadHarNoeInnlevert, setsoknadHarNoeInnlevert] =
+        useState<boolean>(false);
+
     const router = useRouter();
 
     const [fortsettSenereSoknadModal, setForstettSenereSoknadModal] =
@@ -109,7 +136,7 @@ function VedleggsListe({
 
     const tilMittNav = () => {
         console.log('TilMittNav');
-        router.push('https://www.nav.no/no/ditt-nav');
+        //router.push('https://www.nav.no/no/ditt-nav');
     };
 
     const onSendInn = () => {
@@ -148,6 +175,9 @@ function VedleggsListe({
         setSoknadKlar(
             soknadKlarForInnsending(vedleggsliste, erEttersending),
         );
+        setsoknadHarNoeInnlevert(
+            noeHarblittInnlevert(vedleggsliste, erEttersending),
+        );
     }, [vedleggsliste, erEttersending]);
 
     useEffect(() => {
@@ -172,6 +202,9 @@ function VedleggsListe({
             {/* t('test')  dette tester flerspråksfuknsjonalitet*/}
 
             {/* soknad.spraak skriver ut språk */}
+            {/* {soknadKlar.toString() + " // "} */}
+            {/* {soknadHarNoeInnlevert.toString() + " // "} */}
+            {/* {JSON.stringify(vedleggsliste)} */}
 
             {vedleggsliste.length === 0 && soknad.tittel}
             {vedleggsliste.length !== 0 && (
@@ -200,25 +233,23 @@ function VedleggsListe({
                         );
                     })}
 
-            {/**{soknad && (
-                <Button onClick={onSendInn}>Send inn</Button>
-            )} */}
+            {/** du må rydde i logikken her */}
 
             <div>
+                {soknadKlar && (
+                    <Button
+                        onClick={() => {
+                            if (!sendInnKomplettSoknadModal) {
+                                setSendInnKomplettSoknadModal(true);
+                            }
+                        }}
+                    >
+                        Send inn komplett søknad
+                    </Button>
+                )}
+
                 {
-                    soknadKlar ? (
-                        <Button
-                            onClick={() => {
-                                if (!sendInnKomplettSoknadModal) {
-                                    setSendInnKomplettSoknadModal(
-                                        true,
-                                    );
-                                }
-                            }}
-                        >
-                            Send inn komplett søknad
-                        </Button>
-                    ) : (
+                    soknadHarNoeInnlevert && !soknadKlar && (
                         <Button
                             onClick={() => {
                                 if (!sendInnUferdigSoknadModal) {
@@ -230,7 +261,8 @@ function VedleggsListe({
                         >
                             Send inn ufullstendig søknad
                         </Button>
-                    ) // dette virker nå, men du må reloade
+                    )
+                    // dette virker nå, men du må reloade
                 }
             </div>
 
@@ -371,7 +403,7 @@ kanskje popup om at dette vil slette innhold? */}
                 <FellesModal
                     open={sendInnKomplettSoknadModal}
                     setOpen={setSendInnKomplettSoknadModal}
-                    onAccept={tilMittNav}
+                    onAccept={onSendInn}
                     acceptButtonText="Ja, send søknaden nå"
                 >
                     <Heading spacing level="1" size="large">
