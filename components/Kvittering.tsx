@@ -88,7 +88,14 @@ function Kvittering() {
                         <Alert variant="success" size="medium" inline>
                             {' '}
                             {example.label}
-                            {/* lenke her*/}
+                            <br />
+                            <Link
+                                href={`${process.env.NEXT_PUBLIC_API_URL}${example.hoveddokumentRef}`}
+                            >
+                                <a target="_blank">
+                                    Last ned kopi (åpnes i en ny fane)
+                                </a>
+                            </Link>
                         </Alert>
                     )}
                     {example &&
@@ -150,7 +157,7 @@ function Kvittering() {
                     </BodyLong>
                 </Alert>
 
-                <Link href="https://www.nav.no/no/ditt-nav">
+                <Link href="https://www.nav.no/no/ditt-nav" passHref>
                     <Button variant="secondary" size="medium">
                         Gå til Ditt NAV
                     </Button>
