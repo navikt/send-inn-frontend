@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-// import jwt from 'jsonwebtoken';
-
+import { decodeJwt } from 'jose';
+import { isExpired } from '../../auth/verifyIdPortenToken';
 export type User = {
     isLoggedIn: boolean;
     pid: string;
@@ -10,25 +10,25 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<User>,
 ) {
-    console.log('user');
+    if (process.env.NODE_ENV !== 'production') {
+        return res.json({
+            isLoggedIn: true,
+            pid: null,
+        });
+    }
     const authorization = req.headers.authorization;
-
-    console.log(process.env.NODE_ENV);
-    if (authorization) {
-        // const token = authorization.split(' ')[1];
-        // //TODO: verify token
-        // const decodedToken = jwt.decode(token);
-        res.json({
+    try {
+        const token = authorization.split(' ')[1];
+        const decodedToken = decodeJwt(token);
+        if (isExpired(decodedToken)) {
+            throw new Error('Expired');
+        }
+        return res.json({
             isLoggedIn: true,
-            pid: null,
+            pid: decodedToken.pid as string,
         });
-    } else if (process.env.NODE_ENV !== 'production') {
-        res.json({
-            isLoggedIn: true,
-            pid: null,
-        });
-    } else {
-        res.json({
+    } catch (error) {
+        return res.json({
             isLoggedIn: false,
             pid: null,
         });

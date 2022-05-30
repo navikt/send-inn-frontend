@@ -3,7 +3,7 @@ import {
     FlattenedJWSInput,
     JWSHeaderParameters,
     jwtVerify,
-    JWTVerifyResult,
+    JWTPayload,
 } from 'jose';
 import { GetKeyFunction } from 'jose/dist/types/types';
 import getConfig from 'next/config';
@@ -45,8 +45,8 @@ async function issuer() {
     return _issuer;
 }
 
-const isExpired = (verified: JWTVerifyResult) => {
-    if (verified.payload.exp * 1000 <= Date.now()) {
+export const isExpired = (payload: JWTPayload) => {
+    if (payload.exp * 1000 <= Date.now()) {
         return true;
     }
     return false;
@@ -54,7 +54,7 @@ const isExpired = (verified: JWTVerifyResult) => {
 
 export async function verifyIdportenAccessToken(token: string) {
     const verified = await validerToken(token);
-    if (isExpired(verified)) {
+    if (isExpired(verified.payload)) {
         throw new Error('IdPortenToken is expired');
     }
 
@@ -67,4 +67,5 @@ export async function verifyIdportenAccessToken(token: string) {
     if (verified.payload.acr !== 'Level4') {
         throw new Error('Har ikke acr Level4');
     }
+    return verified;
 }
