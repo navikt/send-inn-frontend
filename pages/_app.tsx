@@ -4,13 +4,27 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from '../i18n';
 import '@navikt/ds-css';
 import '@navikt/ds-css-internal';
+import { SWRConfig } from 'swr';
+import fetchJson from '../lib/fetchJson';
+import { AuthenticationProvider } from '../components/AuthenticationProvider';
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
         <Layout>
-            <I18nextProvider i18n={i18n}>
-                <Component {...pageProps} />
-            </I18nextProvider>
+            <SWRConfig
+                value={{
+                    fetcher: fetchJson,
+                    onError: (err) => {
+                        console.error(err);
+                    },
+                }}
+            >
+                <I18nextProvider i18n={i18n}>
+                    <AuthenticationProvider>
+                        <Component {...pageProps} />
+                    </AuthenticationProvider>
+                </I18nextProvider>
+            </SWRConfig>
         </Layout>
     );
 }
