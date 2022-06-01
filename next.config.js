@@ -9,4 +9,16 @@ module.exports = {
     compiler: {
         styledComponents: true,
     },
+    experimental: {
+        outputStandalone: true,
+    },
+    async redirects() {
+        return [
+            {
+                source: '/login',
+                destination: '/oauth2/login',
+                permanent: false,
+            },
+        ];
+    },
 };

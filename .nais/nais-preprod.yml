@@ -6,14 +6,14 @@ metadata:
     labels:
         team: team-soknad
 spec:
-    image: "{{ image }}"
+    image: '{{ image }}'
     port: 3000
     liveness:
         path: /api/isAlive
         initialDelay: 20
         timeout: 10
         periodSeconds: 5
-        failureThreshold: 10        
+        failureThreshold: 10
     readiness:
         path: /api/isReady
         initialDelay: 20
@@ -30,8 +30,24 @@ spec:
             memory: 786Mi
         requests:
             memory: 512Mi
+    idporten:
+        enabled: true
+        sidecar:
+            enabled: true
+            level: Level4
+            autoLogin: false
+    tokenx:
+        enabled: true
+    accessPolicy:
+        outbound:
+            rules:
+            - application: innsending-api
     ingresses:
-        - "https://send-inn-frontend.dev.nav.no"
+        - 'https://send-inn-frontend.dev.nav.no'
     env:
         - name: APP_VERSION
           value: {{ app_version }}
+        - name: INNSENDING_API_AUDIENCE
+          value: "dev-gcp:team-soknad:innsending-api"
+        - name: REMOTE_API_URL
+          value: "https://innsending-api-gcp.dev.nav.no"

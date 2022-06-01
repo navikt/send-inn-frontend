@@ -1,4 +1,12 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Tips for debugging
+
+Man kan bruke curlize i en fil som bruker axios for å console logge alle request i forbindelse med utvikling/debugging.
+
+```javascript
+import curlirize from 'axios-curlirize';
+// initializing axios-curlirize with your axios instance
+curlirize(axios);
+```
 
 ## Getting Started
 

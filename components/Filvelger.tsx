@@ -3,7 +3,6 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button } from '@navikt/ds-react';
 import { Upload } from '@navikt/ds-icons';
 import { ACTIONS, ActionType } from './Vedlegg';
-
 type FormValues = {
     file: FileList | null;
 };

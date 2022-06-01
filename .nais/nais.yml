@@ -30,8 +30,24 @@ spec:
             memory: 786Mi
         requests:
             memory: 512Mi
+    idporten:
+        enabled: true
+        sidecar:
+            enabled: true
+            level: Level4
+            autoLogin: false
+    tokenx:
+        enabled: true
+    accessPolicy:
+        outbound:
+            rules:
+            - application: innsending-api
     ingresses:
         - "https://send-inn-frontend.intern.nav.no"
     env:
         - name: APP_VERSION
           value: {{ app_version }}
+        - name: INNSENDING_API_AUDIENCE
+          value: "prod-gcp:team-soknad:innsending-api"
+        - name: REMOTE_API_URL
+          value: "https://innsending-api-gcp.nav.no"

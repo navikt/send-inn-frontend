@@ -193,7 +193,7 @@ const Vedlegg: NextPage = () => {
                     Velg dine filer
                 </Button>
 
-                <FilePanel type="error" border>
+                <FilePanel type="" border>
                     <StyledDiv>
                         <Files />
                     </StyledDiv>

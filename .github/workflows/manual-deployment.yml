@@ -27,16 +27,15 @@ jobs:
               with:
                   node-version: '16'
                   cache: 'npm'
-            #- name: Install dependencies
-            #  run: npm install
-            #  env:
-            # Github krever autentisering for tilgang til packages
-            #    NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+            - name: Install dependencies
+              run: npm install
+              env:
+                  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
             # fjernet fordi den bare gjør det samme som docker imaget inntil vi har tester/linting
             # - name: Test
             #   run: npm run test
-            #- name: Build
-            #  run: npm run build:static
+            - name: Build
+              run: npm run build
             - name: Publish Docker image
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
