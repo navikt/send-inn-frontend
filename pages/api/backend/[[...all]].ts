@@ -58,6 +58,7 @@ export default async function handler(
             ...headers,
             authorization: `Bearer ${tokenxToken}`,
         },
+        responseType: 'stream',
         timeout: 20000,
     }).catch((error) => {
         console.log(error.response?.data);
@@ -93,6 +94,10 @@ export default async function handler(
     if (!response) {
         return;
     }
+    for (const key in response.headers) {
+        res.setHeader(key, response.headers[key]);
+    }
 
-    res.json(response.data);
+    res.status(response.status);
+    response.data.pipe(res);
 }
