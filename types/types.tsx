@@ -20,6 +20,7 @@ export type VedleggType = {
 export type OpplastetFil = {
     id: string;
     filnavn: string;
+    storrelse: number;
 };
 
 export type setOpplastingStatusType = (

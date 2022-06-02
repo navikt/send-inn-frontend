@@ -10,35 +10,25 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 // Takk bare fet og stor .. vi mottok h2 .. ul ikoner som bullet ... h2 for doks som skal ettersendes, ny ul med forskjellig bullet ... p ...
+export interface KvitteringsProps {
+    kvprops: KvitteringsDto;
+}
 
-const example = {
-    innsendingsId: '18c02791-82ac-42e6-ae15-419dd27459b2',
-    label: 'Svar på forhåndsvarsel i sak om barnebidrag (bidragsmottaker)',
-    mottattdato: '2022-05-24T12:00:24.8398842Z',
-    hoveddokumentRef:
-        'soknad/18c02791-82ac-42e6-ae15-419dd27459b2/vedlegg/1/fil/2',
-    innsendteVedlegg: [
-        {
-            vedleggsnr: 'C1',
-            tittel: 'Arbeidslogg for utprøving av Innowalk som grunnlag for helhetsvurdering og vedlegg til søknad ',
-        },
-        {
-            vedleggsnr: 'W1',
-            tittel: 'Dokumentasjon på mottatt bidrag',
-        },
-    ],
-    skalEttersendes: [
-        {
-            vedleggsnr: 'C1',
-            tittel: 'Arbeidslogg for utprøving av Innowalk som grunnlag for helhetsvurdering og vedlegg til søknad ',
-        },
-        {
-            vedleggsnr: 'W1',
-            tittel: 'Dokumentasjon på mottatt bidrag',
-        },
-    ],
-    ettersendingsfrist: '2022-07-05T12:00:24.8398842Z',
-};
+export interface KvitteringsDto {
+    innsendingsId: string;
+    label: string;
+    mottattdato: string;
+    hoveddokumentRef: string;
+    innsendteVedlegg: {
+        vedleggsnr: string;
+        tittel: string;
+    }[];
+    skalEttersendes: {
+        vedleggsnr: string;
+        tittel: string;
+    }[];
+    ettersendingsfrist: string;
+}
 // TODO husk å legge inn dato på toppen, dato basert på innleveringsdato på bunnen og lenken til dokumentet
 
 const KompStyle = styled.div`
@@ -66,7 +56,7 @@ function formatertDato(date: Date) {
     ).slice(-2)}.${date.getFullYear()}`;
 }
 
-function Kvittering() {
+export function Kvittering({ kvprops }: KvitteringsProps) {
     const SjekkBoksListe = styled.ul`
         /* background-color: red; */
 
@@ -81,16 +71,16 @@ function Kvittering() {
 
                 <Heading spacing size="medium" level="2">
                     Vi mottok disse dokumentene{' '}
-                    {formatertDato(new Date(example.mottattdato))}:
+                    {formatertDato(new Date(kvprops.mottattdato))}:
                 </Heading>
                 <SjekkBoksListe>
-                    {example && example.hoveddokumentRef && (
+                    {kvprops && kvprops.hoveddokumentRef && (
                         <Alert variant="success" size="medium" inline>
                             {' '}
-                            {example.label}
+                            {kvprops.label}
                             <br />
                             <Link
-                                href={`${process.env.NEXT_PUBLIC_API_URL}${example.hoveddokumentRef}`}
+                                href={`${process.env.NEXT_PUBLIC_API_URL}/${kvprops.hoveddokumentRef}`}
                             >
                                 <a target="_blank">
                                     Last ned kopi (åpnes i en ny fane)
@@ -98,9 +88,10 @@ function Kvittering() {
                             </Link>
                         </Alert>
                     )}
-                    {example &&
-                        example.innsendteVedlegg.length > 0 &&
-                        example.innsendteVedlegg.map(
+                    {kvprops &&
+                        kvprops.innsendteVedlegg &&
+                        kvprops.innsendteVedlegg.length > 0 &&
+                        kvprops.innsendteVedlegg.map(
                             (vedlegg, key) => {
                                 return (
                                     <Alert
@@ -122,9 +113,10 @@ function Kvittering() {
                 </Heading>
 
                 <ul>
-                    {example &&
-                        example.innsendteVedlegg.length > 0 &&
-                        example.innsendteVedlegg.map(
+                    {kvprops &&
+                        kvprops.skalEttersendes &&
+                        kvprops.skalEttersendes.length > 0 &&
+                        kvprops.skalEttersendes.map(
                             (vedlegg, key) => {
                                 return (
                                     <li key={vedlegg.vedleggsnr}>
@@ -145,15 +137,12 @@ function Kvittering() {
                     <Heading spacing size="small" level="2">
                         Frist for å ettersende dokumentene:{' '}
                         {formatertDato(
-                            new Date(example.ettersendingsfrist),
+                            new Date(kvprops.ettersendingsfrist),
                         )}
                     </Heading>
                     <BodyLong>
-                        Du finner en oppgave for å ettersende
-                        dokumentasjonen under “Varslinger” på Min Side
-                        / DittNAV. Under “Varslinger” på Min Side /
-                        DittNAV finner du en oppgave for å ettersende
-                        dokumentasjon til denne saken.
+                        Oppgaven for å ettersende dokumentasjonen
+                        finner du øverst på Ditt NAV.
                     </BodyLong>
                 </Alert>
 
