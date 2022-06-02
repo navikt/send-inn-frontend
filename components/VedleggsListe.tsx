@@ -5,6 +5,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { VedleggType, SoknadType } from '../types/types';
 import Vedlegg from '../components/Vedlegg';
+import Kvittering, { KvitteringsDto } from '../components/Kvittering';
 import { VedleggProps } from '../components/Vedlegg';
 import { Button } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
@@ -25,7 +26,36 @@ export interface VedleggsListeProps {
     >;
     erEttersending: boolean;
 }
-
+/*
+let example: KvitteringsDto = {
+    innsendingsId: '18c02791-82ac-42e6-ae15-419dd27459b2',
+    label: 'Svar på forhåndsvarsel i sak om barnebidrag (bidragsmottaker)',
+    mottattdato: '2022-05-24T12:00:24.8398842Z',
+    <hoveddokumentRef:></hoveddokumentRef:>
+        'soknad/18c02791-82ac-42e6-ae15-419dd27459b2/vedlegg/1/fil/2',
+    innsendteVedlegg: [
+        {
+            vedleggsnr: 'C1',
+            tittel: 'Arbeidslogg for utprøving av Innowalk som grunnlag for helhetsvurdering og vedlegg til søknad ',
+        },
+        {
+            vedleggsnr: 'W1',
+            tittel: 'Dokumentasjon på mottatt bidrag',
+        },
+    ],
+    skalEttersendes: [
+        {
+            vedleggsnr: 'C1',
+            tittel: 'Arbeidslogg for utprøving av Innowalk som grunnlag for helhetsvurdering og vedlegg til søknad ',
+        },
+        {
+            vedleggsnr: 'W1',
+            tittel: 'Dokumentasjon på mottatt bidrag',
+        },
+    ],
+    ettersendingsfrist: '2022-07-05T12:00:24.8398842Z',
+};
+*/
 function soknadKlarForInnsending(
     vedleggsliste: VedleggType[],
     erEttersending: boolean,
@@ -124,6 +154,10 @@ function VedleggsListe({
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { t, i18n } = useTranslation();
 
+    const [visKvittering, setVisKvittering] = useState(false);
+    const [soknadsInnsendingsRespons, setSoknadsInnsendingsRespons] =
+        useState(null);
+
     function setOpplastingStatus(id: number, status: string): void {
         console.log('utløst' + id + status);
         const currentListe = [...vedleggsliste];
@@ -144,10 +178,17 @@ function VedleggsListe({
             .post(
                 `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/sendInn/${soknad?.innsendingsId}`,
             )
+            .then((response) => {
+                const kv: KvitteringsDto = response.data;
+                setSoknadsInnsendingsRespons(kv);
+                setVisKvittering(true);
+                alert(kv.toString());
+                alert(visKvittering.toString());
+            })
             .finally(() => {
-                resetState();
+                // resetState();
                 //TODO: Endre til "then", og gå til kvitteringside, nils arnes endringer skal nå gjøre at dette virker
-                alert('Sendt inn');
+                // alert('Sendt inn');
                 // tilMittNav()
             })
             .catch((e) => {
@@ -199,104 +240,125 @@ function VedleggsListe({
 
     return (
         <div>
-            {/* t('test')  dette tester flerspråksfuknsjonalitet*/}
-
-            {/* soknad.spraak skriver ut språk */}
-            {/* {soknadKlar.toString() + " // "} */}
-            {/* {soknadHarNoeInnlevert.toString() + " // "} */}
-            {/* {JSON.stringify(vedleggsliste)} */}
-
-            {vedleggsliste.length === 0 && soknad.tittel}
-            {vedleggsliste.length !== 0 && (
-                <h1>Last opp vedlegg her:</h1>
+            {process.env.NEXT_PUBLIC_REMOTE_API}
+            {visKvittering && (
+                <div>
+                    {' '}
+                    <Kvittering
+                        kvprops={soknadsInnsendingsRespons}
+                    />{' '}
+                </div>
             )}
 
-            {soknad &&
-                vedleggsliste.length > 0 &&
-                vedleggsliste
-                    .filter((x) =>
-                        skjulHovedskjemaOm(
-                            x.erHoveddokument,
-                            erEttersending,
-                        ),
-                    )
-                    .map((vedlegg, key) => {
-                        return (
-                            <Vedlegg
-                                key={key}
-                                innsendingsId={soknad.innsendingsId}
-                                setOpplastingStatus={
-                                    setOpplastingStatus
-                                }
-                                vedlegg={vedlegg}
-                            />
-                        );
-                    })}
+            {!visKvittering && (
+                <div>
+                    {/* t('test')  dette tester flerspråksfuknsjonalitet*/}
 
-            {/** du må rydde i logikken her */}
+                    {/* soknad.spraak skriver ut språk */}
+                    {/* {soknadKlar.toString() + " // "} */}
+                    {/* {soknadHarNoeInnlevert.toString() + " // "} */}
+                    {/* {JSON.stringify(vedleggsliste)} */}
+                    {soknad && <h3> {soknad.tittel}</h3>}
 
-            <div>
-                {soknadKlar && (
-                    <Button
-                        onClick={() => {
-                            if (!sendInnKomplettSoknadModal) {
-                                setSendInnKomplettSoknadModal(true);
-                            }
-                        }}
-                    >
-                        Send inn komplett søknad
-                    </Button>
-                )}
+                    {vedleggsliste.length === 0 && soknad.tittel}
+                    {vedleggsliste.length !== 0 && (
+                        <h1>Last opp vedlegg her:</h1>
+                    )}
 
-                {
-                    soknadHarNoeInnlevert && !soknadKlar && (
+                    {soknad &&
+                        vedleggsliste.length > 0 &&
+                        vedleggsliste
+                            .filter((x) =>
+                                skjulHovedskjemaOm(
+                                    x.erHoveddokument,
+                                    erEttersending,
+                                ),
+                            )
+                            .map((vedlegg, key) => {
+                                return (
+                                    <Vedlegg
+                                        key={key}
+                                        innsendingsId={
+                                            soknad.innsendingsId
+                                        }
+                                        setOpplastingStatus={
+                                            setOpplastingStatus
+                                        }
+                                        vedlegg={vedlegg}
+                                    />
+                                );
+                            })}
+
+                    {/** du må rydde i logikken her */}
+
+                    <div>
+                        {soknadKlar && (
+                            <Button
+                                onClick={() => {
+                                    if (!sendInnKomplettSoknadModal) {
+                                        setSendInnKomplettSoknadModal(
+                                            true,
+                                        );
+                                    }
+                                }}
+                            >
+                                Send inn komplett søknad
+                            </Button>
+                        )}
+
+                        {
+                            soknadHarNoeInnlevert && !soknadKlar && (
+                                <Button
+                                    onClick={() => {
+                                        if (
+                                            !sendInnUferdigSoknadModal
+                                        ) {
+                                            setSendInnUferdigSoknadModal(
+                                                true,
+                                            );
+                                        }
+                                    }}
+                                >
+                                    Send inn ufullstendig søknad
+                                </Button>
+                            )
+                            // dette virker nå, men du må reloade
+                        }
+                    </div>
+
+                    <div>
+                        {/* lagre og fortsett senere */}
                         <Button
                             onClick={() => {
-                                if (!sendInnUferdigSoknadModal) {
-                                    setSendInnUferdigSoknadModal(
+                                if (!fortsettSenereSoknadModal) {
+                                    setForstettSenereSoknadModal(
                                         true,
                                     );
                                 }
                             }}
                         >
-                            Send inn ufullstendig søknad
+                            Lagre og fortsett senere
                         </Button>
-                    )
-                    // dette virker nå, men du må reloade
-                }
-            </div>
-
-            <div>
-                {/* lagre og fortsett senere */}
-                <Button
-                    onClick={() => {
-                        if (!fortsettSenereSoknadModal) {
-                            setForstettSenereSoknadModal(true);
-                        }
-                    }}
-                >
-                    Lagre og fortsett senere
-                </Button>
-            </div>
-            <div>
-                {/*kall slettsøknad på api, deretter, gå til ditt nav
+                    </div>
+                    <div>
+                        {/*kall slettsøknad på api, deretter, gå til ditt nav
 kanskje popup om at dette vil slette innhold? */}
-                <Button
-                    onClick={() => {
-                        if (!slettSoknadModal) {
-                            setSlettSoknadModal(true);
-                        }
-                    }}
-                    variant="secondary"
-                >
-                    Avbryt søknad
-                </Button>
+                        <Button
+                            onClick={() => {
+                                if (!slettSoknadModal) {
+                                    setSlettSoknadModal(true);
+                                }
+                            }}
+                            variant="secondary"
+                        >
+                            Avbryt søknad
+                        </Button>
 
-                {/* open={open} onClose={() => setOpen(false)} */}
+                        {/* open={open} onClose={() => setOpen(false)} */}
 
-                {/*     const [isModalOpen, setIsModalOpen] = useState(false); */}
+                        {/*     const [isModalOpen, setIsModalOpen] = useState(false); */}
 
-                {/*
+                        {/*
 
                 TODO: adding the new modals
 
@@ -318,110 +380,120 @@ kanskje popup om at dette vil slette innhold? */}
                 
                 */}
 
-                <FellesModal
-                    open={fortsettSenereSoknadModal}
-                    setOpen={setForstettSenereSoknadModal}
-                    onAccept={tilMittNav}
-                    acceptButtonText="Ja, lagre og fortsett senere"
-                >
-                    <Heading spacing level="1" size="large">
-                        Er du sikker på at du vil lagre søknaden og
-                        fortsette senere?
-                    </Heading>
-                    <Heading spacing level="2" size="medium">
-                        Vær oppmerksom på:
-                    </Heading>
-                    <BodyLong spacing>
-                        Søknaden blir IKKE sendt til saksbehandler i
-                        NAV nå, men kunmellomlagret slik at du kan
-                        gjenoppta den senere.
-                    </BodyLong>
-                    <BodyLong>
-                        Hvis du ønsker å sette dagens dato som
-                        startdato for søknaden må du klikke på knappen
-                        Send inn til NAV. Du kan gjøre dette selv om
-                        du ikke har all dokumentasjon nå. Du kan
-                        ettersende manglende dokumentasjon her på
-                        nav.no innen (dato/antall uker/dager)
-                    </BodyLong>
-                </FellesModal>
+                        <FellesModal
+                            open={fortsettSenereSoknadModal}
+                            setOpen={setForstettSenereSoknadModal}
+                            onAccept={tilMittNav}
+                            acceptButtonText="Ja, lagre og fortsett senere"
+                        >
+                            <Heading spacing level="1" size="large">
+                                Er du sikker på at du vil lagre
+                                søknaden og fortsette senere?
+                            </Heading>
+                            <Heading spacing level="2" size="medium">
+                                Vær oppmerksom på:
+                            </Heading>
+                            <BodyLong spacing>
+                                Søknaden blir IKKE sendt til
+                                saksbehandler i NAV nå, men
+                                kunmellomlagret slik at du kan
+                                gjenoppta den senere.
+                            </BodyLong>
+                            <BodyLong>
+                                Hvis du ønsker å sette dagens dato som
+                                startdato for søknaden må du klikke på
+                                knappen Send inn til NAV. Du kan gjøre
+                                dette selv om du ikke har all
+                                dokumentasjon nå. Du kan ettersende
+                                manglende dokumentasjon her på nav.no
+                                innen (dato/antall uker/dager)
+                            </BodyLong>
+                        </FellesModal>
 
-                <FellesModal
-                    open={slettSoknadModal}
-                    setOpen={setSlettSoknadModal}
-                    onAccept={slett}
-                    acceptButtonText="Ja, avbryt og slett søknaden"
-                >
-                    <Heading spacing level="1" size="large">
-                        Er du sikker på at du vil avbryte søknaden?
-                    </Heading>
-                    <Heading spacing level="2" size="medium">
-                        Vær oppmerksom på:
-                    </Heading>
-                    <BodyLong spacing>
-                        Søknaden og all dokumentasjon du har lastet
-                        opp på denne siden vil bli slettet.
-                    </BodyLong>
-                    <BodyLong>
-                        Hvis du ønsker å komme tilbake og fortsette
-                        søknaden senere, må du klikke på knappen
-                        “Lagre og fortsett senere”.
-                    </BodyLong>
-                </FellesModal>
+                        <FellesModal
+                            open={slettSoknadModal}
+                            setOpen={setSlettSoknadModal}
+                            onAccept={slett}
+                            acceptButtonText="Ja, avbryt og slett søknaden"
+                        >
+                            <Heading spacing level="1" size="large">
+                                Er du sikker på at du vil avbryte
+                                søknaden?
+                            </Heading>
+                            <Heading spacing level="2" size="medium">
+                                Vær oppmerksom på:
+                            </Heading>
+                            <BodyLong spacing>
+                                Søknaden og all dokumentasjon du har
+                                lastet opp på denne siden vil bli
+                                slettet.
+                            </BodyLong>
+                            <BodyLong>
+                                Hvis du ønsker å komme tilbake og
+                                fortsette søknaden senere, må du
+                                klikke på knappen “Lagre og fortsett
+                                senere”.
+                            </BodyLong>
+                        </FellesModal>
 
-                <FellesModal
-                    open={sendInnUferdigSoknadModal}
-                    setOpen={setSendInnUferdigSoknadModal}
-                    onAccept={onSendInn}
-                    acceptButtonText="Ja, send søknaden nå"
-                >
-                    <Heading spacing level="1" size="large">
-                        Er du sikker på at du vil sende søknaden nå?
-                    </Heading>
-                    <Heading spacing level="2" size="medium">
-                        Vær oppmerksom på:
-                    </Heading>
-                    <BodyLong spacing>
-                        Dagens dato vil bli satt som startdato for
-                        søknaden din.
-                    </BodyLong>
-                    <BodyLong>
-                        Du har ikke lastet opp all nødvendig
-                        dokumentasjon. Vi kan ikke behandle søknaden
-                        din før du har ettersendt denne
-                        dokumentasjonen.Hvis du velger å sende
-                        søknaden nå må du ettersende
-                        dokumentasjonensom mangler innen DATO. Vi vil
-                        sende deg en notifikasjon på DittNAV som
-                        spesifiserer hva som må ettersendes. Klikk på
-                        notifikasjonen når du har skaffet
-                        dokumentasjonen og er klar til å ettersende
-                        dette.
-                    </BodyLong>
-                </FellesModal>
+                        <FellesModal
+                            open={sendInnUferdigSoknadModal}
+                            setOpen={setSendInnUferdigSoknadModal}
+                            onAccept={onSendInn}
+                            acceptButtonText="Ja, send søknaden nå"
+                        >
+                            <Heading spacing level="1" size="large">
+                                Er du sikker på at du vil sende
+                                søknaden nå?
+                            </Heading>
+                            <Heading spacing level="2" size="medium">
+                                Vær oppmerksom på:
+                            </Heading>
+                            <BodyLong spacing>
+                                Dagens dato vil bli satt som startdato
+                                for søknaden din.
+                            </BodyLong>
+                            <BodyLong>
+                                Du har ikke lastet opp all nødvendig
+                                dokumentasjon. Vi kan ikke behandle
+                                søknaden din før du har ettersendt
+                                denne dokumentasjonen.Hvis du velger å
+                                sende søknaden nå må du ettersende
+                                dokumentasjonensom mangler innen DATO.
+                                Vi vil sende deg en notifikasjon på
+                                DittNAV som spesifiserer hva som må
+                                ettersendes. Klikk på notifikasjonen
+                                når du har skaffet dokumentasjonen og
+                                er klar til å ettersende dette.
+                            </BodyLong>
+                        </FellesModal>
 
-                <FellesModal
-                    open={sendInnKomplettSoknadModal}
-                    setOpen={setSendInnKomplettSoknadModal}
-                    onAccept={onSendInn}
-                    acceptButtonText="Ja, send søknaden nå"
-                >
-                    <Heading spacing level="1" size="large">
-                        Er du sikker på at du vil sende søknaden nå?
-                    </Heading>
-                    <Heading spacing level="2" size="medium">
-                        Vær oppmerksom på:
-                    </Heading>
-                    <BodyLong spacing>
-                        Dagens dato vil bli satt som startdato for
-                        søknaden din.
-                    </BodyLong>
-                    <BodyLong>
-                        Du har lastet opp all dokumentasjon som er
-                        nødvendig for å behandle søknaden din.
-                    </BodyLong>
-                </FellesModal>
-            </div>
+                        <FellesModal
+                            open={sendInnKomplettSoknadModal}
+                            setOpen={setSendInnKomplettSoknadModal}
+                            onAccept={onSendInn}
+                            acceptButtonText="Ja, send søknaden nå"
+                        >
+                            <Heading spacing level="1" size="large">
+                                Er du sikker på at du vil sende
+                                søknaden nå?
+                            </Heading>
+                            <Heading spacing level="2" size="medium">
+                                Vær oppmerksom på:
+                            </Heading>
+                            <BodyLong spacing>
+                                Dagens dato vil bli satt som startdato
+                                for søknaden din.
+                            </BodyLong>
+                            <BodyLong>
+                                Du har lastet opp all dokumentasjon
+                                som er nødvendig for å behandle
+                                søknaden din.
+                            </BodyLong>
+                        </FellesModal>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

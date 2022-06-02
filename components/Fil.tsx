@@ -14,6 +14,7 @@ import {
     Panel,
     Detail,
     Label,
+    Link as NavLink,
 } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { FIL_STATUS } from '../types/enums';
@@ -259,6 +260,7 @@ export function Fil({
                                 id: response.data.id,
                                 filnavn:
                                     filState.filData.lokalFil.name,
+                                storrelse: response.data.storrelse,
                             },
                         },
                     },
@@ -302,7 +304,22 @@ export function Fil({
                 <FilUploadIcon filstatus={status} />
                 <div className="filename">
                     {status === FIL_STATUS.OPPLASTET ? (
-                        <div>{filnavn}</div>
+                        <div>
+                            <NavLink
+                                target="_blank"
+                                href={`${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/${filState.filData.opplastetFil?.id}`}
+                                rel="noopener noreferrer"
+                            >
+                                {filnavn}
+                            </NavLink>
+                            <Detail size="small">
+                                {Math.round(
+                                    filState.filData.opplastetFil
+                                        ?.storrelse / 1024,
+                                )}
+                                kb
+                            </Detail>
+                        </div>
                     ) : (
                         filnavn
                     )}

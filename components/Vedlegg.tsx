@@ -99,6 +99,7 @@ function Vedlegg(props: VedleggProps) {
                             opplastetFil: {
                                 id: jsonitem.id,
                                 filnavn: jsonitem.filnavn,
+                                storrelse: jsonitem.storrelse,
                             },
                         };
                         dispatch({
