@@ -114,6 +114,20 @@ export interface FilActionType {
     filState?: FilState;
 }
 
+const filStorrelseVisning = (bytes: number): string => {
+    const enheter = ['Bit', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes == 0) return '0 Bit';
+    const indeksIEnheter = Math.floor(
+        Math.log(bytes) / Math.log(1024),
+    );
+    const enhet = enheter[indeksIEnheter];
+    const storrelserIEnhet = Math.round(
+        bytes / Math.pow(1024, indeksIEnheter),
+    );
+
+    return `${storrelserIEnhet}${enhet}`;
+};
+
 const filReducer = (
     filState: FilState,
     action: FilActionType,
@@ -313,11 +327,10 @@ export function Fil({
                                 {filnavn}
                             </NavLink>
                             <Detail size="small">
-                                {Math.round(
+                                {filStorrelseVisning(
                                     filState.filData.opplastetFil
-                                        ?.storrelse / 1024,
+                                        ?.storrelse,
                                 )}
-                                kb
                             </Detail>
                         </div>
                     ) : (
