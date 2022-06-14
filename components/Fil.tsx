@@ -115,8 +115,8 @@ export interface FilActionType {
 }
 
 const filStorrelseVisning = (bytes: number): string => {
-    const enheter = ['Bit', 'KB', 'MB', 'GB', 'TB'];
-    if (bytes == 0) return '0 Bit';
+    const enheter = ['B', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes == 0) return '0 B';
     const indeksIEnheter = Math.floor(
         Math.log(bytes) / Math.log(1024),
     );

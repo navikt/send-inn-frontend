@@ -8,6 +8,18 @@ import curlirize from 'axios-curlirize';
 curlirize(axios);
 ```
 
+## Login i preprod
+
+Finn en testbruker her og logg deg inn.
+https://confluence.adeo.no/pages/viewpage.action?pageId=419521258
+
+Gå til denne siden:
+https://send-inn-frontend.dev.nav.no/
+Eller:
+https://send-inn-frontend-alt.dev.nav.no/
+
+Trykk testid og lim inn syntetisk fødselsnummer i
+
 ## Getting Started
 
 First, run the development server:
