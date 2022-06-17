@@ -31,6 +31,15 @@ jobs:
               run: npm install
               env:
                   NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+            - name: Set environment variables (prod)
+              if: github.event.inputs.environment == 'prod'
+              run: cp environments/prod.env .env
+            - name: Set environment variables (preprod)
+              if: github.event.inputs.environment == 'preprod'
+              run: cp environments/preprod.env .env
+            - name: Set environment variables (preprod-alt)
+              if: github.event.inputs.environment == 'preprod-alt'
+              run: cp environments/preprod-alt.env .env
             # fjernet fordi den bare gjør det samme som docker imaget inntil vi har tester/linting
             # - name: Test
             #   run: npm run test

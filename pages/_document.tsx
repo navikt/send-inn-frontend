@@ -36,6 +36,7 @@ export default class MyDocument extends Document<Props> {
                         ? 'dev'
                         : 'prod',
                 simple: true,
+                logoutUrl: '/oauth2/logout',
             });
             return {
                 ...initialProps,
