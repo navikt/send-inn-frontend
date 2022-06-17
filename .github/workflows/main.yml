@@ -34,6 +34,8 @@ jobs:
               env:
                   # Github krever autentisering for tilgang til packages
                   NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+            - name: Set environment variables (prod)
+              run: cp environments/prod.env .env
             # - name: Test
             #   run: npm run test
             - name: Build
@@ -53,6 +55,8 @@ jobs:
               run: npm install
               env:
                   NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+            - name: Set environment variables (prod)
+              run: cp environments/prod.env .env
             # fjernet fordi den bare gjør det samme som docker imaget inntil vi har tester/linting
             # - name: Test
             #   run: npm run test
