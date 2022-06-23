@@ -41,3 +41,5 @@ docs/.obsidian/
 
 # eslint cache
 .eslintcache
+
+.env
