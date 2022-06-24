@@ -29,6 +29,10 @@ export interface VedleggProps {
     erAnnetVedlegg?: boolean;
 }
 
+const VedleggPanel = styled(Panel)`
+    background-color: var(--navds-semantic-color-canvas-background);
+`;
+
 function SkjemaNedlasting(props: VedleggProps) {
     const {
         innsendingsId,
@@ -36,12 +40,6 @@ function SkjemaNedlasting(props: VedleggProps) {
         setOpplastingStatus,
         erAnnetVedlegg = true,
     } = props;
-
-    const VedleggPanel = styled(Panel)`
-        background-color: var(
-            --navds-semantic-color-canvas-background
-        );
-    `;
 
     return (
         <div>
