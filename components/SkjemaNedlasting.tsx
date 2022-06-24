@@ -48,22 +48,20 @@ function SkjemaNedlasting(props: VedleggProps) {
                     {vedlegg.vedleggsnr}: {vedlegg.label}
                 </Heading>
                 <div>
-                    <BodyLong>
-                        <Ingress>slik gjør du:</Ingress>
-
-                        <ol>
-                            <li>Klikk på “Last ned skjema”. </li>
-                            <li>
-                                Åpne og fyll ut pdf-skjemaet som
-                                lastes ned.{' '}
-                            </li>
-                            <li>
-                                Lagre skjemaet på enheten din etter
-                                utfylling.
-                            </li>
-                            <li>Klikk på “Gå videre”.</li>
-                        </ol>
-                    </BodyLong>
+                    <Ingress>slik gjør du:</Ingress>
+                    {/* TODO: husk styling på <ol> */}
+                    <ol>
+                        <li>Klikk på “Last ned skjema”. </li>
+                        <li>
+                            Åpne og fyll ut pdf-skjemaet som lastes
+                            ned.{' '}
+                        </li>
+                        <li>
+                            Lagre skjemaet på enheten din etter
+                            utfylling.
+                        </li>
+                        <li>Klikk på “Gå videre”.</li>
+                    </ol>
                 </div>
                 {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
                 {vedlegg.beskrivelse && (
