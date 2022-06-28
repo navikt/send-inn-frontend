@@ -1,60 +1,21 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import React from 'react';
-// import styles from '../../styles/Home.module.css';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState, createContext } from 'react';
 import { useRouter, NextRouter } from 'next/router';
-import { GetServerSideProps } from 'next';
 import axios from 'axios';
-import Vedlegg from '../../components/Vedlegg';
 import VedleggsListe from '../../components/VedleggsListe';
 import { VedleggType, SoknadType } from '../../types/types';
 import { Button, Panel } from '@navikt/ds-react';
-import type { ReactElement } from 'react';
-import Layout from '../../components/Layout';
 import Link from 'next/link';
-
-const qs = require('qs');
-// todo https://dev.to/fadiamg/multiple-file-inputs-with-one-submit-button-with-react-hooks-kle
 
 type FormValues = {
     file: File;
     brukerid: string;
     sprak: string;
 };
-
-/*
-interface VedleggProps {
-    innsendingsId: string;
-    id: number;
-    vedleggsnr: string;
-    tittel: string;
-    uuid: string;
-    mimetype: string | null;
-    document: string | null;
-    erHoveddokument: boolean;
-    erVariant: boolean;
-    erPdfa: boolean;
-    skjemaurl: string | null;
-    opplastingsStatus: string;
-    opprettetdato: string;
-}
-*/
-
-type VedleggProps = VedleggType & {
-    innsendingsId: string | undefined;
-};
-
-interface contextValue {
-    value: VedleggProps | null;
-}
-
-// why is this duplicated?
-export const AppContext = React.createContext<
-    VedleggProps | undefined
->(undefined);
 
 const initialVedleggsliste: VedleggType[] | [] = [];
 
