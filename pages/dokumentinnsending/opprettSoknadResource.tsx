@@ -151,7 +151,7 @@ const OpprettSoknadResource: NextPage = () => {
                     <input
                         type="text"
                         placeholder="brukerid"
-                        defaultValue={'02097225454'}
+                        defaultValue={'27928799005'}
                         {...register('brukerid')}
                     />
 
