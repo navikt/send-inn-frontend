@@ -1,7 +1,13 @@
 import React, { useEffect, useReducer } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
-import { Panel, Heading, Link as NavLink } from '@navikt/ds-react';
+import {
+    Panel,
+    Heading,
+    Link as NavLink,
+    BodyLong,
+    Ingress,
+} from '@navikt/ds-react';
 import { Filvelger } from './Filvelger';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
@@ -100,6 +106,7 @@ function Vedlegg(props: VedleggProps) {
                             opplastetFil: {
                                 id: jsonitem.id,
                                 filnavn: jsonitem.filnavn,
+                                storrelse: jsonitem.storrelse,
                             },
                         };
                         dispatch({
@@ -132,28 +139,50 @@ function Vedlegg(props: VedleggProps) {
             ) : (
                 <>
                     <div>
-                        {vedlegg.skjemaurl && (
-                            <a
-                                className="navds-link"
-                                target="_blank"
-                                style={{ color: 'blue' }}
-                                href={vedlegg.skjemaurl}
-                                rel="noopener noreferrer"
-                            >
-                                Åpne skjema
-                            </a>
-                        )}
+                        {!vedlegg.erHoveddokument &&
+                            vedlegg.skjemaurl && (
+                                <a
+                                    className="navds-link"
+                                    target="_blank"
+                                    style={{ color: 'blue' }}
+                                    href={vedlegg.skjemaurl}
+                                    rel="noopener noreferrer"
+                                >
+                                    Åpne skjema
+                                </a>
+                            )}
                     </div>
-                    <div
-                        style={{
-                            display: 'flex',
-                            alignContent: 'center',
-                        }}
-                    >
-                        <Heading size="small" spacing>
-                            {vedlegg.vedleggsnr}: {tittel}
-                        </Heading>
-                        {erAnnetVedlegg && (
+                    <div>
+                        <div>
+                            <Heading size="small" spacing>
+                                {vedlegg.vedleggsnr}: {tittel}
+                            </Heading>
+                        </div>
+                        <div>
+                            {vedlegg.erHoveddokument && (
+                                <BodyLong>
+                                    <Ingress>slik gjør du:</Ingress>
+
+                                    <ol>
+                                        <li>
+                                            Klikk på “Last ned
+                                            skjema”.{' '}
+                                        </li>
+                                        <li>
+                                            Åpne og fyll ut
+                                            pdf-skjemaet som lastes
+                                            ned.{' '}
+                                        </li>
+                                        <li>
+                                            Lagre skjemaet på enheten
+                                            din etter utfylling.
+                                        </li>
+                                        <li>Klikk på “Gå videre”.</li>
+                                    </ol>
+                                </BodyLong>
+                            )}
+                        </div>
+                        {!vedlegg.erHoveddokument && erAnnetVedlegg && (
                             <NavLink
                                 as="button"
                                 onClick={() => setEndrer(true)}

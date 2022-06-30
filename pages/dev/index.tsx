@@ -1,9 +1,5 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-// import styles from '../styles/Home.module.css';
-import Link from 'next/link';
-
-import '../i18n';
 
 const Home: NextPage = () => {
     return (
@@ -19,28 +15,29 @@ const Home: NextPage = () => {
             </Head>
 
             <main>
-                <h1>Sider under utvikling:</h1>
+                <h1>Dev</h1>
 
                 {/* TODO fix trailing comma buggen ... http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2," <- ,*/}
                 <div>
                     <a
                         href={
-                            '/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2'
+                            '/dev/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2'
                         }
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        opprettSoknadResource 1:
-                        /dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2,
+                        Dokumentinnsending - Opprett søknad
                     </a>
                 </div>
                 <div>
                     <a
-                        href={'/soknader/12347'}
+                        href={
+                            '/dev/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2'
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        se soknadsliste (mocket): /soknader/12347
+                        Dokumentinnsending - Opprett ettersending
                     </a>
                 </div>
             </main>

@@ -58,13 +58,21 @@ export default class MyDocument extends Document<Props> {
         return (
             <Html>
                 <Head>
-                    <Styles />
-                    <Scripts />
+                    {process.env.DECORATOR_DISABLED !== 'true' && (
+                        <>
+                            <Styles />
+                            <Scripts />
+                        </>
+                    )}
                 </Head>
                 <body>
-                    <Header />
+                    {process.env.DECORATOR_DISABLED !== 'true' && (
+                        <Header />
+                    )}
                     <Main />
-                    <Footer />
+                    {process.env.DECORATOR_DISABLED !== 'true' && (
+                        <Footer />
+                    )}
                     <NextScript />
                 </body>
             </Html>

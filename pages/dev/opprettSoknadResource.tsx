@@ -1,60 +1,21 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import React from 'react';
-// import styles from '../../styles/Home.module.css';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState, createContext } from 'react';
 import { useRouter, NextRouter } from 'next/router';
-import { GetServerSideProps } from 'next';
 import axios from 'axios';
-import Vedlegg from '../../components/Vedlegg';
 import VedleggsListe from '../../components/VedleggsListe';
 import { VedleggType, SoknadType } from '../../types/types';
 import { Button, Panel } from '@navikt/ds-react';
-import type { ReactElement } from 'react';
-import Layout from '../../components/Layout';
 import Link from 'next/link';
-
-const qs = require('qs');
-// todo https://dev.to/fadiamg/multiple-file-inputs-with-one-submit-button-with-react-hooks-kle
 
 type FormValues = {
     file: File;
     brukerid: string;
     sprak: string;
 };
-
-/*
-interface VedleggProps {
-    innsendingsId: string;
-    id: number;
-    vedleggsnr: string;
-    tittel: string;
-    uuid: string;
-    mimetype: string | null;
-    document: string | null;
-    erHoveddokument: boolean;
-    erVariant: boolean;
-    erPdfa: boolean;
-    skjemaurl: string | null;
-    opplastingsStatus: string;
-    opprettetdato: string;
-}
-*/
-
-type VedleggProps = VedleggType & {
-    innsendingsId: string | undefined;
-};
-
-interface contextValue {
-    value: VedleggProps | null;
-}
-
-// why is this duplicated?
-export const AppContext = React.createContext<
-    VedleggProps | undefined
->(undefined);
 
 const initialVedleggsliste: VedleggType[] | [] = [];
 
@@ -72,19 +33,21 @@ const OpprettSoknadResource: NextPage = () => {
         const { brukerid } = data;
         const { vedleggsIder } = query;
 
+        const opprettSoknadEndpoint = '/frontend/v1/soknad';
+        const opprettEttersendingEndpoint =
+            '/frontend/v1/ettersendPaSkjema';
+        const endpoint =
+            query.erEttersendelse === 'true'
+                ? opprettEttersendingEndpoint
+                : opprettSoknadEndpoint;
+
         axios
-            .post(
-                process.env.NEXT_PUBLIC_API_URL +
-                    '/frontend/v1/soknad',
-                {
-                    brukerId: brukerid,
-                    skjemanr: query.skjemanummer,
-                    sprak: query.sprak || 'NB_NO', // set bokmål som default
-                    vedleggsListe: (vedleggsIder as string)?.split(
-                        ',',
-                    ),
-                },
-            )
+            .post(process.env.NEXT_PUBLIC_API_URL + endpoint, {
+                brukerId: brukerid,
+                skjemanr: query.skjemanummer,
+                sprak: query.sprak || 'NB_NO', // set bokmål som default
+                vedleggsListe: (vedleggsIder as string)?.split(','),
+            })
             .then((response) => {
                 setSoknad(response.data);
                 setVedleggsListe(response.data.vedleggsListe);
@@ -151,7 +114,7 @@ const OpprettSoknadResource: NextPage = () => {
                     <input
                         type="text"
                         placeholder="brukerid"
-                        defaultValue={'02097225454'}
+                        defaultValue={'27928799005'}
                         {...register('brukerid')}
                     />
 
