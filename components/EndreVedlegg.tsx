@@ -35,8 +35,7 @@ export function EndreVedlegg({
             .patch(
                 `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}`,
                 {
-                    ...vedlegg,
-                    label: data.tittel,
+                    tittel: data.tittel,
                 },
             )
             .then((response) => {
