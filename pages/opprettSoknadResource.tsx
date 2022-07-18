@@ -2,16 +2,8 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { useRouter, NextRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import axios from 'axios';
-import { VedleggType, SoknadType } from '../types/types';
-import Link from 'next/link';
-
-type FormValues = {
-    file: File;
-    brukerid: string;
-    sprak: string;
-};
 
 const OpprettSoknadResource: NextPage = () => {
     const router = useRouter();
@@ -81,14 +73,5 @@ const OpprettSoknadResource: NextPage = () => {
         </div>
     );
 };
-
-/*
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  // get whatever you can get from the service at rendertime here  
-  // return {props: {hello: 'hello'}}
-  prop : Props = {somevalue = 'string'}
-  return prop
-}
-*/
 
 export default OpprettSoknadResource;
