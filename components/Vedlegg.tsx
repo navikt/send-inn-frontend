@@ -85,6 +85,7 @@ function Vedlegg(props: VedleggProps) {
         initialState,
     );
     const [endrer, setEndrer] = useState(false);
+    const [tittel, setTittel] = useState(vedlegg.label);
 
     useEffect(() => {
         console.log({ filListe });
@@ -129,8 +130,11 @@ function Vedlegg(props: VedleggProps) {
         <VedleggPanel>
             {endrer ? (
                 <EndreVedlegg
-                    tittel={vedlegg.label}
+                    tittel={tittel}
+                    vedlegg={vedlegg}
+                    innsendingsId={innsendingsId}
                     setEndrer={setEndrer}
+                    setTittel={setTittel}
                 />
             ) : (
                 <>
@@ -151,7 +155,7 @@ function Vedlegg(props: VedleggProps) {
                     <div>
                         <div>
                             <Heading size="small" spacing>
-                                {vedlegg.vedleggsnr}: {vedlegg.label}
+                                {vedlegg.vedleggsnr}: {tittel}
                             </Heading>
                         </div>
                         <div>

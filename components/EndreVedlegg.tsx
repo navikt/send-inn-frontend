@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { useForm, SubmitHandler, useWatch } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
 import { Heading, Button, TextField } from '@navikt/ds-react';
+import { VedleggType } from '../types/types';
 
 export interface EndreVedleggProps {
     tittel: string;
     setEndrer: (arg: boolean) => void;
+    vedlegg: VedleggType;
+    innsendingsId: string;
+    setTittel: (arg: string) => void;
 }
 
 type FormValues = {
@@ -15,17 +19,35 @@ type FormValues = {
 export function EndreVedlegg({
     tittel,
     setEndrer,
+    vedlegg,
+    innsendingsId,
+    setTittel,
 }: EndreVedleggProps) {
     const [isLoading, setIsLoading] = useState(false);
     const { register, handleSubmit } = useForm<FormValues>();
 
-    const onSubmit = (data) => {
+    const onSubmit: SubmitHandler<FormValues> = (data) => {
         console.log(data);
 
         setIsLoading(true);
-        // TODO: endreTittel-request mot API
-        setIsLoading(false);
-        setEndrer(false);
+
+        axios
+            .patch(
+                `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}`,
+                {
+                    tittel: data.tittel,
+                },
+            )
+            .then((response) => {
+                setTittel(data.tittel);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setIsLoading(false);
+                setEndrer(false);
+            });
     };
 
     return (
