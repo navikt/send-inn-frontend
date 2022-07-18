@@ -21,7 +21,7 @@ const Home: NextPage = () => {
                 <div>
                     <a
                         href={
-                            '/dev/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2'
+                            '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2'
                         }
                         target="_blank"
                         rel="noopener noreferrer"
@@ -32,12 +32,34 @@ const Home: NextPage = () => {
                 <div>
                     <a
                         href={
-                            '/dev/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2'
+                            '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2'
                         }
                         target="_blank"
                         rel="noopener noreferrer"
                     >
                         Dokumentinnsending - Opprett ettersending
+                    </a>
+                </div>
+                <div>
+                    <a
+                        href={
+                            '/dev/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2'
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Dokumentinnsending Dev - Opprett søknad
+                    </a>
+                </div>
+                <div>
+                    <a
+                        href={
+                            '/dev/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2'
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Dokumentinnsending Dev - Opprett ettersending
                     </a>
                 </div>
             </main>
