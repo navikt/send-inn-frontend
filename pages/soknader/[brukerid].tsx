@@ -43,6 +43,8 @@ const EttersendingSide: NextPage = () => {
         //const { brukerid } = data;
         //const { vedleggsIder } = query;
         if (brukerId) {
+            // TODO om vi ikke skal bruke mock så må vi bruke dette endepunktet som ikke finnes i unprot:   'https://innsending-api-gcp.dev.nav.no/innsendte/v1/hentAktiveSaker'
+
             axios
                 .get(
                     `http://localhost:3000/api/mock/frontend/v1/soknad/`,

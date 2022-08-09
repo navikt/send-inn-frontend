@@ -11,6 +11,7 @@ import {
 import { Filvelger } from './Filvelger';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+import VedleggRadio from '../components/VedleggRadio';
 
 import {
     setOpplastingStatusType,
@@ -25,8 +26,6 @@ export interface VedleggProps {
     innsendingsId: string;
     setOpplastingStatus: setOpplastingStatusType;
     erAnnetVedlegg?: boolean;
-
-    // (x: string): void;
 }
 
 export interface FilData {
@@ -77,7 +76,7 @@ function Vedlegg(props: VedleggProps) {
         innsendingsId,
         vedlegg,
         setOpplastingStatus,
-        erAnnetVedlegg = true,
+        erAnnetVedlegg = vedlegg.vedleggsnr?.toUpperCase() === 'N6',
     } = props;
 
     const [filListe, dispatch] = useReducer(
@@ -195,6 +194,11 @@ function Vedlegg(props: VedleggProps) {
                     {vedlegg.beskrivelse && (
                         <div>{vedlegg.beskrivelse}</div>
                     )}
+                    <VedleggRadio
+                        id={vedlegg.id}
+                        vedlegg={vedlegg}
+                        setOpplastingStatus={setOpplastingStatus}
+                    />
                     <Filvelger filListeDispatch={dispatch} />
                     {filListe.length > 0 && (
                         <div>
