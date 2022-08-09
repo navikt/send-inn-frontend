@@ -279,7 +279,7 @@ export function Fil({
                         },
                     },
                 });
-                setOpplastingStatus(vedlegg.id, 'LASTET_OPP');
+                setOpplastingStatus(vedlegg.id, 'LastetOpp');
                 console.log({ response: response.data });
             })
             .catch((error) => {

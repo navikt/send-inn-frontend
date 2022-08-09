@@ -80,9 +80,14 @@ function soknadKlarForInnsending(
     let returnValue = true;
     vedleggsliste.forEach((element) => {
         // om det er ettersending kan vi ignorere hoveddokumentet/skjema, alle andre dokumenter må fortsatt være lastet opp
+        const sendesInnNaa =
+            element.opplastingsStatus === 'IkkeValgt' ||
+            element.opplastingsStatus === 'LastetOpp';
+
         const elementErRelevant =
             !(element.erHoveddokument && erEttersending) &&
-            element.erPakrevd;
+            element.erPakrevd &&
+            sendesInnNaa;
         console.log('1' + elementErRelevant);
         console.log('2' + erEttersending);
         console.log('3' + element.opplastingsStatus);
@@ -104,9 +109,14 @@ function noeHarblittInnlevert(
     let returnValue = false;
     vedleggsliste.forEach((element) => {
         // om det er ettersending kan vi ignorere hoveddokumentet/skjema, alle andre dokumenter må fortsatt ha minst et dokument lastet opp
+        // todo, ikke bruk naa
+        const sendesInnNaa =
+            element.opplastingsStatus === 'IkkeValgt' ||
+            element.opplastingsStatus === 'LastetOpp';
         const elementErRelevant =
             !(element.erHoveddokument && erEttersending) &&
-            element.erPakrevd;
+            element.erPakrevd &&
+            sendesInnNaa;
         console.log('1' + elementErRelevant);
         console.log('2' + erEttersending);
         console.log('3' + element.opplastingsStatus);
@@ -140,7 +150,7 @@ function skjulHovedskjemaOm(
         // vi viser en ettersending
         return !erHovedskjema; // om det ikke er et hovedskjema returneres det sant og vises
     }
-    if (visningsType == 'dokumentInnsending') {
+    if (visningsType == 'dokumentinnsending') {
         return !erHovedskjema; // om det ikke er et hovedskjema returneres det sant og vises;
     }
 
@@ -177,7 +187,7 @@ function VedleggsListe({
         useState(null);
 
     const [visningsType, setVisningsType] = useState(
-        'dokumentInnsending',
+        soknad.visningsType,
     );
 
     const oppdaterVisningsType = (event) => {
@@ -185,13 +195,28 @@ function VedleggsListe({
     };
 
     function setOpplastingStatus(id: number, status: string): void {
-        console.log('utløst' + id + status);
-        const currentListe = [...vedleggsliste];
-        const newListe = currentListe.map((el) =>
-            el.id === id ? { ...el, opplastingsStatus: status } : el,
-        );
-
-        setVedleggsListe(newListe);
+        axios
+            .patch(
+                `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${id}`,
+                {
+                    opplastingsStatus: status,
+                },
+            )
+            .then((response) => {
+                console.log(response);
+                const newListe = vedleggsliste.map((el) =>
+                    el.id === id ? { ...response.data } : el,
+                );
+                setVedleggsListe(newListe);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                // TODO error handling
+                //setIsLoading(false);
+                //setEndrer(false);
+            });
     }
 
     const tilMittNav = () => {
@@ -264,16 +289,18 @@ function VedleggsListe({
     return (
         <div>
             {process.env.NEXT_PUBLIC_REMOTE_API}
-
-            <div>
+            visningstype: {soknad.visningsType}
+            visningssteg: {visningsSteg}
+            {/* TODO trenger vi dette allikevel? kanskje for å jobbe med  */}
+            {/* <div>
                 <label>
                     Sett visningstype
                     <select
                         value={visningsType}
                         onChange={oppdaterVisningsType}
                     >
-                        <option value="dokumentInnsending">
-                            dokumentInnsending
+                        <option value="dokumentinnsending">
+                            dokumentinnsending
                         </option>
                         <option value="ettersending">
                             ettersending
@@ -281,7 +308,7 @@ function VedleggsListe({
                         <option value="fyllUt">fyllUt</option>
                     </select>
                 </label>
-            </div>
+            </div> */}
             {visKvittering && (
                 <div>
                     {' '}
@@ -291,7 +318,7 @@ function VedleggsListe({
                 </div>
             )}
             {!visKvittering &&
-                visningsType === 'dokumentInnsending' &&
+                visningsType === 'dokumentinnsending' &&
                 visningsSteg === 0 && (
                     <div>
                         steg 1
@@ -323,9 +350,8 @@ function VedleggsListe({
                         </Button>
                     </div>
                 )}
-
             {!visKvittering &&
-                visningsType === 'dokumentInnsending' &&
+                visningsType === 'dokumentinnsending' &&
                 visningsSteg === 1 && (
                     <div>
                         steg 2
@@ -386,10 +412,9 @@ function VedleggsListe({
                         </div>
                     </div>
                 )}
-
             {!visKvittering &&
-                (visningsType !== 'dokumentInnsending' ||
-                    (visningsType === 'dokumentInnsending' &&
+                (visningsType !== 'dokumentinnsending' ||
+                    (visningsType === 'dokumentinnsending' &&
                         visningsSteg === 2)) && (
                     <div>
                         {/* t('test')  dette tester flerspråksfuknsjonalitet*/}

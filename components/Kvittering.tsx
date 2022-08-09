@@ -127,30 +127,48 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                             },
                         )}
                 </ul>
+                {kvprops.skalEttersendes &&
+                    kvprops.skalEttersendes.length > 0 && (
+                        <>
+                            <p>
+                                {' '}
+                                Vi kan ikke behandle saken din før vi
+                                har mottatt disse.
+                            </p>
+                            <Alert variant="info">
+                                <Heading
+                                    spacing
+                                    size="small"
+                                    level="2"
+                                >
+                                    Frist for å ettersende
+                                    dokumentene:{' '}
+                                    {formatertDato(
+                                        new Date(
+                                            kvprops.ettersendingsfrist,
+                                        ),
+                                    )}
+                                </Heading>
+                                <BodyLong>
+                                    Oppgaven for å ettersende
+                                    dokumentasjonen finner du øverst
+                                    på Ditt NAV.
+                                </BodyLong>
+                            </Alert>
 
-                <p>
-                    {' '}
-                    Vi kan ikke behandle saken din før vi har mottatt
-                    disse.
-                </p>
-                <Alert variant="info">
-                    <Heading spacing size="small" level="2">
-                        Frist for å ettersende dokumentene:{' '}
-                        {formatertDato(
-                            new Date(kvprops.ettersendingsfrist),
-                        )}
-                    </Heading>
-                    <BodyLong>
-                        Oppgaven for å ettersende dokumentasjonen
-                        finner du øverst på Ditt NAV.
-                    </BodyLong>
-                </Alert>
-
-                <Link href="https://www.nav.no/no/ditt-nav" passHref>
-                    <Button variant="secondary" size="medium">
-                        Gå til Ditt NAV
-                    </Button>
-                </Link>
+                            <Link
+                                href="https://www.nav.no/no/ditt-nav"
+                                passHref
+                            >
+                                <Button
+                                    variant="secondary"
+                                    size="medium"
+                                >
+                                    Gå til Ditt NAV
+                                </Button>
+                            </Link>
+                        </>
+                    )}
             </div>
 
             <hr />

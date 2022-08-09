@@ -42,6 +42,7 @@ export type SoknadType = {
     endretDato: string;
     innsendtDato: null;
     vedleggsListe: [] | VedleggType;
+    visningsType: string;
 };
 
 // APP

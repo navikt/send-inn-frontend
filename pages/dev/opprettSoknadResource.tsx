@@ -120,17 +120,6 @@ const OpprettSoknadResource: NextPage = () => {
 
                     <input type="submit" value="opprett" />
                 </form>
-                {soknad && (
-                    <VedleggsListe
-                        soknad={soknad}
-                        setSoknad={setSoknad}
-                        vedleggsliste={vedleggsListe}
-                        setVedleggsListe={setVedleggsListe}
-                        erEttersending={
-                            query.erEttersendelse === 'true'
-                        }
-                    />
-                )}
             </main>
 
             <footer></footer>
