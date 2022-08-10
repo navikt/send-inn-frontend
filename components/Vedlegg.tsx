@@ -26,6 +26,7 @@ export interface VedleggProps {
     innsendingsId: string;
     setOpplastingStatus: setOpplastingStatusType;
     erAnnetVedlegg?: boolean;
+    slettAnnetVedlegg: (id: number) => void;
 }
 
 export interface FilData {
@@ -77,6 +78,7 @@ function Vedlegg(props: VedleggProps) {
         vedlegg,
         setOpplastingStatus,
         erAnnetVedlegg = vedlegg.vedleggsnr?.toUpperCase() === 'N6',
+        slettAnnetVedlegg,
     } = props;
 
     const [filListe, dispatch] = useReducer(
@@ -182,12 +184,22 @@ function Vedlegg(props: VedleggProps) {
                             )}
                         </div>
                         {!vedlegg.erHoveddokument && erAnnetVedlegg && (
-                            <NavLink
-                                as="button"
-                                onClick={() => setEndrer(true)}
-                            >
-                                Endre
-                            </NavLink>
+                            <>
+                                <NavLink
+                                    as="button"
+                                    onClick={() => setEndrer(true)}
+                                >
+                                    Endre
+                                </NavLink>
+                                <NavLink
+                                    as="button"
+                                    onClick={() =>
+                                        slettAnnetVedlegg(vedlegg.id)
+                                    }
+                                >
+                                    Slett
+                                </NavLink>
+                            </>
                         )}
                     </div>
                     {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}

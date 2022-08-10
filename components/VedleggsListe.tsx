@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 import { Modal, Heading, BodyLong } from '@navikt/ds-react';
 import { FellesModal } from './FellesModal';
 import { useTranslation } from 'react-i18next';
+import { Add } from '@navikt/ds-icons';
 
 const initialVedleggsliste: VedleggType[] | [] = [];
 
@@ -219,6 +220,37 @@ function VedleggsListe({
             });
     }
 
+    const leggTilAnnetVedlegg = () => {
+        axios
+            .post(
+                `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg`,
+            )
+            .then((response) => {
+                setVedleggsListe([...vedleggsliste, response.data]);
+            })
+            .catch((error) => {
+                // TODO error handling
+                console.log(error);
+            });
+    };
+    const slettAnnetVedlegg = (vedleggsId) => {
+        axios
+            .delete(
+                `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${vedleggsId}`,
+            )
+            .then(() => {
+                console.log({ vedleggsliste });
+                const newListe = vedleggsliste.filter(
+                    (el) => el.id !== vedleggsId,
+                );
+                setVedleggsListe(newListe);
+            })
+            .catch((error) => {
+                // TODO error handling
+                console.log(error);
+            });
+    };
+
     const tilMittNav = () => {
         console.log('TilMittNav');
         //router.push('https://www.nav.no/no/ditt-nav');
@@ -372,6 +404,9 @@ function VedleggsListe({
                                             (x) => x.erHoveddokument,
                                         )[0]
                                     }
+                                    slettAnnetVedlegg={
+                                        slettAnnetVedlegg
+                                    }
                                 />
                             )}
                         <div>
@@ -434,10 +469,10 @@ function VedleggsListe({
                             vedleggsliste.length > 0 &&
                             vedleggsliste
                                 .filter((x) => !x.erHoveddokument)
-                                .map((vedlegg, key) => {
+                                .map((vedlegg) => {
                                     return (
                                         <Vedlegg
-                                            key={key}
+                                            key={vedlegg.id}
                                             innsendingsId={
                                                 soknad.innsendingsId
                                             }
@@ -445,11 +480,24 @@ function VedleggsListe({
                                                 setOpplastingStatus
                                             }
                                             vedlegg={vedlegg}
+                                            slettAnnetVedlegg={
+                                                slettAnnetVedlegg
+                                            }
                                         />
                                     );
                                 })}
 
                         {/** du må rydde i logikken her */}
+
+                        <div>
+                            <Button
+                                onClick={leggTilAnnetVedlegg}
+                                variant="secondary"
+                            >
+                                <Add />
+                                Legg til annen dokumentasjon
+                            </Button>
+                        </div>
 
                         <div>
                             {/* lagre og fortsett senere */}
