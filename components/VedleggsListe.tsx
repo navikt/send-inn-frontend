@@ -196,22 +196,28 @@ function VedleggsListe({
     const oppdaterVisningsSteg = (nr: number) => {
         const nyttVisningsSteg = visningsSteg + nr;
         setVisningsSteg(nyttVisningsSteg);
-        axios
-            .patch(
-                `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${soknad.innsendingsId}/`,
-                {
-                    visningsSteg: nyttVisningsSteg,
-                },
-            )
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                // TODO error handling
-            });
+
+        // steg 2 (1 i koden) er kun for opplasting av nedlastet hovedskjema
+        // bruker som er paa denne siden bor bli presentert for last ned hovedskjema siden
+        // ved neste pageload, dette skjer med hjelp av if nedenfor
+        if (nyttVisningsSteg !== 1) {
+            axios
+                .patch(
+                    `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${soknad.innsendingsId}/`,
+                    {
+                        visningsSteg: nyttVisningsSteg,
+                    },
+                )
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    // TODO error handling
+                });
+        }
     };
 
     const oppdaterVisningsType = (event) => {
