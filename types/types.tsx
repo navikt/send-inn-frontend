@@ -43,6 +43,7 @@ export type SoknadType = {
     innsendtDato: null;
     vedleggsListe: [] | VedleggType;
     visningsType: string;
+    visningsSteg: number;
 };
 
 // APP

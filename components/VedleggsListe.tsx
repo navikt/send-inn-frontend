@@ -168,7 +168,9 @@ function VedleggsListe({
     const [soknadHarNoeInnlevert, setsoknadHarNoeInnlevert] =
         useState<boolean>(false);
     const router = useRouter();
-    const [visningsSteg, setvisningsSteg] = useState(0);
+    const [visningsSteg, setVisningsSteg] = useState(
+        soknad.visningsSteg,
+    );
 
     const [fortsettSenereSoknadModal, setForstettSenereSoknadModal] =
         useState(false);
@@ -190,6 +192,33 @@ function VedleggsListe({
     const [visningsType, setVisningsType] = useState(
         soknad.visningsType,
     );
+
+    const oppdaterVisningsSteg = (nr: number) => {
+        const nyttVisningsSteg = visningsSteg + nr;
+        setVisningsSteg(nyttVisningsSteg);
+
+        // steg 2 (1 i koden) er kun for opplasting av nedlastet hovedskjema
+        // bruker som er paa denne siden bor bli presentert for last ned hovedskjema siden
+        // ved neste pageload, dette skjer med hjelp av if nedenfor
+        if (nyttVisningsSteg !== 1) {
+            axios
+                .patch(
+                    `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${soknad.innsendingsId}/`,
+                    {
+                        visningsSteg: nyttVisningsSteg,
+                    },
+                )
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    // TODO error handling
+                });
+        }
+    };
 
     const oppdaterVisningsType = (event) => {
         setVisningsType(event.target.value);
@@ -375,7 +404,7 @@ function VedleggsListe({
                             )}
                         <Button
                             onClick={() => {
-                                setvisningsSteg(visningsSteg + 1);
+                                oppdaterVisningsSteg(1);
                             }}
                         >
                             Neste steg
@@ -414,7 +443,7 @@ function VedleggsListe({
 
                             <Button
                                 onClick={() => {
-                                    setvisningsSteg(visningsSteg + 1);
+                                    oppdaterVisningsSteg(1);
                                 }}
                             >
                                 Neste steg
@@ -424,7 +453,7 @@ function VedleggsListe({
                             {/* gå frem et steg */}
                             <Button
                                 onClick={() => {
-                                    setvisningsSteg(visningsSteg - 1);
+                                    oppdaterVisningsSteg(-1);
                                 }}
                                 variant="secondary"
                             >
@@ -503,7 +532,7 @@ function VedleggsListe({
                             {/* lagre og fortsett senere */}
                             <Button
                                 onClick={() => {
-                                    setvisningsSteg(visningsSteg - 1);
+                                    oppdaterVisningsSteg(-1);
                                 }}
                                 variant="secondary"
                             >
