@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 
 const Home: NextPage = () => {
     return (
@@ -19,48 +20,53 @@ const Home: NextPage = () => {
 
                 {/* TODO fix trailing comma buggen ... http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2," <- ,*/}
                 <div>
-                    <a
+                    <Link
                         href={
                             '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2'
                         }
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        passHref
                     >
-                        Dokumentinnsending - Opprett søknad
-                    </a>
+                        <a target="_blank" rel="noopener noreferrer">
+                            Dokumentinnsending - Opprett søknad
+                        </a>
+                    </Link>
                 </div>
                 <div>
-                    <a
+                    <Link
                         href={
                             '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2'
                         }
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        passHref
                     >
-                        Dokumentinnsending - Opprett ettersending
-                    </a>
+                        <a target="_blank" rel="noopener noreferrer">
+                            Dokumentinnsending - Opprett ettersending
+                        </a>
+                    </Link>
                 </div>
                 <div>
-                    <a
+                    <Link
                         href={
                             '/dev/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2'
                         }
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        passHref
                     >
-                        Dokumentinnsending Dev - Opprett søknad
-                    </a>
+                        <a target="_blank" rel="noopener noreferrer">
+                            Dokumentinnsending Dev - Opprett søknad
+                        </a>
+                    </Link>
                 </div>
                 <div>
-                    <a
+                    <Link
                         href={
                             '/dev/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2'
                         }
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        passHref
                     >
-                        Dokumentinnsending Dev - Opprett ettersending
-                    </a>
+                        <a target="_blank" rel="noopener noreferrer">
+                            Dokumentinnsending Dev - Opprett
+                            ettersending
+                        </a>
+                    </Link>
                 </div>
             </main>
 

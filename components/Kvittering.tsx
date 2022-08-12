@@ -8,6 +8,9 @@ import { Alert, Heading, BodyLong, Button } from '@navikt/ds-react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
+import getConfig from 'next/config';
+
+const { publicRuntimeConfig } = getConfig();
 
 // Takk bare fet og stor .. vi mottok h2 .. ul ikoner som bullet ... h2 for doks som skal ettersendes, ny ul med forskjellig bullet ... p ...
 export interface KvitteringsProps {
@@ -80,7 +83,7 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                             {kvprops.label}
                             <br />
                             <Link
-                                href={`${process.env.NEXT_PUBLIC_API_URL}/${kvprops.hoveddokumentRef}`}
+                                href={`${publicRuntimeConfig.apiUrl}/${kvprops.hoveddokumentRef}`}
                             >
                                 <a target="_blank">
                                     Last ned kopi (åpnes i en ny fane)

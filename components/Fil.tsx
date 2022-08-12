@@ -20,8 +20,11 @@ import styled from 'styled-components';
 import { FIL_STATUS } from '../types/enums';
 import { Files, FileError, FileSuccess } from '@navikt/ds-icons';
 import { FilUploadIcon } from './FilUploadIcon';
+import getConfig from 'next/config';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const { publicRuntimeConfig } = getConfig();
+
+const API_URL = publicRuntimeConfig.apiUrl;
 
 const FilePanel = styled(Panel)`
     border-width: 2px;
@@ -321,7 +324,7 @@ export function Fil({
                         <div>
                             <NavLink
                                 target="_blank"
-                                href={`${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/${filState.filData.opplastetFil?.id}`}
+                                href={`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/${filState.filData.opplastetFil?.id}`}
                                 rel="noopener noreferrer"
                             >
                                 {filnavn}
