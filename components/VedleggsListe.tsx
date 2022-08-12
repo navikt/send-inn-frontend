@@ -14,6 +14,7 @@ import { Modal, Heading, BodyLong } from '@navikt/ds-react';
 import { FellesModal } from './FellesModal';
 import { useTranslation } from 'react-i18next';
 import { Add } from '@navikt/ds-icons';
+import { setParams } from '@navikt/nav-dekoratoren-moduler';
 
 const initialVedleggsliste: VedleggType[] | [] = [];
 
@@ -333,12 +334,50 @@ function VedleggsListe({
 
     useEffect(() => {
         const changeLang = (lng) => {
+            // nb / nn / en / se / pl støttede språk per 2022 for dekoratoren
+
             if (lng === 'no') {
                 i18n.changeLanguage('nb');
+                setParams({
+                    language: 'nb',
+                });
+                return;
             }
             if (lng === 'nn') {
                 i18n.changeLanguage('nn');
+                setParams({
+                    language: 'nn',
+                });
+                return;
             }
+            if (lng === 'en') {
+                i18n.changeLanguage('en');
+                setParams({
+                    language: 'en',
+                });
+                return;
+            }
+
+            if (lng === 'se') {
+                i18n.changeLanguage('se');
+                setParams({
+                    language: 'se',
+                });
+                return;
+            }
+
+            if (lng === 'pl') {
+                i18n.changeLanguage('pl');
+                setParams({
+                    language: 'pl',
+                });
+                return;
+            }
+
+            i18n.changeLanguage('en');
+            setParams({
+                language: 'en',
+            });
         };
         changeLang(soknad.spraak);
     }, [soknad, i18n]);
@@ -351,7 +390,16 @@ function VedleggsListe({
         <div>
             {process.env.NEXT_PUBLIC_REMOTE_API}
             visningstype: {soknad.visningsType}
+            <br />
             visningssteg: {visningsSteg}
+            <br />
+            språk:{' '}
+            {
+                soknad.spraak // skriver ut språk
+            }
+            <br />
+            språktest: {t('test')}
+            <br />
             {/* TODO trenger vi dette allikevel? kanskje for å jobbe med  */}
             {/* <div>
                 <label>
@@ -481,8 +529,6 @@ function VedleggsListe({
                     (visningsType === 'dokumentinnsending' &&
                         visningsSteg === 2)) && (
                     <div>
-                        {/* t('test')  dette tester flerspråksfuknsjonalitet*/}
-
                         {/* soknad.spraak skriver ut språk */}
                         {/* {soknadKlar.toString() + " // "} */}
                         {/* {soknadHarNoeInnlevert.toString() + " // "} */}
