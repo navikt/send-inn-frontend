@@ -2,6 +2,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import nbTranslation from './assets/locales/nb/translation.json';
 import nnTranslation from './assets/locales/nn/translation.json';
+import enTranslation from './assets/locales/en/translation.json';
 
 // import Backend from 'i18next-http-backend';
 // import LanguageDetector from 'i18next-browser-languagedetector';
@@ -15,6 +16,9 @@ const resources = {
     },
     nn: {
         translation: nnTranslation,
+    },
+    en: {
+        translation: enTranslation,
     },
 };
 
@@ -32,7 +36,7 @@ i18n
     .init({
         resources,
         lng: 'nb',
-        fallbackLng: 'common',
+        fallbackLng: 'en',
         debug: true,
         keySeparator: false,
         nsSeparator: false,
