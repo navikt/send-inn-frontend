@@ -3,6 +3,9 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
 import { Heading, Button, TextField } from '@navikt/ds-react';
 import { VedleggType } from '../types/types';
+import getConfig from 'next/config';
+
+const { publicRuntimeConfig } = getConfig();
 
 export interface EndreVedleggProps {
     tittel: string;
@@ -33,7 +36,7 @@ export function EndreVedlegg({
 
         axios
             .patch(
-                `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}`,
+                `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}`,
                 {
                     tittel: data.tittel,
                 },

@@ -12,6 +12,13 @@ module.exports = {
     experimental: {
         outputStandalone: true,
     },
+    basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
+    publicRuntimeConfig: {
+        // Will be available on both server and client
+        apiUrl:
+            (process.env.NEXT_PUBLIC_BASE_PATH || '') +
+            (process.env.NEXT_PUBLIC_API_URL || '/api/backend'),
+    },
     async redirects() {
         return [
             {

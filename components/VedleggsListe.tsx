@@ -16,6 +16,10 @@ import { useTranslation } from 'react-i18next';
 import { Add } from '@navikt/ds-icons';
 import { setParams } from '@navikt/nav-dekoratoren-moduler';
 
+import getConfig from 'next/config';
+
+const { publicRuntimeConfig } = getConfig();
+
 const initialVedleggsliste: VedleggType[] | [] = [];
 
 export interface VedleggsListeProps {
@@ -204,7 +208,7 @@ function VedleggsListe({
         if (nyttVisningsSteg !== 1) {
             axios
                 .patch(
-                    `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${soknad.innsendingsId}/`,
+                    `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/`,
                     {
                         visningsSteg: nyttVisningsSteg,
                     },
@@ -228,7 +232,7 @@ function VedleggsListe({
     function setOpplastingStatus(id: number, status: string): void {
         axios
             .patch(
-                `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${id}`,
+                `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${id}`,
                 {
                     opplastingsStatus: status,
                 },
@@ -253,7 +257,7 @@ function VedleggsListe({
     const leggTilAnnetVedlegg = () => {
         axios
             .post(
-                `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg`,
+                `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg`,
             )
             .then((response) => {
                 setVedleggsListe([...vedleggsliste, response.data]);
@@ -266,7 +270,7 @@ function VedleggsListe({
     const slettAnnetVedlegg = (vedleggsId) => {
         axios
             .delete(
-                `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${vedleggsId}`,
+                `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${vedleggsId}`,
             )
             .then(() => {
                 console.log({ vedleggsliste });
@@ -289,7 +293,7 @@ function VedleggsListe({
     const onSendInn = () => {
         axios
             .post(
-                `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/sendInn/${soknad?.innsendingsId}`,
+                `${publicRuntimeConfig.apiUrl}/frontend/v1/sendInn/${soknad?.innsendingsId}`,
             )
             .then((response) => {
                 const kv: KvitteringsDto = response.data;
@@ -311,7 +315,7 @@ function VedleggsListe({
     const slett = () => {
         axios
             .delete(
-                `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/sendInn/${soknad?.innsendingsId}`,
+                `${publicRuntimeConfig.apiUrl}/frontend/v1/sendInn/${soknad?.innsendingsId}`,
             )
             .finally(() => {
                 resetState();

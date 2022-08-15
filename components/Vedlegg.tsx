@@ -20,6 +20,9 @@ import {
 } from '../types/types';
 import { EndreVedlegg } from './EndreVedlegg';
 import { Fil } from './Fil';
+import getConfig from 'next/config';
+
+const { publicRuntimeConfig } = getConfig();
 
 export interface VedleggProps {
     vedlegg: VedleggType | null;
@@ -96,7 +99,7 @@ function Vedlegg(props: VedleggProps) {
         if (innsendingsId && vedlegg.id) {
             axios
                 .get(
-                    `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/`,
+                    `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/`,
                 )
                 .then((response) => {
                     const responseJSON = response.data;

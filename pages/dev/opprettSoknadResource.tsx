@@ -10,6 +10,9 @@ import VedleggsListe from '../../components/VedleggsListe';
 import { VedleggType, SoknadType } from '../../types/types';
 import { Button, Panel } from '@navikt/ds-react';
 import Link from 'next/link';
+import getConfig from 'next/config';
+
+const { publicRuntimeConfig } = getConfig();
 
 type FormValues = {
     file: File;
@@ -42,7 +45,7 @@ const OpprettSoknadResource: NextPage = () => {
                 : opprettSoknadEndpoint;
 
         axios
-            .post(process.env.NEXT_PUBLIC_API_URL + endpoint, {
+            .post(publicRuntimeConfig.apiUrl + endpoint, {
                 brukerId: brukerid,
                 skjemanr: query.skjemanummer,
                 sprak: query.sprak || 'NB_NO', // set bokmål som default
@@ -56,7 +59,7 @@ const OpprettSoknadResource: NextPage = () => {
     };
     return (
         <div>
-            {process.env.NEXT_PUBLIC_API_URL}
+            {publicRuntimeConfig.apiUrl}
             <Head>
                 <title>Trykk </title>
                 <meta

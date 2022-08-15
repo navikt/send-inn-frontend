@@ -5,6 +5,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 
+import getConfig from 'next/config';
+
+const { publicRuntimeConfig } = getConfig();
+
 const OpprettSoknadResource: NextPage = () => {
     const router = useRouter();
     const { query } = router;
@@ -27,7 +31,7 @@ const OpprettSoknadResource: NextPage = () => {
                 : opprettSoknadEndpoint;
 
         axios
-            .post(process.env.NEXT_PUBLIC_API_URL + endpoint, {
+            .post(publicRuntimeConfig.apiUrl + endpoint, {
                 brukerId: '27928799005', // TODO: Fjerne denne når API ikke feiler når brukerId mangler
                 skjemanr: query.skjemanummer,
                 sprak: query.sprak || 'NB_NO', // set bokmål som default

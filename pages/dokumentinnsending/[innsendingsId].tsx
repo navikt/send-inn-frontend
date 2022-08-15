@@ -12,6 +12,10 @@ import VedleggsListe from '../../components/VedleggsListe';
 
 import { VedleggType, SoknadType } from '../../types/types';
 
+import getConfig from 'next/config';
+
+const { publicRuntimeConfig } = getConfig();
+
 const qs = require('qs');
 // todo https://dev.to/fadiamg/multiple-file-inputs-with-one-submit-button-with-react-hooks-kle
 const erEttersending = false;
@@ -72,7 +76,7 @@ const EttersendingSide: NextPage = () => {
         if (innsendingsId) {
             axios
                 .get(
-                    `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}` /*, {
+                    `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}` /*, {
                 brukerId: brukerid,
                 skjemanr: query.skjemanummer,
                 sprak: query.sprak, // set bokmål som default
@@ -98,7 +102,7 @@ const EttersendingSide: NextPage = () => {
 
         axios
             .get(
-                `${process.env.NEXT_PUBLIC_API_URL}/frontend/v1/soknad/${innsendingsId}` /*, {
+                `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}` /*, {
                 brukerId: brukerid,
                 skjemanr: query.skjemanummer,
                 sprak: query.sprak, // set bokmål som default
