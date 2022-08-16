@@ -2,16 +2,17 @@ import { useEffect } from 'react';
 import Router from 'next/router';
 import useSWR from 'swr';
 import { User } from '../pages/api/user';
-import { useRouter } from 'next/router';
+import getConfig from 'next/config';
+
+const { publicRuntimeConfig } = getConfig();
 
 export default function useUser({
     redirectTo = '',
     redirectIfFound = false,
     redirectedFrom = '',
 } = {}) {
-    const router = useRouter();
     const { data: user, mutate: mutateUser } = useSWR<User>(
-        router.basePath + '/api/user',
+        publicRuntimeConfig.basePath + '/api/user',
     );
 
     useEffect(() => {

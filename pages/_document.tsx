@@ -10,6 +10,9 @@ import {
     fetchDecoratorReact,
     Components,
 } from '@navikt/nav-dekoratoren-moduler/ssr';
+import getConfig from 'next/config';
+
+const { publicRuntimeConfig } = getConfig();
 
 interface Props {
     Decorator: Components;
@@ -36,7 +39,8 @@ export default class MyDocument extends Document<Props> {
                         ? 'dev'
                         : 'prod',
                 simple: true,
-                logoutUrl: '/oauth2/logout',
+                logoutUrl:
+                    publicRuntimeConfig.basePath + '/oauth2/logout',
             });
             return {
                 ...initialProps,
