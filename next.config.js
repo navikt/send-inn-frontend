@@ -18,7 +18,7 @@ module.exports = {
     publicRuntimeConfig: {
         // Will be available on both server and client
         apiUrl:
-            (process.env.NEXT_PUBLIC_BASE_PATH || '') +
+            basePath +
             (process.env.NEXT_PUBLIC_API_URL || '/api/backend'),
         basePath,
     },
