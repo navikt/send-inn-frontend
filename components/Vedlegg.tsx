@@ -80,7 +80,8 @@ function Vedlegg(props: VedleggProps) {
         innsendingsId,
         vedlegg,
         setOpplastingStatus,
-        erAnnetVedlegg = vedlegg.vedleggsnr?.toUpperCase() === 'N6',
+        erAnnetVedlegg = vedlegg.vedleggsnr?.toUpperCase() === 'N6' &&
+            !vedlegg.erPakrevd,
         slettAnnetVedlegg,
     } = props;
 
