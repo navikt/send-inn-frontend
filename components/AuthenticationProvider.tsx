@@ -12,7 +12,7 @@ export function AuthenticationProvider({
     const router = useRouter();
     const { user } = useUser({
         redirectTo: '/login',
-        redirectedFrom: router.asPath,
+        redirectedFrom: router.basePath + router.asPath,
     });
 
     return <>{user?.isLoggedIn ? children : null}</>;

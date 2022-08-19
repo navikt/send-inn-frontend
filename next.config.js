@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 module.exports = {
     reactStrictMode: true,
     eslint: {
@@ -12,12 +14,13 @@ module.exports = {
     experimental: {
         outputStandalone: true,
     },
-    basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
+    basePath,
     publicRuntimeConfig: {
         // Will be available on both server and client
         apiUrl:
-            (process.env.NEXT_PUBLIC_BASE_PATH || '') +
+            basePath +
             (process.env.NEXT_PUBLIC_API_URL || '/api/backend'),
+        basePath,
     },
     async redirects() {
         return [

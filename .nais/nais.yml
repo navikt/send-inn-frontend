@@ -12,13 +12,13 @@ spec:
     image: "{{ image }}"
     port: 3000
     liveness:
-        path: /api/isAlive
+        path: /sendinn/api/isAlive
         initialDelay: 20
         timeout: 10
         periodSeconds: 5
         failureThreshold: 10
     readiness:
-        path: /api/isReady
+        path: /sendinn/api/isReady
         initialDelay: 20
         timeout: 10
     replicas:
@@ -46,7 +46,7 @@ spec:
             rules:
             - application: innsending-api
     ingresses:
-        - "https://send-inn-frontend.intern.nav.no"
+        - "https://www.intern.nav.no/sendinn"
     env:
         - name: APP_VERSION
           value: {{ app_version }}
