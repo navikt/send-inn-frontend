@@ -17,6 +17,7 @@ import { Add } from '@navikt/ds-icons';
 import { setParams } from '@navikt/nav-dekoratoren-moduler';
 
 import getConfig from 'next/config';
+import { OpprettAnnetVedlegg } from './OpprettAnnetVedlegg';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -254,18 +255,8 @@ function VedleggsListe({
             });
     }
 
-    const leggTilAnnetVedlegg = () => {
-        axios
-            .post(
-                `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg`,
-            )
-            .then((response) => {
-                setVedleggsListe([...vedleggsliste, response.data]);
-            })
-            .catch((error) => {
-                // TODO error handling
-                console.log(error);
-            });
+    const leggTilVedlegg = (vedlegg) => {
+        setVedleggsListe([...vedleggsliste, vedlegg]);
     };
     const slettAnnetVedlegg = (vedleggsId) => {
         axios
@@ -568,15 +559,12 @@ function VedleggsListe({
 
                         {/** du må rydde i logikken her */}
 
-                        <div>
-                            <Button
-                                onClick={leggTilAnnetVedlegg}
-                                variant="secondary"
-                            >
-                                <Add />
-                                Legg til annen dokumentasjon
-                            </Button>
-                        </div>
+                        {soknad.kanLasteOppAnnet && (
+                            <OpprettAnnetVedlegg
+                                innsendingsId={soknad.innsendingsId}
+                                leggTilVedlegg={leggTilVedlegg}
+                            />
+                        )}
 
                         <div>
                             {/* lagre og fortsett senere */}
