@@ -30,6 +30,10 @@ export interface KvitteringsDto {
         vedleggsnr: string;
         tittel: string;
     }[];
+    skalSendesAvAndre: {
+        vedleggsnr: string;
+        tittel: string;
+    }[];
     ettersendingsfrist: string;
 }
 // TODO husk å legge inn dato på toppen, dato basert på innleveringsdato på bunnen og lenken til dokumentet
@@ -111,9 +115,35 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                         )}
                 </SjekkBoksListe>
 
-                <Heading spacing size="small" level="2">
-                    Dokument(er) som må ettersendes:
-                </Heading>
+                {kvprops.skalSendesAvAndre &&
+                    kvprops.skalSendesAvAndre.length > 0 && (
+                        <Heading spacing size="small" level="2">
+                            Dokument(er) som skal sendes av andre:
+                        </Heading>
+                    )}
+
+                <ul>
+                    {kvprops &&
+                        kvprops.skalSendesAvAndre &&
+                        kvprops.skalSendesAvAndre.length > 0 &&
+                        kvprops.skalSendesAvAndre.map(
+                            (vedlegg, key) => {
+                                return (
+                                    <li key={vedlegg.vedleggsnr}>
+                                        {' '}
+                                        {vedlegg.tittel}
+                                    </li>
+                                );
+                            },
+                        )}
+                </ul>
+
+                {kvprops.skalEttersendes &&
+                    kvprops.skalEttersendes.length > 0 && (
+                        <Heading spacing size="small" level="2">
+                            Dokument(er) som må ettersendes:
+                        </Heading>
+                    )}
 
                 <ul>
                     {kvprops &&
