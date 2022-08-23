@@ -187,7 +187,7 @@ function Vedlegg(props: VedleggProps) {
                                 </BodyLong>
                             )}
                         </div>
-                        {!vedlegg.erPakrevd && erAnnetVedlegg && (
+                        {erAnnetVedlegg && (
                             <>
                                 <NavLink
                                     as="button"
