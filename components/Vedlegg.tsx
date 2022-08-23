@@ -80,7 +80,8 @@ function Vedlegg(props: VedleggProps) {
         innsendingsId,
         vedlegg,
         setOpplastingStatus,
-        erAnnetVedlegg = vedlegg.vedleggsnr?.toUpperCase() === 'N6',
+        erAnnetVedlegg = vedlegg.vedleggsnr?.toUpperCase() === 'N6' &&
+            !vedlegg.erPakrevd,
         slettAnnetVedlegg,
     } = props;
 
@@ -186,7 +187,7 @@ function Vedlegg(props: VedleggProps) {
                                 </BodyLong>
                             )}
                         </div>
-                        {!vedlegg.erHoveddokument && erAnnetVedlegg && (
+                        {erAnnetVedlegg && (
                             <>
                                 <NavLink
                                     as="button"
@@ -209,11 +210,17 @@ function Vedlegg(props: VedleggProps) {
                     {vedlegg.beskrivelse && (
                         <div>{vedlegg.beskrivelse}</div>
                     )}
-                    <VedleggRadio
-                        id={vedlegg.id}
-                        vedlegg={vedlegg}
-                        setOpplastingStatus={setOpplastingStatus}
-                    />
+                    {vedlegg.erPakrevd &&
+                        !vedlegg.erHoveddokument && (
+                            <VedleggRadio
+                                id={vedlegg.id}
+                                vedlegg={vedlegg}
+                                setOpplastingStatus={
+                                    setOpplastingStatus
+                                }
+                            />
+                        )}
+
                     <Filvelger filListeDispatch={dispatch} />
                     {filListe.length > 0 && (
                         <div>

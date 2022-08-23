@@ -66,75 +66,38 @@ let example: KvitteringsDto = {
     ettersendingsfrist: '2022-07-05T12:00:24.8398842Z',
 };
 */
-function soknadKlarForInnsending(
+function soknadErKomplett(
     vedleggsliste: VedleggType[],
     erEttersending: boolean,
 ): boolean {
-    /*
-    // TODO vi bør bruke enum i typescript
-    muligheter for opplastingsstatus per 17 feb 2022:
-    enum class OpplastingsStatus {
-        IKKE_VALGT, // det er ikke blitt lastet opp noe på vedlegget
-        SEND_SENERE, // ikke i bruk for frontend
-        LASTET_OPP, // det er lastet en eller flere filer på dette vedlegget 
-        SEND_I_POST, // ikke i bruk
-        SENDES_AV_ANDRE, // ikke i bruk
-        SENDES_IKKE, // ikke i bruk
-        INNSENDT, // det er blitt sendt inn en fil til NAV (aktuelt ved ettersending).  
-        VEDLEGG_ALLEREDE_SENDT // ikke i bruk
-    }
-    */
-    let returnValue = true;
-    vedleggsliste.forEach((element) => {
-        // om det er ettersending kan vi ignorere hoveddokumentet/skjema, alle andre dokumenter må fortsatt være lastet opp
-        const sendesInnNaa =
-            element.opplastingsStatus === 'IkkeValgt' ||
-            element.opplastingsStatus === 'LastetOpp';
+    const detFinnesEtUopplastetPakrevdVedlegg = vedleggsliste.some(
+        (element) => {
+            return (
+                element.erPakrevd === true &&
+                element.opplastingsStatus !== 'LastetOpp'
+            );
+        },
+    );
 
-        const elementErRelevant =
-            !(element.erHoveddokument && erEttersending) &&
-            element.erPakrevd &&
-            sendesInnNaa;
-        console.log('1' + elementErRelevant);
-        console.log('2' + erEttersending);
-        console.log('3' + element.opplastingsStatus);
-        if (
-            elementErRelevant &&
-            element.opplastingsStatus === 'IkkeValgt'
-        ) {
-            console.log('return false');
-            returnValue = returnValue && false;
-        }
-    });
-    return returnValue;
+    return !detFinnesEtUopplastetPakrevdVedlegg;
 }
 
-function noeHarblittInnlevert(
+function soknadKanSendesInn(
     vedleggsliste: VedleggType[],
     erEttersending: boolean,
 ): boolean {
-    let returnValue = false;
-    vedleggsliste.forEach((element) => {
-        // om det er ettersending kan vi ignorere hoveddokumentet/skjema, alle andre dokumenter må fortsatt ha minst et dokument lastet opp
-        // todo, ikke bruk naa
-        const sendesInnNaa =
-            element.opplastingsStatus === 'IkkeValgt' ||
-            element.opplastingsStatus === 'LastetOpp';
-        const elementErRelevant =
-            !(element.erHoveddokument && erEttersending) &&
-            element.erPakrevd &&
-            sendesInnNaa;
-        console.log('1' + elementErRelevant);
-        console.log('2' + erEttersending);
-        console.log('3' + element.opplastingsStatus);
-        if (
-            elementErRelevant &&
-            element.opplastingsStatus !== 'IkkeValgt'
-        ) {
-            returnValue = returnValue || true;
-        }
+    const noeErLastetOpp = vedleggsliste.some((element) => {
+        return element.opplastingsStatus === 'LastetOpp';
     });
-    return returnValue;
+    const detFinnesEtUpploastetHovedDokument = vedleggsliste.some(
+        (element) => {
+            return (
+                element.erHoveddokument === true &&
+                element.opplastingsStatus !== 'LastetOpp'
+            );
+        },
+    );
+    return noeErLastetOpp && !detFinnesEtUpploastetHovedDokument;
 }
 
 function getHovedSkjema(vedleggsliste: VedleggType[]) {
@@ -148,21 +111,6 @@ function getHovedSkjema(vedleggsliste: VedleggType[]) {
     return null;
 }
 
-function skjulHovedskjemaOm(
-    erHovedskjema: boolean,
-    erEttersending: boolean,
-    visningsType: string,
-): boolean {
-    if (erEttersending) {
-        // vi viser en ettersending
-        return !erHovedskjema; // om det ikke er et hovedskjema returneres det sant og vises
-    }
-    if (visningsType == 'dokumentinnsending') {
-        return !erHovedskjema; // om det ikke er et hovedskjema returneres det sant og vises;
-    }
-
-    return true; // om det ikke er en ettersending eller dokumentinnsending skal vi alltid vise alt og returnerer true
-}
 function VedleggsListe({
     soknad,
     setSoknad,
@@ -170,8 +118,9 @@ function VedleggsListe({
     setVedleggsListe,
     erEttersending,
 }: VedleggsListeProps) {
-    const [soknadKlar, setSoknadKlar] = useState<boolean>(false);
-    const [soknadHarNoeInnlevert, setsoknadHarNoeInnlevert] =
+    const [soknadKlar, setSoknadErKomplett] =
+        useState<boolean>(false);
+    const [soknadHarNoeInnlevert, setSoknadKanSendesInn] =
         useState<boolean>(false);
     const router = useRouter();
     const [visningsSteg, setVisningsSteg] = useState(
@@ -319,11 +268,11 @@ function VedleggsListe({
     };
 
     useEffect(() => {
-        setSoknadKlar(
-            soknadKlarForInnsending(vedleggsliste, erEttersending),
+        setSoknadErKomplett(
+            soknadErKomplett(vedleggsliste, erEttersending),
         );
-        setsoknadHarNoeInnlevert(
-            noeHarblittInnlevert(vedleggsliste, erEttersending),
+        setSoknadKanSendesInn(
+            soknadKanSendesInn(vedleggsliste, erEttersending),
         );
     }, [vedleggsliste, erEttersending]);
 
@@ -483,14 +432,16 @@ function VedleggsListe({
                             )}
                         <div>
                             {/* gå tilbake et steg */}
-
-                            <Button
-                                onClick={() => {
-                                    oppdaterVisningsSteg(1);
-                                }}
-                            >
-                                Neste steg
-                            </Button>
+                            {visningsType === 'dokumentinnsending' &&
+                                vedleggsliste.length > 1 && (
+                                    <Button
+                                        onClick={() => {
+                                            oppdaterVisningsSteg(1);
+                                        }}
+                                    >
+                                        Neste steg
+                                    </Button>
+                                )}
                         </div>
                         <div>
                             {/* gå frem et steg */}
@@ -503,6 +454,23 @@ function VedleggsListe({
                                 Forrige steg
                             </Button>
                         </div>
+                        {soknad &&
+                            vedleggsliste.length === 1 &&
+                            soknadKlar && (
+                                <Button
+                                    onClick={() => {
+                                        if (
+                                            !sendInnKomplettSoknadModal
+                                        ) {
+                                            setSendInnKomplettSoknadModal(
+                                                true,
+                                            );
+                                        }
+                                    }}
+                                >
+                                    Send inn komplett søknad
+                                </Button>
+                            )}
                         <div>
                             {/* slett søknad */}
 
