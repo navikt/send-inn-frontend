@@ -44,6 +44,7 @@ export type SoknadType = {
     vedleggsListe: [] | VedleggType;
     visningsType: string;
     visningsSteg: number;
+    kanLasteOppAnnet: boolean;
 };
 
 // APP
