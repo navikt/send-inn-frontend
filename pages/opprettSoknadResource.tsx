@@ -32,7 +32,6 @@ const OpprettSoknadResource: NextPage = () => {
 
         axios
             .post(publicRuntimeConfig.apiUrl + endpoint, {
-                brukerId: '27928799005', // TODO: Fjerne denne når API ikke feiler når brukerId mangler
                 skjemanr: query.skjemanummer,
                 sprak: query.sprak || 'NB_NO', // set bokmål som default
                 vedleggsListe: (vedleggsIder as string)?.split(','),

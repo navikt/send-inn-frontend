@@ -46,7 +46,6 @@ const OpprettSoknadResource: NextPage = () => {
 
         axios
             .post(publicRuntimeConfig.apiUrl + endpoint, {
-                brukerId: brukerid,
                 skjemanr: query.skjemanummer,
                 sprak: query.sprak || 'NB_NO', // set bokmål som default
                 vedleggsListe: (vedleggsIder as string)?.split(','),
