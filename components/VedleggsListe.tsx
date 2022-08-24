@@ -549,18 +549,20 @@ function VedleggsListe({
                                 leggTilVedlegg={leggTilVedlegg}
                             />
                         )}
-
-                        <div>
-                            {/* lagre og fortsett senere */}
-                            <Button
-                                onClick={() => {
-                                    oppdaterVisningsSteg(-1);
-                                }}
-                                variant="secondary"
-                            >
-                                Forrige steg
-                            </Button>
-                        </div>
+                        {soknad.visningsType ===
+                            'dokumentinnsending' && (
+                            <div>
+                                {/* lagre og fortsett senere */}
+                                <Button
+                                    onClick={() => {
+                                        oppdaterVisningsSteg(-1);
+                                    }}
+                                    variant="secondary"
+                                >
+                                    Forrige steg
+                                </Button>
+                            </div>
+                        )}
 
                         <div>
                             {soknadKlar && (
