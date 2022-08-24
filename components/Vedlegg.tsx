@@ -17,6 +17,7 @@ import {
     setOpplastingStatusType,
     OpplastetFil,
     VedleggType,
+    oppdaterLokalOpplastingStatusType,
 } from '../types/types';
 import { EndreVedlegg } from './EndreVedlegg';
 import { Fil, FilePanel } from './Fil';
@@ -30,6 +31,7 @@ export interface VedleggProps {
     vedlegg: VedleggType | null;
     innsendingsId: string;
     setOpplastingStatus: setOpplastingStatusType;
+    oppdaterLokalOpplastingStatus: oppdaterLokalOpplastingStatusType;
     erAnnetVedlegg?: boolean;
     slettAnnetVedlegg: (id: number) => void;
 }
@@ -83,6 +85,7 @@ function Vedlegg(props: VedleggProps) {
         vedlegg,
         setOpplastingStatus,
         slettAnnetVedlegg,
+        oppdaterLokalOpplastingStatus,
     } = props;
 
     const [filListe, dispatch] = useReducer(
@@ -275,8 +278,8 @@ function Vedlegg(props: VedleggProps) {
                                             fil.opplastetFil
                                         }
                                         filListeDispatch={dispatch}
-                                        setOpplastingStatus={
-                                            setOpplastingStatus
+                                        oppdaterLokalOpplastingStatus={
+                                            oppdaterLokalOpplastingStatus
                                         }
                                     />
                                 );
