@@ -26,7 +26,7 @@ const { publicRuntimeConfig } = getConfig();
 
 const API_URL = publicRuntimeConfig.apiUrl;
 
-const FilePanel = styled(Panel)`
+export const FilePanel = styled(Panel)`
     border-width: 2px;
     border-radius: 8px;
 
@@ -36,26 +36,24 @@ const FilePanel = styled(Panel)`
         grid-area: filename;
         color: gray;
         justify-items: left;
-        height: 25px;
     }
     .fileinfo {
         grid-area: fileinfo;
         justify-items: left;
-        height: 25px;
     }
-    .button {
-        grid-area: button;
+    .hoyreHalvdel {
+        grid-area: hoyreHalvdel;
         display: flex;
-        justify-content: right;
-        gap: 10px;
+        flex-flow: column wrap;
+        align-content: flex-end;
     }
 
     display: grid;
 
     grid-template-columns: 53px auto auto;
     grid-template-areas:
-        'icon filename button button'
-        'icon fileinfo button button';
+        'icon filename hoyreHalvdel hoyreHalvdel'
+        'icon fileinfo hoyreHalvdel hoyreHalvdel';
 
     ${(props) =>
         props.type === FIL_STATUS.FEIL &&
@@ -346,7 +344,7 @@ export function Fil({
                     )}
                 </div>
 
-                <div className="button">
+                <div className="hoyreHalvdel">
                     {status === FIL_STATUS.FEIL &&
                         !filState.filData?.opplastetFil && (
                             <StyledSecondaryButton>

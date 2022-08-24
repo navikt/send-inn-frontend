@@ -19,8 +19,10 @@ import {
     VedleggType,
 } from '../types/types';
 import { EndreVedlegg } from './EndreVedlegg';
-import { Fil } from './Fil';
+import { Fil, FilePanel } from './Fil';
 import getConfig from 'next/config';
+import { FilUploadIcon } from './FilUploadIcon';
+import { FIL_STATUS } from '../types/enums';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -80,8 +82,6 @@ function Vedlegg(props: VedleggProps) {
         innsendingsId,
         vedlegg,
         setOpplastingStatus,
-        erAnnetVedlegg = vedlegg.vedleggsnr?.toUpperCase() === 'N6' &&
-            !vedlegg.erPakrevd,
         slettAnnetVedlegg,
     } = props;
 
@@ -91,6 +91,11 @@ function Vedlegg(props: VedleggProps) {
     );
     const [endrer, setEndrer] = useState(false);
     const [tittel, setTittel] = useState(vedlegg.label);
+
+    const erAnnetVedlegg =
+        vedlegg.vedleggsnr?.toUpperCase() === 'N6' &&
+        !vedlegg.erPakrevd;
+    const erSendtInnTidligere = vedlegg.innsendtdato !== null;
 
     useEffect(() => {
         console.log({ filListe });
@@ -211,7 +216,8 @@ function Vedlegg(props: VedleggProps) {
                         <div>{vedlegg.beskrivelse}</div>
                     )}
                     {vedlegg.erPakrevd &&
-                        !vedlegg.erHoveddokument && (
+                        !vedlegg.erHoveddokument &&
+                        !erSendtInnTidligere && (
                             <VedleggRadio
                                 id={vedlegg.id}
                                 vedlegg={vedlegg}
@@ -220,6 +226,36 @@ function Vedlegg(props: VedleggProps) {
                                 }
                             />
                         )}
+
+                    {erSendtInnTidligere && (
+                        <div>
+                            <span>
+                                Dokumenter du har sendt inn tidligere:
+                            </span>
+                            <FilePanel border>
+                                <FilUploadIcon
+                                    filstatus={
+                                        FIL_STATUS.TIDLIGERE_LASTET_OPP
+                                    }
+                                />
+                                <div className="filename">
+                                    {vedlegg.label}
+                                </div>
+                                <div className="hoyreHalvdel">
+                                    <span>Mottatt</span>
+                                    <span>
+                                        {new Date(
+                                            vedlegg.innsendtdato,
+                                        ).toLocaleString('no', {
+                                            dateStyle: 'short',
+                                        })}
+                                    </span>
+                                </div>
+                            </FilePanel>
+
+                            <br />
+                        </div>
+                    )}
 
                     <Filvelger filListeDispatch={dispatch} />
                     {filListe.length > 0 && (
