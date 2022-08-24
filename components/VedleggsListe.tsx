@@ -8,7 +8,7 @@ import Vedlegg from '../components/Vedlegg';
 import SkjemaNedlasting from '../components/SkjemaNedlasting';
 import Kvittering, { KvitteringsDto } from '../components/Kvittering';
 import { VedleggProps } from '../components/Vedlegg';
-import { Button } from '@navikt/ds-react';
+import { Button, Alert } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
 import { Modal, Heading, BodyLong } from '@navikt/ds-react';
 import { FellesModal } from './FellesModal';
@@ -342,12 +342,14 @@ function VedleggsListe({
     };
     return (
         <div>
+            {''}
             {process.env.NEXT_PUBLIC_REMOTE_API}
             visningstype: {soknad.visningsType}
             <br />
             visningssteg: {visningsSteg}
             <br />
-            språk:{' '}
+            språk: <br />
+            <br />
             {
                 soknad.spraak // skriver ut språk
             }
@@ -515,6 +517,26 @@ function VedleggsListe({
                         {vedleggsliste.length !== 0 && (
                             <h1>Last opp vedlegg her:</h1>
                         )}
+
+                        {visningsType === 'dokumentinnsending' &&
+                            visningsType === 'dokumentinnsending' &&
+                            vedleggsliste.some((element) => {
+                                return (
+                                    element.erHoveddokument ===
+                                        true &&
+                                    element.opplastingsStatus !==
+                                        'LastetOpp'
+                                );
+                            }) && (
+                                <Alert
+                                    variant="warning"
+                                    size="medium"
+                                >
+                                    Du får ikke sendt inn før du har
+                                    lastet opp ferdig utfylt skjema på
+                                    forrige side.
+                                </Alert>
+                            )}
 
                         {soknad &&
                             vedleggsliste.length > 0 &&
