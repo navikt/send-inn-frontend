@@ -204,6 +204,16 @@ function VedleggsListe({
             });
     }
 
+    const oppdaterLokalOpplastingStatus = (
+        id: number,
+        opplastingsStatus: string,
+    ) => {
+        const newListe = vedleggsliste.map((el) =>
+            el.id === id ? { ...el, opplastingsStatus } : el,
+        );
+        setVedleggsListe(newListe);
+    };
+
     const leggTilVedlegg = (vedlegg) => {
         setVedleggsListe([...vedleggsliste, vedlegg]);
     };
@@ -420,6 +430,9 @@ function VedleggsListe({
                                     setOpplastingStatus={
                                         setOpplastingStatus
                                     }
+                                    oppdaterLokalOpplastingStatus={
+                                        oppdaterLokalOpplastingStatus
+                                    }
                                     vedlegg={
                                         vedleggsliste.filter(
                                             (x) => x.erHoveddokument,
@@ -516,6 +529,9 @@ function VedleggsListe({
                                             }
                                             setOpplastingStatus={
                                                 setOpplastingStatus
+                                            }
+                                            oppdaterLokalOpplastingStatus={
+                                                oppdaterLokalOpplastingStatus
                                             }
                                             vedlegg={vedlegg}
                                             slettAnnetVedlegg={

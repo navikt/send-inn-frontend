@@ -29,6 +29,11 @@ export type setOpplastingStatusType = (
     opplastingStatus: string,
 ) => void;
 
+export type oppdaterLokalOpplastingStatusType = (
+    id: number,
+    opplastingStatus: string,
+) => void;
+
 export type SoknadType = {
     id: number;
     innsendingsId: string;

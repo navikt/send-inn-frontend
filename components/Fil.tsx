@@ -4,7 +4,7 @@ import { ACTIONS, ActionType } from './Vedlegg';
 import {
     OpplastetFil,
     VedleggType,
-    setOpplastingStatusType,
+    oppdaterLokalOpplastingStatusType,
 } from '../types/types';
 import {
     Alert,
@@ -86,7 +86,7 @@ export interface FilProps {
     lokalFil?: File;
     opplastetFil?: OpplastetFil;
     filListeDispatch: React.Dispatch<ActionType>;
-    setOpplastingStatus: setOpplastingStatusType;
+    oppdaterLokalOpplastingStatus: oppdaterLokalOpplastingStatusType;
 }
 
 export interface FilData {
@@ -190,7 +190,7 @@ export function Fil({
     innsendingsId,
     vedlegg,
     filListeDispatch,
-    setOpplastingStatus,
+    oppdaterLokalOpplastingStatus,
 }: FilProps) {
     const [filState, dispatch] = useReducer(filReducer, initialState);
     const { status } = filState;
@@ -280,7 +280,10 @@ export function Fil({
                         },
                     },
                 });
-                setOpplastingStatus(vedlegg.id, 'LastetOpp');
+                oppdaterLokalOpplastingStatus(
+                    vedlegg.id,
+                    'LastetOpp',
+                );
                 console.log({ response: response.data });
             })
             .catch((error) => {
@@ -302,7 +305,7 @@ export function Fil({
         innsendingsId,
         lokalFilProp,
         opplastetFilProp,
-        setOpplastingStatus,
+        oppdaterLokalOpplastingStatus,
         vedlegg,
         controller.signal,
         status,
