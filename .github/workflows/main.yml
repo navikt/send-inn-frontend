@@ -56,7 +56,11 @@ jobs:
               env:
                   NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
             - name: Set environment variables (prod)
+              if: github.ref == 'refs/heads/main'
               run: cp environments/prod.env .env
+            - name: Set environment variables (preprod)
+              if: github.ref == 'refs/heads/preprod'
+              run: cp environments/preprod.env .env
             # fjernet fordi den bare gjør det samme som docker imaget inntil vi har tester/linting
             # - name: Test
             #   run: npm run test
