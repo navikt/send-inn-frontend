@@ -1,0 +1,56 @@
+apiVersion: 'nais.io/v1alpha1'
+kind: 'Application'
+metadata:
+    name: dokumentinnsending-send-inn
+    namespace: team-soknad
+    labels:
+        team: team-soknad
+    annotations:
+        nginx.ingress.kubernetes.io/proxy-body-size: "100M"
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+spec:
+    image: '{{ image }}'
+    port: 3000
+    liveness:
+        path: /dokumentinnsending/api/isAlive
+        initialDelay: 20
+        timeout: 10
+        periodSeconds: 5
+        failureThreshold: 10
+    readiness:
+        path: /dokumentinnsending/api/isReady
+        initialDelay: 20
+        timeout: 10
+    replicas:
+        min: 1
+        max: 2
+        cpuThresholdPercentage: 50
+    prometheus:
+        enabled: true
+        path: /internal/metrics
+    resources:
+        limits:
+            memory: 786Mi
+        requests:
+            memory: 512Mi
+    idporten:
+        enabled: true
+        sidecar:
+            enabled: true
+            level: Level4
+            autoLogin: false
+    tokenx:
+        enabled: true
+    accessPolicy:
+        outbound:
+            rules:
+            - application: innsending-api
+    ingresses:
+        - 'https://send-inn.dev.nav.no/dokumentinnsending'
+    env:
+        - name: APP_VERSION
+          value: {{ app_version }}
+        - name: INNSENDING_API_AUDIENCE
+          value: "dev-gcp:team-soknad:innsending-api"
+        - name: REMOTE_API_URL
+          value: "https://innsending-api-gcp.dev.nav.no"
