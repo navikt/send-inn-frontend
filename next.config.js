@@ -8,6 +8,10 @@ module.exports = {
         // your project has ESLint errors.
         ignoreDuringBuilds: true,
     },
+    i18n: {
+        locales: ['nb', 'en', 'nn'],
+        defaultLocale: 'nb',
+    },
     compiler: {
         styledComponents: true,
     },
