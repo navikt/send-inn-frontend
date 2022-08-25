@@ -116,10 +116,13 @@ const EttersendingSide: NextPage = () => {
     return (
         <div>
             <Head>
-                <title>Trykk </title>
+                <title>
+                    {soknad ? soknad.tittel : 'Laster søknad'}{' '}
+                </title>
+
                 <meta
-                    name="description"
-                    content="Her kan du ettersende vedlegg til en søknad"
+                    name="TODO trenger vi meta når det ikke er søk "
+                    content="TODO sett avhengig av fyllut/sendinn/ettersending"
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
