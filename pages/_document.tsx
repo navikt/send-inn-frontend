@@ -59,25 +59,18 @@ export default class MyDocument extends Document<Props> {
     render() {
         const { Styles, Scripts, Header, Footer } =
             this.props.Decorator;
+
+        const disableDecorator =
+            process.env.DECORATOR_DISABLED !== 'true';
         return (
             <Html>
-                <Head>
-                    {process.env.DECORATOR_DISABLED !== 'true' && (
-                        <>
-                            <Styles />
-                            <Scripts />
-                        </>
-                    )}
-                </Head>
+                <Head>{disableDecorator && <Styles />}</Head>
                 <body>
-                    {process.env.DECORATOR_DISABLED !== 'true' && (
-                        <Header />
-                    )}
+                    {disableDecorator && <Header />}
                     <Main />
-                    {process.env.DECORATOR_DISABLED !== 'true' && (
-                        <Footer />
-                    )}
+                    {disableDecorator && <Footer />}
                     <NextScript />
+                    {disableDecorator && <Scripts />}
                 </body>
             </Html>
         );
