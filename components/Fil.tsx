@@ -201,6 +201,13 @@ export function Fil({
             type: FIL_ACTIONS.SETT_STATUS,
             filState: { status: FIL_STATUS.SLETTER },
         });
+        if (!filState.filData.opplastetFil) {
+            filListeDispatch({
+                type: ACTIONS.SLETT_FIL,
+                filData: { komponentID },
+            });
+            return;
+        }
         axios
             .delete(
                 `${API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/${filState.filData.opplastetFil.id}`,
