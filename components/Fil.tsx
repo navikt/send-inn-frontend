@@ -21,6 +21,7 @@ import { FIL_STATUS } from '../types/enums';
 import { Files, FileError, FileSuccess } from '@navikt/ds-icons';
 import { FilUploadIcon } from './FilUploadIcon';
 import getConfig from 'next/config';
+import { Filvelger } from './Filvelger';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -227,6 +228,16 @@ export function Fil({
     };
 
     useEffect(() => {
+        dispatch({
+            type: FIL_ACTIONS.START_OPPLASTNING,
+            filState: {
+                filData: {
+                    lokalFil: lokalFilProp,
+                },
+            },
+        });
+    }, [lokalFilProp]);
+    useEffect(() => {
         console.log(status);
         if (status === FIL_STATUS.OPPRETTET) {
             dispatch({
@@ -358,25 +369,21 @@ export function Fil({
                     {status === FIL_STATUS.FEIL &&
                         !filState.filData?.opplastetFil && (
                             <StyledSecondaryButton>
-                                <Button
-                                    onClick={() =>
-                                        dispatch({
-                                            type: FIL_ACTIONS.START_OPPLASTNING,
-                                            filState: {
-                                                filData: {
-                                                    opplastetFil:
-                                                        opplastetFilProp,
-                                                    lokalFil:
-                                                        lokalFilProp,
-                                                },
-                                            },
-                                        })
+                                <Filvelger
+                                    filListeDispatch={
+                                        filListeDispatch
                                     }
-                                    as="label"
-                                    variant="secondary"
-                                >
-                                    Prøv igjen
-                                </Button>
+                                    CustomButton={({ children }) => (
+                                        <Button
+                                            as="label"
+                                            variant="secondary"
+                                        >
+                                            Prøv igjen
+                                            {children}
+                                        </Button>
+                                    )}
+                                    filKomponentID={komponentID}
+                                />
                             </StyledSecondaryButton>
                         )}
 

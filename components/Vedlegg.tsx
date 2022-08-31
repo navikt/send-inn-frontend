@@ -45,6 +45,7 @@ export interface FilData {
 export const ACTIONS = {
     NY_FIL: 'NY_FIL',
     SLETT_FIL: 'SLETT_FIL',
+    ENDRE_FIL: 'ENDRE_FIL',
     RESET_LISTE: 'RESET_LISTE',
 } as const;
 
@@ -65,6 +66,16 @@ const filListeReducer = (filListe: FilData[], action: ActionType) => {
             return filListe.filter(
                 (fil) =>
                     fil.komponentID !== action.filData.komponentID,
+            );
+        }
+        case ACTIONS.ENDRE_FIL: {
+            return filListe.map((fil) =>
+                fil.komponentID === action.filData.komponentID
+                    ? {
+                          komponentID: action.filData.komponentID,
+                          ...action.filData,
+                      }
+                    : fil,
             );
         }
         case ACTIONS.RESET_LISTE: {
