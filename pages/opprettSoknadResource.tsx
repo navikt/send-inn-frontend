@@ -66,8 +66,8 @@ const OpprettSoknadResource: NextPage = () => {
     return (
         <div>
             <Head>
-                <title>Oppretter søknad</title>
-                <meta name="description" content="Oppretter søknad" />
+                <title>Laster søknad</title>
+                <meta name="description" content="Laster søknad" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>

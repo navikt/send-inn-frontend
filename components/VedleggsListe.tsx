@@ -333,7 +333,9 @@ function VedleggsListe({
                 language: 'en',
             });
         };
+
         changeLang(soknad.spraak);
+        document.documentElement.lang = i18n.language;
     }, [soknad, i18n]);
 
     const resetState = () => {
