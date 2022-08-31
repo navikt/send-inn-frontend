@@ -1,49 +1,23 @@
-name: Build, push, and deploy
+name: Build, push, and deploy (dokumentinnsending)
 on:
     push:
-        paths-ignore:
-            - '**.md'
-            - '**/**.md'
-            - '.github/workflows/manual-deployment.yml'
-    pull_request:
         branches:
             - 'main'
+            - 'preprod'
         paths-ignore:
             - '**.md'
             - '**/**.md'
             - '.github/workflows/manual-deployment.yml'
-            - '.nais/**'
+
 env:
-    IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:${{ github.sha }}
+    IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend-dokumentinnsending:${{ github.sha }}
     CI: true
     TZ: Europe/Oslo
 
 jobs:
-    build:
-        name: Test and build
-        runs-on: ubuntu-latest
-        if: github.ref != 'refs/heads/preprod' && github.ref != 'refs/heads/main'
-        steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: '16'
-                  cache: 'npm'
-            - name: Install dependencies
-              run: npm install
-              env:
-                  # Github krever autentisering for tilgang til packages
-                  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-            - name: Set environment variables (prod)
-              run: cp environments/prod.env .env
-            # - name: Test
-            #   run: npm run test
-            - name: Build
-              run: npm run build
 
     build-and-push:
-        name: Build and push Docker container
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/preprod'
+        name: Build and push Docker container (dokumentinnsending)
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
@@ -57,10 +31,10 @@ jobs:
                   NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
             - name: Set environment variables (prod)
               if: github.ref == 'refs/heads/main'
-              run: cp environments/prod.env .env
+              run: cp environments/dokumentinnsending/prod.env .env
             - name: Set environment variables (preprod)
               if: github.ref == 'refs/heads/preprod'
-              run: cp environments/preprod.env .env
+              run: cp environments/dokumentinnsending/preprod.env .env
             # fjernet fordi den bare gjør det samme som docker imaget inntil vi har tester/linting
             # - name: Test
             #   run: npm run test
@@ -75,7 +49,7 @@ jobs:
                   docker push ${IMAGE}
 
     deploy-preprod:
-        name: Deploy to preprod
+        name: Deploy to preprod (dokumentinnsending)
         needs: build-and-push
         if: github.ref == 'refs/heads/preprod'
         runs-on: ubuntu-latest
@@ -87,11 +61,11 @@ jobs:
                   DRY_RUN: false
                   PRINT_PAYLOAD: true
                   CLUSTER: dev-gcp
-                  RESOURCE: .nais/nais-preprod.yml
+                  RESOURCE: .nais/dokumentinnsending/nais-preprod.yml
                   VAR: app_version=${{ github.sha }}
 
     deploy-prod:
-        name: Deploy to prod
+        name: Deploy to prod (dokumentinnsending)
         needs: build-and-push
         if: github.ref == 'refs/heads/main'
         runs-on: ubuntu-latest
@@ -100,8 +74,8 @@ jobs:
             - uses: nais/deploy/actions/deploy@v1
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-                  DRY_RUN: false
+                  DRY_RUN: true
                   PRINT_PAYLOAD: true
                   CLUSTER: prod-gcp
-                  RESOURCE: .nais/nais.yml
+                  RESOURCE: .nais/dokumentinnsending/nais.yml
                   VAR: app_version=${{ github.sha }}
