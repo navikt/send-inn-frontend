@@ -2,19 +2,18 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button } from '@navikt/ds-react';
 import { Upload } from '@navikt/ds-icons';
-import { ACTIONS, ActionType } from './Vedlegg';
 type FormValues = {
     file: FileList | null;
 };
 
 interface FilvelgerProps {
-    filListeDispatch: React.Dispatch<ActionType>;
+    onFileSelected: (fil: File) => void;
     CustomButton?: ({
         children,
     }: {
         children: React.ReactNode;
     }) => JSX.Element;
-    filKomponentID?: string;
+    allowMultiple?: boolean;
 }
 
 const DefaultButton = ({ children }) => {
@@ -28,7 +27,11 @@ const DefaultButton = ({ children }) => {
 };
 
 export function Filvelger(props: FilvelgerProps) {
-    const { filListeDispatch, CustomButton, filKomponentID } = props;
+    const {
+        onFileSelected,
+        CustomButton,
+        allowMultiple = true,
+    } = props;
 
     const { register, handleSubmit, setValue, watch } =
         useForm<FormValues>();
@@ -48,22 +51,7 @@ export function Filvelger(props: FilvelgerProps) {
                             fileListArray.length
                         }`,
                     );
-                    if (filKomponentID) {
-                        filListeDispatch({
-                            type: ACTIONS.ENDRE_FIL,
-                            filData: {
-                                lokalFil: fil,
-                                komponentID: filKomponentID,
-                            },
-                        });
-                    } else {
-                        filListeDispatch({
-                            type: ACTIONS.NY_FIL,
-                            filData: {
-                                lokalFil: fil,
-                            },
-                        });
-                    }
+                    onFileSelected(fil);
                 });
 
                 setValue('file', null);
@@ -73,7 +61,7 @@ export function Filvelger(props: FilvelgerProps) {
                 }
             }
         },
-        [setValue, filListeDispatch, filKomponentID],
+        [setValue, onFileSelected],
     );
 
     useEffect(() => {
@@ -97,7 +85,7 @@ export function Filvelger(props: FilvelgerProps) {
                 <input
                     {...rest}
                     accept="image/png, image/jpeg, .pdf"
-                    multiple={!filKomponentID}
+                    multiple={allowMultiple}
                     type="file"
                     // TODO?: Støtte for drag&drop. Kan ikke bruke display: none. Eksempel på løsning: https://stackoverflow.com/a/44277812/15886307
                     style={{ display: 'none' }}

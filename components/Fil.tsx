@@ -101,6 +101,7 @@ export const FIL_ACTIONS = {
     OPPDATER_PROGRESS: 'OPPDATER_PROGRESS',
     SETT_STATUS: 'SETT_STATUS',
     OPPLASTET: 'OPPLASTET',
+    LAST_OPP_NY_FIL: 'LAST_OPP_NY_FIL',
     AVBRYT: 'AVBRYT',
     FEIL: 'FEIL',
 } as const;
@@ -137,6 +138,13 @@ const filReducer = (
     console.debug('Dispatcher:', action.type);
     switch (action.type) {
         case FIL_ACTIONS.START_OPPLASTNING: {
+            return {
+                ...filState,
+                status: FIL_STATUS.STARTER_OPPLASTNING,
+                filData: action.filState.filData,
+            };
+        }
+        case FIL_ACTIONS.LAST_OPP_NY_FIL: {
             return {
                 ...filState,
                 status: FIL_STATUS.STARTER_OPPLASTNING,
@@ -227,16 +235,6 @@ export function Fil({
             });
     };
 
-    useEffect(() => {
-        dispatch({
-            type: FIL_ACTIONS.START_OPPLASTNING,
-            filState: {
-                filData: {
-                    lokalFil: lokalFilProp,
-                },
-            },
-        });
-    }, [lokalFilProp]);
     useEffect(() => {
         console.log(status);
         if (status === FIL_STATUS.OPPRETTET) {
@@ -370,8 +368,15 @@ export function Fil({
                         !filState.filData?.opplastetFil && (
                             <StyledSecondaryButton>
                                 <Filvelger
-                                    filListeDispatch={
-                                        filListeDispatch
+                                    onFileSelected={(fil: File) =>
+                                        dispatch({
+                                            type: FIL_ACTIONS.LAST_OPP_NY_FIL,
+                                            filState: {
+                                                filData: {
+                                                    lokalFil: fil,
+                                                },
+                                            },
+                                        })
                                     }
                                     CustomButton={({ children }) => (
                                         <Button
@@ -382,7 +387,7 @@ export function Fil({
                                             {children}
                                         </Button>
                                     )}
-                                    filKomponentID={komponentID}
+                                    allowMultiple={false}
                                 />
                             </StyledSecondaryButton>
                         )}

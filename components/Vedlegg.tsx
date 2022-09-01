@@ -68,16 +68,6 @@ const filListeReducer = (filListe: FilData[], action: ActionType) => {
                     fil.komponentID !== action.filData.komponentID,
             );
         }
-        case ACTIONS.ENDRE_FIL: {
-            return filListe.map((fil) =>
-                fil.komponentID === action.filData.komponentID
-                    ? {
-                          komponentID: action.filData.komponentID,
-                          ...action.filData,
-                      }
-                    : fil,
-            );
-        }
         case ACTIONS.RESET_LISTE: {
             return initialState;
         }
@@ -271,7 +261,16 @@ function Vedlegg(props: VedleggProps) {
                         </div>
                     )}
 
-                    <Filvelger filListeDispatch={dispatch} />
+                    <Filvelger
+                        onFileSelected={(fil: File) =>
+                            dispatch({
+                                type: ACTIONS.NY_FIL,
+                                filData: {
+                                    lokalFil: fil,
+                                },
+                            })
+                        }
+                    />
                     {filListe.length > 0 && (
                         <div>
                             <span>
