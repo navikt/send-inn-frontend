@@ -21,6 +21,7 @@ import { FIL_STATUS } from '../types/enums';
 import { Files, FileError, FileSuccess } from '@navikt/ds-icons';
 import { FilUploadIcon } from './FilUploadIcon';
 import getConfig from 'next/config';
+import { Filvelger } from './Filvelger';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -100,6 +101,7 @@ export const FIL_ACTIONS = {
     OPPDATER_PROGRESS: 'OPPDATER_PROGRESS',
     SETT_STATUS: 'SETT_STATUS',
     OPPLASTET: 'OPPLASTET',
+    LAST_OPP_NY_FIL: 'LAST_OPP_NY_FIL',
     AVBRYT: 'AVBRYT',
     FEIL: 'FEIL',
 } as const;
@@ -136,6 +138,13 @@ const filReducer = (
     console.debug('Dispatcher:', action.type);
     switch (action.type) {
         case FIL_ACTIONS.START_OPPLASTNING: {
+            return {
+                ...filState,
+                status: FIL_STATUS.STARTER_OPPLASTNING,
+                filData: action.filState.filData,
+            };
+        }
+        case FIL_ACTIONS.LAST_OPP_NY_FIL: {
             return {
                 ...filState,
                 status: FIL_STATUS.STARTER_OPPLASTNING,
@@ -358,25 +367,28 @@ export function Fil({
                     {status === FIL_STATUS.FEIL &&
                         !filState.filData?.opplastetFil && (
                             <StyledSecondaryButton>
-                                <Button
-                                    onClick={() =>
+                                <Filvelger
+                                    onFileSelected={(fil: File) =>
                                         dispatch({
-                                            type: FIL_ACTIONS.START_OPPLASTNING,
+                                            type: FIL_ACTIONS.LAST_OPP_NY_FIL,
                                             filState: {
                                                 filData: {
-                                                    opplastetFil:
-                                                        opplastetFilProp,
-                                                    lokalFil:
-                                                        lokalFilProp,
+                                                    lokalFil: fil,
                                                 },
                                             },
                                         })
                                     }
-                                    as="label"
-                                    variant="secondary"
-                                >
-                                    Prøv igjen
-                                </Button>
+                                    CustomButton={({ children }) => (
+                                        <Button
+                                            as="label"
+                                            variant="secondary"
+                                        >
+                                            Prøv igjen
+                                            {children}
+                                        </Button>
+                                    )}
+                                    allowMultiple={false}
+                                />
                             </StyledSecondaryButton>
                         )}
 

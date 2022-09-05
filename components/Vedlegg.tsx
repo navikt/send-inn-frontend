@@ -45,6 +45,7 @@ export interface FilData {
 export const ACTIONS = {
     NY_FIL: 'NY_FIL',
     SLETT_FIL: 'SLETT_FIL',
+    ENDRE_FIL: 'ENDRE_FIL',
     RESET_LISTE: 'RESET_LISTE',
 } as const;
 
@@ -260,7 +261,16 @@ function Vedlegg(props: VedleggProps) {
                         </div>
                     )}
 
-                    <Filvelger filListeDispatch={dispatch} />
+                    <Filvelger
+                        onFileSelected={(fil: File) =>
+                            dispatch({
+                                type: ACTIONS.NY_FIL,
+                                filData: {
+                                    lokalFil: fil,
+                                },
+                            })
+                        }
+                    />
                     {filListe.length > 0 && (
                         <div>
                             <span>

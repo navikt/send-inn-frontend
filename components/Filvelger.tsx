@@ -2,17 +2,36 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button } from '@navikt/ds-react';
 import { Upload } from '@navikt/ds-icons';
-import { ACTIONS, ActionType } from './Vedlegg';
 type FormValues = {
     file: FileList | null;
 };
 
 interface FilvelgerProps {
-    filListeDispatch: React.Dispatch<ActionType>;
+    onFileSelected: (fil: File) => void;
+    CustomButton?: ({
+        children,
+    }: {
+        children: React.ReactNode;
+    }) => JSX.Element;
+    allowMultiple?: boolean;
 }
 
+const DefaultButton = ({ children }) => {
+    return (
+        <Button as="label" variant="secondary">
+            <Upload />
+            Velg dine filer
+            {children}
+        </Button>
+    );
+};
+
 export function Filvelger(props: FilvelgerProps) {
-    const { filListeDispatch } = props;
+    const {
+        onFileSelected,
+        CustomButton,
+        allowMultiple = true,
+    } = props;
 
     const { register, handleSubmit, setValue, watch } =
         useForm<FormValues>();
@@ -32,12 +51,7 @@ export function Filvelger(props: FilvelgerProps) {
                             fileListArray.length
                         }`,
                     );
-                    filListeDispatch({
-                        type: ACTIONS.NY_FIL,
-                        filData: {
-                            lokalFil: fil,
-                        },
-                    });
+                    onFileSelected(fil);
                 });
 
                 setValue('file', null);
@@ -47,7 +61,7 @@ export function Filvelger(props: FilvelgerProps) {
                 }
             }
         },
-        [setValue, filListeDispatch],
+        [setValue, onFileSelected],
     );
 
     useEffect(() => {
@@ -62,15 +76,16 @@ export function Filvelger(props: FilvelgerProps) {
         });
         return () => subscription.unsubscribe();
     }, [handleSubmit, onSubmit, watch]);
+
+    const CurrentButton = CustomButton || DefaultButton;
+
     return (
         <form>
-            <Button as="label" variant="secondary">
-                <Upload />
-                Velg dine filer
+            <CurrentButton>
                 <input
                     {...rest}
                     accept="image/png, image/jpeg, .pdf"
-                    multiple
+                    multiple={allowMultiple}
                     type="file"
                     // TODO?: Støtte for drag&drop. Kan ikke bruke display: none. Eksempel på løsning: https://stackoverflow.com/a/44277812/15886307
                     style={{ display: 'none' }}
@@ -79,7 +94,7 @@ export function Filvelger(props: FilvelgerProps) {
                         fileRef.current = e; // you can still assign to ref
                     }}
                 />
-            </Button>
+            </CurrentButton>
         </form>
     );
 }
