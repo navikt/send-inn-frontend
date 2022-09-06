@@ -19,7 +19,6 @@ function VedleggRadio({
 
     return (
         <>
-            value: {vedlegg.opplastingsStatus}
             <RadioGroup
                 legend="Velg din innsending."
                 size="medium"
