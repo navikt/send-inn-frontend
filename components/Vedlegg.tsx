@@ -7,6 +7,7 @@ import {
     Link as NavLink,
     BodyLong,
     Ingress,
+    Button,
 } from '@navikt/ds-react';
 import { Filvelger } from './Filvelger';
 import styled from 'styled-components';
@@ -78,6 +79,11 @@ const initialState: FilData[] = [];
 
 const VedleggPanel = styled(Panel)`
     background-color: var(--navds-semantic-color-canvas-background);
+`;
+
+const AnnetVedleggButtons = styled.div`
+    display: flex;
+    gap: 20px;
 `;
 
 function Vedlegg(props: VedleggProps) {
@@ -169,7 +175,7 @@ function Vedlegg(props: VedleggProps) {
                     <div>
                         <div>
                             <Heading size="small" spacing>
-                                {vedlegg.vedleggsnr}: {tittel}
+                                {tittel}
                             </Heading>
                         </div>
                         <div>
@@ -197,22 +203,27 @@ function Vedlegg(props: VedleggProps) {
                             )}
                         </div>
                         {erAnnetVedlegg && (
-                            <>
-                                <NavLink
-                                    as="button"
+                            <AnnetVedleggButtons>
+                                <Filvelger
+                                    filListeDispatch={dispatch}
+                                />
+
+                                <Button
                                     onClick={() => setEndrer(true)}
+                                    variant="secondary"
                                 >
-                                    Endre
-                                </NavLink>
-                                <NavLink
-                                    as="button"
+                                    Rediger
+                                </Button>
+
+                                <Button
                                     onClick={() =>
                                         slettAnnetVedlegg(vedlegg.id)
                                     }
+                                    variant="secondary"
                                 >
-                                    Slett
-                                </NavLink>
-                            </>
+                                    Slett vedlegg
+                                </Button>
+                            </AnnetVedleggButtons>
                         )}
                     </div>
                     {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
@@ -271,6 +282,8 @@ function Vedlegg(props: VedleggProps) {
                             })
                         }
                     />
+                    {!erAnnetVedlegg && (
+                    )}
                     {filListe.length > 0 && (
                         <div>
                             <span>
