@@ -16,8 +16,6 @@ import {
 } from '@navikt/ds-react';
 import styled from 'styled-components';
 
-// Takk bare fet og stor .. vi mottok h2 .. ul ikoner som bullet ... h2 for doks som skal ettersendes, ny ul med forskjellig bullet ... p ...
-
 const VedleggPanel = styled(Panel)`
     /*background-color: red;     */
     background-color: var(--navds-semantic-color-canvas-background);
@@ -28,30 +26,6 @@ const FilePanel = styled(Panel)`
     border-width: 2px;
     border-radius: 8px;
 
-    /*background-color: red;     
-    
-    ${(props) =>
-        props.type === 'error'
-            ? 'background-color: orange'
-            : 'border: blue'};
-    */
-    /*
-    .icon {
-        
-        background-color: red;
-        grid-area: icon;
-
-        
-        width: 40px;
-        height: 44px;
-        display: flex;
-        align-items: center;
-        justify-items: center;
-        > * {
-            background-color: blue;
-            color: white;
-        }
-    } */
     // TODO legg inn sekundær og tertiær
     // TODO i mobilformat stretch to fit container
     .filename {
