@@ -412,7 +412,6 @@ export function Fil({
                     </StyledTertiaryButton>
                 </div>
             </FilePanel>
-            Status: {status}
         </div>
     );
 }
