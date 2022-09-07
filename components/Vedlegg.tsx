@@ -181,7 +181,7 @@ function Vedlegg(props: VedleggProps) {
                         <div>
                             {vedlegg.erHoveddokument && (
                                 <BodyLong>
-                                    <Ingress>slik gjør du:</Ingress>
+                                    <Ingress>Slik gjør du:</Ingress>
 
                                     <ol>
                                         <li>

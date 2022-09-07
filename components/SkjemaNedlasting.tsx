@@ -48,7 +48,7 @@ function SkjemaNedlasting(props: VedleggProps) {
                     {vedlegg.vedleggsnr}: {vedlegg.label}
                 </Heading>
                 <div>
-                    <Ingress>slik gjør du:</Ingress>
+                    <Ingress>Slik gjør du:</Ingress>
                     {/* TODO: husk styling på <ol> */}
                     <ol>
                         <li>Klikk på “Last ned skjema”. </li>
