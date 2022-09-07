@@ -81,7 +81,7 @@ const VedleggPanel = styled(Panel)`
     background-color: var(--navds-semantic-color-canvas-background);
 `;
 
-const AnnetVedleggButtons = styled.div`
+const VedleggButtons = styled.div`
     display: flex;
     gap: 20px;
 `;
@@ -202,29 +202,6 @@ function Vedlegg(props: VedleggProps) {
                                 </BodyLong>
                             )}
                         </div>
-                        {erAnnetVedlegg && (
-                            <AnnetVedleggButtons>
-                                <Filvelger
-                                    filListeDispatch={dispatch}
-                                />
-
-                                <Button
-                                    onClick={() => setEndrer(true)}
-                                    variant="secondary"
-                                >
-                                    Rediger
-                                </Button>
-
-                                <Button
-                                    onClick={() =>
-                                        slettAnnetVedlegg(vedlegg.id)
-                                    }
-                                    variant="secondary"
-                                >
-                                    Slett vedlegg
-                                </Button>
-                            </AnnetVedleggButtons>
-                        )}
                     </div>
                     {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
                     {vedlegg.beskrivelse && (
@@ -272,18 +249,39 @@ function Vedlegg(props: VedleggProps) {
                         </div>
                     )}
 
-                    <Filvelger
-                        onFileSelected={(fil: File) =>
-                            dispatch({
-                                type: ACTIONS.NY_FIL,
-                                filData: {
-                                    lokalFil: fil,
-                                },
-                            })
-                        }
-                    />
-                    {!erAnnetVedlegg && (
-                    )}
+                    <VedleggButtons>
+                        <Filvelger
+                            onFileSelected={(fil: File) =>
+                                dispatch({
+                                    type: ACTIONS.NY_FIL,
+                                    filData: {
+                                        lokalFil: fil,
+                                    },
+                                })
+                            }
+                        />
+
+                        {erAnnetVedlegg && (
+                            <>
+                                <Button
+                                    onClick={() => setEndrer(true)}
+                                    variant="secondary"
+                                >
+                                    Rediger
+                                </Button>
+
+                                <Button
+                                    onClick={() =>
+                                        slettAnnetVedlegg(vedlegg.id)
+                                    }
+                                    variant="secondary"
+                                >
+                                    Slett vedlegg
+                                </Button>
+                            </>
+                        )}
+                    </VedleggButtons>
+
                     {filListe.length > 0 && (
                         <div>
                             <span>
