@@ -8,6 +8,7 @@ import { GetServerSideProps } from 'next';
 import axios from 'axios';
 import Vedlegg from '../../components/Vedlegg';
 import VedleggsListe from '../../components/VedleggsListe';
+import { SoknadHeader } from '../../components/SoknadHeader';
 
 import { VedleggType, SoknadType } from '../../types/types';
 // todo https://dev.to/fadiamg/multiple-file-inputs-with-one-submit-button-with-react-hooks-kle
@@ -128,13 +129,20 @@ const EttersendingSide: NextPage = () => {
             </Head>
             <main>
                 {soknad && (
-                    <VedleggsListe
-                        soknad={soknad}
-                        setSoknad={setSoknad}
-                        vedleggsliste={vedleggsListe}
-                        setVedleggsListe={setVedleggsListe}
-                        erEttersending={erEttersending}
-                    />
+                    <>
+                        <SoknadHeader
+                            soknadoverskrift={soknad.tittel}
+                            skjemanr={soknad.skjemanr}
+                        />
+
+                        <VedleggsListe
+                            soknad={soknad}
+                            setSoknad={setSoknad}
+                            vedleggsliste={vedleggsListe}
+                            setVedleggsListe={setVedleggsListe}
+                            erEttersending={erEttersending}
+                        />
+                    </>
                 )}
             </main>
             <footer></footer>

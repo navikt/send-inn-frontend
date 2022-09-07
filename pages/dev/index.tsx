@@ -97,34 +97,6 @@ const Home: NextPage = () => {
                         </a>
                     </Link>
                 </div>
-
-                <hr />
-
-                <div>
-                    <Link
-                        href={
-                            '/dev/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2'
-                        }
-                        passHref
-                    >
-                        <a target="_blank" rel="noopener noreferrer">
-                            Dokumentinnsending Dev - Opprett søknad
-                        </a>
-                    </Link>
-                </div>
-                <div>
-                    <Link
-                        href={
-                            '/dev/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2'
-                        }
-                        passHref
-                    >
-                        <a target="_blank" rel="noopener noreferrer">
-                            Dokumentinnsending Dev - Opprett
-                            ettersending
-                        </a>
-                    </Link>
-                </div>
             </main>
 
             <footer></footer>

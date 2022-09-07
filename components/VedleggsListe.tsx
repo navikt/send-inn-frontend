@@ -344,38 +344,13 @@ function VedleggsListe({
     };
     return (
         <div>
-            {''}
-            {process.env.NEXT_PUBLIC_REMOTE_API}
-            visningstype: {soknad.visningsType}
-            <br />
-            visningssteg: {visningsSteg}
-            <br />
-            språk: <br />
-            <br />
-            {
-                soknad.spraak // skriver ut språk
-            }
-            <br />
-            språktest: {t('test')}
-            <br />
             {/* TODO trenger vi dette allikevel? kanskje for å jobbe med  */}
-            {/* <div>
-                <label>
-                    Sett visningstype
-                    <select
-                        value={visningsType}
-                        onChange={oppdaterVisningsType}
-                    >
-                        <option value="dokumentinnsending">
-                            dokumentinnsending
-                        </option>
-                        <option value="ettersending">
-                            ettersending
-                        </option>
-                        <option value="fyllUt">fyllUt</option>
-                    </select>
-                </label>
-            </div> */}
+            {/* { 
+                språktest: {t('test')} <br />
+                språk: <br />             soknad.spraak // skriver ut språk
+                <br />
+            
+            */}
             {visKvittering && (
                 <div>
                     {' '}
@@ -388,7 +363,6 @@ function VedleggsListe({
                 visningsType === 'dokumentinnsending' &&
                 visningsSteg === 0 && (
                     <div>
-                        steg 1
                         {soknad &&
                             vedleggsliste.length > 0 &&
                             vedleggsliste.filter(
@@ -421,7 +395,6 @@ function VedleggsListe({
                 visningsType === 'dokumentinnsending' &&
                 visningsSteg === 1 && (
                     <div>
-                        steg 2
                         {soknad &&
                             vedleggsliste.length > 0 &&
                             vedleggsliste.filter(
@@ -513,7 +486,6 @@ function VedleggsListe({
                         {/* {soknadKlar.toString() + " // "} */}
                         {/* {soknadHarNoeInnlevert.toString() + " // "} */}
                         {/* {JSON.stringify(vedleggsliste)} */}
-                        {soknad && <h3> {soknad.tittel}</h3>}
 
                         {vedleggsliste.length === 0 && soknad.tittel}
                         {vedleggsliste.length !== 0 && (

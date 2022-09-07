@@ -13,21 +13,6 @@ import Link from 'next/link';
 
 const qs = require('qs');
 
-/*
-
-type VedleggProps = VedleggType & {
-    innsendingsId: string | undefined;
-};
-interface contextValue {
-    value: VedleggProps | null;
-}
-
-// same const ThemeContext = React.createContext(themes.light);
-// why is this duplicated?
-export const AppContext = React.createContext<
-    VedleggProps | undefined
->(undefined);
-*/
 const initialSoknadsliste: SoknadType[] | [] = [];
 
 const EttersendingSide: NextPage = () => {

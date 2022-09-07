@@ -7,6 +7,7 @@ import {
     Link as NavLink,
     BodyLong,
     Ingress,
+    Button,
 } from '@navikt/ds-react';
 import { Filvelger } from './Filvelger';
 import styled from 'styled-components';
@@ -78,6 +79,11 @@ const initialState: FilData[] = [];
 
 const VedleggPanel = styled(Panel)`
     background-color: var(--navds-semantic-color-canvas-background);
+`;
+
+const VedleggButtons = styled.div`
+    display: flex;
+    gap: 20px;
 `;
 
 function Vedlegg(props: VedleggProps) {
@@ -169,7 +175,7 @@ function Vedlegg(props: VedleggProps) {
                     <div>
                         <div>
                             <Heading size="small" spacing>
-                                {vedlegg.vedleggsnr}: {tittel}
+                                {tittel}
                             </Heading>
                         </div>
                         <div>
@@ -196,24 +202,6 @@ function Vedlegg(props: VedleggProps) {
                                 </BodyLong>
                             )}
                         </div>
-                        {erAnnetVedlegg && (
-                            <>
-                                <NavLink
-                                    as="button"
-                                    onClick={() => setEndrer(true)}
-                                >
-                                    Endre
-                                </NavLink>
-                                <NavLink
-                                    as="button"
-                                    onClick={() =>
-                                        slettAnnetVedlegg(vedlegg.id)
-                                    }
-                                >
-                                    Slett
-                                </NavLink>
-                            </>
-                        )}
                     </div>
                     {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
                     {vedlegg.beskrivelse && (
@@ -261,16 +249,39 @@ function Vedlegg(props: VedleggProps) {
                         </div>
                     )}
 
-                    <Filvelger
-                        onFileSelected={(fil: File) =>
-                            dispatch({
-                                type: ACTIONS.NY_FIL,
-                                filData: {
-                                    lokalFil: fil,
-                                },
-                            })
-                        }
-                    />
+                    <VedleggButtons>
+                        <Filvelger
+                            onFileSelected={(fil: File) =>
+                                dispatch({
+                                    type: ACTIONS.NY_FIL,
+                                    filData: {
+                                        lokalFil: fil,
+                                    },
+                                })
+                            }
+                        />
+
+                        {erAnnetVedlegg && (
+                            <>
+                                <Button
+                                    onClick={() => setEndrer(true)}
+                                    variant="secondary"
+                                >
+                                    Rediger
+                                </Button>
+
+                                <Button
+                                    onClick={() =>
+                                        slettAnnetVedlegg(vedlegg.id)
+                                    }
+                                    variant="secondary"
+                                >
+                                    Slett vedlegg
+                                </Button>
+                            </>
+                        )}
+                    </VedleggButtons>
+
                     {filListe.length > 0 && (
                         <div>
                             <span>
