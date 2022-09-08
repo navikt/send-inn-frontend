@@ -106,6 +106,9 @@ function Vedlegg(props: VedleggProps) {
         vedlegg.vedleggsnr?.toUpperCase() === 'N6' &&
         !vedlegg.erPakrevd;
     const erSendtInnTidligere = vedlegg.innsendtdato !== null;
+    const skjulFiler =
+        vedlegg.opplastingsStatus === 'SendSenere' ||
+        vedlegg.opplastingsStatus === 'SendesAvAndre';
 
     useEffect(() => {
         console.log({ filListe });
@@ -249,40 +252,46 @@ function Vedlegg(props: VedleggProps) {
                         </div>
                     )}
 
-                    <VedleggButtons>
-                        <Filvelger
-                            onFileSelected={(fil: File) =>
-                                dispatch({
-                                    type: ACTIONS.NY_FIL,
-                                    filData: {
-                                        lokalFil: fil,
-                                    },
-                                })
-                            }
-                        />
+                    {!skjulFiler && (
+                        <VedleggButtons>
+                            <Filvelger
+                                onFileSelected={(fil: File) =>
+                                    dispatch({
+                                        type: ACTIONS.NY_FIL,
+                                        filData: {
+                                            lokalFil: fil,
+                                        },
+                                    })
+                                }
+                            />
 
-                        {erAnnetVedlegg && (
-                            <>
-                                <Button
-                                    onClick={() => setEndrer(true)}
-                                    variant="secondary"
-                                >
-                                    Rediger
-                                </Button>
+                            {erAnnetVedlegg && (
+                                <>
+                                    <Button
+                                        onClick={() =>
+                                            setEndrer(true)
+                                        }
+                                        variant="secondary"
+                                    >
+                                        Rediger
+                                    </Button>
 
-                                <Button
-                                    onClick={() =>
-                                        slettAnnetVedlegg(vedlegg.id)
-                                    }
-                                    variant="secondary"
-                                >
-                                    Slett vedlegg
-                                </Button>
-                            </>
-                        )}
-                    </VedleggButtons>
+                                    <Button
+                                        onClick={() =>
+                                            slettAnnetVedlegg(
+                                                vedlegg.id,
+                                            )
+                                        }
+                                        variant="secondary"
+                                    >
+                                        Slett vedlegg
+                                    </Button>
+                                </>
+                            )}
+                        </VedleggButtons>
+                    )}
 
-                    {filListe.length > 0 && (
+                    {!skjulFiler && filListe.length > 0 && (
                         <div>
                             <span>
                                 Dokumenter du har lastet opp nå:
