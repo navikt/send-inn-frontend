@@ -50,12 +50,12 @@ const KompStyle = styled.div`
     }
 `;
 
-function seksUkerFraDato(date: Date) {
+export function seksUkerFraDato(date: Date) {
     const numberOfDaysToAdd = 7 * 6; // 7 dager * 6 uker
     return new Date(date.setDate(date.getDate() + numberOfDaysToAdd));
 }
 
-function formatertDato(date: Date) {
+export function formatertDato(date: Date) {
     // gir alltid dato og mnd med to tall
     return `${('0' + date.getDate()).slice(-2)}.${(
         '0' +

@@ -10,12 +10,15 @@ import Kvittering, { KvitteringsDto } from '../components/Kvittering';
 import { VedleggProps } from '../components/Vedlegg';
 import { Button, Alert } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
-import { Modal, Heading, BodyLong } from '@navikt/ds-react';
+import { Modal, Heading, Ingress, BodyLong } from '@navikt/ds-react';
 import { FellesModal } from './FellesModal';
 import { useTranslation } from 'react-i18next';
 import { Add } from '@navikt/ds-icons';
 import { setParams } from '@navikt/nav-dekoratoren-moduler';
-
+import {
+    formatertDato,
+    seksUkerFraDato,
+} from '../components/Kvittering';
 import getConfig from 'next/config';
 import { OpprettAnnetVedlegg } from './OpprettAnnetVedlegg';
 
@@ -368,19 +371,25 @@ function VedleggsListe({
                             vedleggsliste.filter(
                                 (x) => x.erHoveddokument,
                             ).length > 0 && (
-                                <SkjemaNedlasting
-                                    innsendingsId={
-                                        soknad.innsendingsId
-                                    }
-                                    setOpplastingStatus={
-                                        setOpplastingStatus
-                                    }
-                                    vedlegg={
-                                        vedleggsliste.filter(
-                                            (x) => x.erHoveddokument,
-                                        )[0]
-                                    }
-                                />
+                                <>
+                                    <Heading size="medium" spacing>
+                                        Last ned og fyll ut skjema
+                                    </Heading>
+                                    <SkjemaNedlasting
+                                        innsendingsId={
+                                            soknad.innsendingsId
+                                        }
+                                        setOpplastingStatus={
+                                            setOpplastingStatus
+                                        }
+                                        vedlegg={
+                                            vedleggsliste.filter(
+                                                (x) =>
+                                                    x.erHoveddokument,
+                                            )[0]
+                                        }
+                                    />
+                                </>
                             )}
                         <Button
                             onClick={() => {
@@ -400,25 +409,31 @@ function VedleggsListe({
                             vedleggsliste.filter(
                                 (x) => x.erHoveddokument,
                             ).length > 0 && (
-                                <Vedlegg
-                                    innsendingsId={
-                                        soknad.innsendingsId
-                                    }
-                                    setOpplastingStatus={
-                                        setOpplastingStatus
-                                    }
-                                    oppdaterLokalOpplastingStatus={
-                                        oppdaterLokalOpplastingStatus
-                                    }
-                                    vedlegg={
-                                        vedleggsliste.filter(
-                                            (x) => x.erHoveddokument,
-                                        )[0]
-                                    }
-                                    slettAnnetVedlegg={
-                                        slettAnnetVedlegg
-                                    }
-                                />
+                                <>
+                                    <Heading size="medium" spacing>
+                                        Last opp ferdig utfylt skjema
+                                    </Heading>
+                                    <Vedlegg
+                                        innsendingsId={
+                                            soknad.innsendingsId
+                                        }
+                                        setOpplastingStatus={
+                                            setOpplastingStatus
+                                        }
+                                        oppdaterLokalOpplastingStatus={
+                                            oppdaterLokalOpplastingStatus
+                                        }
+                                        vedlegg={
+                                            vedleggsliste.filter(
+                                                (x) =>
+                                                    x.erHoveddokument,
+                                            )[0]
+                                        }
+                                        slettAnnetVedlegg={
+                                            slettAnnetVedlegg
+                                        }
+                                    />
+                                </>
                             )}
                         <div>
                             {/* gå tilbake et steg */}
@@ -489,7 +504,31 @@ function VedleggsListe({
 
                         {vedleggsliste.length === 0 && soknad.tittel}
                         {vedleggsliste.length !== 0 && (
-                            <h1>Last opp vedlegg her:</h1>
+                            <>
+                                <Heading size="small" spacing>
+                                    Last opp vedlegg
+                                </Heading>
+                                <Ingress>
+                                    Her kan du laste opp vedlegg til
+                                    søknaden din. Du må laste opp alle
+                                    vedleggene før vi kan behandle
+                                    søknaden.
+                                </Ingress>
+                                <Alert
+                                    variant="info"
+                                    inline={true}
+                                    size="medium"
+                                >
+                                    Frist for opplasting av vedlegg:{' '}
+                                    {formatertDato(
+                                        seksUkerFraDato(
+                                            new Date(
+                                                soknad.opprettetDato,
+                                            ),
+                                        ),
+                                    )}
+                                </Alert>
+                            </>
                         )}
 
                         {visningsType === 'dokumentinnsending' &&
