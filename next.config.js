@@ -15,9 +15,7 @@ module.exports = {
     compiler: {
         styledComponents: true,
     },
-    experimental: {
-        outputStandalone: true,
-    },
+    output: 'standalone',
     basePath,
     publicRuntimeConfig: {
         // Will be available on both server and client
