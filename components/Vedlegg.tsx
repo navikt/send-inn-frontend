@@ -8,6 +8,7 @@ import {
     BodyLong,
     Ingress,
     Button,
+    BodyShort,
 } from '@navikt/ds-react';
 import { Filvelger } from './Filvelger';
 import styled from 'styled-components';
@@ -185,31 +186,34 @@ function Vedlegg(props: VedleggProps) {
                             {vedlegg.erHoveddokument && (
                                 <BodyLong>
                                     <Ingress>Slik gjør du:</Ingress>
-
                                     <ol>
                                         <li>
-                                            Klikk på “Last ned
+                                            Klikk på “Last opp utfylt
                                             skjema”.{' '}
                                         </li>
                                         <li>
-                                            Åpne og fyll ut
-                                            pdf-skjemaet som lastes
-                                            ned.{' '}
-                                        </li>
-                                        <li>
-                                            Lagre skjemaet på enheten
-                                            din etter utfylling.
+                                            Finn og last opp det
+                                            ferdig utfylte skjemaet.
                                         </li>
                                         <li>Klikk på “Gå videre”.</li>
+                                        <li>
+                                            Hvis du skal sende inn
+                                            vedlegg blir du bedt om å
+                                            gjøre det i neste steg.
+                                        </li>
                                     </ol>
                                 </BodyLong>
                             )}
                         </div>
                     </div>
                     {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
+
                     {vedlegg.beskrivelse && (
-                        <div>{vedlegg.beskrivelse}</div>
+                        <BodyShort size="small">
+                            {vedlegg.beskrivelse}
+                        </BodyShort>
                     )}
+
                     {vedlegg.erPakrevd &&
                         !vedlegg.erHoveddokument &&
                         !erSendtInnTidligere && (
