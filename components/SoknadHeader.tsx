@@ -8,16 +8,8 @@ export interface SoknadHeaderProps {
 }
 
 export const StyledDetail = styled(Detail)`
-    /*color: gray-900;
-
- var(
-            --navds-semantic-color-text
-        );
-        
-        */
-    color: #4f4f4f;
-    border-bottom-width: 20px;
-    border-bottom-color: #99c4dd;
+    color: var(--navds-global-color-gray-900);
+    border-bottom: 0.3rem solid var(--navds-global-color-deepblue-200);
 `;
 
 export function SoknadHeader({
@@ -30,11 +22,7 @@ export function SoknadHeader({
                 {soknadoverskrift}
             </Heading>
 
-            <StyledDetail uppercase>
-                {
-                    skjemanr // navGra80
-                }
-            </StyledDetail>
+            <StyledDetail uppercase>{skjemanr}</StyledDetail>
         </div>
     );
 }

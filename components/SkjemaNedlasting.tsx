@@ -8,6 +8,7 @@ import {
     Ingress,
     BodyLong,
     Button,
+    BodyShort,
 } from '@navikt/ds-react';
 import { Filvelger } from './Filvelger';
 import styled from 'styled-components';
@@ -65,7 +66,7 @@ function SkjemaNedlasting(props: VedleggProps) {
                 </div>
                 {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
                 {vedlegg.beskrivelse && (
-                    <div>{vedlegg.beskrivelse}</div>
+                    <BodyShort>{vedlegg.beskrivelse}</BodyShort>
                 )}
 
                 <div>
