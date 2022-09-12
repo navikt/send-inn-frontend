@@ -2,10 +2,7 @@ import styled from 'styled-components';
 
 const Style = styled.div`
     min-height: 100vh;
-    padding: 4vmin 4vmin 30vmin;
-    contentmaxwidth: 30rem;
-    layoutmaxwidth: 50rem;
-    max-width: 50rem;
+    padding-top: 16px;
     margin: 0 auto;
     > * {
         margin-left: auto;
