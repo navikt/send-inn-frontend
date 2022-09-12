@@ -9,6 +9,16 @@ export interface SoknadHeaderProps {
 
 export const StyledDetail = styled(Detail)`
     color: var(--navds-global-color-gray-900);
+`;
+
+export const Style = styled.div`
+    > * {
+        max-width: 60rem;
+    }
+
+    align-items: center;
+    display: flex;
+    flex-direction: column;
     border-bottom: 0.3rem solid var(--navds-global-color-deepblue-200);
 `;
 
@@ -17,12 +27,15 @@ export function SoknadHeader({
     skjemanr,
 }: SoknadHeaderProps) {
     return (
-        <div>
-            <Heading level="1" size="large">
-                {soknadoverskrift}
-            </Heading>
-
-            <StyledDetail uppercase>{skjemanr}</StyledDetail>
-        </div>
+        <Style>
+            <div>
+                <Heading level="1" size="large">
+                    {soknadoverskrift}
+                </Heading>
+                <StyledDetail uppercase="true">
+                    {skjemanr}
+                </StyledDetail>
+            </div>
+        </Style>
     );
 }

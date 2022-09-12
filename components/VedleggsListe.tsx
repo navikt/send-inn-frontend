@@ -21,10 +21,42 @@ import {
 } from '../components/Kvittering';
 import getConfig from 'next/config';
 import { OpprettAnnetVedlegg } from './OpprettAnnetVedlegg';
+import styled from 'styled-components';
 
 const { publicRuntimeConfig } = getConfig();
 
 const initialVedleggsliste: VedleggType[] | [] = [];
+
+const Style = styled.div`
+    min-height: 100vh;
+    max-width: 50rem;
+    margin: 0 auto;
+    padding-top: 10px;
+
+    > * {
+        margin-left: auto;
+        margin-right: auto;
+    }
+`;
+
+const PaddedVedlegg = styled.div`
+    > * {
+        margin-top: 16px;
+    }
+`;
+
+const ButtonContainer = styled.div`
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+    max-width: 100vw;
+    > * {
+        margin-top: 16px;
+    }
+    display: flex;
+
+    flex-direction: column;
+`;
 
 export interface VedleggsListeProps {
     soknad: SoknadType;
@@ -346,7 +378,7 @@ function VedleggsListe({
         setSoknad(null);
     };
     return (
-        <div>
+        <Style>
             {/* TODO trenger vi dette allikevel? kanskje for å jobbe med  */}
             {/* { 
                 språktest: {t('test')} <br />
@@ -551,55 +583,59 @@ function VedleggsListe({
                                 </Alert>
                             )}
 
-                        {soknad &&
-                            vedleggsliste.length > 0 &&
-                            vedleggsliste
-                                .filter((x) => !x.erHoveddokument)
-                                .map((vedlegg) => {
-                                    return (
-                                        <Vedlegg
-                                            key={vedlegg.id}
-                                            innsendingsId={
-                                                soknad.innsendingsId
-                                            }
-                                            setOpplastingStatus={
-                                                setOpplastingStatus
-                                            }
-                                            oppdaterLokalOpplastingStatus={
-                                                oppdaterLokalOpplastingStatus
-                                            }
-                                            vedlegg={vedlegg}
-                                            slettAnnetVedlegg={
-                                                slettAnnetVedlegg
-                                            }
-                                        />
-                                    );
-                                })}
+                        <PaddedVedlegg>
+                            {soknad &&
+                                vedleggsliste.length > 0 &&
+                                vedleggsliste
+                                    .filter((x) => !x.erHoveddokument)
+                                    .map((vedlegg) => {
+                                        return (
+                                            <Vedlegg
+                                                key={vedlegg.id}
+                                                innsendingsId={
+                                                    soknad.innsendingsId
+                                                }
+                                                setOpplastingStatus={
+                                                    setOpplastingStatus
+                                                }
+                                                oppdaterLokalOpplastingStatus={
+                                                    oppdaterLokalOpplastingStatus
+                                                }
+                                                vedlegg={vedlegg}
+                                                slettAnnetVedlegg={
+                                                    slettAnnetVedlegg
+                                                }
+                                            />
+                                        );
+                                    })}
+
+                            {soknad.kanLasteOppAnnet && (
+                                <OpprettAnnetVedlegg
+                                    innsendingsId={
+                                        soknad.innsendingsId
+                                    }
+                                    leggTilVedlegg={leggTilVedlegg}
+                                />
+                            )}
+                        </PaddedVedlegg>
 
                         {/** du må rydde i logikken her */}
+                        <ButtonContainer>
+                            {soknad.visningsType ===
+                                'dokumentinnsending' && (
+                                <>
+                                    {/* lagre og fortsett senere */}
+                                    <Button
+                                        onClick={() => {
+                                            oppdaterVisningsSteg(-1);
+                                        }}
+                                        variant="secondary"
+                                    >
+                                        Forrige steg
+                                    </Button>
+                                </>
+                            )}
 
-                        {soknad.kanLasteOppAnnet && (
-                            <OpprettAnnetVedlegg
-                                innsendingsId={soknad.innsendingsId}
-                                leggTilVedlegg={leggTilVedlegg}
-                            />
-                        )}
-                        {soknad.visningsType ===
-                            'dokumentinnsending' && (
-                            <div>
-                                {/* lagre og fortsett senere */}
-                                <Button
-                                    onClick={() => {
-                                        oppdaterVisningsSteg(-1);
-                                    }}
-                                    variant="secondary"
-                                >
-                                    Forrige steg
-                                </Button>
-                            </div>
-                        )}
-
-                        <div>
                             {soknadKlar && (
                                 <Button
                                     onClick={() => {
@@ -634,9 +670,7 @@ function VedleggsListe({
                                 )
                                 // dette virker nå, men du må reloade
                             }
-                        </div>
 
-                        <div>
                             {/* lagre og fortsett senere */}
                             <Button
                                 onClick={() => {
@@ -649,8 +683,6 @@ function VedleggsListe({
                             >
                                 Lagre og fortsett senere
                             </Button>
-                        </div>
-                        <div>
                             {/*kall slettsøknad på api, deretter, gå til ditt nav
 kanskje popup om at dette vil slette innhold? */}
                             <Button
@@ -663,13 +695,14 @@ kanskje popup om at dette vil slette innhold? */}
                             >
                                 Avbryt søknad
                             </Button>
+                        </ButtonContainer>
 
-                            {/* open={open} onClose={() => setOpen(false)} */}
+                        {/* open={open} onClose={() => setOpen(false)} */}
 
-                            {/*     const [isModalOpen, setIsModalOpen] = useState(false); */}
+                        {/*     const [isModalOpen, setIsModalOpen] = useState(false); */}
 
-                            {/*
-
+                        {/*
+                
                 TODO: adding the new modals
 
                 hvis fremgang her
@@ -689,7 +722,7 @@ kanskje popup om at dette vil slette innhold? */}
                 har laget currentmodalstate
                 
                 */}
-
+                        <div>
                             <FellesModal
                                 open={fortsettSenereSoknadModal}
                                 setOpen={setForstettSenereSoknadModal}
@@ -842,7 +875,7 @@ kanskje popup om at dette vil slette innhold? */}
                         </div>
                     </div>
                 )}
-        </div>
+        </Style>
     );
 }
 export default VedleggsListe;
