@@ -31,7 +31,7 @@ const Style = styled.div`
     min-height: 100vh;
     max-width: 50rem;
     margin: 0 auto;
-    padding-top: 10px;
+    padding-top: 44px;
 
     > * {
         margin-left: auto;
@@ -56,6 +56,15 @@ const ButtonContainer = styled.div`
     display: flex;
 
     flex-direction: column;
+`;
+
+const FristForOpplastingInfo = styled(Alert)`
+    border: 0;
+    border-bottom: 1px solid var(--navds-semantic-color-border);
+    padding-bottom: 4px;
+    border-radius: 0px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
 `;
 
 export interface VedleggsListeProps {
@@ -537,19 +546,19 @@ function VedleggsListe({
                         {vedleggsliste.length === 0 && soknad.tittel}
                         {vedleggsliste.length !== 0 && (
                             <>
-                                <Heading size="small" spacing>
+                                <Heading size="large" spacing>
                                     Last opp vedlegg
                                 </Heading>
-                                <Ingress>
+                                <Ingress spacing>
                                     Her kan du laste opp vedlegg til
                                     søknaden din. Du må laste opp alle
                                     vedleggene før vi kan behandle
                                     søknaden.
                                 </Ingress>
-                                <Alert
+                                <FristForOpplastingInfo
                                     variant="info"
                                     inline={true}
-                                    size="medium"
+                                    size="small"
                                 >
                                     Frist for opplasting av vedlegg:{' '}
                                     {formatertDato(
@@ -559,7 +568,7 @@ function VedleggsListe({
                                             ),
                                         ),
                                     )}
-                                </Alert>
+                                </FristForOpplastingInfo>
                             </>
                         )}
 

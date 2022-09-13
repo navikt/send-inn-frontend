@@ -20,6 +20,8 @@ export const Style = styled.div`
     display: flex;
     flex-direction: column;
     border-bottom: 0.3rem solid var(--navds-global-color-deepblue-200);
+    padding-top: 24px;
+    padding-bottom: 24px;
 `;
 
 export function SoknadHeader({
@@ -29,10 +31,10 @@ export function SoknadHeader({
     return (
         <Style>
             <div>
-                <Heading level="1" size="large">
+                <Heading level="1" size="xlarge">
                     {soknadoverskrift}
                 </Heading>
-                <StyledDetail uppercase="true">
+                <StyledDetail size="small" uppercase="true">
                     {skjemanr}
                 </StyledDetail>
             </div>
