@@ -32,7 +32,7 @@ const Style = styled.div`
     max-width: 50rem;
     margin: 0 auto;
     padding-top: 44px;
-
+    margin-bottom: 44px;
     > * {
         margin-left: auto;
         margin-right: auto;
@@ -46,10 +46,10 @@ const PaddedVedlegg = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-    margin-left: auto;
     margin-right: auto;
-    width: 300px;
-    max-width: 100vw;
+    margin-top: 44px;
+    margin-bottom: 16px;
+    max-width: fit-content;
     > * {
         margin-top: 16px;
     }
