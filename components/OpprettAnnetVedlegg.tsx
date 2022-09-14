@@ -98,8 +98,8 @@ export function OpprettAnnetVedlegg({
                 <Button
                     onClick={() => setVisOpprett(true)}
                     variant="secondary"
+                    icon={<Add />}
                 >
-                    <Add />
                     Legg til annen dokumentasjon
                 </Button>
             )}
