@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { FIL_STATUS } from '../types/enums';
-import { Files, FileError, FileSuccess } from '@navikt/ds-icons';
+import { File, FileError, FileSuccess } from '@navikt/ds-icons';
 
 // https://stackoverflow.com/a/63620855
 interface FileUploadIconProps {
@@ -72,7 +72,7 @@ function UploadingFileIcon() {
     return (
         <UploadingStyled>
             <div>
-                <Files />
+                <File />
             </div>
         </UploadingStyled>
     );

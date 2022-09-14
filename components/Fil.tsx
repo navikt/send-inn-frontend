@@ -18,7 +18,6 @@ import {
 } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { FIL_STATUS } from '../types/enums';
-import { Files, FileError, FileSuccess } from '@navikt/ds-icons';
 import { FilUploadIcon } from './FilUploadIcon';
 import getConfig from 'next/config';
 import { Filvelger } from './Filvelger';
