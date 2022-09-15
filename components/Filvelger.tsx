@@ -18,8 +18,7 @@ interface FilvelgerProps {
 
 const DefaultButton = ({ children }) => {
     return (
-        <Button as="label" variant="secondary">
-            <Upload />
+        <Button as="label" variant="secondary" icon={<Upload />}>
             Velg dine filer
             {children}
         </Button>

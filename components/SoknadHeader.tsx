@@ -34,7 +34,7 @@ export function SoknadHeader({
                 <Heading level="1" size="xlarge">
                     {soknadoverskrift}
                 </Heading>
-                <StyledDetail size="small" uppercase="true">
+                <StyledDetail size="small" uppercase>
                     {skjemanr}
                 </StyledDetail>
             </div>

@@ -77,8 +77,8 @@ function SkjemaNedlasting(props: VedleggProps) {
                             target="_blank"
                             href={vedlegg.skjemaurl}
                             rel="noopener noreferrer"
+                            icon={<Download />}
                         >
-                            <Download />
                             Last ned skjema
                         </Button>
                     )}
