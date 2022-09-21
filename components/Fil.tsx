@@ -377,15 +377,14 @@ export function Fil({
                                             },
                                         })
                                     }
-                                    CustomButton={({ children }) => (
+                                    CustomButton={
                                         <Button
                                             as="label"
                                             variant="secondary"
                                         >
                                             Prøv igjen
-                                            {children}
                                         </Button>
-                                    )}
+                                    }
                                     allowMultiple={false}
                                 />
                             </StyledSecondaryButton>
@@ -404,7 +403,6 @@ export function Fil({
                                         filData: { komponentID },
                                     });
                                 }}
-                                as="label"
                                 variant="tertiary"
                             >
                                 Avbryt
@@ -413,11 +411,7 @@ export function Fil({
                     )}
 
                     <StyledTertiaryButton>
-                        <Button
-                            onClick={slettFil}
-                            as="label"
-                            variant="tertiary"
-                        >
+                        <Button onClick={slettFil} variant="tertiary">
                             Fjern
                         </Button>
                     </StyledTertiaryButton>
