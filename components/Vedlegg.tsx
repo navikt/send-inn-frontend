@@ -79,10 +79,11 @@ const filListeReducer = (filListe: FilData[], action: ActionType) => {
 
 const initialState: FilData[] = [];
 
-const VedleggPanel = styled(Panel)`
+export const VedleggPanel = styled(Panel)`
     background-color: var(--navds-semantic-color-canvas-background);
     border-radius: 8px;
     padding: 24px;
+    ${(props) => props.$extraMargin && 'margin-bottom: 60px'};
     @media only screen and (max-width: 600px) {
         padding: 16px;
     }
@@ -169,7 +170,7 @@ function Vedlegg(props: VedleggProps) {
     }, [innsendingsId, vedlegg.id]);
 
     return (
-        <VedleggPanel>
+        <VedleggPanel $extraMargin={vedlegg.erHoveddokument}>
             {endrer ? (
                 <EndreVedlegg
                     tittel={tittel}
@@ -202,9 +203,9 @@ function Vedlegg(props: VedleggProps) {
                         </div>
                         <div>
                             {vedlegg.erHoveddokument && (
-                                <BodyLong>
+                                <>
                                     <Ingress>Slik gjør du:</Ingress>
-                                    <ol>
+                                    <BodyLong as="ol" spacing>
                                         <li>
                                             Klikk på “Last opp utfylt
                                             skjema”.{' '}
@@ -219,8 +220,8 @@ function Vedlegg(props: VedleggProps) {
                                             vedlegg blir du bedt om å
                                             gjøre det i neste steg.
                                         </li>
-                                    </ol>
-                                </BodyLong>
+                                    </BodyLong>
+                                </>
                             )}
                         </div>
                     </div>

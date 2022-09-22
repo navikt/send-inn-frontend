@@ -22,6 +22,7 @@ import {
 } from '../types/types';
 import { EndreVedlegg } from './EndreVedlegg';
 import { Fil } from './Fil';
+import { VedleggPanel } from './Vedlegg';
 
 export interface VedleggProps {
     vedlegg: VedleggType | null;
@@ -29,10 +30,6 @@ export interface VedleggProps {
     setOpplastingStatus: setOpplastingStatusType;
     erAnnetVedlegg?: boolean;
 }
-
-const VedleggPanel = styled(Panel)`
-    background-color: var(--navds-semantic-color-canvas-background);
-`;
 
 function SkjemaNedlasting(props: VedleggProps) {
     const {
@@ -44,14 +41,14 @@ function SkjemaNedlasting(props: VedleggProps) {
 
     return (
         <div>
-            <VedleggPanel>
+            <VedleggPanel $extraMargin>
                 <Heading size="small" spacing>
                     {vedlegg.vedleggsnr}: {vedlegg.label}
                 </Heading>
                 <div>
                     <Ingress>Slik gjør du:</Ingress>
                     {/* TODO: husk styling på <ol> */}
-                    <ol>
+                    <BodyLong as="ol" spacing>
                         <li>Klikk på “Last ned skjema”. </li>
                         <li>
                             Åpne og fyll ut pdf-skjemaet som lastes
@@ -62,7 +59,7 @@ function SkjemaNedlasting(props: VedleggProps) {
                             utfylling.
                         </li>
                         <li>Klikk på “Gå videre”.</li>
-                    </ol>
+                    </BodyLong>
                 </div>
                 {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
                 {vedlegg.beskrivelse && (
@@ -83,8 +80,6 @@ function SkjemaNedlasting(props: VedleggProps) {
                         </Button>
                     )}
                 </div>
-
-                <br />
             </VedleggPanel>
         </div>
     );
