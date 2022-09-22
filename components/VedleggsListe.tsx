@@ -47,11 +47,11 @@ const PaddedVedlegg = styled.div`
 
 const ButtonContainer = styled.div`
     margin-right: auto;
-    margin-top: 44px;
-    margin-bottom: 16px;
+    margin-top: 35px;
+    /* margin-bottom: 16px; */
     max-width: fit-content;
-    > * {
-        margin-top: 16px;
+    button {
+        margin-bottom: 24px;
     }
     display: flex;
 
@@ -682,6 +682,7 @@ function VedleggsListe({
 
                             {/* lagre og fortsett senere */}
                             <Button
+                                variant="secondary"
                                 onClick={() => {
                                     if (!fortsettSenereSoknadModal) {
                                         setForstettSenereSoknadModal(
@@ -700,9 +701,9 @@ kanskje popup om at dette vil slette innhold? */}
                                         setSlettSoknadModal(true);
                                     }
                                 }}
-                                variant="secondary"
+                                variant="tertiary"
                             >
-                                Avbryt søknad
+                                Slett søknad
                             </Button>
                         </ButtonContainer>
 
