@@ -81,6 +81,11 @@ const initialState: FilData[] = [];
 
 const VedleggPanel = styled(Panel)`
     background-color: var(--navds-semantic-color-canvas-background);
+    border-radius: 8px;
+    padding: 24px;
+    @media only screen and (max-width: 600px) {
+        padding: 16px;
+    }
 `;
 
 const VedleggBeskrivelse = styled(BodyShort)`
@@ -90,6 +95,14 @@ const VedleggBeskrivelse = styled(BodyShort)`
 const VedleggButtons = styled.div`
     display: flex;
     gap: 20px;
+`;
+
+const SendtInnTidligereGruppe = styled.div`
+    margin-bottom: 24px;
+`;
+
+const FilListeGruppe = styled.div`
+    margin-top: 24px;
 `;
 
 function Vedlegg(props: VedleggProps) {
@@ -232,7 +245,7 @@ function Vedlegg(props: VedleggProps) {
                         )}
 
                     {erSendtInnTidligere && (
-                        <div>
+                        <SendtInnTidligereGruppe>
                             <Heading size="xsmall" spacing as="p">
                                 Dokumenter du har sendt inn tidligere:
                             </Heading>
@@ -256,9 +269,7 @@ function Vedlegg(props: VedleggProps) {
                                     </span>
                                 </div>
                             </FilePanel>
-
-                            <br />
-                        </div>
+                        </SendtInnTidligereGruppe>
                     )}
 
                     {!skjulFiler && (
@@ -301,7 +312,7 @@ function Vedlegg(props: VedleggProps) {
                     )}
 
                     {!skjulFiler && filListe.length > 0 && (
-                        <div>
+                        <FilListeGruppe>
                             <Heading size="xsmall" spacing as="p">
                                 Dokumenter du har lastet opp nå:
                             </Heading>
@@ -323,8 +334,7 @@ function Vedlegg(props: VedleggProps) {
                                     />
                                 );
                             })}
-                            <br />
-                        </div>
+                        </FilListeGruppe>
                     )}
                 </>
             )}
