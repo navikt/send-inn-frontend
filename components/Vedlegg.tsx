@@ -9,6 +9,7 @@ import {
     Ingress,
     Button,
     BodyShort,
+    Label,
 } from '@navikt/ds-react';
 import { Filvelger } from './Filvelger';
 import styled from 'styled-components';
@@ -80,6 +81,10 @@ const initialState: FilData[] = [];
 
 const VedleggPanel = styled(Panel)`
     background-color: var(--navds-semantic-color-canvas-background);
+`;
+
+const VedleggBeskrivelse = styled(BodyShort)`
+    margin-bottom: 24px;
 `;
 
 const VedleggButtons = styled.div`
@@ -209,9 +214,9 @@ function Vedlegg(props: VedleggProps) {
                     {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
 
                     {vedlegg.beskrivelse && (
-                        <BodyShort size="small">
+                        <VedleggBeskrivelse size="small">
                             {vedlegg.beskrivelse}
-                        </BodyShort>
+                        </VedleggBeskrivelse>
                     )}
 
                     {vedlegg.erPakrevd &&
@@ -228,9 +233,9 @@ function Vedlegg(props: VedleggProps) {
 
                     {erSendtInnTidligere && (
                         <div>
-                            <span>
+                            <Heading size="xsmall" spacing as="p">
                                 Dokumenter du har sendt inn tidligere:
-                            </span>
+                            </Heading>
                             <FilePanel border>
                                 <FilUploadIcon
                                     filstatus={
@@ -297,9 +302,9 @@ function Vedlegg(props: VedleggProps) {
 
                     {!skjulFiler && filListe.length > 0 && (
                         <div>
-                            <span>
+                            <Heading size="xsmall" spacing as="p">
                                 Dokumenter du har lastet opp nå:
-                            </span>
+                            </Heading>
                             {filListe.map((fil) => {
                                 return (
                                     <Fil

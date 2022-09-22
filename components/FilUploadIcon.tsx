@@ -10,7 +10,7 @@ interface FileUploadIconProps {
 const StyledDiv = styled.div`
     border-radius: 4px;
     width: 40px;
-    height: 44px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
