@@ -294,7 +294,7 @@ function VedleggsListe({
 
     const tilMittNav = () => {
         console.log('TilMittNav');
-        //router.push('https://www.nav.no/no/ditt-nav');
+        router.push('https://www.nav.no/no/ditt-nav');
     };
 
     const onSendInn = () => {
@@ -724,102 +724,110 @@ function VedleggsListe({
                     </div>
                 </div>
             )}
-            <ButtonContainer>
-                {visLastOppVedlegg && (
-                    <>
-                        {soknadKlar && (
-                            <Button
-                                onClick={() => {
-                                    if (!sendInnKomplettSoknadModal) {
-                                        setSendInnKomplettSoknadModal(
-                                            true,
-                                        );
-                                    }
-                                }}
-                            >
-                                Send inn komplett søknad
-                            </Button>
-                        )}
-
-                        {
-                            soknadHarNoeInnlevert && !soknadKlar && (
+            {!visKvittering && (
+                <ButtonContainer>
+                    {visLastOppVedlegg && (
+                        <>
+                            {soknadKlar && (
                                 <Button
                                     onClick={() => {
                                         if (
-                                            !sendInnUferdigSoknadModal
+                                            !sendInnKomplettSoknadModal
                                         ) {
-                                            setSendInnUferdigSoknadModal(
+                                            setSendInnKomplettSoknadModal(
                                                 true,
                                             );
                                         }
                                     }}
                                 >
-                                    Send inn ufullstendig søknad
+                                    Send til NAV
                                 </Button>
-                            )
-                            // dette virker nå, men du må reloade
-                        }
+                            )}
 
-                        {/* lagre og fortsett senere */}
+                            {
+                                soknadHarNoeInnlevert && !soknadKlar && (
+                                    <Button
+                                        onClick={() => {
+                                            if (
+                                                !sendInnUferdigSoknadModal
+                                            ) {
+                                                setSendInnUferdigSoknadModal(
+                                                    true,
+                                                );
+                                            }
+                                        }}
+                                    >
+                                        Send til NAV
+                                    </Button>
+                                )
+                                // dette virker nå, men du må reloade
+                            }
+
+                            {/* lagre og fortsett senere */}
+                            <Button
+                                variant="secondary"
+                                onClick={() => {
+                                    if (!fortsettSenereSoknadModal) {
+                                        setForstettSenereSoknadModal(
+                                            true,
+                                        );
+                                    }
+                                }}
+                            >
+                                Lagre og fortsett senere
+                            </Button>
+                        </>
+                    )}
+                    {/* gå tilbake et steg */}
+                    {(visSteg0 || visSteg1) && (
                         <Button
-                            variant="secondary"
                             onClick={() => {
-                                if (!fortsettSenereSoknadModal) {
-                                    setForstettSenereSoknadModal(
-                                        true,
-                                    );
-                                }
+                                oppdaterVisningsSteg(1);
                             }}
                         >
-                            Lagre og fortsett senere
+                            {visSteg0
+                                ? 'Gå videre'
+                                : 'Last opp vedlegg'}
                         </Button>
-                    </>
-                )}
-                {/* gå tilbake et steg */}
-                {(visSteg0 || visSteg1) && (
-                    <Button
-                        onClick={() => {
-                            oppdaterVisningsSteg(1);
-                        }}
-                    >
-                        {visSteg0 ? 'Gå videre' : 'Last opp vedlegg'}
-                    </Button>
-                )}
-                {/* gå frem et steg */}
-                {visSteg1 && (
-                    <Button
-                        onClick={() => {
-                            oppdaterVisningsSteg(-1);
-                        }}
-                        variant="secondary"
-                    >
-                        Gå tilbake
-                    </Button>
-                )}
-                {visLastOppVedlegg &&
-                    visningsType === 'dokumentinnsending' && (
+                    )}
+                    {/* gå frem et steg */}
+                    {visSteg1 && (
                         <Button
                             onClick={() => {
                                 oppdaterVisningsSteg(-1);
                             }}
                             variant="secondary"
                         >
-                            Forrige side
+                            Gå tilbake
                         </Button>
                     )}
-                {/*kall slettsøknad på api, deretter, gå til ditt nav
+                    {visLastOppVedlegg &&
+                        visningsType === 'dokumentinnsending' && (
+                            <Button
+                                onClick={() => {
+                                    oppdaterVisningsSteg(-1);
+                                }}
+                                variant="secondary"
+                            >
+                                Forrige side
+                            </Button>
+                        )}
+                    {/*kall slettsøknad på api, deretter, gå til ditt nav
 kanskje popup om at dette vil slette innhold? */}
-                <Button
-                    onClick={() => {
-                        if (!slettSoknadModal) {
-                            setSlettSoknadModal(true);
-                        }
-                    }}
-                    variant="tertiary"
-                >
-                    {visLastOppVedlegg ? 'Slett søknad' : 'Avbryt'}
-                </Button>
-            </ButtonContainer>
+                    <Button
+                        onClick={() => {
+                            if (!slettSoknadModal) {
+                                setSlettSoknadModal(true);
+                            }
+                        }}
+                        variant="tertiary"
+                    >
+                        {visLastOppVedlegg
+                            ? 'Slett søknad'
+                            : 'Avbryt'}
+                    </Button>
+                </ButtonContainer>
+            )}
         </Style>
     );
 }

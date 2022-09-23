@@ -4,7 +4,13 @@ import '@navikt/ds-css';
 
 // React
 import { Success, Attachment, FileContent } from '@navikt/ds-icons';
-import { Alert, Heading, BodyLong, Button } from '@navikt/ds-react';
+import {
+    Alert,
+    Heading,
+    BodyLong,
+    Button,
+    Link as NavLink,
+} from '@navikt/ds-react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -86,13 +92,12 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                             {' '}
                             {kvprops.label}
                             <br />
-                            <Link
+                            <NavLink
                                 href={`${publicRuntimeConfig.apiUrl}/${kvprops.hoveddokumentRef}`}
+                                target="_blank"
                             >
-                                <a target="_blank">
-                                    Last ned kopi (åpnes i en ny fane)
-                                </a>
-                            </Link>
+                                Last ned kopi (åpnes i en ny fane)
+                            </NavLink>
                         </Alert>
                     )}
                     {kvprops &&
