@@ -24,6 +24,14 @@ import { EndreVedlegg } from './EndreVedlegg';
 import { Fil } from './Fil';
 import { VedleggPanel } from './Vedlegg';
 
+const BeskrivelsesGruppe = styled(BodyLong)`
+    @media only screen and (max-width: 600px) {
+        ol {
+            padding-left: 1.5rem;
+        }
+    }
+`;
+
 export interface VedleggProps {
     vedlegg: VedleggType | null;
     innsendingsId: string;
@@ -43,9 +51,9 @@ function SkjemaNedlasting(props: VedleggProps) {
         <div>
             <VedleggPanel $extraMargin>
                 <Heading size="small" spacing>
-                    {vedlegg.vedleggsnr}: {vedlegg.label}
+                    {vedlegg.label}
                 </Heading>
-                <div>
+                <BeskrivelsesGruppe>
                     <Ingress>Slik gjør du:</Ingress>
                     {/* TODO: husk styling på <ol> */}
                     <BodyLong as="ol" spacing>
@@ -58,13 +66,14 @@ function SkjemaNedlasting(props: VedleggProps) {
                             Lagre skjemaet på enheten din etter
                             utfylling.
                         </li>
-                        <li>Klikk på “Gå videre”.</li>
+                        <li>Klikk på “Neste steg”.</li>
                     </BodyLong>
-                </div>
-                {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
-                {vedlegg.beskrivelse && (
-                    <BodyShort>{vedlegg.beskrivelse}</BodyShort>
-                )}
+
+                    {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
+                    {vedlegg.beskrivelse && (
+                        <BodyShort>{vedlegg.beskrivelse}</BodyShort>
+                    )}
+                </BeskrivelsesGruppe>
 
                 <div>
                     {vedlegg.skjemaurl && (

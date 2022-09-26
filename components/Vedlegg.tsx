@@ -85,10 +85,24 @@ export const VedleggPanel = styled(Panel)`
     padding: 24px;
     ${(props) => props.$extraMargin && 'margin-bottom: 60px'};
     @media only screen and (max-width: 600px) {
-        padding: 16px;
+        padding: 12px;
     }
 `;
 
+const InvertedLink = styled(NavLink)`
+    text-decoration: none;
+    :hover {
+        text-decoration: underline;
+    }
+`;
+
+const BeskrivelsesGruppe = styled(BodyLong)`
+    @media only screen and (max-width: 600px) {
+        ol {
+            padding-left: 1.5rem;
+        }
+    }
+`;
 const VedleggBeskrivelse = styled(BodyShort)`
     margin-bottom: 24px;
 `;
@@ -104,6 +118,9 @@ const SendtInnTidligereGruppe = styled.div`
 
 const FilListeGruppe = styled.div`
     margin-top: 24px;
+    > :not(:last-child) {
+        margin-bottom: 8px;
+    }
 `;
 
 function Vedlegg(props: VedleggProps) {
@@ -182,26 +199,29 @@ function Vedlegg(props: VedleggProps) {
             ) : (
                 <>
                     <div>
-                        {!vedlegg.erHoveddokument &&
-                            vedlegg.skjemaurl && (
-                                <a
-                                    className="navds-link"
-                                    target="_blank"
-                                    style={{ color: 'blue' }}
-                                    href={vedlegg.skjemaurl}
-                                    rel="noopener noreferrer"
-                                >
-                                    Åpne skjema
-                                </a>
-                            )}
-                    </div>
-                    <div>
                         <div>
-                            <Heading size="small" spacing>
-                                {tittel}
-                            </Heading>
+                            {(vedlegg.erHoveddokument ||
+                                !vedlegg.skjemaurl) && (
+                                <Heading size="small" spacing>
+                                    {tittel}
+                                </Heading>
+                            )}
                         </div>
                         <div>
+                            {!vedlegg.erHoveddokument &&
+                                vedlegg.skjemaurl && (
+                                    <Heading size="small" spacing>
+                                        <InvertedLink
+                                            target="_blank"
+                                            href={vedlegg.skjemaurl}
+                                            rel="noopener noreferrer"
+                                        >
+                                            {tittel} (åpnes i ny fane)
+                                        </InvertedLink>
+                                    </Heading>
+                                )}
+                        </div>
+                        <BeskrivelsesGruppe>
                             {vedlegg.erHoveddokument && (
                                 <>
                                     <Ingress>Slik gjør du:</Ingress>
@@ -214,7 +234,9 @@ function Vedlegg(props: VedleggProps) {
                                             Finn og last opp det
                                             ferdig utfylte skjemaet.
                                         </li>
-                                        <li>Klikk på “Gå videre”.</li>
+                                        <li>
+                                            Klikk på “Neste steg”.
+                                        </li>
                                         <li>
                                             Hvis du skal sende inn
                                             vedlegg blir du bedt om å
@@ -223,15 +245,16 @@ function Vedlegg(props: VedleggProps) {
                                     </BodyLong>
                                 </>
                             )}
-                        </div>
-                    </div>
-                    {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
 
-                    {vedlegg.beskrivelse && (
-                        <VedleggBeskrivelse size="small">
-                            {vedlegg.beskrivelse}
-                        </VedleggBeskrivelse>
-                    )}
+                            {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
+
+                            {vedlegg.beskrivelse && (
+                                <VedleggBeskrivelse size="small">
+                                    {vedlegg.beskrivelse}
+                                </VedleggBeskrivelse>
+                            )}
+                        </BeskrivelsesGruppe>
+                    </div>
 
                     {vedlegg.erPakrevd &&
                         !vedlegg.erHoveddokument &&
