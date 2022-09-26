@@ -25,7 +25,7 @@ function VedleggRadio({
     return (
         <>
             <StyledRadioGroup
-                legend="Velg din innsending."
+                legend="Velg innsending"
                 size="medium"
                 onChange={(val: string) => handleChange(val)}
                 value={vedlegg.opplastingsStatus}
