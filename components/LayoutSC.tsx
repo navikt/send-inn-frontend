@@ -4,6 +4,8 @@ const Style = styled.div`
     min-height: 100vh;
     padding-top: 16px;
     margin: 0 auto;
+    padding-left: 16px;
+    padding-right: 16px;
     > * {
         margin-left: auto;
         margin-right: auto;
