@@ -43,7 +43,7 @@ const PaddedVedlegg = styled.div`
 
 const ButtonContainer = styled.div`
     margin-right: auto;
-    margin-top: 35px;
+    margin-top: 60px;
     /* margin-bottom: 16px; */
     width: fit-content;
     min-width: 207px;
@@ -53,6 +53,10 @@ const ButtonContainer = styled.div`
     display: flex;
 
     flex-direction: column;
+
+    @media only screen and (max-width: 600px) {
+        width: 100%;
+    }
 `;
 
 const FristForOpplastingInfo = styled(Alert)`
@@ -785,9 +789,7 @@ function VedleggsListe({
                                 oppdaterVisningsSteg(1);
                             }}
                         >
-                            {visSteg0
-                                ? 'Gå videre'
-                                : 'Last opp vedlegg'}
+                            Neste steg
                         </Button>
                     )}
                     {/* gå frem et steg */}
@@ -798,7 +800,7 @@ function VedleggsListe({
                             }}
                             variant="secondary"
                         >
-                            Gå tilbake
+                            Forrige steg
                         </Button>
                     )}
                     {visLastOppVedlegg &&
@@ -809,7 +811,7 @@ function VedleggsListe({
                                 }}
                                 variant="secondary"
                             >
-                                Forrige side
+                                Forrige steg
                             </Button>
                         )}
                     {/*kall slettsøknad på api, deretter, gå til ditt nav
