@@ -4,8 +4,13 @@ import axios from 'axios';
 import { Heading, Button, TextField } from '@navikt/ds-react';
 import { VedleggType } from '../types/types';
 import getConfig from 'next/config';
+import styled from 'styled-components';
 
 const { publicRuntimeConfig } = getConfig();
+
+const ButtonRow = styled.div`
+    margin-top: 24px;
+`;
 
 export interface EndreVedleggProps {
     tittel: string;
@@ -55,28 +60,33 @@ export function EndreVedlegg({
 
     return (
         <div>
-            <Heading size="small" spacing>
-                Annen dokumentasjon (valgfritt)
-            </Heading>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <TextField
                     autoFocus
                     defaultValue={tittel}
-                    label="Gi en beskrivende tittel på vedlegget"
-                    description={`Skriv inn hva du ønsker å laste opp (f.eks. “kopi av
-                førerkort”, “epikrise”, “faktura som dokumenterer
-                utgifter i forbindelse med ...”). Du kan laste opp
-                flere filer hvis du har skannet eller tatt bilde av
-                hver side av et dokument med mange sider.`}
+                    label="Beskriv vedlegget"
+                    description={
+                        'Gi et beskrivende navn på dokumentasjonen du ønsker å laste opp.'
+                    }
                     {...register('tittel', { required: true })}
                 />
-                <Button
-                    type="submit"
-                    variant="secondary"
-                    loading={isLoading}
-                >
-                    Bekreft
-                </Button>
+                <ButtonRow>
+                    <Button
+                        type="submit"
+                        variant="secondary"
+                        loading={isLoading}
+                    >
+                        Bekreft
+                    </Button>
+                    <Button
+                        type="button"
+                        variant="tertiary"
+                        disabled={isLoading}
+                        onClick={() => setEndrer(false)}
+                    >
+                        Avbryt
+                    </Button>
+                </ButtonRow>
             </form>
         </div>
     );
