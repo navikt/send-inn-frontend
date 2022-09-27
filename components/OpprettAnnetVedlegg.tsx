@@ -6,11 +6,12 @@ import { Add } from '@navikt/ds-icons';
 import { VedleggType } from '../types/types';
 import getConfig from 'next/config';
 import styled from 'styled-components';
+import { VedleggPanel } from './Vedlegg';
 
 const { publicRuntimeConfig } = getConfig();
 
-const VedleggPanel = styled(Panel)`
-    background-color: var(--navds-semantic-color-canvas-background);
+const ButtomRow = styled.div`
+    margin-top: 24px;
 `;
 
 export interface EndreVedleggProps {
@@ -59,38 +60,33 @@ export function OpprettAnnetVedlegg({
         <>
             {visOpprett && (
                 <VedleggPanel>
-                    <Heading size="small" spacing>
-                        Annen dokumentasjon (valgfritt)
-                    </Heading>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <TextField
                             autoFocus
-                            label="Gi en beskrivende tittel på vedlegget"
-                            description={`Skriv inn hva du ønsker å laste opp (f.eks. “kopi av
-                førerkort”, “epikrise”, “faktura som dokumenterer
-                utgifter i forbindelse med ...”). Du kan laste opp
-                flere filer hvis du har skannet eller tatt bilde av
-                hver side av et dokument med mange sider.`}
+                            label="Beskriv vedlegget"
+                            description={`Gi et beskrivende navn på dokumentasjonen du ønsker å laste opp.`}
                             {...register('tittel', {
                                 required: true,
                             })}
                             defaultValue=""
                         />
-                        <Button
-                            type="submit"
-                            variant="secondary"
-                            loading={isLoading}
-                        >
-                            Bekreft
-                        </Button>
-                        <Button
-                            type="button"
-                            variant="secondary"
-                            disabled={isLoading}
-                            onClick={() => setVisOpprett(false)}
-                        >
-                            Avbryt
-                        </Button>
+                        <ButtomRow>
+                            <Button
+                                type="submit"
+                                variant="secondary"
+                                loading={isLoading}
+                            >
+                                Bekreft
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="tertiary"
+                                disabled={isLoading}
+                                onClick={() => setVisOpprett(false)}
+                            >
+                                Avbryt
+                            </Button>
+                        </ButtomRow>
                     </form>
                 </VedleggPanel>
             )}

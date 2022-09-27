@@ -22,6 +22,15 @@ import {
 } from '../types/types';
 import { EndreVedlegg } from './EndreVedlegg';
 import { Fil } from './Fil';
+import { VedleggPanel } from './Vedlegg';
+
+const BeskrivelsesGruppe = styled(BodyLong)`
+    @media only screen and (max-width: 600px) {
+        ol {
+            padding-left: 1.5rem;
+        }
+    }
+`;
 
 export interface VedleggProps {
     vedlegg: VedleggType | null;
@@ -29,10 +38,6 @@ export interface VedleggProps {
     setOpplastingStatus: setOpplastingStatusType;
     erAnnetVedlegg?: boolean;
 }
-
-const VedleggPanel = styled(Panel)`
-    background-color: var(--navds-semantic-color-canvas-background);
-`;
 
 function SkjemaNedlasting(props: VedleggProps) {
     const {
@@ -44,14 +49,14 @@ function SkjemaNedlasting(props: VedleggProps) {
 
     return (
         <div>
-            <VedleggPanel>
+            <VedleggPanel $extraMargin>
                 <Heading size="small" spacing>
-                    {vedlegg.vedleggsnr}: {vedlegg.label}
+                    {vedlegg.label}
                 </Heading>
-                <div>
+                <BeskrivelsesGruppe>
                     <Ingress>Slik gjør du:</Ingress>
                     {/* TODO: husk styling på <ol> */}
-                    <ol>
+                    <BodyLong as="ol" spacing>
                         <li>Klikk på “Last ned skjema”. </li>
                         <li>
                             Åpne og fyll ut pdf-skjemaet som lastes
@@ -61,13 +66,14 @@ function SkjemaNedlasting(props: VedleggProps) {
                             Lagre skjemaet på enheten din etter
                             utfylling.
                         </li>
-                        <li>Klikk på “Gå videre”.</li>
-                    </ol>
-                </div>
-                {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
-                {vedlegg.beskrivelse && (
-                    <BodyShort>{vedlegg.beskrivelse}</BodyShort>
-                )}
+                        <li>Klikk på “Neste steg”.</li>
+                    </BodyLong>
+
+                    {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
+                    {vedlegg.beskrivelse && (
+                        <BodyShort>{vedlegg.beskrivelse}</BodyShort>
+                    )}
+                </BeskrivelsesGruppe>
 
                 <div>
                     {vedlegg.skjemaurl && (
@@ -83,8 +89,6 @@ function SkjemaNedlasting(props: VedleggProps) {
                         </Button>
                     )}
                 </div>
-
-                <br />
             </VedleggPanel>
         </div>
     );

@@ -14,6 +14,7 @@ import {
     Panel,
     Detail,
     Label,
+    BodyShort,
     Link as NavLink,
 } from '@navikt/ds-react';
 import styled from 'styled-components';
@@ -31,11 +32,24 @@ export const FilePanel = styled(Panel)`
     border-radius: 8px;
 
     .icon {
+        grid-area: icon;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
     }
     .filename {
         grid-area: filename;
         color: gray;
         justify-items: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        a {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+        }
     }
     .fileinfo {
         grid-area: fileinfo;
@@ -44,8 +58,12 @@ export const FilePanel = styled(Panel)`
     .hoyreHalvdel {
         grid-area: hoyreHalvdel;
         display: flex;
-        flex-flow: column wrap;
-        align-content: flex-end;
+        flex-flow: row wrap;
+        justify-content: flex-end;
+        @media only screen and (max-width: 600px) {
+            margin-top: 16px;
+            width: 100%;
+        }
     }
 
     display: grid;
@@ -55,25 +73,46 @@ export const FilePanel = styled(Panel)`
         'icon filename hoyreHalvdel hoyreHalvdel'
         'icon fileinfo hoyreHalvdel hoyreHalvdel';
 
+    padding: 12px 8px;
+
     ${(props) =>
         props.type === FIL_STATUS.FEIL &&
         'border-color: var(--navds-semantic-color-interaction-danger)'};
-`;
 
-const StyledButton = styled.div`
-    > * {
-        border-radius: 8px;
+    @media only screen and (max-width: 600px) {
+        grid-template-areas:
+            'icon filename filename'
+            'icon fileinfo fileinfo'
+            'hoyreHalvdel hoyreHalvdel hoyreHalvdel';
+
+        button,
+        label {
+            width: 100%;
+        }
     }
 `;
 
-const StyledSecondaryButton = styled(StyledButton)`
-    > * {
-        --navds-button-color-secondary-border: var(
-            --navds-semantic-color-feedback-info-background
-        );
+const StyledButton = styled.div`
+    /* button,
+    label {
+        border-radius: 4px;
+    } */
+    @media only screen and (max-width: 600px) {
+        width: 100%;
+    }
+`;
+
+const StyledProvIgjenButton = styled(StyledButton)`
+    label {
         background-color: var(
-            --navds-semantic-color-feedback-info-background
+            --navds-semantic-color-interaction-primary-hover-subtle
         );
+    }
+    label:hover {
+        background-color: var(
+            --navds-semantic-color-interaction-primary-hover
+        );
+        color: var(--navds-semantic-color-text-inverted);
     }
 `;
 
@@ -127,7 +166,7 @@ const filStorrelseVisning = (bytes: number): string => {
         bytes / Math.pow(1024, indeksIEnheter),
     );
 
-    return `${storrelserIEnhet}${enhet}`;
+    return `${storrelserIEnhet} ${enhet}`;
 };
 
 const filReducer = (
@@ -334,38 +373,42 @@ export function Fil({
         <div>
             {/* TODO why does one status work but not the other styled div vs panel?*/}
             <FilePanel type={status} border>
-                <FilUploadIcon filstatus={status} />
+                <div className="icon">
+                    <FilUploadIcon filstatus={status} />
+                </div>
                 <div className="filename">
                     {status === FIL_STATUS.OPPLASTET ? (
-                        <div>
-                            <NavLink
-                                target="_blank"
-                                href={`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/${filState.filData.opplastetFil?.id}`}
-                                rel="noopener noreferrer"
-                            >
-                                {filnavn}
-                            </NavLink>
-                            <Detail size="small">
-                                {filStorrelseVisning(
-                                    filState.filData.opplastetFil
-                                        ?.storrelse,
-                                )}
-                            </Detail>
-                        </div>
+                        <NavLink
+                            target="_blank"
+                            href={`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/${filState.filData.opplastetFil?.id}`}
+                            rel="noopener noreferrer"
+                        >
+                            {filnavn}
+                        </NavLink>
                     ) : (
                         filnavn
                     )}
                 </div>
                 <div className="fileinfo">
                     {status === FIL_STATUS.LASTER_OPP && (
-                        <span>Progress: {filState.progress}</span>
+                        <BodyShort size="small">
+                            Progress: {filState.progress}
+                        </BodyShort>
+                    )}
+                    {status === FIL_STATUS.OPPLASTET && (
+                        <BodyShort size="small">
+                            {filStorrelseVisning(
+                                filState.filData.opplastetFil
+                                    ?.storrelse,
+                            )}
+                        </BodyShort>
                     )}
                 </div>
 
                 <div className="hoyreHalvdel">
                     {status === FIL_STATUS.FEIL &&
                         !filState.filData?.opplastetFil && (
-                            <StyledSecondaryButton>
+                            <StyledProvIgjenButton>
                                 <Filvelger
                                     onFileSelected={(fil: File) =>
                                         dispatch({
@@ -377,18 +420,17 @@ export function Fil({
                                             },
                                         })
                                     }
-                                    CustomButton={({ children }) => (
+                                    CustomButton={
                                         <Button
                                             as="label"
-                                            variant="secondary"
+                                            variant="tertiary"
                                         >
                                             Prøv igjen
-                                            {children}
                                         </Button>
-                                    )}
+                                    }
                                     allowMultiple={false}
                                 />
-                            </StyledSecondaryButton>
+                            </StyledProvIgjenButton>
                         )}
 
                     {status === FIL_STATUS.LASTER_OPP && (
@@ -404,7 +446,6 @@ export function Fil({
                                         filData: { komponentID },
                                     });
                                 }}
-                                as="label"
                                 variant="tertiary"
                             >
                                 Avbryt
@@ -412,15 +453,16 @@ export function Fil({
                         </StyledTertiaryButton>
                     )}
 
-                    <StyledTertiaryButton>
-                        <Button
-                            onClick={slettFil}
-                            as="label"
-                            variant="tertiary"
-                        >
-                            Fjern
-                        </Button>
-                    </StyledTertiaryButton>
+                    {status !== FIL_STATUS.LASTER_OPP && (
+                        <StyledTertiaryButton>
+                            <Button
+                                onClick={slettFil}
+                                variant="tertiary"
+                            >
+                                Fjern
+                            </Button>
+                        </StyledTertiaryButton>
+                    )}
                 </div>
             </FilePanel>
         </div>

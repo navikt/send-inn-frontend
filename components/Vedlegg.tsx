@@ -9,6 +9,7 @@ import {
     Ingress,
     Button,
     BodyShort,
+    Label,
 } from '@navikt/ds-react';
 import { Filvelger } from './Filvelger';
 import styled from 'styled-components';
@@ -78,13 +79,48 @@ const filListeReducer = (filListe: FilData[], action: ActionType) => {
 
 const initialState: FilData[] = [];
 
-const VedleggPanel = styled(Panel)`
+export const VedleggPanel = styled(Panel)`
     background-color: var(--navds-semantic-color-canvas-background);
+    border-radius: 8px;
+    padding: 24px;
+    ${(props) => props.$extraMargin && 'margin-bottom: 60px'};
+    @media only screen and (max-width: 600px) {
+        padding: 12px;
+    }
+`;
+
+const InvertedLink = styled(NavLink)`
+    text-decoration: none;
+    :hover {
+        text-decoration: underline;
+    }
+`;
+
+const BeskrivelsesGruppe = styled(BodyLong)`
+    @media only screen and (max-width: 600px) {
+        ol {
+            padding-left: 1.5rem;
+        }
+    }
+`;
+const VedleggBeskrivelse = styled(BodyShort)`
+    margin-bottom: 24px;
 `;
 
 const VedleggButtons = styled.div`
     display: flex;
     gap: 20px;
+`;
+
+const SendtInnTidligereGruppe = styled.div`
+    margin-bottom: 24px;
+`;
+
+const FilListeGruppe = styled.div`
+    margin-top: 24px;
+    > :not(:last-child) {
+        margin-bottom: 8px;
+    }
 `;
 
 function Vedlegg(props: VedleggProps) {
@@ -151,7 +187,7 @@ function Vedlegg(props: VedleggProps) {
     }, [innsendingsId, vedlegg.id]);
 
     return (
-        <VedleggPanel>
+        <VedleggPanel $extraMargin={vedlegg.erHoveddokument}>
             {endrer ? (
                 <EndreVedlegg
                     tittel={tittel}
@@ -163,30 +199,33 @@ function Vedlegg(props: VedleggProps) {
             ) : (
                 <>
                     <div>
-                        {!vedlegg.erHoveddokument &&
-                            vedlegg.skjemaurl && (
-                                <a
-                                    className="navds-link"
-                                    target="_blank"
-                                    style={{ color: 'blue' }}
-                                    href={vedlegg.skjemaurl}
-                                    rel="noopener noreferrer"
-                                >
-                                    Åpne skjema
-                                </a>
-                            )}
-                    </div>
-                    <div>
                         <div>
-                            <Heading size="small" spacing>
-                                {tittel}
-                            </Heading>
+                            {(vedlegg.erHoveddokument ||
+                                !vedlegg.skjemaurl) && (
+                                <Heading size="small" spacing>
+                                    {tittel}
+                                </Heading>
+                            )}
                         </div>
                         <div>
+                            {!vedlegg.erHoveddokument &&
+                                vedlegg.skjemaurl && (
+                                    <Heading size="small" spacing>
+                                        <InvertedLink
+                                            target="_blank"
+                                            href={vedlegg.skjemaurl}
+                                            rel="noopener noreferrer"
+                                        >
+                                            {tittel} (åpnes i ny fane)
+                                        </InvertedLink>
+                                    </Heading>
+                                )}
+                        </div>
+                        <BeskrivelsesGruppe>
                             {vedlegg.erHoveddokument && (
-                                <BodyLong>
+                                <>
                                     <Ingress>Slik gjør du:</Ingress>
-                                    <ol>
+                                    <BodyLong as="ol" spacing>
                                         <li>
                                             Klikk på “Last opp utfylt
                                             skjema”.{' '}
@@ -195,24 +234,27 @@ function Vedlegg(props: VedleggProps) {
                                             Finn og last opp det
                                             ferdig utfylte skjemaet.
                                         </li>
-                                        <li>Klikk på “Gå videre”.</li>
+                                        <li>
+                                            Klikk på “Neste steg”.
+                                        </li>
                                         <li>
                                             Hvis du skal sende inn
                                             vedlegg blir du bedt om å
                                             gjøre det i neste steg.
                                         </li>
-                                    </ol>
-                                </BodyLong>
+                                    </BodyLong>
+                                </>
                             )}
-                        </div>
-                    </div>
-                    {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
 
-                    {vedlegg.beskrivelse && (
-                        <BodyShort size="small">
-                            {vedlegg.beskrivelse}
-                        </BodyShort>
-                    )}
+                            {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
+
+                            {vedlegg.beskrivelse && (
+                                <VedleggBeskrivelse size="small">
+                                    {vedlegg.beskrivelse}
+                                </VedleggBeskrivelse>
+                            )}
+                        </BeskrivelsesGruppe>
+                    </div>
 
                     {vedlegg.erPakrevd &&
                         !vedlegg.erHoveddokument &&
@@ -227,10 +269,10 @@ function Vedlegg(props: VedleggProps) {
                         )}
 
                     {erSendtInnTidligere && (
-                        <div>
-                            <span>
+                        <SendtInnTidligereGruppe>
+                            <Heading size="xsmall" spacing as="p">
                                 Dokumenter du har sendt inn tidligere:
-                            </span>
+                            </Heading>
                             <FilePanel border>
                                 <FilUploadIcon
                                     filstatus={
@@ -251,9 +293,7 @@ function Vedlegg(props: VedleggProps) {
                                     </span>
                                 </div>
                             </FilePanel>
-
-                            <br />
-                        </div>
+                        </SendtInnTidligereGruppe>
                     )}
 
                     {!skjulFiler && (
@@ -296,10 +336,10 @@ function Vedlegg(props: VedleggProps) {
                     )}
 
                     {!skjulFiler && filListe.length > 0 && (
-                        <div>
-                            <span>
+                        <FilListeGruppe>
+                            <Heading size="xsmall" spacing as="p">
                                 Dokumenter du har lastet opp nå:
-                            </span>
+                            </Heading>
                             {filListe.map((fil) => {
                                 return (
                                     <Fil
@@ -318,8 +358,7 @@ function Vedlegg(props: VedleggProps) {
                                     />
                                 );
                             })}
-                            <br />
-                        </div>
+                        </FilListeGruppe>
                     )}
                 </>
             )}

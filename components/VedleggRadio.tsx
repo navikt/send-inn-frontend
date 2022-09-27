@@ -1,12 +1,17 @@
 import React from 'react';
 import { RadioGroup, Radio } from '@navikt/ds-react';
 import { setOpplastingStatusType, VedleggType } from '../types/types';
+import styled from 'styled-components';
 
 interface VedleggRadioProp {
     id: number;
     vedlegg: VedleggType;
     setOpplastingStatus: setOpplastingStatusType;
 }
+
+const StyledRadioGroup = styled(RadioGroup)`
+    padding-bottom: 24px;
+`;
 
 function VedleggRadio({
     id,
@@ -19,8 +24,8 @@ function VedleggRadio({
 
     return (
         <>
-            <RadioGroup
-                legend="Velg din innsending."
+            <StyledRadioGroup
+                legend="Velg innsending"
                 size="medium"
                 onChange={(val: string) => handleChange(val)}
                 value={vedlegg.opplastingsStatus}
@@ -44,7 +49,7 @@ function VedleggRadio({
                     Sendes inn av andre (f.eks. lege, arbeidsgiver
                     osv.)
                 </Radio>
-            </RadioGroup>
+            </StyledRadioGroup>
         </>
     );
 }

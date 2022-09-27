@@ -14,6 +14,8 @@ export const StyledDetail = styled(Detail)`
 export const Style = styled.div`
     > * {
         max-width: 60rem;
+        margin-left: 16px;
+        margin-right: 16px;
     }
 
     align-items: center;
@@ -22,6 +24,8 @@ export const Style = styled.div`
     border-bottom: 0.3rem solid var(--navds-global-color-deepblue-200);
     padding-top: 24px;
     padding-bottom: 24px;
+    margin-left: -16px;
+    margin-right: -16px;
 `;
 
 export function SoknadHeader({
