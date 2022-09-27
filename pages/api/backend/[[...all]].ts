@@ -49,7 +49,7 @@ export default async function handler(
     // Removed host-header because of certification issues with node
     const { host, ...headers } = req.headers as AxiosRequestHeaders;
 
-    const response = await axios({
+    await axios({
         method: method,
         url: `${process.env.REMOTE_API_URL}/${path}`,
         params: params,
@@ -60,44 +60,41 @@ export default async function handler(
         },
         responseType: 'stream',
         timeout: 20000,
-    }).catch((error) => {
-        console.log(error.response?.data);
+        maxContentLength: Infinity,
+        maxBodyLength: Infinity,
+    })
+        .then((response) => {
+            for (const key in response.headers) {
+                res.setHeader(key, response.headers[key]);
+            }
 
-        if (error.response) {
-            // The request was made and the server responded with a status code
-            // that falls out of the range of 2xx
+            res.status(response.status);
+            response.data.pipe(res);
+        })
+        .catch((error) => {
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
 
-            console.log({
-                data: error.response.data,
-                status: error.response.status,
-                headers: error.response.headers,
-            });
+                console.log({
+                    // data: error.response.data,
+                    status: error.response.status,
+                    headers: error.response.headers,
+                });
 
-            return res
-                .status(error.response.status)
-                .json(error.response.data);
-        } else if (error.request) {
-            // The request was made but no response was received
-            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-            // http.ClientRequest in node.js
-            console.log(error.request);
-        } else {
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', error.message);
-        }
-        console.log(error.config);
-        res.status(500).send('Ukjent feil');
+                res.status(error.response.status);
+                // .json(error.response.data);
+                return error.response.data.pipe(res);
+            } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of http.ClientRequest
+                console.log('No response error:', error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Invalid request error:', error.message);
+            }
+            res.status(500).send('Ukjent feil');
 
-        throw error;
-    });
-
-    if (!response) {
-        return;
-    }
-    for (const key in response.headers) {
-        res.setHeader(key, response.headers[key]);
-    }
-
-    res.status(response.status);
-    response.data.pipe(res);
+            throw error;
+        });
 }
