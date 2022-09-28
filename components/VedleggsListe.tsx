@@ -326,11 +326,11 @@ function VedleggsListe({
     const slett = () => {
         axios
             .delete(
-                `${publicRuntimeConfig.apiUrl}/frontend/v1/sendInn/${soknad?.innsendingsId}`,
+                `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad?.innsendingsId}`,
             )
-            .finally(() => {
+            .then(() => {
                 resetState();
-                alert('slettet');
+                tilMittNav();
             })
             .catch((e) => {
                 //TODO: Error håndtering
@@ -585,130 +585,6 @@ function VedleggsListe({
                             />
                         )}
                     </PaddedVedlegg>
-
-                    {/** du må rydde i logikken her */}
-
-                    {/* open={open} onClose={() => setOpen(false)} */}
-
-                    {/*     const [isModalOpen, setIsModalOpen] = useState(false); */}
-
-                    {/*
-                
-                TODO: adding the new modals
-
-                hvis fremgang her
-                1. send inn komplett onSendInn()
-                2. send inn uferdig onSendInn()
-                3 avbryt (slett)
-                4 avslutt slett()
-
-                bare lag en state per modal?
-
-                jeg tror vi trenger flere av dem
-
-                kanskje noe state for å bestemme aktiv modal?
-
-                teksten er fucka og har rare formateringstegn, jeg måtte avbryte forsøk pga rot med de tegnene
-
-                har laget currentmodalstate
-                
-                */}
-                    <div>
-                        <FellesModal
-                            open={fortsettSenereSoknadModal}
-                            setOpen={setForstettSenereSoknadModal}
-                            onAccept={tilMittNav}
-                            acceptButtonText={t(
-                                'modal.fortsettSenere.accept',
-                            )}
-                            cancelButtonText={t(
-                                'modal.fortsettSenere.cancel',
-                            )}
-                        >
-                            <Heading spacing size="medium">
-                                {t('modal.fortsettSenere.tittel')}
-                            </Heading>
-                            <BodyLong as="ul">
-                                {t('modal.fortsettSenere.liste', {
-                                    returnObjects: true,
-                                }).map((element, key) => (
-                                    <li key={key}>{element}</li>
-                                ))}
-                            </BodyLong>
-                        </FellesModal>
-
-                        <FellesModal
-                            open={slettSoknadModal}
-                            setOpen={setSlettSoknadModal}
-                            onAccept={slett}
-                            acceptButtonText={t('modal.slett.accept')}
-                            cancelButtonText={t('modal.slett.cancel')}
-                        >
-                            <Heading spacing size="medium">
-                                {t('modal.slett.tittel')}
-                            </Heading>
-                            <BodyLong as="ul">
-                                {t('modal.slett.liste', {
-                                    returnObjects: true,
-                                }).map((element, key) => (
-                                    <li key={key}>{element}</li>
-                                ))}
-                            </BodyLong>
-                        </FellesModal>
-
-                        <FellesModal
-                            open={sendInnUferdigSoknadModal}
-                            setOpen={setSendInnUferdigSoknadModal}
-                            onAccept={onSendInn}
-                            acceptButtonText={t(
-                                'modal.sendInnUferdig.accept',
-                            )}
-                            cancelButtonText={t(
-                                'modal.sendInnUferdig.cancel',
-                            )}
-                        >
-                            <Heading spacing size="medium">
-                                {t('modal.sendInnUferdig.tittel')}
-                            </Heading>
-                            <BodyLong as="ul">
-                                {t('modal.sendInnUferdig.liste', {
-                                    dato: formatertDato(
-                                        seksUkerFraDato(
-                                            new Date(
-                                                soknad.opprettetDato,
-                                            ),
-                                        ),
-                                    ),
-                                    returnObjects: true,
-                                }).map((element, key) => (
-                                    <li key={key}>{element}</li>
-                                ))}
-                            </BodyLong>
-                        </FellesModal>
-
-                        <FellesModal
-                            open={sendInnKomplettSoknadModal}
-                            setOpen={setSendInnKomplettSoknadModal}
-                            onAccept={onSendInn}
-                            acceptButtonText={t(
-                                'modal.sendInnKomplett.accept',
-                            )}
-                            cancelButtonText={t(
-                                'modal.sendInnKomplett.cancel',
-                            )}
-                        >
-                            <Heading spacing size="medium">
-                                {t('modal.sendInnKomplett.tittel')}
-                            </Heading>
-                            <BodyLong as="ul">
-                                {t('modal.sendInnKomplett.liste', {
-                                    returnObjects: true,
-                                }).map((element, key) => (
-                                    <li key={key}>{element}</li>
-                                ))}
-                            </BodyLong>
-                        </FellesModal>
-                    </div>
                 </div>
             )}
             {!visKvittering && (
@@ -813,6 +689,100 @@ kanskje popup om at dette vil slette innhold? */}
                     </Button>
                 </ButtonContainer>
             )}
+            <div>
+                <FellesModal
+                    open={fortsettSenereSoknadModal}
+                    setOpen={setForstettSenereSoknadModal}
+                    onAccept={tilMittNav}
+                    acceptButtonText={t(
+                        'modal.fortsettSenere.accept',
+                    )}
+                    cancelButtonText={t(
+                        'modal.fortsettSenere.cancel',
+                    )}
+                >
+                    <Heading spacing size="medium">
+                        {t('modal.fortsettSenere.tittel')}
+                    </Heading>
+                    <BodyLong as="ul">
+                        {t('modal.fortsettSenere.liste', {
+                            returnObjects: true,
+                        }).map((element, key) => (
+                            <li key={key}>{element}</li>
+                        ))}
+                    </BodyLong>
+                </FellesModal>
+
+                <FellesModal
+                    open={slettSoknadModal}
+                    setOpen={setSlettSoknadModal}
+                    onAccept={slett}
+                    acceptButtonText={t('modal.slett.accept')}
+                    cancelButtonText={t('modal.slett.cancel')}
+                >
+                    <Heading spacing size="medium">
+                        {t('modal.slett.tittel')}
+                    </Heading>
+                    <BodyLong as="ul">
+                        {t('modal.slett.liste', {
+                            returnObjects: true,
+                        }).map((element, key) => (
+                            <li key={key}>{element}</li>
+                        ))}
+                    </BodyLong>
+                </FellesModal>
+
+                <FellesModal
+                    open={sendInnUferdigSoknadModal}
+                    setOpen={setSendInnUferdigSoknadModal}
+                    onAccept={onSendInn}
+                    acceptButtonText={t(
+                        'modal.sendInnUferdig.accept',
+                    )}
+                    cancelButtonText={t(
+                        'modal.sendInnUferdig.cancel',
+                    )}
+                >
+                    <Heading spacing size="medium">
+                        {t('modal.sendInnUferdig.tittel')}
+                    </Heading>
+                    <BodyLong as="ul">
+                        {t('modal.sendInnUferdig.liste', {
+                            dato: formatertDato(
+                                seksUkerFraDato(
+                                    new Date(soknad.opprettetDato),
+                                ),
+                            ),
+                            returnObjects: true,
+                        }).map((element, key) => (
+                            <li key={key}>{element}</li>
+                        ))}
+                    </BodyLong>
+                </FellesModal>
+
+                <FellesModal
+                    open={sendInnKomplettSoknadModal}
+                    setOpen={setSendInnKomplettSoknadModal}
+                    onAccept={onSendInn}
+                    acceptButtonText={t(
+                        'modal.sendInnKomplett.accept',
+                    )}
+                    cancelButtonText={t(
+                        'modal.sendInnKomplett.cancel',
+                    )}
+                >
+                    <Heading spacing size="medium">
+                        {t('modal.sendInnKomplett.tittel')}
+                    </Heading>
+                    <BodyLong as="ul">
+                        {t('modal.sendInnKomplett.liste', {
+                            returnObjects: true,
+                        }).map((element, key) => (
+                            <li key={key}>{element}</li>
+                        ))}
+                    </BodyLong>
+                </FellesModal>
+            </div>
         </Style>
     );
 }
