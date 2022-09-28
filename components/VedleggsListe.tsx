@@ -625,10 +625,10 @@ function VedleggsListe({
                                 'modal.fortsettSenere.cancel',
                             )}
                         >
-                            <Heading spacing size="small">
+                            <Heading spacing size="medium">
                                 {t('modal.fortsettSenere.tittel')}
                             </Heading>
-                            <BodyLong as="ul" size="small">
+                            <BodyLong as="ul">
                                 {t('modal.fortsettSenere.liste', {
                                     returnObjects: true,
                                 }).map((element, key) => (
@@ -644,10 +644,10 @@ function VedleggsListe({
                             acceptButtonText={t('modal.slett.accept')}
                             cancelButtonText={t('modal.slett.cancel')}
                         >
-                            <Heading spacing size="small">
+                            <Heading spacing size="medium">
                                 {t('modal.slett.tittel')}
                             </Heading>
-                            <BodyLong as="ul" size="small">
+                            <BodyLong as="ul">
                                 {t('modal.slett.liste', {
                                     returnObjects: true,
                                 }).map((element, key) => (
@@ -667,10 +667,10 @@ function VedleggsListe({
                                 'modal.sendInnUferdig.cancel',
                             )}
                         >
-                            <Heading spacing size="small">
+                            <Heading spacing size="medium">
                                 {t('modal.sendInnUferdig.tittel')}
                             </Heading>
-                            <BodyLong as="ul" size="small">
+                            <BodyLong as="ul">
                                 {t('modal.sendInnUferdig.liste', {
                                     dato: formatertDato(
                                         seksUkerFraDato(
@@ -697,10 +697,10 @@ function VedleggsListe({
                                 'modal.sendInnKomplett.cancel',
                             )}
                         >
-                            <Heading spacing size="small">
+                            <Heading spacing size="medium">
                                 {t('modal.sendInnKomplett.tittel')}
                             </Heading>
-                            <BodyLong as="ul" size="small">
+                            <BodyLong as="ul">
                                 {t('modal.sendInnKomplett.liste', {
                                     returnObjects: true,
                                 }).map((element, key) => (
