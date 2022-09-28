@@ -110,6 +110,13 @@ const VedleggBeskrivelse = styled(BodyShort)`
 const VedleggButtons = styled.div`
     display: flex;
     gap: 20px;
+    @media only screen and (max-width: 475px) {
+        flex-direction: column;
+        button,
+        label {
+            width: 100%;
+        }
+    }
 `;
 
 const SendtInnTidligereGruppe = styled.div`
