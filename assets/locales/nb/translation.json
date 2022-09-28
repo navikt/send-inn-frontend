@@ -6,7 +6,7 @@
             "liste": [
                 "Søknaden blir IKKE sendt til saksbehandler i NAV nå, men kunlagret slik at du kan fortsette senere.",
                 "Hvis du ønsker å sette dagens dato som startdato for søknaden må du gå tilbake til forrige side og velge “Send til NAV”.",
-                "Vi har opprettet en beskjed / oppgave på DittNAV med en lenke til søknaden."
+                "Vi har opprettet en beskjed / oppgave på Min side med en lenke til søknaden."
             ],
             "accept": "Ja, lagre og fortsett senere",
             "cancel": "Nei, gå tilbake"
@@ -25,7 +25,7 @@
                 "Dagens dato vil bli satt som mottaksdato for søknaden din.",
                 "Du har ikke lastet opp all dokumentasjon som er nødvendigfor å behandle søknaden din.",
                 "Du må ettersende dokumentasjonen som mangler innen {{dato}}.",
-                "Du vil få en beskjed / oppgave på DittNAV om hvilken dokumentasjon du må ettersende."
+                "Du vil få en beskjed / oppgave på Min side om hvilken dokumentasjon du må ettersende."
             ],
             "accept": "Ja, send søknaden",
             "cancel": "Nei, gå tilbake"

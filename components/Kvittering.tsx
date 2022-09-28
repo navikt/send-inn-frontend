@@ -190,19 +190,22 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                                 <BodyLong>
                                     Oppgaven for å ettersende
                                     dokumentasjonen finner du øverst
-                                    på Ditt NAV.
+                                    på Min side.
                                 </BodyLong>
                             </Alert>
 
                             <Link
-                                href="https://www.nav.no/no/ditt-nav"
+                                href={
+                                    process.env
+                                        .NEXT_PUBLIC_MIN_SIDE_URL
+                                }
                                 passHref
                             >
                                 <Button
                                     variant="secondary"
                                     size="medium"
                                 >
-                                    Gå til Ditt NAV
+                                    Gå til Min side
                                 </Button>
                             </Link>
                         </>

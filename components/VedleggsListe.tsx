@@ -298,9 +298,9 @@ function VedleggsListe({
             });
     };
 
-    const tilMittNav = () => {
-        console.log('TilMittNav');
-        router.push('https://www.nav.no/no/ditt-nav');
+    const tilMinSide = () => {
+        console.log('TilMinSide');
+        router.push(process.env.NEXT_PUBLIC_MIN_SIDE_URL);
     };
 
     const onSendInn = () => {
@@ -320,7 +320,7 @@ function VedleggsListe({
                 // resetState();
                 //TODO: Endre til "then", og gå til kvitteringside, nils arnes endringer skal nå gjøre at dette virker
                 // alert('Sendt inn');
-                // tilMittNav()
+                // tilMinSide()
                 setisLoading(false);
             })
             .catch((e) => {
@@ -337,7 +337,7 @@ function VedleggsListe({
             )
             .then(() => {
                 resetState();
-                tilMittNav();
+                tilMinSide();
             })
             .catch((e) => {
                 //TODO: Error håndtering
@@ -703,7 +703,7 @@ kanskje popup om at dette vil slette innhold? */}
                 <FellesModal
                     open={fortsettSenereSoknadModal}
                     setOpen={setForstettSenereSoknadModal}
-                    onAccept={tilMittNav}
+                    onAccept={tilMinSide}
                     acceptButtonText={t(
                         'modal.fortsettSenere.accept',
                     )}
