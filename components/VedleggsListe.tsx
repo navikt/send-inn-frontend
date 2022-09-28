@@ -618,29 +618,22 @@ function VedleggsListe({
                             open={fortsettSenereSoknadModal}
                             setOpen={setForstettSenereSoknadModal}
                             onAccept={tilMittNav}
-                            acceptButtonText="Ja, lagre og fortsett senere"
+                            acceptButtonText={t(
+                                'modal.fortsettSenere.accept',
+                            )}
+                            cancelButtonText={t(
+                                'modal.fortsettSenere.cancel',
+                            )}
                         >
-                            <Heading spacing level="1" size="large">
-                                Er du sikker på at du vil lagre
-                                søknaden og fortsette senere?
+                            <Heading spacing size="small">
+                                {t('modal.fortsettSenere.tittel')}
                             </Heading>
-                            <Heading spacing level="2" size="medium">
-                                Vær oppmerksom på:
-                            </Heading>
-                            <BodyLong spacing>
-                                Søknaden blir IKKE sendt til
-                                saksbehandler i NAV nå, men
-                                kunmellomlagret slik at du kan
-                                gjenoppta den senere.
-                            </BodyLong>
-                            <BodyLong>
-                                Hvis du ønsker å sette dagens dato som
-                                startdato for søknaden må du klikke på
-                                knappen Send inn til NAV. Du kan gjøre
-                                dette selv om du ikke har all
-                                dokumentasjon nå. Du kan ettersende
-                                manglende dokumentasjon her på nav.no
-                                innen (dato/antall uker/dager)
+                            <BodyLong as="ul" size="small">
+                                {t('modal.fortsettSenere.liste', {
+                                    returnObjects: true,
+                                }).map((element, key) => (
+                                    <li key={key}>{element}</li>
+                                ))}
                             </BodyLong>
                         </FellesModal>
 
@@ -648,25 +641,18 @@ function VedleggsListe({
                             open={slettSoknadModal}
                             setOpen={setSlettSoknadModal}
                             onAccept={slett}
-                            acceptButtonText="Ja, avbryt og slett søknaden"
+                            acceptButtonText={t('modal.slett.accept')}
+                            cancelButtonText={t('modal.slett.cancel')}
                         >
-                            <Heading spacing level="1" size="large">
-                                Er du sikker på at du vil avbryte
-                                søknaden?
+                            <Heading spacing size="small">
+                                {t('modal.slett.tittel')}
                             </Heading>
-                            <Heading spacing level="2" size="medium">
-                                Vær oppmerksom på:
-                            </Heading>
-                            <BodyLong spacing>
-                                Søknaden og all dokumentasjon du har
-                                lastet opp på denne siden vil bli
-                                slettet.
-                            </BodyLong>
-                            <BodyLong>
-                                Hvis du ønsker å komme tilbake og
-                                fortsette søknaden senere, må du
-                                klikke på knappen “Lagre og fortsett
-                                senere”.
+                            <BodyLong as="ul" size="small">
+                                {t('modal.slett.liste', {
+                                    returnObjects: true,
+                                }).map((element, key) => (
+                                    <li key={key}>{element}</li>
+                                ))}
                             </BodyLong>
                         </FellesModal>
 
@@ -674,31 +660,29 @@ function VedleggsListe({
                             open={sendInnUferdigSoknadModal}
                             setOpen={setSendInnUferdigSoknadModal}
                             onAccept={onSendInn}
-                            acceptButtonText="Ja, send søknaden nå"
+                            acceptButtonText={t(
+                                'modal.sendInnUferdig.accept',
+                            )}
+                            cancelButtonText={t(
+                                'modal.sendInnUferdig.cancel',
+                            )}
                         >
-                            <Heading spacing level="1" size="large">
-                                Er du sikker på at du vil sende
-                                søknaden nå?
+                            <Heading spacing size="small">
+                                {t('modal.sendInnUferdig.tittel')}
                             </Heading>
-                            <Heading spacing level="2" size="medium">
-                                Vær oppmerksom på:
-                            </Heading>
-                            <BodyLong spacing>
-                                Dagens dato vil bli satt som startdato
-                                for søknaden din.
-                            </BodyLong>
-                            <BodyLong>
-                                Du har ikke lastet opp all nødvendig
-                                dokumentasjon. Vi kan ikke behandle
-                                søknaden din før du har ettersendt
-                                denne dokumentasjonen.Hvis du velger å
-                                sende søknaden nå må du ettersende
-                                dokumentasjonensom mangler innen DATO.
-                                Vi vil sende deg en notifikasjon på
-                                DittNAV som spesifiserer hva som må
-                                ettersendes. Klikk på notifikasjonen
-                                når du har skaffet dokumentasjonen og
-                                er klar til å ettersende dette.
+                            <BodyLong as="ul" size="small">
+                                {t('modal.sendInnUferdig.liste', {
+                                    dato: formatertDato(
+                                        seksUkerFraDato(
+                                            new Date(
+                                                soknad.opprettetDato,
+                                            ),
+                                        ),
+                                    ),
+                                    returnObjects: true,
+                                }).map((element, key) => (
+                                    <li key={key}>{element}</li>
+                                ))}
                             </BodyLong>
                         </FellesModal>
 
@@ -706,23 +690,22 @@ function VedleggsListe({
                             open={sendInnKomplettSoknadModal}
                             setOpen={setSendInnKomplettSoknadModal}
                             onAccept={onSendInn}
-                            acceptButtonText="Ja, send søknaden nå"
+                            acceptButtonText={t(
+                                'modal.sendInnKomplett.accept',
+                            )}
+                            cancelButtonText={t(
+                                'modal.sendInnKomplett.cancel',
+                            )}
                         >
-                            <Heading spacing level="1" size="large">
-                                Er du sikker på at du vil sende
-                                søknaden nå?
+                            <Heading spacing size="small">
+                                {t('modal.sendInnKomplett.tittel')}
                             </Heading>
-                            <Heading spacing level="2" size="medium">
-                                Vær oppmerksom på:
-                            </Heading>
-                            <BodyLong spacing>
-                                Dagens dato vil bli satt som startdato
-                                for søknaden din.
-                            </BodyLong>
-                            <BodyLong>
-                                Du har lastet opp all dokumentasjon
-                                som er nødvendig for å behandle
-                                søknaden din.
+                            <BodyLong as="ul" size="small">
+                                {t('modal.sendInnKomplett.liste', {
+                                    returnObjects: true,
+                                }).map((element, key) => (
+                                    <li key={key}>{element}</li>
+                                ))}
                             </BodyLong>
                         </FellesModal>
                     </div>
