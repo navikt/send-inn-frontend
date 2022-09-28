@@ -185,6 +185,8 @@ function VedleggsListe({
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { t, i18n } = useTranslation();
 
+    const [isLoading, setisLoading] = useState(false);
+
     const [visKvittering, setVisKvittering] = useState(false);
     const [soknadsInnsendingsRespons, setSoknadsInnsendingsRespons] =
         useState(null);
@@ -302,6 +304,7 @@ function VedleggsListe({
     };
 
     const onSendInn = () => {
+        setisLoading(true);
         axios
             .post(
                 `${publicRuntimeConfig.apiUrl}/frontend/v1/sendInn/${soknad?.innsendingsId}`,
@@ -309,6 +312,8 @@ function VedleggsListe({
             .then((response) => {
                 const kv: KvitteringsDto = response.data;
                 setSoknadsInnsendingsRespons(kv);
+                setSendInnUferdigSoknadModal(false);
+                setSendInnKomplettSoknadModal(false);
                 setVisKvittering(true);
             })
             .finally(() => {
@@ -316,6 +321,7 @@ function VedleggsListe({
                 //TODO: Endre til "then", og gå til kvitteringside, nils arnes endringer skal nå gjøre at dette virker
                 // alert('Sendt inn');
                 // tilMittNav()
+                setisLoading(false);
             })
             .catch((e) => {
                 //TODO: Error håndtering
@@ -324,6 +330,7 @@ function VedleggsListe({
     };
 
     const slett = () => {
+        setisLoading(true);
         axios
             .delete(
                 `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad?.innsendingsId}`,
@@ -335,6 +342,9 @@ function VedleggsListe({
             .catch((e) => {
                 //TODO: Error håndtering
                 console.error(e);
+            })
+            .finally(() => {
+                setisLoading(false);
             });
     };
 
@@ -716,6 +726,7 @@ kanskje popup om at dette vil slette innhold? */}
                 <FellesModal
                     open={slettSoknadModal}
                     setOpen={setSlettSoknadModal}
+                    isLoading={isLoading}
                     onAccept={slett}
                     acceptButtonText={t('modal.slett.accept')}
                     cancelButtonText={t('modal.slett.cancel')}
@@ -736,6 +747,7 @@ kanskje popup om at dette vil slette innhold? */}
                     open={sendInnUferdigSoknadModal}
                     setOpen={setSendInnUferdigSoknadModal}
                     onAccept={onSendInn}
+                    isLoading={isLoading}
                     acceptButtonText={t(
                         'modal.sendInnUferdig.accept',
                     )}
@@ -764,6 +776,7 @@ kanskje popup om at dette vil slette innhold? */}
                     open={sendInnKomplettSoknadModal}
                     setOpen={setSendInnKomplettSoknadModal}
                     onAccept={onSendInn}
+                    isLoading={isLoading}
                     acceptButtonText={t(
                         'modal.sendInnKomplett.accept',
                     )}

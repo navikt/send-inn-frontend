@@ -39,6 +39,7 @@ type FellesModalProps = {
     onAccept(): void;
     acceptButtonText?: string;
     cancelButtonText?: string;
+    isLoading?: boolean;
 };
 
 export const FellesModal = (props: FellesModalProps) => {
@@ -49,6 +50,7 @@ export const FellesModal = (props: FellesModalProps) => {
         children,
         acceptButtonText,
         cancelButtonText,
+        isLoading = false,
     } = props;
 
     return (
@@ -61,6 +63,7 @@ export const FellesModal = (props: FellesModalProps) => {
                             variant="secondary"
                             size="medium"
                             onClick={onAccept}
+                            loading={isLoading}
                         >
                             {acceptButtonText || 'Ja'}
                         </Button>
