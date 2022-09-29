@@ -196,6 +196,16 @@ function Vedlegg(props: VedleggProps) {
             });
     }, [innsendingsId, vedlegg.id]);
 
+    const getFilvelgerButtonText = () => {
+        if (vedlegg.erHoveddokument) {
+            return t('soknad.hovedSkjema.filvelgerKnapp');
+        }
+        if (erSendtInnTidligere) {
+            return t('soknad.vedlegg.ettersendingFilvelgerKnapp');
+        }
+        return null; // default text
+    };
+
     return (
         <VedleggPanel $extraMargin={vedlegg.erHoveddokument}>
             {endrer ? (
@@ -313,13 +323,7 @@ function Vedlegg(props: VedleggProps) {
                     {!skjulFiler && (
                         <VedleggButtons>
                             <Filvelger
-                                buttonText={
-                                    vedlegg.erHoveddokument
-                                        ? t(
-                                              'soknad.hovedSkjema.filvelgerKnapp',
-                                          )
-                                        : null
-                                }
+                                buttonText={getFilvelgerButtonText()}
                                 onFileSelected={(fil: File) =>
                                     dispatch({
                                         type: ACTIONS.NY_FIL,
