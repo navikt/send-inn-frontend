@@ -10,6 +10,7 @@ import {
     BodyLong,
     Button,
     Link as NavLink,
+    BodyShort,
 } from '@navikt/ds-react';
 import styled from 'styled-components';
 import Image from 'next/image';
@@ -56,6 +57,23 @@ const KompStyle = styled.div`
     }
 `;
 
+const SjekkBoksListe = styled.ul`
+    /* background-color: red; */
+
+    list-style: none;
+    margin: 0;
+    padding-left: 10px;
+    margin-bottom: 2.75rem;
+
+    li:not(:last-child) {
+        padding-bottom: 1rem;
+    }
+`;
+
+const StyledAlert = styled(Alert)`
+    margin-bottom: 2.75rem;
+`;
+
 export function seksUkerFraDato(date: Date) {
     const numberOfDaysToAdd = 7 * 6; // 7 dager * 6 uker
     return new Date(date.setDate(date.getDate() + numberOfDaysToAdd));
@@ -70,35 +88,36 @@ export function formatertDato(date: Date) {
 }
 
 export function Kvittering({ kvprops }: KvitteringsProps) {
-    const SjekkBoksListe = styled.ul`
-        /* background-color: red; */
-
-        list-style: none;
-        padding-left: 10px;
-    `;
-
     return (
         <KompStyle>
             <div>
-                <p className="bigtext">Takk!</p>
+                <Heading size="large" level="2" spacing>
+                    Takk!
+                </Heading>
 
-                <Heading spacing size="medium" level="2">
+                <Heading spacing size="medium" level="3">
                     Vi mottok disse dokumentene{' '}
                     {formatertDato(new Date(kvprops.mottattdato))}:
                 </Heading>
                 <SjekkBoksListe>
                     {kvprops && kvprops.hoveddokumentRef && (
-                        <Alert variant="success" size="medium" inline>
-                            {' '}
-                            {kvprops.label}
-                            <br />
-                            <NavLink
-                                href={`${publicRuntimeConfig.apiUrl}/${kvprops.hoveddokumentRef}`}
-                                target="_blank"
+                        <li>
+                            <Alert
+                                variant="success"
+                                size="medium"
+                                inline
                             >
-                                Last ned kopi (åpnes i en ny fane)
-                            </NavLink>
-                        </Alert>
+                                {' '}
+                                {kvprops.label}
+                                <br />
+                                <NavLink
+                                    href={`${publicRuntimeConfig.apiUrl}/${kvprops.hoveddokumentRef}`}
+                                    target="_blank"
+                                >
+                                    Last ned kopi (åpnes i en ny fane)
+                                </NavLink>
+                            </Alert>
+                        </li>
                     )}
                     {kvprops &&
                         kvprops.innsendteVedlegg &&
@@ -106,28 +125,50 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                         kvprops.innsendteVedlegg.map(
                             (vedlegg, key) => {
                                 return (
-                                    <Alert
-                                        variant="success"
-                                        size="medium"
-                                        inline
-                                        key={vedlegg.vedleggsnr}
-                                    >
-                                        {' '}
-                                        {vedlegg.tittel}
-                                    </Alert>
+                                    <li key={vedlegg.vedleggsnr}>
+                                        <Alert
+                                            variant="success"
+                                            size="medium"
+                                            inline
+                                        >
+                                            {' '}
+                                            {vedlegg.tittel}
+                                        </Alert>
+                                    </li>
                                 );
                             },
                         )}
                 </SjekkBoksListe>
 
+                {kvprops.skalEttersendes &&
+                    kvprops.skalEttersendes.length > 0 && (
+                        <Heading spacing size="medium" level="3">
+                            Dokument(er) som må ettersendes:
+                        </Heading>
+                    )}
+
+                <BodyShort as="ul" size="medium" spacing>
+                    {kvprops &&
+                        kvprops.skalEttersendes &&
+                        kvprops.skalEttersendes.length > 0 &&
+                        kvprops.skalEttersendes.map((vedlegg) => {
+                            return (
+                                <li key={vedlegg.vedleggsnr}>
+                                    {' '}
+                                    {vedlegg.tittel}
+                                </li>
+                            );
+                        })}
+                </BodyShort>
+
                 {kvprops.skalSendesAvAndre &&
                     kvprops.skalSendesAvAndre.length > 0 && (
-                        <Heading spacing size="small" level="2">
+                        <Heading spacing size="medium" level="3">
                             Dokument(er) som skal sendes av andre:
                         </Heading>
                     )}
 
-                <ul>
+                <BodyShort as="ul" size="medium" spacing>
                     {kvprops &&
                         kvprops.skalSendesAvAndre &&
                         kvprops.skalSendesAvAndre.length > 0 &&
@@ -141,39 +182,12 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                                 );
                             },
                         )}
-                </ul>
+                </BodyShort>
 
-                {kvprops.skalEttersendes &&
-                    kvprops.skalEttersendes.length > 0 && (
-                        <Heading spacing size="small" level="2">
-                            Dokument(er) som må ettersendes:
-                        </Heading>
-                    )}
-
-                <ul>
-                    {kvprops &&
-                        kvprops.skalEttersendes &&
-                        kvprops.skalEttersendes.length > 0 &&
-                        kvprops.skalEttersendes.map(
-                            (vedlegg, key) => {
-                                return (
-                                    <li key={vedlegg.vedleggsnr}>
-                                        {' '}
-                                        {vedlegg.tittel}
-                                    </li>
-                                );
-                            },
-                        )}
-                </ul>
                 {kvprops.skalEttersendes &&
                     kvprops.skalEttersendes.length > 0 && (
                         <>
-                            <p>
-                                {' '}
-                                Vi kan ikke behandle saken din før vi
-                                har mottatt disse.
-                            </p>
-                            <Alert variant="info">
+                            <StyledAlert variant="info">
                                 <Heading
                                     spacing
                                     size="small"
@@ -188,31 +202,29 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                                     )}
                                 </Heading>
                                 <BodyLong>
-                                    Oppgaven for å ettersende
-                                    dokumentasjonen finner du øverst
-                                    på Min side.
+                                    Vi kan ikke behandle saken din før
+                                    vi har mottatt disse. Oppgaven for
+                                    å ettersende dokumentasjonen
+                                    finner du øverst på Min side.
                                 </BodyLong>
-                            </Alert>
-
-                            <Link
-                                href={
-                                    process.env
-                                        .NEXT_PUBLIC_MIN_SIDE_URL
-                                }
-                                passHref
-                            >
-                                <Button
-                                    variant="secondary"
-                                    size="medium"
-                                >
-                                    Gå til Min side
-                                </Button>
-                            </Link>
+                            </StyledAlert>
                         </>
                     )}
+                {!kvprops.skalEttersendes.length && (
+                    <StyledAlert variant="info">
+                        Alle nødvendige dokumenter er mottatt. Du
+                        finner dem under Dine saker på Min side.
+                    </StyledAlert>
+                )}
+                <Link
+                    href={process.env.NEXT_PUBLIC_MIN_SIDE_URL}
+                    passHref
+                >
+                    <Button variant="secondary" size="medium">
+                        Gå til Min side
+                    </Button>
+                </Link>
             </div>
-
-            <hr />
         </KompStyle>
     );
 }
