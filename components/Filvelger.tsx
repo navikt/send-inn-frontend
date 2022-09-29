@@ -35,19 +35,15 @@ interface FilvelgerProps {
     onFileSelected: (fil: File) => void;
     CustomButton?: JSX.Element;
     allowMultiple?: boolean;
+    buttonText?: string;
 }
-
-const DefaultButton = (
-    <Button as="label" variant="secondary" icon={<Upload />}>
-        Velg dine filer
-    </Button>
-);
 
 export function Filvelger(props: FilvelgerProps) {
     const {
         onFileSelected,
         CustomButton,
         allowMultiple = true,
+        buttonText,
     } = props;
 
     const { register, handleSubmit, setValue, watch } =
@@ -95,6 +91,12 @@ export function Filvelger(props: FilvelgerProps) {
         });
         return () => subscription.unsubscribe();
     }, [handleSubmit, onSubmit, watch]);
+
+    const DefaultButton = (
+        <Button as="label" variant="secondary" icon={<Upload />}>
+            {buttonText || 'Velg dine filer'}
+        </Button>
+    );
 
     const CurrentButton = () =>
         cloneElement(CustomButton || DefaultButton, {
