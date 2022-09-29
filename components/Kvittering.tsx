@@ -16,6 +16,7 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
 import getConfig from 'next/config';
+import { useTranslation } from 'react-i18next';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -88,16 +89,25 @@ export function formatertDato(date: Date) {
 }
 
 export function Kvittering({ kvprops }: KvitteringsProps) {
+    const { t } = useTranslation();
+
     return (
         <KompStyle>
             <div>
                 <Heading size="large" level="2" spacing>
-                    Takk!
+                    {t('kvittering.tittel')}
                 </Heading>
 
                 <Heading spacing size="medium" level="3">
-                    Vi mottok disse dokumentene{' '}
-                    {formatertDato(new Date(kvprops.mottattdato))}:
+                    {t(
+                        'kvittering.mottattDokumenter',
+
+                        {
+                            dato: formatertDato(
+                                new Date(kvprops.mottattdato),
+                            ),
+                        },
+                    )}
                 </Heading>
                 <SjekkBoksListe>
                     {kvprops && kvprops.hoveddokumentRef && (
@@ -114,7 +124,7 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                                     href={`${publicRuntimeConfig.apiUrl}/${kvprops.hoveddokumentRef}`}
                                     target="_blank"
                                 >
-                                    Last ned kopi (åpnes i en ny fane)
+                                    {t('kvittering.skjemaLenke')}
                                 </NavLink>
                             </Alert>
                         </li>
@@ -143,7 +153,7 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                 {kvprops.skalEttersendes &&
                     kvprops.skalEttersendes.length > 0 && (
                         <Heading spacing size="medium" level="3">
-                            Dokument(er) som må ettersendes:
+                            {t('kvittering.maaEttersendes')}
                         </Heading>
                     )}
 
@@ -164,7 +174,7 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                 {kvprops.skalSendesAvAndre &&
                     kvprops.skalSendesAvAndre.length > 0 && (
                         <Heading spacing size="medium" level="3">
-                            Dokument(er) som skal sendes av andre:
+                            {t('kvittering.sendesAvAndre')}
                         </Heading>
                     )}
 
@@ -193,27 +203,28 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                                     size="small"
                                     level="2"
                                 >
-                                    Frist for å ettersende
-                                    dokumentene:{' '}
-                                    {formatertDato(
-                                        new Date(
-                                            kvprops.ettersendingsfrist,
-                                        ),
+                                    {t(
+                                        'kvittering.fristEttersending',
+                                        {
+                                            dato: formatertDato(
+                                                new Date(
+                                                    kvprops.ettersendingsfrist,
+                                                ),
+                                            ),
+                                        },
                                     )}
                                 </Heading>
                                 <BodyLong>
-                                    Vi kan ikke behandle saken din før
-                                    vi har mottatt disse. Oppgaven for
-                                    å ettersende dokumentasjonen
-                                    finner du øverst på Min side.
+                                    {t(
+                                        'kvittering.ettersendingsInfo',
+                                    )}
                                 </BodyLong>
                             </StyledAlert>
                         </>
                     )}
                 {!kvprops.skalEttersendes.length && (
                     <StyledAlert variant="info">
-                        Alle nødvendige dokumenter er mottatt. Du
-                        finner dem under Dine saker på Min side.
+                        {t('kvittering.altMottatInfo')}
                     </StyledAlert>
                 )}
                 <Link
@@ -221,7 +232,7 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                     passHref
                 >
                     <Button variant="secondary" size="medium">
-                        Gå til Min side
+                        {t('kvittering.minSideKnapp')}
                     </Button>
                 </Link>
             </div>

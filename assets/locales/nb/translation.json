@@ -116,5 +116,16 @@
             "accept": "Ja, send søknaden",
             "cancel": "Nei, gå tilbake"
         }
+    },
+    "kvittering": {
+        "tittel": "Takk!",
+        "mottattDokumenter": "Vi mottok disse dokumentene {{dato}}:",
+        "skjemaLenke": "Last ned kopi (åpnes i en ny fane)",
+        "maaEttersendes": "Dokument(er) som må ettersendes:",
+        "sendesAvAndre": "Dokument(er) som skal sendes av andre:",
+        "fristEttersending": "Frist for å ettersende dokumentene: {{dato}}",
+        "ettersendingsInfo": "Vi kan ikke behandle saken din før vi har mottatt disse. Oppgaven for å ettersende dokumentasjonen finner du øverst på Min side.",
+        "altMottatInfo": "Alle nødvendige dokumenter er mottatt. Du finner dem under Dine saker på Min side.",
+        "minSideKnapp": "Gå til Min side"
     }
 }
