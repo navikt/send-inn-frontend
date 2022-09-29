@@ -62,6 +62,7 @@ export const FilePanel = styled(Panel)`
         flex-flow: row wrap;
         justify-content: flex-end;
         @media only screen and (max-width: 600px) {
+            justify-content: center;
             margin-top: 16px;
             width: 100%;
         }

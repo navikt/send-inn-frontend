@@ -132,6 +132,17 @@ const FilListeGruppe = styled.div`
     }
 `;
 
+const FilMottattFelt = styled.div`
+    display: flex;
+    flex-direction: column;
+    @media only screen and (max-width: 600px) {
+        flex-direction: row;
+        p:first-child {
+            padding-right: 0.5rem;
+        }
+    }
+`;
+
 function Vedlegg(props: VedleggProps) {
     const {
         innsendingsId,
@@ -300,16 +311,20 @@ function Vedlegg(props: VedleggProps) {
                                     {vedlegg.label}
                                 </div>
                                 <div className="hoyreHalvdel">
-                                    <span>
-                                        {t('soknad.vedlegg.mottatt')}
-                                    </span>
-                                    <span>
-                                        {new Date(
-                                            vedlegg.innsendtdato,
-                                        ).toLocaleString('no', {
-                                            dateStyle: 'short',
-                                        })}
-                                    </span>
+                                    <FilMottattFelt>
+                                        <BodyShort>
+                                            {t(
+                                                'soknad.vedlegg.mottatt',
+                                            )}
+                                        </BodyShort>
+                                        <BodyShort>
+                                            {new Date(
+                                                vedlegg.innsendtdato,
+                                            ).toLocaleString('no', {
+                                                dateStyle: 'short',
+                                            })}
+                                        </BodyShort>
+                                    </FilMottattFelt>
                                 </div>
                             </FilePanel>
                         </SendtInnTidligereGruppe>
