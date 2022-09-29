@@ -97,7 +97,7 @@ const InvertedLink = styled(NavLink)`
     }
 `;
 
-const BeskrivelsesGruppe = styled(BodyLong)`
+const BeskrivelsesGruppe = styled.div`
     @media only screen and (max-width: 600px) {
         ol {
             padding-left: 1.5rem;

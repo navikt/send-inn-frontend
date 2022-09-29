@@ -25,7 +25,7 @@ import { EndreVedlegg } from './EndreVedlegg';
 import { Fil } from './Fil';
 import { VedleggPanel } from './Vedlegg';
 
-const BeskrivelsesGruppe = styled(BodyLong)`
+const BeskrivelsesGruppe = styled.div`
     @media only screen and (max-width: 600px) {
         ol {
             padding-left: 1.5rem;
