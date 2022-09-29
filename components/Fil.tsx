@@ -117,7 +117,16 @@ const StyledProvIgjenButton = styled(StyledButton)`
     }
 `;
 
-const StyledTertiaryButton = styled(StyledButton)``;
+const StyledTertiaryButton = styled(StyledButton)`
+    @media only screen and (max-width: 600px) {
+        :first-child {
+            border-top: 1px solid var(--navds-semantic-color-divider);
+        }
+        :first-child:last-child {
+            margin-bottom: -0.75rem;
+        }
+    }
+`;
 
 export interface FilProps {
     komponentID: string;
