@@ -201,7 +201,7 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                                 <Heading
                                     spacing
                                     size="small"
-                                    level="2"
+                                    level="4"
                                 >
                                     {t(
                                         'kvittering.fristEttersending',
