@@ -302,14 +302,17 @@ function Vedlegg(props: VedleggProps) {
                                 )}
                             </Heading>
                             <FilePanel border>
-                                <FilUploadIcon
-                                    filstatus={
-                                        FIL_STATUS.TIDLIGERE_LASTET_OPP
-                                    }
-                                />
-                                <div className="filename">
-                                    {vedlegg.label}
+                                <div className="icon">
+                                    <FilUploadIcon
+                                        filstatus={
+                                            FIL_STATUS.TIDLIGERE_LASTET_OPP
+                                        }
+                                    />
                                 </div>
+
+                                <BodyShort className="filename">
+                                    {vedlegg.label}
+                                </BodyShort>
                                 <div className="hoyreHalvdel">
                                     <FilMottattFelt>
                                         <BodyShort>
