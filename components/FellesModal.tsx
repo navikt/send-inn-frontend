@@ -53,6 +53,8 @@ export const FellesModal = (props: FellesModalProps) => {
         isLoading = false,
     } = props;
 
+    StyledModal.setAppElement('#__next');
+
     return (
         <>
             <StyledModal open={open} onClose={() => setOpen(false)}>
