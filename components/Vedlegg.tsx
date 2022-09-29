@@ -97,7 +97,8 @@ const InvertedLink = styled(NavLink)`
     }
 `;
 
-const BeskrivelsesGruppe = styled.div`
+const ListeGruppe = styled.div`
+    padding-bottom: 1.5rem;
     @media only screen and (max-width: 600px) {
         ol {
             padding-left: 1.5rem;
@@ -243,37 +244,31 @@ function Vedlegg(props: VedleggProps) {
                                     </Heading>
                                 )}
                         </div>
-                        <BeskrivelsesGruppe>
-                            {vedlegg.erHoveddokument && (
-                                <>
-                                    <Ingress>
-                                        {t(
-                                            'soknad.hovedSkjema.ingress',
-                                        )}
-                                    </Ingress>
-                                    <BodyLong as="ol" spacing>
-                                        {t(
-                                            'soknad.hovedSkjema.liste',
-                                            {
-                                                returnObjects: true,
-                                            },
-                                        ).map((element, key) => (
-                                            <li key={key}>
-                                                {element}
-                                            </li>
-                                        ))}
-                                    </BodyLong>
-                                </>
-                            )}
 
-                            {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
+                        {vedlegg.erHoveddokument && (
+                            <ListeGruppe>
+                                <BodyShort>
+                                    {t(
+                                        'soknad.hovedSkjema.listeTittel',
+                                    )}
+                                </BodyShort>
+                                <BodyShort as="ol">
+                                    {t('soknad.hovedSkjema.liste', {
+                                        returnObjects: true,
+                                    }).map((element, key) => (
+                                        <li key={key}>{element}</li>
+                                    ))}
+                                </BodyShort>
+                            </ListeGruppe>
+                        )}
 
-                            {vedlegg.beskrivelse && (
-                                <VedleggBeskrivelse size="small">
-                                    {vedlegg.beskrivelse}
-                                </VedleggBeskrivelse>
-                            )}
-                        </BeskrivelsesGruppe>
+                        {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
+
+                        {vedlegg.beskrivelse && (
+                            <VedleggBeskrivelse size="small">
+                                {vedlegg.beskrivelse}
+                            </VedleggBeskrivelse>
+                        )}
                     </div>
 
                     {vedlegg.erPakrevd &&
