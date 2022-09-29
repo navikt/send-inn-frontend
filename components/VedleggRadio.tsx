@@ -11,7 +11,9 @@ interface VedleggRadioProp {
 }
 
 const StyledRadioGroup = styled(RadioGroup)`
-    padding-bottom: 24px;
+    :not(:last-child) {
+        padding-bottom: 24px;
+    }
 `;
 
 function VedleggRadio({
