@@ -625,7 +625,7 @@ function VedleggsListe({
                                         }
                                     }}
                                 >
-                                    Send til NAV
+                                    {t('soknad.knapper.sendInn')}
                                 </Button>
                             )}
 
@@ -642,7 +642,9 @@ function VedleggsListe({
                                             }
                                         }}
                                     >
-                                        Send til NAV
+                                        {t(
+                                            'soknad.knapper.sendInnUfullstendig',
+                                        )}
                                     </Button>
                                 )
                                 // dette virker nå, men du må reloade
@@ -659,7 +661,7 @@ function VedleggsListe({
                                     }
                                 }}
                             >
-                                Lagre og fortsett senere
+                                {t('soknad.knapper.fortsettSenere')}
                             </Button>
                         </>
                     )}
@@ -670,7 +672,7 @@ function VedleggsListe({
                                 oppdaterVisningsSteg(1);
                             }}
                         >
-                            Neste steg
+                            {t('soknad.knapper.neste')}
                         </Button>
                     )}
                     {/* gå frem et steg */}
@@ -681,7 +683,7 @@ function VedleggsListe({
                             }}
                             variant="secondary"
                         >
-                            Forrige steg
+                            {t('soknad.knapper.forrige')}
                         </Button>
                     )}
                     {visLastOppVedlegg &&
@@ -692,7 +694,7 @@ function VedleggsListe({
                                 }}
                                 variant="secondary"
                             >
-                                Forrige steg
+                                {t('soknad.knapper.forrige')}
                             </Button>
                         )}
                     {/*kall slettsøknad på api, deretter, gå til ditt nav
@@ -706,8 +708,8 @@ kanskje popup om at dette vil slette innhold? */}
                         variant="tertiary"
                     >
                         {visLastOppVedlegg
-                            ? 'Slett søknad'
-                            : 'Avbryt'}
+                            ? t('soknad.knapper.slett')
+                            : t('soknad.knapper.avbryt')}
                     </Button>
                 </ButtonContainer>
             )}

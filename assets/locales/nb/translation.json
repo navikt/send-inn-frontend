@@ -1,7 +1,6 @@
 {
     "test": "det er bokmål",
     "soknad": {
-        "annenVedleggKnapp": "Legg til annen dokumentasjon",
         "visningsSteg": {
             "steg0": {
                 "tittel": "Last ned og fyll ut skjema"
@@ -60,6 +59,16 @@
                 "avbryt": "Avbryt",
                 "slett": "Fjern"
             }
+        },
+        "knapper": {
+            "annenVedleggKnapp": "Legg til annen dokumentasjon",
+            "sendInn": "Send til NAV",
+            "sendInnUfullstendig": "Send til NAV",
+            "fortsettSenere": "Lagre og fortsett senere",
+            "neste": "Neste steg",
+            "forrige": "Forrige steg",
+            "avbryt": "Avbryt",
+            "slett": "Slett søknad"
         }
     },
     "filvelger": {

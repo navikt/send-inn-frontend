@@ -100,7 +100,7 @@ export function OpprettAnnetVedlegg({
                     variant="secondary"
                     icon={<Add />}
                 >
-                    {t('soknad.annenVedleggKnapp')}
+                    {t('soknad.knapper.annenVedleggKnapp')}
                 </Button>
             )}
         </>
