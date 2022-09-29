@@ -59,6 +59,12 @@ const ButtonContainer = styled.div`
     }
 `;
 
+const Linje = styled.div`
+    border-bottom: 1px solid var(--navds-semantic-color-border);
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+`;
+
 const FristForOpplastingInfo = styled(Alert)`
     border: 0;
     border-bottom: 1px solid var(--navds-semantic-color-border);
@@ -442,20 +448,7 @@ function VedleggsListe({
                                         'soknad.visningsSteg.steg0.tittel',
                                     )}
                                 </Heading>
-                                <FristForOpplastingInfo
-                                    variant="info"
-                                    inline={true}
-                                    size="small"
-                                >
-                                    Frist for opplasting av vedlegg:{' '}
-                                    {formatertDato(
-                                        seksUkerFraDato(
-                                            new Date(
-                                                soknad.opprettetDato,
-                                            ),
-                                        ),
-                                    )}
-                                </FristForOpplastingInfo>
+                                <Linje />
                                 <SkjemaNedlasting
                                     innsendingsId={
                                         soknad.innsendingsId
@@ -485,20 +478,7 @@ function VedleggsListe({
                                         'soknad.visningsSteg.steg1.tittel',
                                     )}
                                 </Heading>
-                                <FristForOpplastingInfo
-                                    variant="info"
-                                    inline={true}
-                                    size="small"
-                                >
-                                    Frist for opplasting av vedlegg:{' '}
-                                    {formatertDato(
-                                        seksUkerFraDato(
-                                            new Date(
-                                                soknad.opprettetDato,
-                                            ),
-                                        ),
-                                    )}
-                                </FristForOpplastingInfo>
+                                <Linje />
                                 <Vedlegg
                                     innsendingsId={
                                         soknad.innsendingsId

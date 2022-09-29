@@ -16,7 +16,7 @@
             }
         },
         "skjemaNedlasting": {
-            "ingress": "Slik gjør du:",
+            "listeTittel": "Slik gjør du:",
             "liste": [
                 "Klikk på “Last ned skjema”.",
                 "Åpne og fyll ut pdf-skjemaet som lastes ned.",
@@ -26,7 +26,7 @@
             "lastNedKnapp": "Last ned skjema"
         },
         "hovedSkjema": {
-            "ingress": "Slik gjør du:",
+            "listeTittel": "Slik gjør du:",
             "liste": [
                 "Klikk på “Last opp utfylt skjema”.",
                 "Finn og last opp det ferdig utfylte skjemaet.",

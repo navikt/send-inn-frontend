@@ -26,6 +26,7 @@ import { Fil } from './Fil';
 import { VedleggPanel } from './Vedlegg';
 
 const BeskrivelsesGruppe = styled.div`
+    padding-bottom: 1.5rem;
     @media only screen and (max-width: 600px) {
         ol {
             padding-left: 1.5rem;
@@ -57,17 +58,17 @@ function SkjemaNedlasting(props: VedleggProps) {
                     {vedlegg.label}
                 </Heading>
                 <BeskrivelsesGruppe>
-                    <Ingress>
-                        {t('soknad.skjemaNedlasting.ingress')}
-                    </Ingress>
+                    <BodyShort>
+                        {t('soknad.skjemaNedlasting.listeTittel')}
+                    </BodyShort>
                     {/* TODO: husk styling på <ol> */}
-                    <BodyLong as="ol" spacing>
+                    <BodyShort as="ol">
                         {t('soknad.skjemaNedlasting.liste', {
                             returnObjects: true,
                         }).map((element, key) => (
                             <li key={key}>{element}</li>
                         ))}
-                    </BodyLong>
+                    </BodyShort>
 
                     {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
                     {vedlegg.beskrivelse && (

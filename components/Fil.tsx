@@ -62,6 +62,7 @@ export const FilePanel = styled(Panel)`
         flex-flow: row wrap;
         justify-content: flex-end;
         @media only screen and (max-width: 600px) {
+            justify-content: center;
             margin-top: 16px;
             width: 100%;
         }
@@ -117,7 +118,16 @@ const StyledProvIgjenButton = styled(StyledButton)`
     }
 `;
 
-const StyledTertiaryButton = styled(StyledButton)``;
+const StyledTertiaryButton = styled(StyledButton)`
+    @media only screen and (max-width: 600px) {
+        :first-child {
+            border-top: 1px solid var(--navds-semantic-color-divider);
+        }
+        :first-child:last-child {
+            margin-bottom: -0.75rem;
+        }
+    }
+`;
 
 export interface FilProps {
     komponentID: string;
