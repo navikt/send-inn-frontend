@@ -10,7 +10,7 @@ import enTranslation from './assets/locales/en/translation.json';
 // have a look at the Quick start guide
 // for passing in lng and translations on init
 
-const resources = {
+export const resources = {
     nb: {
         translation: nbTranslation,
     },
@@ -20,7 +20,7 @@ const resources = {
     en: {
         translation: enTranslation,
     },
-};
+} as const;
 
 i18n
     // load translation using http -> see /public/locales (i.e. https://github.com/i18next/react-i18next/tree/master/example/react/public/locales)
@@ -37,8 +37,7 @@ i18n
         resources,
         lng: 'nb',
         fallbackLng: 'en',
-        debug: true,
-        keySeparator: false,
+        debug: false,
         nsSeparator: false,
         interpolation: {
             escapeValue: false, // not needed for react as it escapes by default

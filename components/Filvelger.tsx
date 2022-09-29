@@ -9,6 +9,8 @@ import { Button } from '@navikt/ds-react';
 import { Upload } from '@navikt/ds-icons';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+import { useTranslation } from 'react-i18next';
+
 type FormValues = {
     file: FileList | null;
 };
@@ -35,21 +37,17 @@ interface FilvelgerProps {
     onFileSelected: (fil: File) => void;
     CustomButton?: JSX.Element;
     allowMultiple?: boolean;
+    buttonText?: string;
 }
-
-const DefaultButton = (
-    <Button as="label" variant="secondary" icon={<Upload />}>
-        Velg dine filer
-    </Button>
-);
 
 export function Filvelger(props: FilvelgerProps) {
     const {
         onFileSelected,
         CustomButton,
         allowMultiple = true,
+        buttonText,
     } = props;
-
+    const { t } = useTranslation();
     const { register, handleSubmit, setValue, watch } =
         useForm<FormValues>();
 
@@ -95,6 +93,12 @@ export function Filvelger(props: FilvelgerProps) {
         });
         return () => subscription.unsubscribe();
     }, [handleSubmit, onSubmit, watch]);
+
+    const DefaultButton = (
+        <Button as="label" variant="secondary" icon={<Upload />}>
+            {buttonText || t('filvelger.defaultText')}
+        </Button>
+    );
 
     const CurrentButton = () =>
         cloneElement(CustomButton || DefaultButton, {

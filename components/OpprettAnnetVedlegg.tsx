@@ -6,6 +6,7 @@ import { Add } from '@navikt/ds-icons';
 import { VedleggType } from '../types/types';
 import getConfig from 'next/config';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 import { VedleggPanel } from './Vedlegg';
 
 const { publicRuntimeConfig } = getConfig();
@@ -27,6 +28,7 @@ export function OpprettAnnetVedlegg({
     innsendingsId,
     leggTilVedlegg,
 }: EndreVedleggProps) {
+    const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(false);
     const [visOpprett, setVisOpprett] = useState(false);
     const { register, handleSubmit, reset } = useForm<FormValues>();
@@ -63,8 +65,10 @@ export function OpprettAnnetVedlegg({
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <TextField
                             autoFocus
-                            label="Beskriv vedlegget"
-                            description={`Gi et beskrivende navn på dokumentasjonen du ønsker å laste opp.`}
+                            label={t('soknad.vedlegg.annet.tittel')}
+                            description={t(
+                                'soknad.vedlegg.annet.beskrivelse',
+                            )}
                             {...register('tittel', {
                                 required: true,
                             })}
@@ -76,7 +80,7 @@ export function OpprettAnnetVedlegg({
                                 variant="secondary"
                                 loading={isLoading}
                             >
-                                Bekreft
+                                {t('soknad.vedlegg.annet.bekreft')}
                             </Button>
                             <Button
                                 type="button"
@@ -84,7 +88,7 @@ export function OpprettAnnetVedlegg({
                                 disabled={isLoading}
                                 onClick={() => setVisOpprett(false)}
                             >
-                                Avbryt
+                                {t('soknad.vedlegg.annet.avbryt')}
                             </Button>
                         </ButtomRow>
                     </form>
@@ -96,7 +100,7 @@ export function OpprettAnnetVedlegg({
                     variant="secondary"
                     icon={<Add />}
                 >
-                    Legg til annen dokumentasjon
+                    {t('soknad.knapper.annenVedleggKnapp')}
                 </Button>
             )}
         </>

@@ -14,6 +14,7 @@ import { Filvelger } from './Filvelger';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import { Download } from '@navikt/ds-icons';
+import { useTranslation } from 'react-i18next';
 
 import {
     setOpplastingStatusType,
@@ -24,7 +25,7 @@ import { EndreVedlegg } from './EndreVedlegg';
 import { Fil } from './Fil';
 import { VedleggPanel } from './Vedlegg';
 
-const BeskrivelsesGruppe = styled(BodyLong)`
+const BeskrivelsesGruppe = styled.div`
     @media only screen and (max-width: 600px) {
         ol {
             padding-left: 1.5rem;
@@ -47,6 +48,8 @@ function SkjemaNedlasting(props: VedleggProps) {
         erAnnetVedlegg = true,
     } = props;
 
+    const { t } = useTranslation();
+
     return (
         <div>
             <VedleggPanel $extraMargin>
@@ -54,19 +57,16 @@ function SkjemaNedlasting(props: VedleggProps) {
                     {vedlegg.label}
                 </Heading>
                 <BeskrivelsesGruppe>
-                    <Ingress>Slik gjør du:</Ingress>
+                    <Ingress>
+                        {t('soknad.skjemaNedlasting.ingress')}
+                    </Ingress>
                     {/* TODO: husk styling på <ol> */}
                     <BodyLong as="ol" spacing>
-                        <li>Klikk på “Last ned skjema”. </li>
-                        <li>
-                            Åpne og fyll ut pdf-skjemaet som lastes
-                            ned.{' '}
-                        </li>
-                        <li>
-                            Lagre skjemaet på enheten din etter
-                            utfylling.
-                        </li>
-                        <li>Klikk på “Neste steg”.</li>
+                        {t('soknad.skjemaNedlasting.liste', {
+                            returnObjects: true,
+                        }).map((element, key) => (
+                            <li key={key}>{element}</li>
+                        ))}
                     </BodyLong>
 
                     {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
@@ -85,7 +85,9 @@ function SkjemaNedlasting(props: VedleggProps) {
                             rel="noopener noreferrer"
                             icon={<Download />}
                         >
-                            Last ned skjema
+                            {t(
+                                'soknad.skjemaNedlasting.lastNedKnapp',
+                            )}
                         </Button>
                     )}
                 </div>

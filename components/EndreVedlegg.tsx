@@ -5,6 +5,7 @@ import { Heading, Button, TextField } from '@navikt/ds-react';
 import { VedleggType } from '../types/types';
 import getConfig from 'next/config';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -31,6 +32,7 @@ export function EndreVedlegg({
     innsendingsId,
     setTittel,
 }: EndreVedleggProps) {
+    const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(false);
     const { register, handleSubmit } = useForm<FormValues>();
 
@@ -64,10 +66,10 @@ export function EndreVedlegg({
                 <TextField
                     autoFocus
                     defaultValue={tittel}
-                    label="Beskriv vedlegget"
-                    description={
-                        'Gi et beskrivende navn på dokumentasjonen du ønsker å laste opp.'
-                    }
+                    label={t('soknad.vedlegg.annet.tittel')}
+                    description={t(
+                        'soknad.vedlegg.annet.beskrivelse',
+                    )}
                     {...register('tittel', { required: true })}
                 />
                 <ButtonRow>
@@ -76,7 +78,7 @@ export function EndreVedlegg({
                         variant="secondary"
                         loading={isLoading}
                     >
-                        Bekreft
+                        {t('soknad.vedlegg.annet.bekreft')}
                     </Button>
                     <Button
                         type="button"
@@ -84,7 +86,7 @@ export function EndreVedlegg({
                         disabled={isLoading}
                         onClick={() => setEndrer(false)}
                     >
-                        Avbryt
+                        {t('soknad.vedlegg.annet.avbryt')}
                     </Button>
                 </ButtonRow>
             </form>
