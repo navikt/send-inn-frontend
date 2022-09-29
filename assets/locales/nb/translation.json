@@ -1,5 +1,60 @@
 {
     "test": "det er bokmål",
+    "soknad": {
+        "visningsSteg": {
+            "steg0": {
+                "tittel": "Last ned og fyll ut skjema"
+            },
+            "steg1": {
+                "tittel": "Last opp ferdig utfylt skjema"
+            },
+            "lastOppVedlegg": {
+                "tittel": "Last opp vedlegg",
+                "ingress": "Her kan du laste opp vedlegg til søknaden din. Du må laste opp alle vedleggene før vi kan behandle søknaden.",
+                "infoFrist": "Frist for opplasting av vedlegg: {{dato}}",
+                "advarselHovedskjema": "Du får ikke sendt inn før du har lastet opp ferdig utfylt skjema på forrige side."
+            }
+        },
+        "skjemaNedlasting": {
+            "ingress": "Slik gjør du:",
+            "liste": [
+                "Klikk på “Last ned skjema”.",
+                "Åpne og fyll ut pdf-skjemaet som lastes ned.",
+                "Lagre skjemaet på enheten din etter utfylling.",
+                "Klikk på “Neste steg”."
+            ],
+            "lastNedKnapp": "Last ned skjema"
+        },
+        "hovedSkjema": {
+            "ingress": "Slik gjør du:",
+            "liste": [
+                "Klikk på “Last opp utfylt skjema”.",
+                "Finn og last opp det ferdig utfylte skjemaet.",
+                "Klikk på “Neste steg”.",
+                "Hvis du skal sende inn vedlegg blir du bedt om å gjøre det i neste steg."
+            ],
+            "filvelgerKnapp": "Last opp utfylt skjema"
+        },
+        "vedlegg": {
+            "tidligereSendtInn": "Dokumenter du har sendt inn tidligere:",
+            "sendtInnNaa": "Dokumenter du har lastet opp nå:",
+            "mottatt": "Mottatt",
+            "rediger": "Rediger",
+            "slett": "Slett vedlegg",
+            "radio": {
+                "tittel": "Velg innsending",
+                "lasterOppNaa": "Jeg laster opp dette nå",
+                "sendSenere": "Jeg laster opp dette senere",
+                "sendesAvAndre": "Sendes inn av andre (f.eks. lege, arbeidsgiver osv.)"
+            }
+        }
+    },
+    "filvelger": {
+        "defaultText": "Velg dine filer"
+    },
+    "link": {
+        "nyFane": "{{tekst}} (åpnes i ny fane)"
+    },
     "modal": {
         "fortsettSenere": {
             "tittel": "Er du sikker på at du vil lagre søknaden og fortsette senere?",

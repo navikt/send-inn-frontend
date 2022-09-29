@@ -438,7 +438,9 @@ function VedleggsListe({
                             .length > 0 && (
                             <>
                                 <Heading size="large" spacing>
-                                    Last ned og fyll ut skjema
+                                    {t(
+                                        'soknad.visningsSteg.steg0.tittel',
+                                    )}
                                 </Heading>
                                 <FristForOpplastingInfo
                                     variant="info"
@@ -479,7 +481,9 @@ function VedleggsListe({
                             .length > 0 && (
                             <>
                                 <Heading size="large" spacing>
-                                    Last opp ferdig utfylt skjema
+                                    {t(
+                                        'soknad.visningsSteg.steg1.tittel',
+                                    )}
                                 </Heading>
                                 <FristForOpplastingInfo
                                     variant="info"
@@ -526,23 +530,31 @@ function VedleggsListe({
                     {/* {JSON.stringify(vedleggsliste)} */}
 
                     <Heading size="large" spacing>
-                        Last opp vedlegg
+                        {t(
+                            'soknad.visningsSteg.lastOppVedlegg.tittel',
+                        )}
                     </Heading>
                     <Ingress spacing>
-                        Her kan du laste opp vedlegg til søknaden din.
-                        Du må laste opp alle vedleggene før vi kan
-                        behandle søknaden.
+                        {t(
+                            'soknad.visningsSteg.lastOppVedlegg.ingress',
+                        )}
                     </Ingress>
                     <FristForOpplastingInfo
                         variant="info"
                         inline={true}
                         size="small"
                     >
-                        Frist for opplasting av vedlegg:{' '}
-                        {formatertDato(
-                            seksUkerFraDato(
-                                new Date(soknad.opprettetDato),
-                            ),
+                        {t(
+                            'soknad.visningsSteg.lastOppVedlegg.infoFrist',
+                            {
+                                dato: formatertDato(
+                                    seksUkerFraDato(
+                                        new Date(
+                                            soknad.opprettetDato,
+                                        ),
+                                    ),
+                                ),
+                            },
                         )}
                     </FristForOpplastingInfo>
 
@@ -556,9 +568,9 @@ function VedleggsListe({
                             );
                         }) && (
                             <Alert variant="warning" size="medium">
-                                Du får ikke sendt inn før du har
-                                lastet opp ferdig utfylt skjema på
-                                forrige side.
+                                {t(
+                                    'soknad.visningsSteg.lastOppVedlegg.advarselHovedskjema',
+                                )}
                             </Alert>
                         )}
 

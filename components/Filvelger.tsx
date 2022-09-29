@@ -9,6 +9,8 @@ import { Button } from '@navikt/ds-react';
 import { Upload } from '@navikt/ds-icons';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+import { useTranslation } from 'react-i18next';
+
 type FormValues = {
     file: FileList | null;
 };
@@ -45,7 +47,7 @@ export function Filvelger(props: FilvelgerProps) {
         allowMultiple = true,
         buttonText,
     } = props;
-
+    const { t } = useTranslation();
     const { register, handleSubmit, setValue, watch } =
         useForm<FormValues>();
 
@@ -94,7 +96,7 @@ export function Filvelger(props: FilvelgerProps) {
 
     const DefaultButton = (
         <Button as="label" variant="secondary" icon={<Upload />}>
-            {buttonText || 'Velg dine filer'}
+            {buttonText || t('filvelger.defaultText')}
         </Button>
     );
 

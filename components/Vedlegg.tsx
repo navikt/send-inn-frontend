@@ -14,6 +14,7 @@ import {
 import { Filvelger } from './Filvelger';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+import { useTranslation } from 'react-i18next';
 import VedleggRadio from '../components/VedleggRadio';
 
 import {
@@ -139,6 +140,8 @@ function Vedlegg(props: VedleggProps) {
         oppdaterLokalOpplastingStatus,
     } = props;
 
+    const { t } = useTranslation();
+
     const [filListe, dispatch] = useReducer(
         filListeReducer,
         initialState,
@@ -223,7 +226,9 @@ function Vedlegg(props: VedleggProps) {
                                             href={vedlegg.skjemaurl}
                                             rel="noopener noreferrer"
                                         >
-                                            {tittel} (åpnes i ny fane)
+                                            {t('link.nyFane', {
+                                                tekst: tittel,
+                                            })}
                                         </InvertedLink>
                                     </Heading>
                                 )}
@@ -231,24 +236,22 @@ function Vedlegg(props: VedleggProps) {
                         <BeskrivelsesGruppe>
                             {vedlegg.erHoveddokument && (
                                 <>
-                                    <Ingress>Slik gjør du:</Ingress>
+                                    <Ingress>
+                                        {t(
+                                            'soknad.hovedSkjema.ingress',
+                                        )}
+                                    </Ingress>
                                     <BodyLong as="ol" spacing>
-                                        <li>
-                                            Klikk på “Last opp utfylt
-                                            skjema”.{' '}
-                                        </li>
-                                        <li>
-                                            Finn og last opp det
-                                            ferdig utfylte skjemaet.
-                                        </li>
-                                        <li>
-                                            Klikk på “Neste steg”.
-                                        </li>
-                                        <li>
-                                            Hvis du skal sende inn
-                                            vedlegg blir du bedt om å
-                                            gjøre det i neste steg.
-                                        </li>
+                                        {t(
+                                            'soknad.hovedSkjema.liste',
+                                            {
+                                                returnObjects: true,
+                                            },
+                                        ).map((element, key) => (
+                                            <li key={key}>
+                                                {element}
+                                            </li>
+                                        ))}
                                     </BodyLong>
                                 </>
                             )}
@@ -278,7 +281,9 @@ function Vedlegg(props: VedleggProps) {
                     {erSendtInnTidligere && (
                         <SendtInnTidligereGruppe>
                             <Heading size="xsmall" spacing as="p">
-                                Dokumenter du har sendt inn tidligere:
+                                {t(
+                                    'soknad.vedlegg.tidligereSendtInn',
+                                )}
                             </Heading>
                             <FilePanel border>
                                 <FilUploadIcon
@@ -290,7 +295,9 @@ function Vedlegg(props: VedleggProps) {
                                     {vedlegg.label}
                                 </div>
                                 <div className="hoyreHalvdel">
-                                    <span>Mottatt</span>
+                                    <span>
+                                        {t('soknad.vedlegg.mottatt')}
+                                    </span>
                                     <span>
                                         {new Date(
                                             vedlegg.innsendtdato,
@@ -306,6 +313,13 @@ function Vedlegg(props: VedleggProps) {
                     {!skjulFiler && (
                         <VedleggButtons>
                             <Filvelger
+                                buttonText={
+                                    vedlegg.erHoveddokument
+                                        ? t(
+                                              'soknad.hovedSkjema.filvelgerKnapp',
+                                          )
+                                        : null
+                                }
                                 onFileSelected={(fil: File) =>
                                     dispatch({
                                         type: ACTIONS.NY_FIL,
@@ -324,7 +338,7 @@ function Vedlegg(props: VedleggProps) {
                                         }
                                         variant="secondary"
                                     >
-                                        Rediger
+                                        {t('soknad.vedlegg.rediger')}
                                     </Button>
 
                                     <Button
@@ -335,7 +349,7 @@ function Vedlegg(props: VedleggProps) {
                                         }
                                         variant="secondary"
                                     >
-                                        Slett vedlegg
+                                        {t('soknad.vedlegg.slett')}
                                     </Button>
                                 </>
                             )}
@@ -345,7 +359,7 @@ function Vedlegg(props: VedleggProps) {
                     {!skjulFiler && filListe.length > 0 && (
                         <FilListeGruppe>
                             <Heading size="xsmall" spacing as="p">
-                                Dokumenter du har lastet opp nå:
+                                {t('soknad.vedlegg.sendtInnNaa')}
                             </Heading>
                             {filListe.map((fil) => {
                                 return (
