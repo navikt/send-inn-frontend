@@ -338,7 +338,9 @@ function Vedlegg(props: VedleggProps) {
                                         }
                                         variant="secondary"
                                     >
-                                        {t('soknad.vedlegg.rediger')}
+                                        {t(
+                                            'soknad.vedlegg.annet.rediger',
+                                        )}
                                     </Button>
 
                                     <Button
@@ -349,7 +351,9 @@ function Vedlegg(props: VedleggProps) {
                                         }
                                         variant="secondary"
                                     >
-                                        {t('soknad.vedlegg.slett')}
+                                        {t(
+                                            'soknad.vedlegg.annet.slett',
+                                        )}
                                     </Button>
                                 </>
                             )}

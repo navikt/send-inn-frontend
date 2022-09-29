@@ -18,6 +18,7 @@ import {
     Link as NavLink,
 } from '@navikt/ds-react';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 import { FIL_STATUS } from '../types/enums';
 import { FilUploadIcon } from './FilUploadIcon';
 import getConfig from 'next/config';
@@ -242,6 +243,7 @@ export function Fil({
     const [filState, dispatch] = useReducer(filReducer, initialState);
     const { status } = filState;
     const [controller] = useState(new AbortController());
+    const { t } = useTranslation();
 
     const slettFil = () => {
         dispatch({
@@ -425,7 +427,9 @@ export function Fil({
                                             as="label"
                                             variant="tertiary"
                                         >
-                                            Prøv igjen
+                                            {t(
+                                                'soknad.vedlegg.fil.provIgjen',
+                                            )}
                                         </Button>
                                     }
                                     allowMultiple={false}
@@ -448,7 +452,7 @@ export function Fil({
                                 }}
                                 variant="tertiary"
                             >
-                                Avbryt
+                                {t('soknad.vedlegg.fil.avbryt')}
                             </Button>
                         </StyledTertiaryButton>
                     )}
@@ -459,7 +463,7 @@ export function Fil({
                                 onClick={slettFil}
                                 variant="tertiary"
                             >
-                                Fjern
+                                {t('soknad.vedlegg.fil.slett')}
                             </Button>
                         </StyledTertiaryButton>
                     )}

@@ -1,6 +1,7 @@
 {
     "test": "det er bokmål",
     "soknad": {
+        "annenVedleggKnapp": "Legg til annen dokumentasjon",
         "visningsSteg": {
             "steg0": {
                 "tittel": "Last ned og fyll ut skjema"
@@ -39,13 +40,25 @@
             "tidligereSendtInn": "Dokumenter du har sendt inn tidligere:",
             "sendtInnNaa": "Dokumenter du har lastet opp nå:",
             "mottatt": "Mottatt",
-            "rediger": "Rediger",
-            "slett": "Slett vedlegg",
+
+            "annet": {
+                "tittel": "Beskriv vedlegget",
+                "beskrivelse": "Gi et beskrivende navn på dokumentasjonen du ønsker å laste opp.",
+                "rediger": "Rediger",
+                "slett": "Slett vedlegg",
+                "bekreft": "Bekreft",
+                "avbryt": "Avbryt"
+            },
             "radio": {
                 "tittel": "Velg innsending",
                 "lasterOppNaa": "Jeg laster opp dette nå",
                 "sendSenere": "Jeg laster opp dette senere",
                 "sendesAvAndre": "Sendes inn av andre (f.eks. lege, arbeidsgiver osv.)"
+            },
+            "fil": {
+                "provIgjen": "Prøv igjen",
+                "avbryt": "Avbryt",
+                "slett": "Fjern"
             }
         }
     },
