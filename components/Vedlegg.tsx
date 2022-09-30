@@ -5,11 +5,8 @@ import {
     Panel,
     Heading,
     Link as NavLink,
-    BodyLong,
-    Ingress,
     Button,
     BodyShort,
-    Label,
 } from '@navikt/ds-react';
 import { Filvelger } from './Filvelger';
 import styled from 'styled-components';
@@ -70,6 +67,13 @@ const filListeReducer = (filListe: FilData[], action: ActionType) => {
             return filListe.filter(
                 (fil) =>
                     fil.komponentID !== action.filData.komponentID,
+            );
+        }
+        case ACTIONS.ENDRE_FIL: {
+            return filListe.map((fil) =>
+                fil.komponentID === action.filData.komponentID
+                    ? action.filData
+                    : fil,
             );
         }
         case ACTIONS.RESET_LISTE: {
