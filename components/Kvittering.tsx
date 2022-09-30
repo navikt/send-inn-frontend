@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import getConfig from 'next/config';
 import { useTranslation } from 'react-i18next';
+import { Bold } from './textStyle';
 
 const { publicRuntimeConfig } = getConfig();
 export interface KvitteringsProps {
@@ -89,6 +90,10 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                 {kvprops && kvprops.hoveddokumentRef && (
                     <li>
                         <Alert variant="success" size="medium" inline>
+                            <Bold>
+                                {t('kvittering.skjema')}
+                                {': '}
+                            </Bold>
                             {kvprops.label}
                             <br />
                             <NavLink
@@ -111,6 +116,10 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                                     size="medium"
                                     inline
                                 >
+                                    <Bold>
+                                        {t('kvittering.vedlegg')}
+                                        {': '}
+                                    </Bold>
                                     {vedlegg.tittel}
                                 </Alert>
                             </li>
