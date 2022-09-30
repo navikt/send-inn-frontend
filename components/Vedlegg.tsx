@@ -351,7 +351,7 @@ function Vedlegg(props: VedleggProps) {
                                 }
                             />
 
-                            {erAnnetVedlegg && (
+                            {erAnnetVedlegg && !erSendtInnTidligere && (
                                 <>
                                     <Button
                                         onClick={() =>
