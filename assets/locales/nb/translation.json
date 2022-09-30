@@ -120,6 +120,8 @@
     "kvittering": {
         "tittel": "Takk!",
         "mottattDokumenter": "Vi mottok disse dokumentene {{dato}}:",
+        "skjema": "Skjema",
+        "vedlegg": "Vedlegg",
         "skjemaLenke": "Last ned kopi (åpnes i en ny fane)",
         "maaEttersendes": "Dokument(er) som må ettersendes:",
         "sendesAvAndre": "Dokument(er) som skal sendes av andre:",
