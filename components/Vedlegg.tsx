@@ -5,11 +5,8 @@ import {
     Panel,
     Heading,
     Link as NavLink,
-    BodyLong,
-    Ingress,
     Button,
     BodyShort,
-    Label,
 } from '@navikt/ds-react';
 import { Filvelger } from './Filvelger';
 import styled from 'styled-components';

@@ -7,13 +7,8 @@ import {
     oppdaterLokalOpplastingStatusType,
 } from '../types/types';
 import {
-    Alert,
-    Heading,
-    BodyLong,
     Button,
     Panel,
-    Detail,
-    Label,
     BodyShort,
     Link as NavLink,
 } from '@navikt/ds-react';
