@@ -333,17 +333,24 @@ export function Fil({
                 config,
             )
             .then((response) => {
+                const filData = {
+                    opplastetFil: {
+                        id: response.data.id,
+                        filnavn: filState.filData.lokalFil.name,
+                        storrelse: response.data.storrelse,
+                    },
+                };
                 dispatch({
                     type: FIL_ACTIONS.OPPLASTET,
                     filState: {
-                        filData: {
-                            opplastetFil: {
-                                id: response.data.id,
-                                filnavn:
-                                    filState.filData.lokalFil.name,
-                                storrelse: response.data.storrelse,
-                            },
-                        },
+                        filData,
+                    },
+                });
+                filListeDispatch({
+                    type: ACTIONS.ENDRE_FIL,
+                    filData: {
+                        ...filData,
+                        komponentID,
                     },
                 });
                 oppdaterLokalOpplastingStatus(
@@ -375,6 +382,8 @@ export function Fil({
         vedlegg,
         controller.signal,
         status,
+        filListeDispatch,
+        komponentID,
     ]);
 
     const filnavn =

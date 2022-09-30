@@ -72,6 +72,13 @@ const filListeReducer = (filListe: FilData[], action: ActionType) => {
                     fil.komponentID !== action.filData.komponentID,
             );
         }
+        case ACTIONS.ENDRE_FIL: {
+            return filListe.map((fil) =>
+                fil.komponentID === action.filData.komponentID
+                    ? action.filData
+                    : fil,
+            );
+        }
         case ACTIONS.RESET_LISTE: {
             return initialState;
         }
