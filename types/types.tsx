@@ -53,4 +53,11 @@ export type SoknadType = {
     kanLasteOppAnnet: boolean;
 };
 
+export type ErrorResponsDto = {
+    arsak: string;
+    errorCode: string;
+    message: string;
+    timeStamp: string;
+};
+
 // APP

@@ -7,6 +7,8 @@ import '@navikt/ds-css-internal';
 import { SWRConfig } from 'swr';
 import fetchJson from '../lib/fetchJson';
 import { AuthenticationProvider } from '../components/AuthenticationProvider';
+import { ErrorMessageProvider } from '../components/ErrorMessageProvider';
+import { setParams } from '@navikt/nav-dekoratoren-moduler';
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
@@ -20,9 +22,11 @@ function MyApp({ Component, pageProps }: AppProps) {
                 }}
             >
                 <I18nextProvider i18n={i18n}>
-                    <AuthenticationProvider>
-                        <Component {...pageProps} />
-                    </AuthenticationProvider>
+                    <ErrorMessageProvider>
+                        <AuthenticationProvider>
+                            <Component {...pageProps} />
+                        </AuthenticationProvider>
+                    </ErrorMessageProvider>
                 </I18nextProvider>
             </SWRConfig>
         </Layout>

@@ -129,5 +129,10 @@
         "ettersendingsInfo": "Vi kan ikke behandle saken din før vi har mottatt disse. Oppgaven for å ettersende dokumentasjonen finner du øverst på Min side.",
         "altMottatInfo": "Alle nødvendige dokumenter er mottatt. Du finner dem under Dine saker på Min side.",
         "minSideKnapp": "Gå til Min side"
+    },
+    "feil": {
+        "fraBackend": "Feil fra backend",
+        "medTilkobling": "Sjekk nettverksforbindelse",
+        "ukjent": "ukjent feil"
     }
 }
