@@ -110,7 +110,7 @@
         "sendInnKomplett": {
             "tittel": "Søknaden er klar til innsending. Vil du sende den nå?",
             "liste": [
-                "Dagens dato vil bli satt som mottaksdato.",
+                "Dagens dato vil bli satt som mottaksdato."
             ],
             "accept": "Ja, send søknaden",
             "cancel": "Nei, gå tilbake"
