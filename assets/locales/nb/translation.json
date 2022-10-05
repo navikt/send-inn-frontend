@@ -10,7 +10,7 @@
             },
             "lastOppVedlegg": {
                 "tittel": "Last opp vedlegg",
-                "ingress": "Her kan du laste opp vedlegg til søknaden din. Du må laste opp alle vedleggene før vi kan behandle søknaden.",
+                "ingress": "Her kan du laste opp vedlegg til saken din. Du må laste opp alle vedleggene før NAV kan behandle saken.",
                 "infoFrist": "Frist for opplasting av vedlegg: {{dato}}",
                 "advarselHovedskjema": "Du får ikke sendt inn før du har lastet opp ferdig utfylt skjema på forrige side."
             }
@@ -31,7 +31,7 @@
                 "Klikk på “Last opp utfylt skjema”.",
                 "Finn og last opp det ferdig utfylte skjemaet.",
                 "Klikk på “Neste steg”.",
-                "Hvis du skal sende inn vedlegg blir du bedt om å gjøre det i neste steg."
+                "Hvis du skal sende inn vedlegg gjør du det i neste steg."
             ],
             "filvelgerKnapp": "Last opp utfylt skjema"
         },
@@ -81,9 +81,9 @@
         "fortsettSenere": {
             "tittel": "Er du sikker på at du vil lagre søknaden og fortsette senere?",
             "liste": [
-                "Søknaden blir IKKE sendt til saksbehandler i NAV nå, men kunlagret slik at du kan fortsette senere.",
+                "Søknaden blir IKKE sendt til saksbehandler i NAV nå, men bare lagret slik at du kan fortsette senere.",
                 "Hvis du ønsker å sette dagens dato som startdato for søknaden må du gå tilbake til forrige side og velge “Send til NAV”.",
-                "Vi har opprettet en beskjed / oppgave på Min side med en lenke til søknaden."
+                "Vi har opprettet en oppgave på nav.no/minside med en lenke til søknaden."
             ],
             "accept": "Ja, lagre og fortsett senere",
             "cancel": "Nei, gå tilbake"
@@ -99,10 +99,10 @@
         "sendInnUferdig": {
             "tittel": "Er du sikker på at du vil sende søknaden nå, selv om ikke all dokumentasjon er lastet opp?",
             "liste": [
-                "Dagens dato vil bli satt som mottaksdato for søknaden din.",
-                "Du har ikke lastet opp all dokumentasjon som er nødvendigfor å behandle søknaden din.",
+                "Dagens dato vil bli satt som mottaksdato for søknaden.",
+                "Du har ikke lastet opp all dokumentasjon som er nødvendigfor å behandle søknaden.",
                 "Du må ettersende dokumentasjonen som mangler innen {{dato}}.",
-                "Du vil få en beskjed / oppgave på Min side om hvilken dokumentasjon du må ettersende."
+                "Vi har opprettet en oppgave på nav.no/minside med en lenke til søknaden. Der finner du vedleggene du må ettersende."
             ],
             "accept": "Ja, send søknaden",
             "cancel": "Nei, gå tilbake"
@@ -110,8 +110,7 @@
         "sendInnKomplett": {
             "tittel": "Søknaden er klar til innsending. Vil du sende den nå?",
             "liste": [
-                "Dagens dato vil bli satt som mottaksdato for søknaden din. ",
-                "Du har lastet opp all dokumentasjon som er nødvendig for å behandle søknaden din."
+                "Dagens dato vil bli satt som mottaksdato."
             ],
             "accept": "Ja, send søknaden",
             "cancel": "Nei, gå tilbake"
@@ -126,8 +125,8 @@
         "maaEttersendes": "Dokument(er) som må ettersendes:",
         "sendesAvAndre": "Dokument(er) som skal sendes av andre:",
         "fristEttersending": "Frist for å ettersende dokumentene: {{dato}}",
-        "ettersendingsInfo": "Vi kan ikke behandle saken din før vi har mottatt disse. Oppgaven for å ettersende dokumentasjonen finner du øverst på Min side.",
-        "altMottatInfo": "Alle nødvendige dokumenter er mottatt. Du finner dem under Dine saker på Min side.",
+        "ettersendingsInfo": "Vi kan ikke behandle saken din før vi har mottatt disse. Oppgaven for å ettersende dokumentasjonen finner du på nav.no/minside.",
+        "altMottatInfo": "Alle nødvendige dokumenter er mottatt. Du finner dem under Dine saker på nav.no/minside.",
         "minSideKnapp": "Gå til Min side"
     }
 }
