@@ -193,14 +193,14 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                     {t('kvittering.altMottatInfo')}
                 </StyledAlert>
             )}
-            <Link
+            <Button
+                as="a"
                 href={process.env.NEXT_PUBLIC_MIN_SIDE_URL}
-                passHref
+                variant="secondary"
+                size="medium"
             >
-                <Button variant="secondary" size="medium">
-                    {t('kvittering.minSideKnapp')}
-                </Button>
-            </Link>
+                {t('kvittering.minSideKnapp')}
+            </Button>
         </div>
     );
 }
