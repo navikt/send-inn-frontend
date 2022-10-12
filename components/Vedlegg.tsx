@@ -182,10 +182,16 @@ function Vedlegg(props: VedleggProps) {
 
     const manglerFilTekst = () => {
         if (vedlegg.erHoveddokument)
-            return t('soknad.hovedSkjema.feilmelding.manglerFil');
+            return t('soknad.hovedSkjema.feilmelding.manglerFil', {
+                label: vedlegg.label,
+            });
         if (erAnnetVedlegg)
-            return t('soknad.vedlegg.annet.feilmelding.manglerFil');
-        return t('soknad.vedlegg.feilmelding.manglerFil');
+            return t('soknad.vedlegg.annet.feilmelding.manglerFil', {
+                label: vedlegg.label,
+            });
+        return t('soknad.vedlegg.feilmelding.manglerFil', {
+            label: vedlegg.label,
+        });
     };
 
     const feilId = `vedlegg-feil-${vedlegg.id}`;

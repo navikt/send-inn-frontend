@@ -251,10 +251,15 @@ export function Fil({
     const [controller] = useState(new AbortController());
     const { t } = useTranslation();
 
+    const filnavn =
+        filState.filData.opplastetFil?.filnavn ||
+        filState.filData.lokalFil?.name;
+
     useValidation({
         komponentId: komponentID,
         melding: t(
             'soknad.vedlegg.fil.feilmelding.provIgjenEllerFjern',
+            { filnavn },
         ),
         harFeil:
             status !== FIL_STATUS.OPPLASTET &&
@@ -404,10 +409,6 @@ export function Fil({
         filListeDispatch,
         komponentID,
     ]);
-
-    const filnavn =
-        filState.filData.opplastetFil?.filnavn ||
-        filState.filData.lokalFil?.name;
 
     return (
         <div>

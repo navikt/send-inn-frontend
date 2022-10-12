@@ -35,7 +35,7 @@
             ],
             "filvelgerKnapp": "Last opp utfylt skjema",
             "feilmelding": {
-                "manglerFil": "Last opp skjema"
+                "manglerFil": "Last opp utfylt skjema: {{label}}"
             }
         },
         "vedlegg": {
@@ -44,7 +44,7 @@
             "mottatt": "Mottatt",
             "ettersendingFilvelgerKnapp": "Last opp nye filer",
             "feilmelding": {
-                "manglerFil": "Last opp vedlegg"
+                "manglerFil": "Last opp {{label}}"
             },
             "annet": {
                 "tittel": "Beskriv vedlegget",
@@ -54,9 +54,9 @@
                 "bekreft": "Bekreft",
                 "avbryt": "Avbryt",
                 "feilmelding": {
-                    "fullforOpprettelse": "Fullfør eller avbryt",
-                    "fullforRedigering": "Fullfør redigering",
-                    "manglerFil": "Last opp, eller fjern vedlegg"
+                    "fullforOpprettelse": "Fullfør eller avbryt vedleggsbeskrivelse",
+                    "fullforRedigering": "Fullfør og bekreft  redigering av vedleggsbeskrivelse",
+                    "manglerFil": "Last opp, eller slett vedlegget: {{label}}"
                 }
             },
             "radio": {
@@ -70,7 +70,7 @@
                 "avbryt": "Avbryt",
                 "slett": "Fjern",
                 "feilmelding": {
-                    "provIgjenEllerFjern": "Fullfør opplasting, eller fjern feil",
+                    "provIgjenEllerFjern": "Fullfør opplasting av “{{filnavn}}”, eller fjern feil",
                     "ikkeFerdigOpplastet": "Vent til fil er ferdig opplastet"
                 }
             }
