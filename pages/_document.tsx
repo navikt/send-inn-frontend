@@ -63,7 +63,7 @@ export default class MyDocument extends Document<Props> {
         const disableDecorator =
             process.env.DECORATOR_DISABLED !== 'true';
         return (
-            <Html>
+            <Html style={{ scrollBehavior: 'smooth' }}>
                 <Head>{disableDecorator && <Styles />}</Head>
                 <body>
                     {disableDecorator && <Header />}
