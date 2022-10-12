@@ -33,20 +33,31 @@
                 "Klikk på “Neste steg”.",
                 "Hvis du skal sende inn vedlegg gjør du det i neste steg."
             ],
-            "filvelgerKnapp": "Last opp utfylt skjema"
+            "filvelgerKnapp": "Last opp utfylt skjema",
+            "feilmelding": {
+                "manglerFil": "Last opp skjema"
+            }
         },
         "vedlegg": {
             "tidligereSendtInn": "Dokumenter du har sendt inn tidligere:",
             "sendtInnNaa": "Dokumenter du har lastet opp nå:",
             "mottatt": "Mottatt",
             "ettersendingFilvelgerKnapp": "Last opp nye filer",
+            "feilmelding": {
+                "manglerFil": "Last opp vedlegg"
+            },
             "annet": {
                 "tittel": "Beskriv vedlegget",
                 "beskrivelse": "Gi et beskrivende navn på dokumentasjonen du ønsker å laste opp.",
                 "rediger": "Rediger",
                 "slett": "Slett vedlegg",
                 "bekreft": "Bekreft",
-                "avbryt": "Avbryt"
+                "avbryt": "Avbryt",
+                "feilmelding": {
+                    "fullforOpprettelse": "Fullfør eller avbryt",
+                    "fullforRedigering": "Fullfør redigering",
+                    "manglerFil": "Last opp, eller fjern vedlegg"
+                }
             },
             "radio": {
                 "tittel": "Velg innsending",
@@ -57,7 +68,11 @@
             "fil": {
                 "provIgjen": "Prøv igjen",
                 "avbryt": "Avbryt",
-                "slett": "Fjern"
+                "slett": "Fjern",
+                "feilmelding": {
+                    "provIgjenEllerFjern": "Fullfør opplasting, eller fjern feil",
+                    "ikkeFerdigOpplastet": "Vent til fil er ferdig opplastet"
+                }
             }
         },
         "knapper": {
@@ -109,9 +124,7 @@
         },
         "sendInnKomplett": {
             "tittel": "Søknaden er klar til innsending. Vil du sende den nå?",
-            "liste": [
-                "Dagens dato vil bli satt som mottaksdato."
-            ],
+            "liste": ["Dagens dato vil bli satt som mottaksdato."],
             "accept": "Ja, send søknaden",
             "cancel": "Nei, gå tilbake"
         }
@@ -128,5 +141,6 @@
         "ettersendingsInfo": "Vi kan ikke behandle saken din før vi har mottatt disse. Oppgaven for å ettersende dokumentasjonen finner du på nav.no/minside.",
         "altMottatInfo": "Alle nødvendige dokumenter er mottatt. Du finner dem under Dine saker på nav.no/minside.",
         "minSideKnapp": "Gå til Min side"
-    }
+    },
+    "valideringsfeil": {}
 }
