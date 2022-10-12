@@ -18,6 +18,7 @@ import { FIL_STATUS } from '../types/enums';
 import { FilUploadIcon } from './FilUploadIcon';
 import getConfig from 'next/config';
 import { Filvelger } from './Filvelger';
+import { useValidation } from '../hooks/useValidation';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -250,6 +251,25 @@ export function Fil({
     const [controller] = useState(new AbortController());
     const { t } = useTranslation();
 
+    useValidation({
+        komponentId: komponentID,
+        melding: t(
+            'soknad.vedlegg.fil.feilmelding.provIgjenEllerFjern',
+        ),
+        harFeil:
+            status !== FIL_STATUS.OPPLASTET &&
+            status !== FIL_STATUS.TIDLIGERE_LASTET_OPP &&
+            status !== FIL_STATUS.LASTER_OPP,
+    });
+
+    useValidation({
+        komponentId: komponentID,
+        melding: t(
+            'soknad.vedlegg.fil.feilmelding.ikkeFerdigOpplastet',
+        ),
+        harFeil: status === FIL_STATUS.LASTER_OPP,
+    });
+
     const slettFil = () => {
         dispatch({
             type: FIL_ACTIONS.SETT_STATUS,
@@ -263,14 +283,18 @@ export function Fil({
             return;
         }
         axios
-            .delete(
+            .delete<VedleggType>(
                 `${API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/${filState.filData.opplastetFil.id}`,
             )
-            .then(() => {
+            .then((response) => {
                 filListeDispatch({
                     type: ACTIONS.SLETT_FIL,
                     filData: { komponentID },
                 });
+                oppdaterLokalOpplastingStatus(
+                    vedlegg.id,
+                    response.data.opplastingsStatus,
+                );
             })
             .catch((error) => {
                 console.error(error);
@@ -388,7 +412,12 @@ export function Fil({
     return (
         <div>
             {/* TODO why does one status work but not the other styled div vs panel?*/}
-            <FilePanel type={status} border>
+            <FilePanel
+                type={status}
+                border
+                id={komponentID}
+                tabIndex={-1}
+            >
                 <div className="icon">
                     <FilUploadIcon filstatus={status} />
                 </div>
