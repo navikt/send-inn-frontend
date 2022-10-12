@@ -321,7 +321,7 @@ function VedleggsListe({
 
     const tilMinSide = () => {
         console.log('TilMinSide');
-        router.push(process.env.NEXT_PUBLIC_MIN_SIDE_URL);
+        window.location.assign(process.env.NEXT_PUBLIC_MIN_SIDE_URL);
     };
 
     const onSendInn = () => {
