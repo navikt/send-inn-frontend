@@ -207,13 +207,13 @@ function VedleggsListe({
     const [visLastOppVedleggFeil, setVisLastOppVedleggFeil] =
         useState(false);
     const [
-        lastOppVedleggValideringfockus,
-        setLastOppVedleggValideringfockus,
+        lastOppVedleggValideringfokus,
+        setLastOppVedleggValideringfokus,
     ] = useState(false);
 
     const [side1HarFeil, setSide1HarFeil] = useState(false);
     const [visSide1Feil, setVisSide1Feil] = useState(false);
-    const [side1Valideringfockus, setSide1Valideringfockus] =
+    const [side1Valideringfokus, setSide1Valideringfokus] =
         useState(false);
 
     const visSteg0 =
@@ -502,10 +502,8 @@ function VedleggsListe({
                                     setVisValideringsfeil={
                                         setVisSide1Feil
                                     }
-                                    fokus={side1Valideringfockus}
-                                    setFokus={
-                                        setSide1Valideringfockus
-                                    }
+                                    fokus={side1Valideringfokus}
+                                    setFokus={setSide1Valideringfokus}
                                 >
                                     <PaddedVedlegg>
                                         <Vedlegg
@@ -578,8 +576,8 @@ function VedleggsListe({
                         setVisValideringsfeil={
                             setVisLastOppVedleggFeil
                         }
-                        fokus={lastOppVedleggValideringfockus}
-                        setFokus={setLastOppVedleggValideringfockus}
+                        fokus={lastOppVedleggValideringfokus}
+                        setFokus={setLastOppVedleggValideringfokus}
                     >
                         {visningsType === 'dokumentinnsending' &&
                             visningsType === 'dokumentinnsending' &&
@@ -647,7 +645,7 @@ function VedleggsListe({
                                 <Button
                                     onClick={() => {
                                         if (lastOppVedleggHarFeil) {
-                                            setLastOppVedleggValideringfockus(
+                                            setLastOppVedleggValideringfokus(
                                                 true,
                                             );
                                             setVisLastOppVedleggFeil(
@@ -675,7 +673,7 @@ function VedleggsListe({
                                             if (
                                                 lastOppVedleggHarFeil
                                             ) {
-                                                setLastOppVedleggValideringfockus(
+                                                setLastOppVedleggValideringfokus(
                                                     true,
                                                 );
                                                 setVisLastOppVedleggFeil(
@@ -731,9 +729,7 @@ function VedleggsListe({
                             <Button
                                 onClick={() => {
                                     if (side1HarFeil) {
-                                        setSide1Valideringfockus(
-                                            true,
-                                        );
+                                        setSide1Valideringfokus(true);
                                         setVisSide1Feil(true);
                                         return;
                                     }

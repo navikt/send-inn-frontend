@@ -97,7 +97,7 @@ export const SideValideringProvider = ({
     const errorRef = useRef(null);
 
     const valideringsFeil = valideringer.filter(
-        (vaildering) => vaildering.harFeil,
+        (validering) => validering.harFeil,
     );
 
     const harFeil = valideringsFeil.length !== 0;
