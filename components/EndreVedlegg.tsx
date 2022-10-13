@@ -6,6 +6,9 @@ import { VedleggType } from '../types/types';
 import getConfig from 'next/config';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { useValidation } from '../hooks/useValidation';
+import { VedleggPanel } from './Vedlegg';
+import { ValideringsRamme } from './ValideringsRamme';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -36,6 +39,16 @@ export function EndreVedlegg({
     const [isLoading, setIsLoading] = useState(false);
     const { register, handleSubmit } = useForm<FormValues>();
 
+    const feilId = `vedlegg-endrer-feil-${vedlegg.id}`;
+
+    const [visFeil, valideringsMelding] = useValidation({
+        komponentId: feilId,
+        melding: t(
+            'soknad.vedlegg.annet.feilmelding.fullforRedigering',
+        ),
+        harFeil: true,
+    });
+
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         console.log(data);
 
@@ -61,35 +74,41 @@ export function EndreVedlegg({
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <TextField
-                    autoFocus
-                    defaultValue={tittel}
-                    label={t('soknad.vedlegg.annet.tittel')}
-                    description={t(
-                        'soknad.vedlegg.annet.beskrivelse',
-                    )}
-                    {...register('tittel', { required: true })}
-                />
-                <ButtonRow>
-                    <Button
-                        type="submit"
-                        variant="secondary"
-                        loading={isLoading}
-                    >
-                        {t('soknad.vedlegg.annet.bekreft')}
-                    </Button>
-                    <Button
-                        type="button"
-                        variant="tertiary"
-                        disabled={isLoading}
-                        onClick={() => setEndrer(false)}
-                    >
-                        {t('soknad.vedlegg.annet.avbryt')}
-                    </Button>
-                </ButtonRow>
-            </form>
-        </div>
+        <ValideringsRamme
+            id={feilId}
+            visFeil={visFeil}
+            melding={valideringsMelding}
+        >
+            <VedleggPanel>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <TextField
+                        autoFocus
+                        defaultValue={tittel}
+                        label={t('soknad.vedlegg.annet.tittel')}
+                        description={t(
+                            'soknad.vedlegg.annet.beskrivelse',
+                        )}
+                        {...register('tittel', { required: true })}
+                    />
+                    <ButtonRow>
+                        <Button
+                            type="submit"
+                            variant="secondary"
+                            loading={isLoading}
+                        >
+                            {t('soknad.vedlegg.annet.bekreft')}
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="tertiary"
+                            disabled={isLoading}
+                            onClick={() => setEndrer(false)}
+                        >
+                            {t('soknad.vedlegg.annet.avbryt')}
+                        </Button>
+                    </ButtonRow>
+                </form>
+            </VedleggPanel>
+        </ValideringsRamme>
     );
 }

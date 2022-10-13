@@ -8,6 +8,8 @@ import getConfig from 'next/config';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { VedleggPanel } from './Vedlegg';
+import { useValidation } from '../hooks/useValidation';
+import { ValideringsRamme } from './ValideringsRamme';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -32,6 +34,16 @@ export function OpprettAnnetVedlegg({
     const [isLoading, setIsLoading] = useState(false);
     const [visOpprett, setVisOpprett] = useState(false);
     const { register, handleSubmit, reset } = useForm<FormValues>();
+
+    const feilId = 'opprett-vedlegg-feil';
+
+    const [visFeil, valideringsMelding] = useValidation({
+        komponentId: feilId,
+        melding: t(
+            'soknad.vedlegg.annet.feilmelding.fullforOpprettelse',
+        ),
+        harFeil: visOpprett,
+    });
 
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         console.log(data);
@@ -61,38 +73,50 @@ export function OpprettAnnetVedlegg({
     return (
         <>
             {visOpprett && (
-                <VedleggPanel>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <TextField
-                            autoFocus
-                            label={t('soknad.vedlegg.annet.tittel')}
-                            description={t(
-                                'soknad.vedlegg.annet.beskrivelse',
-                            )}
-                            {...register('tittel', {
-                                required: true,
-                            })}
-                            defaultValue=""
-                        />
-                        <ButtomRow>
-                            <Button
-                                type="submit"
-                                variant="secondary"
-                                loading={isLoading}
-                            >
-                                {t('soknad.vedlegg.annet.bekreft')}
-                            </Button>
-                            <Button
-                                type="button"
-                                variant="tertiary"
-                                disabled={isLoading}
-                                onClick={() => setVisOpprett(false)}
-                            >
-                                {t('soknad.vedlegg.annet.avbryt')}
-                            </Button>
-                        </ButtomRow>
-                    </form>
-                </VedleggPanel>
+                <ValideringsRamme
+                    id={feilId}
+                    visFeil={visFeil}
+                    melding={valideringsMelding}
+                >
+                    <VedleggPanel>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <TextField
+                                autoFocus
+                                label={t(
+                                    'soknad.vedlegg.annet.tittel',
+                                )}
+                                description={t(
+                                    'soknad.vedlegg.annet.beskrivelse',
+                                )}
+                                {...register('tittel', {
+                                    required: true,
+                                })}
+                                defaultValue=""
+                            />
+                            <ButtomRow>
+                                <Button
+                                    type="submit"
+                                    variant="secondary"
+                                    loading={isLoading}
+                                >
+                                    {t(
+                                        'soknad.vedlegg.annet.bekreft',
+                                    )}
+                                </Button>
+                                <Button
+                                    type="button"
+                                    variant="tertiary"
+                                    disabled={isLoading}
+                                    onClick={() =>
+                                        setVisOpprett(false)
+                                    }
+                                >
+                                    {t('soknad.vedlegg.annet.avbryt')}
+                                </Button>
+                            </ButtomRow>
+                        </form>
+                    </VedleggPanel>
+                </ValideringsRamme>
             )}
             {!visOpprett && (
                 <Button

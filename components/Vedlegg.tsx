@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useMemo, useReducer } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import {
@@ -25,6 +25,8 @@ import { Fil, FilePanel } from './Fil';
 import getConfig from 'next/config';
 import { FilUploadIcon } from './FilUploadIcon';
 import { FIL_STATUS } from '../types/enums';
+import { useValidation } from '../hooks/useValidation';
+import { ValideringsRamme } from './ValideringsRamme';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -84,11 +86,16 @@ const filListeReducer = (filListe: FilData[], action: ActionType) => {
 
 const initialState: FilData[] = [];
 
+export const VedleggContainer = styled.div<{
+    $extraMargin?: boolean;
+}>`
+    ${(props) => props.$extraMargin && 'margin-bottom: 60px'};
+`;
+
 export const VedleggPanel = styled(Panel)`
     background-color: var(--navds-semantic-color-canvas-background);
     border-radius: 8px;
     padding: 24px;
-    ${(props) => props.$extraMargin && 'margin-bottom: 60px'};
     @media only screen and (max-width: 600px) {
         padding: 12px;
     }
@@ -173,6 +180,31 @@ function Vedlegg(props: VedleggProps) {
         vedlegg.opplastingsStatus === 'SendSenere' ||
         vedlegg.opplastingsStatus === 'SendesAvAndre';
 
+    const manglerFilTekst = () => {
+        if (vedlegg.erHoveddokument)
+            return t('soknad.hovedSkjema.feilmelding.manglerFil', {
+                label: vedlegg.label,
+            });
+        if (erAnnetVedlegg)
+            return t('soknad.vedlegg.annet.feilmelding.manglerFil', {
+                label: vedlegg.label,
+            });
+        return t('soknad.vedlegg.feilmelding.manglerFil', {
+            label: vedlegg.label,
+        });
+    };
+
+    const feilId = `vedlegg-feil-${vedlegg.id}`;
+
+    const [visFeil, valideringsMelding] = useValidation({
+        komponentId: feilId,
+        melding: manglerFilTekst(),
+        harFeil:
+            !filListe.length &&
+            vedlegg.opplastingsStatus === 'IkkeValgt' &&
+            !endrer,
+    });
+
     useEffect(() => {
         console.log({ filListe });
     }, [filListe]);
@@ -223,192 +255,216 @@ function Vedlegg(props: VedleggProps) {
     };
 
     return (
-        <VedleggPanel $extraMargin={vedlegg.erHoveddokument}>
-            {endrer ? (
-                <EndreVedlegg
-                    tittel={tittel}
-                    vedlegg={vedlegg}
-                    innsendingsId={innsendingsId}
-                    setEndrer={setEndrer}
-                    setTittel={setTittel}
-                />
-            ) : (
-                <>
-                    <div>
+        <VedleggContainer $extraMargin={vedlegg.erHoveddokument}>
+            <ValideringsRamme
+                id={feilId}
+                visFeil={visFeil}
+                melding={valideringsMelding}
+            >
+                {endrer ? (
+                    <EndreVedlegg
+                        tittel={tittel}
+                        vedlegg={vedlegg}
+                        innsendingsId={innsendingsId}
+                        setEndrer={setEndrer}
+                        setTittel={setTittel}
+                    />
+                ) : (
+                    <VedleggPanel>
                         <div>
-                            {(vedlegg.erHoveddokument ||
-                                !vedlegg.skjemaurl) && (
-                                <Heading size="small" spacing>
-                                    {tittel}
-                                </Heading>
-                            )}
-                        </div>
-                        <div>
-                            {!vedlegg.erHoveddokument &&
-                                vedlegg.skjemaurl && (
+                            <div>
+                                {(vedlegg.erHoveddokument ||
+                                    !vedlegg.skjemaurl) && (
                                     <Heading size="small" spacing>
-                                        <InvertedLink
-                                            target="_blank"
-                                            href={vedlegg.skjemaurl}
-                                            rel="noopener noreferrer"
-                                        >
-                                            {t('link.nyFane', {
-                                                tekst: tittel,
-                                            })}
-                                        </InvertedLink>
+                                        {tittel}
                                     </Heading>
                                 )}
+                            </div>
+                            <div>
+                                {!vedlegg.erHoveddokument &&
+                                    vedlegg.skjemaurl && (
+                                        <Heading size="small" spacing>
+                                            <InvertedLink
+                                                target="_blank"
+                                                href={
+                                                    vedlegg.skjemaurl
+                                                }
+                                                rel="noopener noreferrer"
+                                            >
+                                                {t('link.nyFane', {
+                                                    tekst: tittel,
+                                                })}
+                                            </InvertedLink>
+                                        </Heading>
+                                    )}
+                            </div>
+
+                            {vedlegg.erHoveddokument && (
+                                <ListeGruppe>
+                                    <BodyShort>
+                                        {t(
+                                            'soknad.hovedSkjema.listeTittel',
+                                        )}
+                                    </BodyShort>
+                                    <BodyShort as="ol">
+                                        {t(
+                                            'soknad.hovedSkjema.liste',
+                                            {
+                                                returnObjects: true,
+                                            },
+                                        ).map((element, key) => (
+                                            <li key={key}>
+                                                {element}
+                                            </li>
+                                        ))}
+                                    </BodyShort>
+                                </ListeGruppe>
+                            )}
+
+                            {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
+
+                            {vedlegg.beskrivelse && (
+                                <VedleggBeskrivelse size="small">
+                                    {vedlegg.beskrivelse}
+                                </VedleggBeskrivelse>
+                            )}
                         </div>
 
-                        {vedlegg.erHoveddokument && (
-                            <ListeGruppe>
-                                <BodyShort>
-                                    {t(
-                                        'soknad.hovedSkjema.listeTittel',
-                                    )}
-                                </BodyShort>
-                                <BodyShort as="ol">
-                                    {t('soknad.hovedSkjema.liste', {
-                                        returnObjects: true,
-                                    }).map((element, key) => (
-                                        <li key={key}>{element}</li>
-                                    ))}
-                                </BodyShort>
-                            </ListeGruppe>
-                        )}
-
-                        {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
-
-                        {vedlegg.beskrivelse && (
-                            <VedleggBeskrivelse size="small">
-                                {vedlegg.beskrivelse}
-                            </VedleggBeskrivelse>
-                        )}
-                    </div>
-
-                    {vedlegg.erPakrevd &&
-                        !vedlegg.erHoveddokument &&
-                        !erSendtInnTidligere && (
-                            <VedleggRadio
-                                id={vedlegg.id}
-                                vedlegg={vedlegg}
-                                setOpplastingStatus={
-                                    setOpplastingStatus
-                                }
-                            />
-                        )}
-
-                    {erSendtInnTidligere && (
-                        <SendtInnTidligereGruppe>
-                            <Heading size="xsmall" spacing as="p">
-                                {t(
-                                    'soknad.vedlegg.tidligereSendtInn',
-                                )}
-                            </Heading>
-                            <FilePanel border>
-                                <div className="icon">
-                                    <FilUploadIcon
-                                        filstatus={
-                                            FIL_STATUS.TIDLIGERE_LASTET_OPP
-                                        }
-                                    />
-                                </div>
-
-                                <BodyShort className="filename">
-                                    {vedlegg.label}
-                                </BodyShort>
-                                <div className="hoyreHalvdel">
-                                    <FilMottattFelt>
-                                        <BodyShort>
-                                            {t(
-                                                'soknad.vedlegg.mottatt',
-                                            )}
-                                        </BodyShort>
-                                        <BodyShort>
-                                            {new Date(
-                                                vedlegg.innsendtdato,
-                                            ).toLocaleString('no', {
-                                                dateStyle: 'short',
-                                            })}
-                                        </BodyShort>
-                                    </FilMottattFelt>
-                                </div>
-                            </FilePanel>
-                        </SendtInnTidligereGruppe>
-                    )}
-
-                    {!skjulFiler && (
-                        <VedleggButtons>
-                            <Filvelger
-                                buttonText={getFilvelgerButtonText()}
-                                onFileSelected={(fil: File) =>
-                                    dispatch({
-                                        type: ACTIONS.NY_FIL,
-                                        filData: {
-                                            lokalFil: fil,
-                                        },
-                                    })
-                                }
-                            />
-
-                            {erAnnetVedlegg && !erSendtInnTidligere && (
-                                <>
-                                    <Button
-                                        onClick={() =>
-                                            setEndrer(true)
-                                        }
-                                        variant="secondary"
-                                    >
-                                        {t(
-                                            'soknad.vedlegg.annet.rediger',
-                                        )}
-                                    </Button>
-
-                                    <Button
-                                        onClick={() =>
-                                            slettAnnetVedlegg(
-                                                vedlegg.id,
-                                            )
-                                        }
-                                        variant="secondary"
-                                    >
-                                        {t(
-                                            'soknad.vedlegg.annet.slett',
-                                        )}
-                                    </Button>
-                                </>
+                        {vedlegg.erPakrevd &&
+                            !vedlegg.erHoveddokument &&
+                            !erSendtInnTidligere && (
+                                <VedleggRadio
+                                    id={vedlegg.id}
+                                    vedlegg={vedlegg}
+                                    setOpplastingStatus={
+                                        setOpplastingStatus
+                                    }
+                                />
                             )}
-                        </VedleggButtons>
-                    )}
 
-                    {!skjulFiler && filListe.length > 0 && (
-                        <FilListeGruppe>
-                            <Heading size="xsmall" spacing as="p">
-                                {t('soknad.vedlegg.sendtInnNaa')}
-                            </Heading>
-                            {filListe.map((fil) => {
-                                return (
-                                    <Fil
-                                        key={fil.komponentID}
-                                        komponentID={fil.komponentID}
-                                        vedlegg={vedlegg}
-                                        innsendingsId={innsendingsId}
-                                        lokalFil={fil.lokalFil}
-                                        opplastetFil={
-                                            fil.opplastetFil
-                                        }
-                                        filListeDispatch={dispatch}
-                                        oppdaterLokalOpplastingStatus={
-                                            oppdaterLokalOpplastingStatus
-                                        }
-                                    />
-                                );
-                            })}
-                        </FilListeGruppe>
-                    )}
-                </>
-            )}
-        </VedleggPanel>
+                        {erSendtInnTidligere && (
+                            <SendtInnTidligereGruppe>
+                                <Heading size="xsmall" spacing as="p">
+                                    {t(
+                                        'soknad.vedlegg.tidligereSendtInn',
+                                    )}
+                                </Heading>
+                                <FilePanel border>
+                                    <div className="icon">
+                                        <FilUploadIcon
+                                            filstatus={
+                                                FIL_STATUS.TIDLIGERE_LASTET_OPP
+                                            }
+                                        />
+                                    </div>
+
+                                    <BodyShort className="filename">
+                                        {vedlegg.label}
+                                    </BodyShort>
+                                    <div className="hoyreHalvdel">
+                                        <FilMottattFelt>
+                                            <BodyShort>
+                                                {t(
+                                                    'soknad.vedlegg.mottatt',
+                                                )}
+                                            </BodyShort>
+                                            <BodyShort>
+                                                {new Date(
+                                                    vedlegg.innsendtdato,
+                                                ).toLocaleString(
+                                                    'no',
+                                                    {
+                                                        dateStyle:
+                                                            'short',
+                                                    },
+                                                )}
+                                            </BodyShort>
+                                        </FilMottattFelt>
+                                    </div>
+                                </FilePanel>
+                            </SendtInnTidligereGruppe>
+                        )}
+
+                        {!skjulFiler && (
+                            <VedleggButtons>
+                                <Filvelger
+                                    buttonText={getFilvelgerButtonText()}
+                                    onFileSelected={(fil: File) =>
+                                        dispatch({
+                                            type: ACTIONS.NY_FIL,
+                                            filData: {
+                                                lokalFil: fil,
+                                            },
+                                        })
+                                    }
+                                />
+
+                                {erAnnetVedlegg &&
+                                    !erSendtInnTidligere && (
+                                        <>
+                                            <Button
+                                                onClick={() =>
+                                                    setEndrer(true)
+                                                }
+                                                variant="secondary"
+                                            >
+                                                {t(
+                                                    'soknad.vedlegg.annet.rediger',
+                                                )}
+                                            </Button>
+
+                                            <Button
+                                                onClick={() =>
+                                                    slettAnnetVedlegg(
+                                                        vedlegg.id,
+                                                    )
+                                                }
+                                                variant="secondary"
+                                            >
+                                                {t(
+                                                    'soknad.vedlegg.annet.slett',
+                                                )}
+                                            </Button>
+                                        </>
+                                    )}
+                            </VedleggButtons>
+                        )}
+
+                        {!skjulFiler && filListe.length > 0 && (
+                            <FilListeGruppe>
+                                <Heading size="xsmall" spacing as="p">
+                                    {t('soknad.vedlegg.sendtInnNaa')}
+                                </Heading>
+                                {filListe.map((fil) => {
+                                    return (
+                                        <Fil
+                                            key={fil.komponentID}
+                                            komponentID={
+                                                fil.komponentID
+                                            }
+                                            vedlegg={vedlegg}
+                                            innsendingsId={
+                                                innsendingsId
+                                            }
+                                            lokalFil={fil.lokalFil}
+                                            opplastetFil={
+                                                fil.opplastetFil
+                                            }
+                                            filListeDispatch={
+                                                dispatch
+                                            }
+                                            oppdaterLokalOpplastingStatus={
+                                                oppdaterLokalOpplastingStatus
+                                            }
+                                        />
+                                    );
+                                })}
+                            </FilListeGruppe>
+                        )}
+                    </VedleggPanel>
+                )}
+            </ValideringsRamme>
+        </VedleggContainer>
     );
 }
 export default Vedlegg;
