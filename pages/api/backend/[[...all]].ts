@@ -59,7 +59,7 @@ export default async function handler(
             authorization: `Bearer ${tokenxToken}`,
         },
         responseType: 'stream',
-        timeout: 20000,
+        timeout: 60000,
         maxContentLength: Infinity,
         maxBodyLength: Infinity,
     })
