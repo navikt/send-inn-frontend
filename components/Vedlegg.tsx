@@ -101,13 +101,6 @@ export const VedleggPanel = styled(Panel)`
     }
 `;
 
-const InvertedLink = styled(NavLink)`
-    text-decoration: none;
-    :hover {
-        text-decoration: underline;
-    }
-`;
-
 const ListeGruppe = styled.div`
     padding-bottom: 1.5rem;
     @media only screen and (max-width: 600px) {
@@ -284,7 +277,7 @@ function Vedlegg(props: VedleggProps) {
                                 {!vedlegg.erHoveddokument &&
                                     vedlegg.skjemaurl && (
                                         <Heading size="small" spacing>
-                                            <InvertedLink
+                                            <NavLink
                                                 target="_blank"
                                                 href={
                                                     vedlegg.skjemaurl
@@ -294,7 +287,7 @@ function Vedlegg(props: VedleggProps) {
                                                 {t('link.nyFane', {
                                                     tekst: tittel,
                                                 })}
-                                            </InvertedLink>
+                                            </NavLink>
                                         </Heading>
                                     )}
                             </div>
