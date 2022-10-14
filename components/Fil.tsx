@@ -18,7 +18,6 @@ import { FIL_STATUS } from '../types/enums';
 import { FilUploadIcon } from './FilUploadIcon';
 import getConfig from 'next/config';
 import { Filvelger } from './Filvelger';
-import { useErrorMessage } from '../hooks/useErrorMessage';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -250,7 +249,6 @@ export function Fil({
     const { status } = filState;
     const [controller] = useState(new AbortController());
     const { t } = useTranslation();
-    const { showError } = useErrorMessage();
 
     const slettFil = () => {
         dispatch({
@@ -357,11 +355,10 @@ export function Fil({
                 console.log({ response: response.data });
             })
             .catch((error) => {
-                console.error({ error });
+                console.error(error);
                 dispatch({
                     type: FIL_ACTIONS.FEIL,
                 });
-                showError(error);
             })
             .finally(() => {
                 dispatch({
@@ -382,7 +379,6 @@ export function Fil({
         status,
         filListeDispatch,
         komponentID,
-        showError,
     ]);
 
     const filnavn =
