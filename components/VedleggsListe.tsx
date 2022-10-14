@@ -45,7 +45,6 @@ const PaddedVedlegg = styled.div`
 const ButtonContainer = styled.div`
     margin-right: auto;
     margin-top: 60px;
-    /* margin-bottom: 16px; */
     width: fit-content;
     min-width: 207px;
     button {

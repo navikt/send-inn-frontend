@@ -142,5 +142,11 @@
         "altMottatInfo": "Alle nødvendige dokumenter er mottatt. Du finner dem under Dine saker på nav.no/minside.",
         "minSideKnapp": "Gå til Min side"
     },
-    "valideringsfeil": {}
+    "feil": {
+        "fraBackend": "Feil fra backend",
+        "medTilkobling": "Sjekk nettverksforbindelse",
+        "ukjent": "ukjent feil",
+        "advarselOverskrift": "Det har skjedd en feil",
+        "advarselBrukerBekreftelse": "OK"
+    }
 }

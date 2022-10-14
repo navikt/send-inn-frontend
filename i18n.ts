@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import nbTranslation from './assets/locales/nb/translation.json';
 import nnTranslation from './assets/locales/nn/translation.json';
 import enTranslation from './assets/locales/en/translation.json';
+import nbBackend from './assets/locales/nb/backend.json';
 
 // import Backend from 'i18next-http-backend';
 // import LanguageDetector from 'i18next-browser-languagedetector';
@@ -10,9 +11,11 @@ import enTranslation from './assets/locales/en/translation.json';
 // have a look at the Quick start guide
 // for passing in lng and translations on init
 
+export const defaultNS = 'translation';
 export const resources = {
     nb: {
         translation: nbTranslation,
+        backend: nbBackend,
     },
     nn: {
         translation: nnTranslation,
@@ -34,6 +37,8 @@ i18n
     // init i18next
     // for all options read: https://www.i18next.com/overview/configuration-options
     .init({
+        ns: ['translation', 'backend'],
+        defaultNS,
         resources,
         lng: 'nb',
         fallbackLng: 'nb',
