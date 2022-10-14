@@ -9,7 +9,7 @@ const StyledModal = styled(Modal)`
 const ButtonRow = styled.div`
     padding-top: 37px;
     display: flex;
-    justify-content: center;
+    justify-content: right;
     button {
         margin: 0 12px;
     }
@@ -62,19 +62,19 @@ export const FellesModal = (props: FellesModalProps) => {
                     {children}
                     <ButtonRow>
                         <Button
-                            variant="secondary"
+                            variant="tertiary"
+                            size="medium"
+                            onClick={() => setOpen(false)}
+                        >
+                            {cancelButtonText || 'Nei'}
+                        </Button>
+                        <Button
+                            variant="primary"
                             size="medium"
                             onClick={onAccept}
                             loading={isLoading}
                         >
                             {acceptButtonText || 'Ja'}
-                        </Button>
-                        <Button
-                            variant="secondary"
-                            size="medium"
-                            onClick={() => setOpen(false)}
-                        >
-                            {cancelButtonText || 'Nei'}
                         </Button>
                     </ButtonRow>
                 </StyledContent>
