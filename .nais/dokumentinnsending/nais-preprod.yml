@@ -53,4 +53,4 @@ spec:
         - name: INNSENDING_API_AUDIENCE
           value: "dev-gcp:team-soknad:innsending-api"
         - name: REMOTE_API_URL
-          value: "https://innsending-api-gcp.dev.nav.no"
+          value: "http://innsending-api"

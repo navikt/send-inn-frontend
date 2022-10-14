@@ -22,6 +22,7 @@ import {
 import getConfig from 'next/config';
 import { OpprettAnnetVedlegg } from './OpprettAnnetVedlegg';
 import styled from 'styled-components';
+import { SideValideringProvider } from './SideValideringProvider';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -200,6 +201,20 @@ function VedleggsListe({
         soknad.visningsType,
     );
 
+    const [lastOppVedleggHarFeil, setLastOppVedleggHarFeil] =
+        useState(false);
+    const [visLastOppVedleggFeil, setVisLastOppVedleggFeil] =
+        useState(false);
+    const [
+        lastOppVedleggValideringfokus,
+        setLastOppVedleggValideringfokus,
+    ] = useState(false);
+
+    const [side1HarFeil, setSide1HarFeil] = useState(false);
+    const [visSide1Feil, setVisSide1Feil] = useState(false);
+    const [side1Valideringfokus, setSide1Valideringfokus] =
+        useState(false);
+
     const visSteg0 =
         !visKvittering &&
         visningsType === 'dokumentinnsending' &&
@@ -305,7 +320,7 @@ function VedleggsListe({
 
     const tilMinSide = () => {
         console.log('TilMinSide');
-        router.push(process.env.NEXT_PUBLIC_MIN_SIDE_URL);
+        window.location.assign(process.env.NEXT_PUBLIC_MIN_SIDE_URL);
     };
 
     const onSendInn = () => {
@@ -478,25 +493,40 @@ function VedleggsListe({
                                     )}
                                 </Heading>
                                 <Linje />
-                                <Vedlegg
-                                    innsendingsId={
-                                        soknad.innsendingsId
+                                <SideValideringProvider
+                                    setHarValideringsfeil={
+                                        setSide1HarFeil
                                     }
-                                    setOpplastingStatus={
-                                        setOpplastingStatus
+                                    visValideringsfeil={visSide1Feil}
+                                    setVisValideringsfeil={
+                                        setVisSide1Feil
                                     }
-                                    oppdaterLokalOpplastingStatus={
-                                        oppdaterLokalOpplastingStatus
-                                    }
-                                    vedlegg={
-                                        vedleggsliste.filter(
-                                            (x) => x.erHoveddokument,
-                                        )[0]
-                                    }
-                                    slettAnnetVedlegg={
-                                        slettAnnetVedlegg
-                                    }
-                                />
+                                    fokus={side1Valideringfokus}
+                                    setFokus={setSide1Valideringfokus}
+                                >
+                                    <PaddedVedlegg>
+                                        <Vedlegg
+                                            innsendingsId={
+                                                soknad.innsendingsId
+                                            }
+                                            setOpplastingStatus={
+                                                setOpplastingStatus
+                                            }
+                                            oppdaterLokalOpplastingStatus={
+                                                oppdaterLokalOpplastingStatus
+                                            }
+                                            vedlegg={
+                                                vedleggsliste.filter(
+                                                    (x) =>
+                                                        x.erHoveddokument,
+                                                )[0]
+                                            }
+                                            slettAnnetVedlegg={
+                                                slettAnnetVedlegg
+                                            }
+                                        />
+                                    </PaddedVedlegg>
+                                </SideValideringProvider>
                             </>
                         )}
                 </div>
@@ -537,55 +567,73 @@ function VedleggsListe({
                         )}
                     </FristForOpplastingInfo>
 
-                    {visningsType === 'dokumentinnsending' &&
-                        visningsType === 'dokumentinnsending' &&
-                        vedleggsliste.some((element) => {
-                            return (
-                                element.erHoveddokument === true &&
-                                element.opplastingsStatus !==
-                                    'LastetOpp'
-                            );
-                        }) && (
-                            <Alert variant="warning" size="medium">
-                                {t(
-                                    'soknad.visningsSteg.lastOppVedlegg.advarselHovedskjema',
-                                )}
-                            </Alert>
-                        )}
+                    <SideValideringProvider
+                        setHarValideringsfeil={
+                            setLastOppVedleggHarFeil
+                        }
+                        visValideringsfeil={visLastOppVedleggFeil}
+                        setVisValideringsfeil={
+                            setVisLastOppVedleggFeil
+                        }
+                        fokus={lastOppVedleggValideringfokus}
+                        setFokus={setLastOppVedleggValideringfokus}
+                    >
+                        {visningsType === 'dokumentinnsending' &&
+                            visningsType === 'dokumentinnsending' &&
+                            vedleggsliste.some((element) => {
+                                return (
+                                    element.erHoveddokument ===
+                                        true &&
+                                    element.opplastingsStatus !==
+                                        'LastetOpp'
+                                );
+                            }) && (
+                                <Alert
+                                    variant="warning"
+                                    size="medium"
+                                >
+                                    {t(
+                                        'soknad.visningsSteg.lastOppVedlegg.advarselHovedskjema',
+                                    )}
+                                </Alert>
+                            )}
 
-                    <PaddedVedlegg>
-                        {soknad &&
-                            vedleggsliste.length > 0 &&
-                            vedleggsliste
-                                .filter((x) => !x.erHoveddokument)
-                                .map((vedlegg) => {
-                                    return (
-                                        <Vedlegg
-                                            key={vedlegg.id}
-                                            innsendingsId={
-                                                soknad.innsendingsId
-                                            }
-                                            setOpplastingStatus={
-                                                setOpplastingStatus
-                                            }
-                                            oppdaterLokalOpplastingStatus={
-                                                oppdaterLokalOpplastingStatus
-                                            }
-                                            vedlegg={vedlegg}
-                                            slettAnnetVedlegg={
-                                                slettAnnetVedlegg
-                                            }
-                                        />
-                                    );
-                                })}
+                        <PaddedVedlegg>
+                            {soknad &&
+                                vedleggsliste.length > 0 &&
+                                vedleggsliste
+                                    .filter((x) => !x.erHoveddokument)
+                                    .map((vedlegg) => {
+                                        return (
+                                            <Vedlegg
+                                                key={vedlegg.id}
+                                                innsendingsId={
+                                                    soknad.innsendingsId
+                                                }
+                                                setOpplastingStatus={
+                                                    setOpplastingStatus
+                                                }
+                                                oppdaterLokalOpplastingStatus={
+                                                    oppdaterLokalOpplastingStatus
+                                                }
+                                                vedlegg={vedlegg}
+                                                slettAnnetVedlegg={
+                                                    slettAnnetVedlegg
+                                                }
+                                            />
+                                        );
+                                    })}
 
-                        {soknad.kanLasteOppAnnet && (
-                            <OpprettAnnetVedlegg
-                                innsendingsId={soknad.innsendingsId}
-                                leggTilVedlegg={leggTilVedlegg}
-                            />
-                        )}
-                    </PaddedVedlegg>
+                            {soknad.kanLasteOppAnnet && (
+                                <OpprettAnnetVedlegg
+                                    innsendingsId={
+                                        soknad.innsendingsId
+                                    }
+                                    leggTilVedlegg={leggTilVedlegg}
+                                />
+                            )}
+                        </PaddedVedlegg>
+                    </SideValideringProvider>
                 </div>
             )}
             {!visKvittering && (
@@ -595,6 +643,15 @@ function VedleggsListe({
                             {soknadKlar && (
                                 <Button
                                     onClick={() => {
+                                        if (lastOppVedleggHarFeil) {
+                                            setLastOppVedleggValideringfokus(
+                                                true,
+                                            );
+                                            setVisLastOppVedleggFeil(
+                                                true,
+                                            );
+                                            return;
+                                        }
                                         if (
                                             !sendInnKomplettSoknadModal
                                         ) {
@@ -612,6 +669,17 @@ function VedleggsListe({
                                 soknadHarNoeInnlevert && !soknadKlar && (
                                     <Button
                                         onClick={() => {
+                                            if (
+                                                lastOppVedleggHarFeil
+                                            ) {
+                                                setLastOppVedleggValideringfokus(
+                                                    true,
+                                                );
+                                                setVisLastOppVedleggFeil(
+                                                    true,
+                                                );
+                                                return;
+                                            }
                                             if (
                                                 !sendInnUferdigSoknadModal
                                             ) {
@@ -645,7 +713,7 @@ function VedleggsListe({
                         </>
                     )}
                     {/* gå tilbake et steg */}
-                    {(visSteg0 || visSteg1) && (
+                    {visSteg0 && (
                         <Button
                             onClick={() => {
                                 oppdaterVisningsSteg(1);
@@ -656,14 +724,28 @@ function VedleggsListe({
                     )}
                     {/* gå frem et steg */}
                     {visSteg1 && (
-                        <Button
-                            onClick={() => {
-                                oppdaterVisningsSteg(-1);
-                            }}
-                            variant="secondary"
-                        >
-                            {t('soknad.knapper.forrige')}
-                        </Button>
+                        <>
+                            <Button
+                                onClick={() => {
+                                    if (side1HarFeil) {
+                                        setSide1Valideringfokus(true);
+                                        setVisSide1Feil(true);
+                                        return;
+                                    }
+                                    oppdaterVisningsSteg(1);
+                                }}
+                            >
+                                {t('soknad.knapper.neste')}
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    oppdaterVisningsSteg(-1);
+                                }}
+                                variant="secondary"
+                            >
+                                {t('soknad.knapper.forrige')}
+                            </Button>
+                        </>
                     )}
                     {visLastOppVedlegg &&
                         visningsType === 'dokumentinnsending' && (
