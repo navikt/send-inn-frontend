@@ -19,6 +19,7 @@ import { FilUploadIcon } from './FilUploadIcon';
 import getConfig from 'next/config';
 import { Filvelger } from './Filvelger';
 import { useValidation } from '../hooks/useValidation';
+import { ErrorMessageWithDot } from './textStyle';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -250,6 +251,7 @@ export function Fil({
     const { status } = filState;
     const [controller] = useState(new AbortController());
     const { t } = useTranslation();
+    const [feilmelding, setFeilmelding] = useState<string>(null);
 
     const filnavn =
         filState.filData.opplastetFil?.filnavn ||
@@ -306,6 +308,7 @@ export function Fil({
                 dispatch({
                     type: FIL_ACTIONS.FEIL,
                 });
+                // showError();
             });
     };
 
@@ -388,6 +391,29 @@ export function Fil({
                 dispatch({
                     type: FIL_ACTIONS.FEIL,
                 });
+                const { errorCode } = error?.response?.data || {};
+                if (
+                    errorCode ===
+                        'errorCode.illegalAction.notSupportedFileFormat' ||
+                    errorCode ===
+                        'errorCode.illegalAction.fileCannotBeRead'
+                ) {
+                    return setFeilmelding(
+                        t(errorCode, {
+                            ns: 'backend',
+                        }),
+                    );
+                } else if (
+                    errorCode ===
+                    'errorCode.illegalAction.fileSizeSumTooLarge'
+                ) {
+                    setFeilmelding(
+                        t(errorCode, {
+                            ns: 'backend',
+                        }),
+                    );
+                }
+                // showError();
             })
             .finally(() => {
                 dispatch({
@@ -408,6 +434,7 @@ export function Fil({
         status,
         filListeDispatch,
         komponentID,
+        t,
     ]);
 
     return (
@@ -513,6 +540,11 @@ export function Fil({
                     )}
                 </div>
             </FilePanel>
+            {status === FIL_STATUS.FEIL && (
+                <ErrorMessageWithDot>
+                    {feilmelding}
+                </ErrorMessageWithDot>
+            )}
         </div>
     );
 }
