@@ -33,16 +33,28 @@ export function OpprettAnnetVedlegg({
     const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(false);
     const [visOpprett, setVisOpprett] = useState(false);
-    const { register, handleSubmit, reset } = useForm<FormValues>();
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm<FormValues>();
 
     const feilId = 'opprett-vedlegg-feil';
+    const harVailderingfeil = errors.tittel?.message != undefined;
 
     const [visFeil, valideringsMelding] = useValidation({
         komponentId: feilId,
         melding: t(
             'soknad.vedlegg.annet.feilmelding.fullforOpprettelse',
         ),
-        harFeil: visOpprett,
+        harFeil: !harVailderingfeil && visOpprett,
+    });
+
+    useValidation({
+        komponentId: feilId + '-validering',
+        melding: errors.tittel?.message,
+        harFeil: harVailderingfeil && visOpprett,
     });
 
     const onSubmit: SubmitHandler<FormValues> = (data) => {
@@ -69,6 +81,7 @@ export function OpprettAnnetVedlegg({
                 reset();
             });
     };
+    const maxLength = 250;
 
     return (
         <>
@@ -81,6 +94,7 @@ export function OpprettAnnetVedlegg({
                     <VedleggPanel>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <TextField
+                                id={feilId + '-validering'}
                                 autoFocus
                                 label={t(
                                     'soknad.vedlegg.annet.tittel',
@@ -89,9 +103,22 @@ export function OpprettAnnetVedlegg({
                                     'soknad.vedlegg.annet.beskrivelse',
                                 )}
                                 {...register('tittel', {
-                                    required: true,
+                                    required: {
+                                        value: true,
+                                        message: t(
+                                            'soknad.vedlegg.annet.feilmelding.manglerNavn',
+                                        ),
+                                    },
+                                    maxLength: {
+                                        value: maxLength,
+                                        message: t(
+                                            'soknad.vedlegg.annet.feilmelding.navnForLangt',
+                                            { maxLength },
+                                        ),
+                                    },
                                 })}
                                 defaultValue=""
+                                error={errors.tittel?.message}
                             />
                             <ButtomRow>
                                 <Button

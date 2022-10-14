@@ -37,16 +37,28 @@ export function EndreVedlegg({
 }: EndreVedleggProps) {
     const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(false);
-    const { register, handleSubmit } = useForm<FormValues>();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<FormValues>();
 
     const feilId = `vedlegg-endrer-feil-${vedlegg.id}`;
+
+    const harVailderingfeil = errors.tittel?.message != undefined;
 
     const [visFeil, valideringsMelding] = useValidation({
         komponentId: feilId,
         melding: t(
             'soknad.vedlegg.annet.feilmelding.fullforRedigering',
         ),
-        harFeil: true,
+        harFeil: !harVailderingfeil,
+    });
+
+    useValidation({
+        komponentId: feilId + '-validering',
+        melding: errors.tittel?.message,
+        harFeil: harVailderingfeil,
     });
 
     const onSubmit: SubmitHandler<FormValues> = (data) => {
@@ -72,6 +84,7 @@ export function EndreVedlegg({
                 setEndrer(false);
             });
     };
+    const maxLength = 250;
 
     return (
         <ValideringsRamme
@@ -82,13 +95,29 @@ export function EndreVedlegg({
             <VedleggPanel>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <TextField
+                        id={feilId + '-validering'}
                         autoFocus
                         defaultValue={tittel}
                         label={t('soknad.vedlegg.annet.tittel')}
                         description={t(
                             'soknad.vedlegg.annet.beskrivelse',
                         )}
-                        {...register('tittel', { required: true })}
+                        {...register('tittel', {
+                            required: {
+                                value: true,
+                                message: t(
+                                    'soknad.vedlegg.annet.feilmelding.manglerNavn',
+                                ),
+                            },
+                            maxLength: {
+                                value: maxLength,
+                                message: t(
+                                    'soknad.vedlegg.annet.feilmelding.navnForLangt',
+                                    { maxLength },
+                                ),
+                            },
+                        })}
+                        error={errors.tittel?.message}
                     />
                     <ButtonRow>
                         <Button
