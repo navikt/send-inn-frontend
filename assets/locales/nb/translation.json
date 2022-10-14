@@ -56,7 +56,9 @@
                 "feilmelding": {
                     "fullforOpprettelse": "Fullfør eller avbryt vedleggsbeskrivelse",
                     "fullforRedigering": "Fullfør og bekreft  redigering av vedleggsbeskrivelse",
-                    "manglerFil": "Last opp, eller slett vedlegget: {{label}}"
+                    "manglerFil": "Last opp, eller slett vedlegget: {{label}}",
+                    "manglerNavn": "Gi en vedleggsbeskrivelse",
+                    "navnForLangt": "Vedleggsbeskrivelsen er for lang. Maks {{maxLength}} tegn"
                 }
             },
             "radio": {
