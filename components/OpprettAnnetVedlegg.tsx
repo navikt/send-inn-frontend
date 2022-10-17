@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
+import { useErrorMessage } from '../hooks/useErrorMessage';
 import { Heading, Button, TextField, Panel } from '@navikt/ds-react';
 import { Add } from '@navikt/ds-icons';
 import { VedleggType } from '../types/types';
@@ -39,6 +40,7 @@ export function OpprettAnnetVedlegg({
         reset,
         formState: { errors },
     } = useForm<FormValues>();
+    const { showError } = useErrorMessage();
 
     const feilId = 'opprett-vedlegg-feil';
     const harVailderingfeil = errors.tittel?.message != undefined;
@@ -73,7 +75,7 @@ export function OpprettAnnetVedlegg({
                 leggTilVedlegg(response.data);
             })
             .catch((error) => {
-                console.log(error);
+                showError(error);
             })
             .finally(() => {
                 setIsLoading(false);

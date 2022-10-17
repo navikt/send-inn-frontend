@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useReducer } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
+import { useErrorMessage } from '../hooks/useErrorMessage';
+
 import {
     Panel,
     Heading,
@@ -164,6 +166,7 @@ function Vedlegg(props: VedleggProps) {
     );
     const [endrer, setEndrer] = useState(false);
     const [tittel, setTittel] = useState(vedlegg.label);
+    const { showError } = useErrorMessage();
 
     const erAnnetVedlegg =
         vedlegg.vedleggsnr?.toUpperCase() === 'N6' &&
@@ -227,7 +230,7 @@ function Vedlegg(props: VedleggProps) {
                     }
                 })
                 .catch((error) => {
-                    console.log(error);
+                    showError(error);
                 });
         }
 
@@ -235,7 +238,7 @@ function Vedlegg(props: VedleggProps) {
             dispatch({
                 type: ACTIONS.RESET_LISTE,
             });
-    }, [innsendingsId, vedlegg.id]);
+    }, [innsendingsId, vedlegg.id, showError]);
 
     const getFilvelgerButtonText = () => {
         if (vedlegg.erHoveddokument) {

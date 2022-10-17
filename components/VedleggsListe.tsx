@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
 import axios from 'axios';
+import { useErrorMessage } from '../hooks/useErrorMessage';
 import { VedleggType, SoknadType } from '../types/types';
 import Vedlegg from '../components/Vedlegg';
 import SkjemaNedlasting from '../components/SkjemaNedlasting';
@@ -169,6 +170,8 @@ function VedleggsListe({
     setVedleggsListe,
     erEttersending,
 }: VedleggsListeProps) {
+    const { showError } = useErrorMessage();
+
     const [soknadKlar, setSoknadErKomplett] =
         useState<boolean>(false);
     const [soknadHarNoeInnlevert, setSoknadKanSendesInn] =
@@ -246,10 +249,7 @@ function VedleggsListe({
                 console.log(response);
             })
             .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                // TODO error handling
+                showError(error);
             });
     };
 
@@ -273,12 +273,7 @@ function VedleggsListe({
                 setVedleggsListe(newListe);
             })
             .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                // TODO error handling
-                //setIsLoading(false);
-                //setEndrer(false);
+                showError(error);
             });
     }
 
@@ -308,8 +303,7 @@ function VedleggsListe({
                 setVedleggsListe(newListe);
             })
             .catch((error) => {
-                // TODO error handling
-                console.log(error);
+                showError(error);
             });
     };
 
@@ -332,15 +326,10 @@ function VedleggsListe({
                 setVisKvittering(true);
             })
             .finally(() => {
-                // resetState();
-                //TODO: Endre til "then", og gå til kvitteringside, nils arnes endringer skal nå gjøre at dette virker
-                // alert('Sendt inn');
-                // tilMinSide()
                 setisLoading(false);
             })
-            .catch((e) => {
-                //TODO: Error håndtering
-                console.error(e);
+            .catch((error) => {
+                showError(error);
             });
     };
 
@@ -354,9 +343,8 @@ function VedleggsListe({
                 resetState();
                 tilMinSide();
             })
-            .catch((e) => {
-                //TODO: Error håndtering
-                console.error(e);
+            .catch((error) => {
+                showError(error);
             })
             .finally(() => {
                 setisLoading(false);
