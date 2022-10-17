@@ -32,8 +32,12 @@ import { ValideringsRamme } from './ValideringsRamme';
 
 const { publicRuntimeConfig } = getConfig();
 
+interface ExtendedVedleggType extends VedleggType {
+    autoFocus?: boolean;
+}
+
 export interface VedleggProps {
-    vedlegg: VedleggType | null;
+    vedlegg: ExtendedVedleggType | null;
     innsendingsId: string;
     setOpplastingStatus: setOpplastingStatusType;
     oppdaterLokalOpplastingStatus: oppdaterLokalOpplastingStatusType;
@@ -172,6 +176,7 @@ function Vedlegg(props: VedleggProps) {
     );
     const [endrer, setEndrer] = useState(false);
     const [tittel, setTittel] = useState(vedlegg.label);
+    const [autoFocus, setAutoFocus] = useState(vedlegg.autoFocus);
     const { showError } = useErrorMessage();
 
     const erAnnetVedlegg =
@@ -402,6 +407,7 @@ function Vedlegg(props: VedleggProps) {
                         {!skjulFiler && (
                             <VedleggButtons>
                                 <Filvelger
+                                    autoFocus={autoFocus}
                                     buttonText={getFilvelgerButtonText()}
                                     onFileSelected={(fil: File) =>
                                         dispatch({
@@ -417,9 +423,12 @@ function Vedlegg(props: VedleggProps) {
                                     !erSendtInnTidligere && (
                                         <>
                                             <Button
-                                                onClick={() =>
-                                                    setEndrer(true)
-                                                }
+                                                onClick={() => {
+                                                    setEndrer(true);
+                                                    setAutoFocus(
+                                                        true,
+                                                    );
+                                                }}
                                                 variant="secondary"
                                             >
                                                 {t(

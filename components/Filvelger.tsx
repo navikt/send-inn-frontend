@@ -34,6 +34,7 @@ const FilvelgerForm = styled.form`
 `;
 
 interface FilvelgerProps {
+    autoFocus?: boolean;
     onFileSelected: (fil: File) => void;
     CustomButton?: JSX.Element;
     allowMultiple?: boolean;
@@ -42,6 +43,7 @@ interface FilvelgerProps {
 
 export function Filvelger(props: FilvelgerProps) {
     const {
+        autoFocus,
         onFileSelected,
         CustomButton,
         allowMultiple = true,
@@ -108,6 +110,7 @@ export function Filvelger(props: FilvelgerProps) {
     return (
         <FilvelgerForm>
             <StyledUpload
+                autoFocus={autoFocus}
                 id={inputId}
                 {...rest}
                 accept="image/png, image/jpeg, .pdf"
