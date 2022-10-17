@@ -218,6 +218,8 @@ function VedleggsListe({
     const [side1Valideringfokus, setSide1Valideringfokus] =
         useState(false);
 
+    const vedleggsListeContainer = useRef(null);
+
     const visSteg0 =
         !visKvittering &&
         visningsType === 'dokumentinnsending' &&
@@ -412,18 +414,37 @@ function VedleggsListe({
         document.documentElement.lang = i18n.language;
     }, [soknad, i18n]);
 
+    useEffect(() => {
+        if (
+            vedleggsListeContainer.current &&
+            (visSteg0 ||
+                visSteg1 ||
+                visLastOppVedlegg ||
+                visKvittering)
+        ) {
+            vedleggsListeContainer.current.focus();
+            vedleggsListeContainer.current.scrollIntoView(true);
+        }
+    }, [
+        vedleggsListeContainer.current,
+        visSteg0,
+        visSteg1,
+        visLastOppVedlegg,
+        visKvittering,
+    ]);
+
     const resetState = () => {
         setVedleggsListe(initialVedleggsliste);
         setSoknad(null);
     };
     return (
-        <Style>
+        <Style ref={vedleggsListeContainer} tabIndex={-1}>
             {/* TODO trenger vi dette allikevel? kanskje for å jobbe med  */}
-            {/* { 
+            {/* {
                 språktest: {t('test')} <br />
                 språk: <br />             soknad.spraak // skriver ut språk
                 <br />
-            
+
             */}
             {visKvittering && (
                 <div>
