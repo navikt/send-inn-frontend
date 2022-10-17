@@ -5,7 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState, createContext, useEffect } from 'react';
 import { useRouter, NextRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import Vedlegg from '../../components/Vedlegg';
 import VedleggsListe from '../../components/VedleggsListe';
 import { SoknadHeader } from '../../components/SoknadHeader';
@@ -58,12 +58,12 @@ export const AppContext = React.createContext<
 const initialVedleggsliste: VedleggType[] | [] = [];
 
 const EttersendingSide: NextPage = () => {
-    const { query } = useRouter();
+    const router = useRouter();
+    const { query } = router;
     const [soknad, setSoknad] = useState<SoknadType | null>(null);
     const [vedleggsListe, setVedleggsListe] = useState<VedleggType[]>(
         initialVedleggsliste,
     );
-
     const { register, handleSubmit } = useForm<FormValues>();
     const innsendingsId = query.innsendingsId;
     useEffect(() => {
@@ -86,11 +86,19 @@ const EttersendingSide: NextPage = () => {
                     setSoknad(response.data);
                     setVedleggsListe(response.data.vedleggsListe);
                 })
-                .catch((error) => {
-                    console.log(error);
+                .catch((error: AxiosError) => {
+                    const statusCode = error.response?.status;
+                    if (statusCode && statusCode === 404) {
+                        return router.push('/404');
+                    }
+                    if (statusCode && statusCode === 405) {
+                        // Allerede sendt inn
+                        return router.push('/404');
+                    }
+                    return router.push('/500');
                 });
         }
-    }, [innsendingsId]);
+    }, [innsendingsId, router]);
 
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         console.log(data);
