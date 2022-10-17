@@ -29,6 +29,7 @@ import { FilUploadIcon } from './FilUploadIcon';
 import { FIL_STATUS } from '../types/enums';
 import { useValidation } from '../hooks/useValidation';
 import { ValideringsRamme } from './ValideringsRamme';
+import parse from 'html-react-parser';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -321,7 +322,7 @@ function Vedlegg(props: VedleggProps) {
 
                             {vedlegg.beskrivelse && (
                                 <VedleggBeskrivelse size="small">
-                                    {vedlegg.beskrivelse}
+                                    {parse(vedlegg.beskrivelse)}
                                 </VedleggBeskrivelse>
                             )}
                         </div>
