@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import axios from 'axios';
+import { useErrorMessage } from '../hooks/useErrorMessage';
 import { ACTIONS, ActionType } from './Vedlegg';
 import {
     OpplastetFil,
@@ -252,6 +253,7 @@ export function Fil({
     const [controller] = useState(new AbortController());
     const { t } = useTranslation();
     const [feilmelding, setFeilmelding] = useState<string>(null);
+    const { showError } = useErrorMessage();
 
     const filnavn =
         filState.filData.opplastetFil?.filnavn ||
@@ -304,11 +306,10 @@ export function Fil({
                 );
             })
             .catch((error) => {
-                console.error(error);
                 dispatch({
                     type: FIL_ACTIONS.FEIL,
                 });
-                // showError();
+                showError(error);
             });
     };
 
@@ -387,7 +388,6 @@ export function Fil({
                 console.log({ response: response.data });
             })
             .catch((error) => {
-                console.error(error);
                 dispatch({
                     type: FIL_ACTIONS.FEIL,
                 });
@@ -413,7 +413,7 @@ export function Fil({
                         }),
                     );
                 }
-                // showError();
+                showError(error);
             })
             .finally(() => {
                 dispatch({
@@ -435,6 +435,7 @@ export function Fil({
         filListeDispatch,
         komponentID,
         t,
+        showError,
     ]);
 
     return (

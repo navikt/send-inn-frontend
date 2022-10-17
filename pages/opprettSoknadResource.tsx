@@ -3,7 +3,7 @@ import Head from 'next/head';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 import getConfig from 'next/config';
 
@@ -40,11 +40,14 @@ const OpprettSoknadResource: NextPage = () => {
                 console.log({ response: response.data });
                 setInnsendingsId(response.data.innsendingsId);
             })
-            .catch((error) => {
-                // TODO: Error handling
-                throw error;
+            .catch((error: AxiosError) => {
+                const statusCode = error.response?.status;
+                if (statusCode && statusCode === 404) {
+                    return router.push('/404');
+                }
+                return router.push('/500');
             });
-    }, [query]);
+    }, [query, router]);
 
     useEffect(() => {
         opprettSoknad();

@@ -7,6 +7,7 @@ import getConfig from 'next/config';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useValidation } from '../hooks/useValidation';
+import { useErrorMessage } from '../hooks/useErrorMessage';
 import { VedleggPanel } from './Vedlegg';
 import { ValideringsRamme } from './ValideringsRamme';
 
@@ -42,6 +43,7 @@ export function EndreVedlegg({
         handleSubmit,
         formState: { errors },
     } = useForm<FormValues>();
+    const { showError } = useErrorMessage();
 
     const feilId = `vedlegg-endrer-feil-${vedlegg.id}`;
 
@@ -77,7 +79,7 @@ export function EndreVedlegg({
                 setTittel(data.tittel);
             })
             .catch((error) => {
-                console.log(error);
+                showError(error);
             })
             .finally(() => {
                 setIsLoading(false);
