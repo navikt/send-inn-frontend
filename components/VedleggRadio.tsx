@@ -10,6 +10,16 @@ interface VedleggRadioProp {
     setOpplastingStatus: setOpplastingStatusType;
 }
 
+const SrOnly = styled.span`
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+`;
+
 const StyledRadioGroup = styled(RadioGroup)`
     :not(:last-child) {
         padding-bottom: 24px;
@@ -30,7 +40,14 @@ function VedleggRadio({
     return (
         <>
             <StyledRadioGroup
-                legend={t('soknad.vedlegg.radio.tittel')}
+                legend={
+                    <>
+                        {t('soknad.vedlegg.radio.tittel')}
+                        <SrOnly>
+                            {t('for')} {vedlegg.label}
+                        </SrOnly>
+                    </>
+                }
                 size="medium"
                 onChange={(val: string) => handleChange(val)}
                 value={vedlegg.opplastingsStatus}

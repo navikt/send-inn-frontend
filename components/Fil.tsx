@@ -439,7 +439,7 @@ export function Fil({
     ]);
 
     return (
-        <div>
+        <li>
             {/* TODO why does one status work but not the other styled div vs panel?*/}
             <FilePanel
                 type={status}
@@ -534,6 +534,9 @@ export function Fil({
                             <Button
                                 onClick={slettFil}
                                 variant="tertiary"
+                                aria-label={`${t(
+                                    'soknad.vedlegg.fil.slett',
+                                )} ${filnavn}`}
                             >
                                 {t('soknad.vedlegg.fil.slett')}
                             </Button>
@@ -546,6 +549,6 @@ export function Fil({
                     {feilmelding}
                 </ErrorMessageWithDot>
             )}
-        </div>
+        </li>
     );
 }

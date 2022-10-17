@@ -88,7 +88,7 @@ const filListeReducer = (filListe: FilData[], action: ActionType) => {
 
 const initialState: FilData[] = [];
 
-export const VedleggContainer = styled.div<{
+export const VedleggContainer = styled.article<{
     $extraMargin?: boolean;
 }>`
     ${(props) => props.$extraMargin && 'margin-bottom: 60px'};
@@ -133,7 +133,7 @@ const SendtInnTidligereGruppe = styled.div`
 
 const FilListeGruppe = styled.div`
     margin-top: 24px;
-    > :not(:last-child) {
+    li:not(:last-child) {
         margin-bottom: 8px;
     }
 `;
@@ -147,6 +147,12 @@ const FilMottattFelt = styled.div`
             padding-right: 0.5rem;
         }
     }
+`;
+
+const List = styled.ul`
+    padding: 0;
+    margin: 0;
+    list-style: none;
 `;
 
 function Vedlegg(props: VedleggProps) {
@@ -251,7 +257,10 @@ function Vedlegg(props: VedleggProps) {
     };
 
     return (
-        <VedleggContainer $extraMargin={vedlegg.erHoveddokument}>
+        <VedleggContainer
+            aria-labelledby={`heading-${vedlegg.id}`}
+            $extraMargin={vedlegg.erHoveddokument}
+        >
             <ValideringsRamme
                 id={feilId}
                 visFeil={visFeil}
@@ -268,40 +277,37 @@ function Vedlegg(props: VedleggProps) {
                 ) : (
                     <VedleggPanel>
                         <div>
-                            <div>
-                                {(vedlegg.erHoveddokument ||
-                                    !vedlegg.skjemaurl) && (
+                            {(vedlegg.erHoveddokument ||
+                                !vedlegg.skjemaurl) && (
+                                <Heading
+                                    id={`heading-${vedlegg.id}`}
+                                    level={'3'}
+                                    size="small"
+                                    spacing
+                                >
+                                    {tittel}
+                                </Heading>
+                            )}
+
+                            {!vedlegg.erHoveddokument &&
+                                vedlegg.skjemaurl && (
                                     <Heading
+                                        id={`heading-${vedlegg.id}`}
                                         level={'3'}
                                         size="small"
                                         spacing
                                     >
-                                        {tittel}
+                                        <NavLink
+                                            target="_blank"
+                                            href={vedlegg.skjemaurl}
+                                            rel="noopener noreferrer"
+                                        >
+                                            {t('link.nyFane', {
+                                                tekst: tittel,
+                                            })}
+                                        </NavLink>
                                     </Heading>
                                 )}
-                            </div>
-                            <div>
-                                {!vedlegg.erHoveddokument &&
-                                    vedlegg.skjemaurl && (
-                                        <Heading
-                                            level={'3'}
-                                            size="small"
-                                            spacing
-                                        >
-                                            <NavLink
-                                                target="_blank"
-                                                href={
-                                                    vedlegg.skjemaurl
-                                                }
-                                                rel="noopener noreferrer"
-                                            >
-                                                {t('link.nyFane', {
-                                                    tekst: tittel,
-                                                })}
-                                            </NavLink>
-                                        </Heading>
-                                    )}
-                            </div>
 
                             {vedlegg.erHoveddokument && (
                                 <ListeGruppe>
@@ -441,36 +447,43 @@ function Vedlegg(props: VedleggProps) {
                         {!skjulFiler && filListe.length > 0 && (
                             <FilListeGruppe>
                                 <Heading
+                                    id={`sendtInnNaa-${vedlegg.id}`}
                                     level={'4'}
                                     size="xsmall"
                                     spacing
                                 >
                                     {t('soknad.vedlegg.sendtInnNaa')}
                                 </Heading>
-                                {filListe.map((fil) => {
-                                    return (
-                                        <Fil
-                                            key={fil.komponentID}
-                                            komponentID={
-                                                fil.komponentID
-                                            }
-                                            vedlegg={vedlegg}
-                                            innsendingsId={
-                                                innsendingsId
-                                            }
-                                            lokalFil={fil.lokalFil}
-                                            opplastetFil={
-                                                fil.opplastetFil
-                                            }
-                                            filListeDispatch={
-                                                dispatch
-                                            }
-                                            oppdaterLokalOpplastingStatus={
-                                                oppdaterLokalOpplastingStatus
-                                            }
-                                        />
-                                    );
-                                })}
+                                <List
+                                    aria-labelledby={`sendtInnNaa-${vedlegg.id}`}
+                                >
+                                    {filListe.map((fil) => {
+                                        return (
+                                            <Fil
+                                                key={fil.komponentID}
+                                                komponentID={
+                                                    fil.komponentID
+                                                }
+                                                vedlegg={vedlegg}
+                                                innsendingsId={
+                                                    innsendingsId
+                                                }
+                                                lokalFil={
+                                                    fil.lokalFil
+                                                }
+                                                opplastetFil={
+                                                    fil.opplastetFil
+                                                }
+                                                filListeDispatch={
+                                                    dispatch
+                                                }
+                                                oppdaterLokalOpplastingStatus={
+                                                    oppdaterLokalOpplastingStatus
+                                                }
+                                            />
+                                        );
+                                    })}
+                                </List>
                             </FilListeGruppe>
                         )}
                     </VedleggPanel>
