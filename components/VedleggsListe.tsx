@@ -440,7 +440,11 @@ function VedleggsListe({
                         vedleggsliste.filter((x) => x.erHoveddokument)
                             .length > 0 && (
                             <>
-                                <Heading size="large" spacing>
+                                <Heading
+                                    level={'2'}
+                                    size="large"
+                                    spacing
+                                >
                                     {t(
                                         'soknad.visningsSteg.steg0.tittel',
                                     )}
@@ -470,7 +474,11 @@ function VedleggsListe({
                         vedleggsliste.filter((x) => x.erHoveddokument)
                             .length > 0 && (
                             <>
-                                <Heading size="large" spacing>
+                                <Heading
+                                    level={'2'}
+                                    size="large"
+                                    spacing
+                                >
                                     {t(
                                         'soknad.visningsSteg.steg1.tittel',
                                     )}
@@ -521,7 +529,7 @@ function VedleggsListe({
                     {/* {soknadHarNoeInnlevert.toString() + " // "} */}
                     {/* {JSON.stringify(vedleggsliste)} */}
 
-                    <Heading size="large" spacing>
+                    <Heading level={'2'} size="large" spacing>
                         {t(
                             'soknad.visningsSteg.lastOppVedlegg.tittel',
                         )}

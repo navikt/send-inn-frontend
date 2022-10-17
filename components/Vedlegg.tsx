@@ -271,7 +271,11 @@ function Vedlegg(props: VedleggProps) {
                             <div>
                                 {(vedlegg.erHoveddokument ||
                                     !vedlegg.skjemaurl) && (
-                                    <Heading size="small" spacing>
+                                    <Heading
+                                        level={'3'}
+                                        size="small"
+                                        spacing
+                                    >
                                         {tittel}
                                     </Heading>
                                 )}
@@ -279,7 +283,11 @@ function Vedlegg(props: VedleggProps) {
                             <div>
                                 {!vedlegg.erHoveddokument &&
                                     vedlegg.skjemaurl && (
-                                        <Heading size="small" spacing>
+                                        <Heading
+                                            level={'3'}
+                                            size="small"
+                                            spacing
+                                        >
                                             <NavLink
                                                 target="_blank"
                                                 href={
@@ -340,7 +348,11 @@ function Vedlegg(props: VedleggProps) {
 
                         {erSendtInnTidligere && (
                             <SendtInnTidligereGruppe>
-                                <Heading size="xsmall" spacing as="p">
+                                <Heading
+                                    level={'4'}
+                                    size="xsmall"
+                                    spacing
+                                >
                                     {t(
                                         'soknad.vedlegg.tidligereSendtInn',
                                     )}
@@ -428,7 +440,11 @@ function Vedlegg(props: VedleggProps) {
 
                         {!skjulFiler && filListe.length > 0 && (
                             <FilListeGruppe>
-                                <Heading size="xsmall" spacing as="p">
+                                <Heading
+                                    level={'4'}
+                                    size="xsmall"
+                                    spacing
+                                >
                                     {t('soknad.vedlegg.sendtInnNaa')}
                                 </Heading>
                                 {filListe.map((fil) => {

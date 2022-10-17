@@ -71,109 +71,131 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
 
     return (
         <div>
-            <Heading size="large" level="2" spacing>
+            <Heading as="p" size="large" spacing>
                 {t('kvittering.tittel')}
             </Heading>
+            <section aria-labelledby="mottattDokumenterHeading">
+                <Heading
+                    id="mottattDokumenterHeading"
+                    spacing
+                    size="medium"
+                    level="2"
+                >
+                    {t(
+                        'kvittering.mottattDokumenter',
 
-            <Heading spacing size="medium" level="3">
-                {t(
-                    'kvittering.mottattDokumenter',
-
-                    {
-                        dato: formatertDato(
-                            new Date(kvprops.mottattdato),
-                        ),
-                    },
-                )}
-            </Heading>
-            <SjekkBoksListe>
-                {kvprops && kvprops.hoveddokumentRef && (
-                    <li>
-                        <Alert variant="success" size="medium" inline>
-                            <Bold>
-                                {t('kvittering.skjema')}
-                                {': '}
-                            </Bold>
-                            {kvprops.label}
-                            <br />
-                            <NavLink
-                                href={`${publicRuntimeConfig.apiUrl}/${kvprops.hoveddokumentRef}`}
-                                target="_blank"
+                        {
+                            dato: formatertDato(
+                                new Date(kvprops.mottattdato),
+                            ),
+                        },
+                    )}
+                </Heading>
+                <SjekkBoksListe>
+                    {kvprops && kvprops.hoveddokumentRef && (
+                        <li>
+                            <Alert
+                                variant="success"
+                                size="medium"
+                                inline
                             >
-                                {t('kvittering.skjemaLenke')}
-                            </NavLink>
-                        </Alert>
-                    </li>
-                )}
-                {kvprops &&
-                    kvprops.innsendteVedlegg &&
-                    kvprops.innsendteVedlegg.length > 0 &&
-                    kvprops.innsendteVedlegg.map((vedlegg) => {
-                        return (
-                            <li key={vedlegg.vedleggsnr}>
-                                <Alert
-                                    variant="success"
-                                    size="medium"
-                                    inline
+                                <Bold>
+                                    {t('kvittering.skjema')}
+                                    {': '}
+                                </Bold>
+                                {kvprops.label}
+                                <br />
+                                <NavLink
+                                    href={`${publicRuntimeConfig.apiUrl}/${kvprops.hoveddokumentRef}`}
+                                    target="_blank"
                                 >
-                                    <Bold>
-                                        {t('kvittering.vedlegg')}
-                                        {': '}
-                                    </Bold>
-                                    {vedlegg.tittel}
-                                </Alert>
-                            </li>
-                        );
-                    })}
-            </SjekkBoksListe>
+                                    {t('kvittering.skjemaLenke')}
+                                </NavLink>
+                            </Alert>
+                        </li>
+                    )}
+                    {kvprops &&
+                        kvprops.innsendteVedlegg &&
+                        kvprops.innsendteVedlegg.length > 0 &&
+                        kvprops.innsendteVedlegg.map((vedlegg) => {
+                            return (
+                                <li key={vedlegg.vedleggsnr}>
+                                    <Alert
+                                        variant="success"
+                                        size="medium"
+                                        inline
+                                    >
+                                        <Bold>
+                                            {t('kvittering.vedlegg')}
+                                            {': '}
+                                        </Bold>
+                                        {vedlegg.tittel}
+                                    </Alert>
+                                </li>
+                            );
+                        })}
+                </SjekkBoksListe>
+            </section>
 
             {kvprops.skalEttersendes &&
                 kvprops.skalEttersendes.length > 0 && (
-                    <Heading spacing size="medium" level="3">
-                        {t('kvittering.maaEttersendes')}
-                    </Heading>
-                )}
+                    <section aria-labelledby="maaEttersendesHeading">
+                        <Heading
+                            id={'maaEttersendesHeading'}
+                            spacing
+                            size="medium"
+                            level="2"
+                        >
+                            {t('kvittering.maaEttersendes')}
+                        </Heading>
 
-            <BodyShort as="ul" size="medium" spacing>
-                {kvprops &&
-                    kvprops.skalEttersendes &&
-                    kvprops.skalEttersendes.length > 0 &&
-                    kvprops.skalEttersendes.map((vedlegg) => {
-                        return (
-                            <li key={vedlegg.vedleggsnr}>
-                                {' '}
-                                {vedlegg.tittel}
-                            </li>
-                        );
-                    })}
-            </BodyShort>
+                        <BodyShort as="ul" size="medium" spacing>
+                            {kvprops.skalEttersendes.map(
+                                (vedlegg) => {
+                                    return (
+                                        <li key={vedlegg.vedleggsnr}>
+                                            {' '}
+                                            {vedlegg.tittel}
+                                        </li>
+                                    );
+                                },
+                            )}
+                        </BodyShort>
+                    </section>
+                )}
 
             {kvprops.skalSendesAvAndre &&
                 kvprops.skalSendesAvAndre.length > 0 && (
-                    <Heading spacing size="medium" level="3">
-                        {t('kvittering.sendesAvAndre')}
-                    </Heading>
-                )}
+                    <section aria-labelledby="sendesAvAndreHeading">
+                        <Heading
+                            id={'sendesAvAndreHeading'}
+                            spacing
+                            size="medium"
+                            level="2"
+                        >
+                            {t('kvittering.sendesAvAndre')}
+                        </Heading>
 
-            <BodyShort as="ul" size="medium" spacing>
-                {kvprops &&
-                    kvprops.skalSendesAvAndre &&
-                    kvprops.skalSendesAvAndre.length > 0 &&
-                    kvprops.skalSendesAvAndre.map((vedlegg) => {
-                        return (
-                            <li key={vedlegg.vedleggsnr}>
-                                {' '}
-                                {vedlegg.tittel}
-                            </li>
-                        );
-                    })}
-            </BodyShort>
+                        <BodyShort as="ul" size="medium" spacing>
+                            {kvprops.skalSendesAvAndre.map(
+                                (vedlegg) => {
+                                    return (
+                                        <li key={vedlegg.vedleggsnr}>
+                                            {' '}
+                                            {vedlegg.tittel}
+                                        </li>
+                                    );
+                                },
+                            )}
+                        </BodyShort>
+                    </section>
+                )}
 
             {kvprops.skalEttersendes &&
                 kvprops.skalEttersendes.length > 0 && (
                     <>
                         <StyledAlert variant="info">
-                            <Heading spacing size="small" level="4">
+                            <Heading level={'3'} spacing size="small">
                                 {t('kvittering.fristEttersending', {
                                     dato: formatertDato(
                                         new Date(
