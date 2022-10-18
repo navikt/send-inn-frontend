@@ -4,6 +4,8 @@ import nbTranslation from './assets/locales/nb/translation.json';
 import nnTranslation from './assets/locales/nn/translation.json';
 import enTranslation from './assets/locales/en/translation.json';
 import nbBackend from './assets/locales/nb/backend.json';
+import nnBackend from './assets/locales/nn/backend.json';
+import enBackend from './assets/locales/en/backend.json';
 
 // import Backend from 'i18next-http-backend';
 // import LanguageDetector from 'i18next-browser-languagedetector';
@@ -19,9 +21,11 @@ export const resources = {
     },
     nn: {
         translation: nnTranslation,
+        backend: nnBackend,
     },
     en: {
         translation: enTranslation,
+        backend: enBackend,
     },
 } as const;
 

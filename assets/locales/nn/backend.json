@@ -1,0 +1,11 @@
+{
+    "errorCode": {
+        "illegalAction.applicationSentInOrDeleted": "Søknaden kan ikkje visast eller bli endra fordi han er sletta eller sendt inn til NAV",
+        "illegalAction.fileCannotBeRead": "Opplastinga av fil feila fordi ho ikkje kan lesast. Sjekk at ho ikkje er kryptert eller verna med passord og prøv igjen ",
+        "illegalAction.sendInErrorNoApplication": "Innsendinga feila fordi det ikkje er lasta opp søknad ",
+        "illegalAction.sendInErrorNoChange": "Innsendinga feila fordi det ikkje er endringar å sende til NAV ",
+        "illegalAction.notSupportedFileFormat": "Feil filformat, det er berre lov å laste opp filer av typen PDF, JPEG/JPG og PNG",
+        "illegalAction.fileSizeSumTooLarge": "Summen av storleiken på opplasta filer for heile søknaden overskrid maksimal tillaten storleik. Den maksimale storleiken er 150MB totalt.",
+        "illegalAction.vedleggFileSizeSumTooLarge": "Summen av storleiken på opplasta filer for dette vedlegget overskrid maksimal tillaten storleik. Den maksimale storleiken er 50MB totalt."
+    }
+}

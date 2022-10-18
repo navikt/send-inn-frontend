@@ -1,0 +1,11 @@
+{
+    "errorCode": {
+        "illegalAction.applicationSentInOrDeleted": "The application cannot be displayed or changed because it has been deleted or submitted to NAV",
+        "illegalAction.fileCannotBeRead": "File upload failed because the file cannot be read. Check that it is not encrypted or password protected and try again",
+        "illegalAction.sendInErrorNoApplication": "Submission failed because no application document has been uploaded",
+        "illegalAction.sendInErrorNoChange": "Submission failed because there are no changes to send to NAV",
+        "illegalAction.notSupportedFileFormat": "Wrong file format. It is only allowed to upload files of type PDF, JPEG/JPG and PNG",
+        "illegalAction.fileSizeSumTooLarge": "The sum of the size of uploaded files for the entire application exceeds the maximum allowed size. The maximum size allowed is 150MB in total.",
+        "illegalAction.vedleggFileSizeSumTooLarge": "The sum of the size of uploaded files for this attachment exceeds the maximum allowed size. The maximum size allowed is 50MB in total."
+    }
+}
