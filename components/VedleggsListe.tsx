@@ -269,11 +269,11 @@ function VedleggsListe({
                 },
             )
             .then((response) => {
-                console.log(response);
-                const newListe = vedleggsliste.map((el) =>
-                    el.id === id ? { ...response.data } : el,
+                setVedleggsListe((forrigeVedleggsliste) =>
+                    forrigeVedleggsliste.map((el) =>
+                        el.id === id ? { ...response.data } : el,
+                    ),
                 );
-                setVedleggsListe(newListe);
             })
             .catch((error) => {
                 showError(error);
@@ -284,14 +284,18 @@ function VedleggsListe({
         id: number,
         opplastingsStatus: string,
     ) => {
-        const newListe = vedleggsliste.map((el) =>
-            el.id === id ? { ...el, opplastingsStatus } : el,
+        setVedleggsListe((forrigeVedleggsliste) =>
+            forrigeVedleggsliste.map((el) =>
+                el.id === id ? { ...el, opplastingsStatus } : el,
+            ),
         );
-        setVedleggsListe(newListe);
     };
 
     const leggTilVedlegg = (vedlegg) => {
-        setVedleggsListe([...vedleggsliste, vedlegg]);
+        setVedleggsListe((forrigeVedleggsliste) => [
+            ...forrigeVedleggsliste,
+            vedlegg,
+        ]);
     };
     const slettAnnetVedlegg = (vedleggsId) => {
         axios
@@ -299,11 +303,11 @@ function VedleggsListe({
                 `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${vedleggsId}`,
             )
             .then(() => {
-                console.log({ vedleggsliste });
-                const newListe = vedleggsliste.filter(
-                    (el) => el.id !== vedleggsId,
+                setVedleggsListe((forrigeVedleggsliste) =>
+                    forrigeVedleggsliste.filter(
+                        (el) => el.id !== vedleggsId,
+                    ),
                 );
-                setVedleggsListe(newListe);
             })
             .catch((error) => {
                 showError(error);
