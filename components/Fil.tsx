@@ -388,6 +388,10 @@ export function Fil({
                 console.log({ response: response.data });
             })
             .catch((error) => {
+                if (axios.isCancel(error)) {
+                    // avbrutt av bruker
+                    return;
+                }
                 dispatch({
                     type: FIL_ACTIONS.FEIL,
                 });
