@@ -1,3 +1,155 @@
 {
-    "test": "det er nynorsk"
+    "test": "det er nynorsk",
+    "soknad": {
+        "visningsSteg": {
+            "steg0": {
+                "tittel": "Last ned og fyll ut skjema"
+            },
+            "steg1": {
+                "tittel": "Last opp ferdig utfylt skjema"
+            },
+            "lastOppVedlegg": {
+                "tittel": "Last opp vedlegg",
+                "ingress": "Her kan du lasta opp vedlegg til saka di. Du må lasta opp alle vedlegga før NAV kan behandla saka.",
+                "infoFrist": "Frist for opplasting av vedlegg: {{dato}}",
+                "advarselHovedskjema": "UTGÅR!! Du får ikkje sendt inn før du har lasta opp ferdig utfylt skjema på førre side."
+            }
+        },
+        "skjemaNedlasting": {
+            "listeTittel": "Slik gjer du:",
+            "liste": [
+                "Klikk på “Last ned skjema”.",
+                "Åpne og fyll ut pdf-skjemaet som blir lasta ned.",
+                " Lagre skjemaet på di eining etter at du har fylt det ut.",
+                "Klikk på “Neste steg”."
+            ],
+            "lastNedKnapp": "Last ned skjema"
+        },
+        "hovedSkjema": {
+            "listeTittel": "Slik gjer du:",
+            "liste": [
+                "Klikk på “Last opp utfylt skjema”.",
+                "Finn og last opp det ferdig utfylte skjemaet.",
+                "Klikk på “Neste steg”.",
+                "Viss du skal senda inn vedlegg gjer du det i neste steg."
+            ],
+            "filvelgerKnapp": "Last opp utfylt skjema",
+            "feilmelding": {
+                "manglerFil": "Last opp utfylt skjema: {{label}}"
+            }
+        },
+        "vedlegg": {
+            "tidligereSendtInn": "Dokument du har sendt inn tidlegare:",
+            "sendtInnNaa": "Dokument du har lasta opp nå:",
+            "mottatt": "Tatt imot",
+            "ettersendingFilvelgerKnapp": "Last opp nye filer",
+            "feilmelding": {
+                "manglerFil": "Last opp {{label}}"
+            },
+            "annet": {
+                "tittel": "Beskriv vedlegget",
+                "beskrivelse": "Gi eit beskrivande namn på dokumenta du ønsker å laste opp.",
+                "rediger": "Rediger",
+                "slett": "Slett vedlegg",
+                "bekreft": "Bekreft",
+                "avbryt": "Avbryt",
+                "feilmelding": {
+                    "fullforOpprettelse": "Fullfør eller avbryt for å gi vedlegget namn",
+                    "fullforRedigering": "Fullfør og bekreft redigering av namngiving av vedlegg",
+                    "manglerFil": "Last opp eller slett vedlegget: {{label}}",
+                    "manglerNavn": "Gi eit namn til vedlegget",
+                    "navnForLangt": "Namnet på vedlegget er for langt. Maks {{maxLength}} tegn"
+                }
+            },
+            "radio": {
+                "tittel": "Velg innsending",
+                "lasterOppNaa": "Eg lastar opp dette nå",
+                "sendSenere": "Eg lastar opp dette seinare",
+                "sendesAvAndre": "Sendes inn av andre (til dømes lege eller arbeidsgjevar)"
+            },
+            "fil": {
+                "provIgjen": "Prøv igjen",
+                "avbryt": "Avbryt",
+                "slett": "Fjern",
+                "feilmelding": {
+                    "provIgjenEllerFjern": "Fullfør opplasting av “{{filnavn}}”, eller fjern feil",
+                    "ikkeFerdigOpplastet": "Vent til fil er ferdig lasta"
+                }
+            }
+        },
+        "knapper": {
+            "annenVedleggKnapp": "Legg til anna dokumentasjon",
+            "sendInn": "Send til NAV",
+            "sendInnUfullstendig": "Send til NAV",
+            "fortsettSenere": "Lagre og fortsett seinare",
+            "neste": "Neste steg",
+            "forrige": "Forrige steg",
+            "avbryt": "Avbryt",
+            "slett": "Slett søknad"
+        }
+    },
+    "filvelger": {
+        "defaultText": "Velg dine filer"
+    },
+    "link": {
+        "nyFane": "{{tekst}} (åpnes i ny fane)"
+    },
+    "modal": {
+        "fortsettSenere": {
+            "tittel": "Er du sikker på at du vil lagre søknaden og fortsette seinare?",
+            "liste": [
+                "Søknaden blir IKKJE send til saksbehandlar i NAV no, men berre lagra slik at du kan fortsetja seinare.",
+                "Viss du ønsker å setja dagens dato som startdato for søknaden må du klikke “Avbryt” og velja “Send til NAV”.",
+                "Vi har oppretta ei oppgåve på nav.no/minside med ei lenke til søknaden."
+            ],
+            "accept": "Ja, lagre og fortsett seinare",
+            "cancel": "Avbryt"
+        },
+        "slett": {
+            "tittel": "Er du sikker på at du vil slette søknaden?",
+            "liste": [
+                "Søknaden og alle dokumenta du har lastet opp vil bli slettet."
+            ],
+            "accept": "Ja, slett søknaden",
+            "cancel": "Avbryt"
+        },
+        "sendInnUferdig": {
+            "tittel": " Er du sikker på at du vil senda søknaden no, sjølv om ikkje alle dokumenta er lasta opp?",
+            "liste": [
+                "Dagens dato vil bli sett som mottaksdato for søknaden.",
+                "Du har ikkje lasta opp alle dokumenta som er nødvendig for å behandle søknaden.",
+                "Du må ettersenda dokumenta som manglar innan {{dato}}.",
+                "Vi har oppretta ei oppgåve på nav.no/minside med ei lenke til søknaden. Der finn du vedlegga du må ettersenda."
+            ],
+            "accept": "Ja, send søknaden",
+            "cancel": "Avbryt"
+        },
+        "sendInnKomplett": {
+            "tittel": "Søknaden er klar til å sendast inn. Vil du senda han no?",
+            "liste": ["Dagens dato vil bli satt som mottaksdato."],
+            "accept": "Ja, send søknaden",
+            "cancel": "Avbryt"
+        }
+    },
+    "kvittering": {
+        "tittel": "Takk!",
+        "mottattDokumenter": "Vi mottok desse dokumenta {{dato}}:",
+        "skjema": "Skjema",
+        "vedlegg": "Vedlegg",
+        "skjemaLenke": "Last ned kopi (åpnes i ny fane)",
+        "maaEttersendes": " Dokument som må ettersendast:",
+        "sendesAvAndre": " Dokument som skal sendast av andre:",
+        "fristEttersending": "Frist for å ettersenda dokumenta: {{dato}}",
+        "ettersendingsInfo": "Vi kan ikkje behandla saka di før vi har tatt imot desse. Oppgåva for å ettersenda dokumentasjonen finn du på nav.no/minside.",
+        "altMottatInfo": "Alle nødvendige dokument er tatt imot. Du finn dei under Dine saker på nav.no/minside.",
+        "minSideKnapp": "Gå til Min side"
+    },
+    "feil": {
+        "fraBackend": "Beklagar, vi har tekniske problem. Prøv igjen seinare. Om problemet held fram ta kontakt med NAV for å få hjelp på telefon (+47) 55 55 33 33 eller på ditt lokale NAV kontor.",
+        "medTilkobling": "Sjekk nettverkstilkoplinga di og prøv igjen.",
+        "ukjent": "Beklagar, vi har tekniske problem. Prøv igjen seinare. Om problemet held fram ta kontakt med NAV for å få hjelp på telefon (+47) 55 55 33 33 eller på ditt lokale NAV kontor.",
+        "advarselOverskrift": "Det har skjedd ein feil",
+        "advarselBrukerBekreftelse": "OK"
+    },
+    "for": "for"
 }
