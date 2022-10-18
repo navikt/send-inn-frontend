@@ -45,7 +45,7 @@ i18n
         defaultNS,
         resources,
         lng: 'nb',
-        fallbackLng: 'nb',
+        fallbackLng: 'en',
         debug: false,
         nsSeparator: false,
         interpolation: {
