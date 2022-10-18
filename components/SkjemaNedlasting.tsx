@@ -53,7 +53,7 @@ function SkjemaNedlasting(props: VedleggProps) {
     return (
         <div>
             <VedleggPanel $extraMargin>
-                <Heading size="small" spacing>
+                <Heading level={'3'} size="small" spacing>
                     {vedlegg.label}
                 </Heading>
                 <BeskrivelsesGruppe>

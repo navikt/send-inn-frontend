@@ -35,6 +35,7 @@ const Style = styled.div`
     margin: 0 auto;
     padding-top: 44px;
     margin-bottom: 44px;
+    outline: none;
 `;
 
 const PaddedVedlegg = styled.div`
@@ -217,6 +218,8 @@ function VedleggsListe({
     const [visSide1Feil, setVisSide1Feil] = useState(false);
     const [side1Valideringfokus, setSide1Valideringfokus] =
         useState(false);
+
+    const vedleggsListeContainer = useRef(null);
 
     const visSteg0 =
         !visKvittering &&
@@ -412,18 +415,41 @@ function VedleggsListe({
         document.documentElement.lang = i18n.language;
     }, [soknad, i18n]);
 
+    useEffect(() => {
+        if (
+            vedleggsListeContainer.current &&
+            (visSteg0 ||
+                visSteg1 ||
+                visLastOppVedlegg ||
+                visKvittering)
+        ) {
+            vedleggsListeContainer.current.focus();
+            if (window.scrollY !== 0) {
+                vedleggsListeContainer.current.scrollIntoView(true);
+            } else {
+                window.scrollTo(0, 0);
+            }
+        }
+    }, [
+        vedleggsListeContainer,
+        visSteg0,
+        visSteg1,
+        visLastOppVedlegg,
+        visKvittering,
+    ]);
+
     const resetState = () => {
         setVedleggsListe(initialVedleggsliste);
         setSoknad(null);
     };
     return (
-        <Style>
+        <Style ref={vedleggsListeContainer} tabIndex={-1}>
             {/* TODO trenger vi dette allikevel? kanskje for å jobbe med  */}
-            {/* { 
+            {/* {
                 språktest: {t('test')} <br />
                 språk: <br />             soknad.spraak // skriver ut språk
                 <br />
-            
+
             */}
             {visKvittering && (
                 <div>
@@ -440,7 +466,11 @@ function VedleggsListe({
                         vedleggsliste.filter((x) => x.erHoveddokument)
                             .length > 0 && (
                             <>
-                                <Heading size="large" spacing>
+                                <Heading
+                                    level={'2'}
+                                    size="large"
+                                    spacing
+                                >
                                     {t(
                                         'soknad.visningsSteg.steg0.tittel',
                                     )}
@@ -470,7 +500,11 @@ function VedleggsListe({
                         vedleggsliste.filter((x) => x.erHoveddokument)
                             .length > 0 && (
                             <>
-                                <Heading size="large" spacing>
+                                <Heading
+                                    level={'2'}
+                                    size="large"
+                                    spacing
+                                >
                                     {t(
                                         'soknad.visningsSteg.steg1.tittel',
                                     )}
@@ -521,7 +555,7 @@ function VedleggsListe({
                     {/* {soknadHarNoeInnlevert.toString() + " // "} */}
                     {/* {JSON.stringify(vedleggsliste)} */}
 
-                    <Heading size="large" spacing>
+                    <Heading level={'2'} size="large" spacing>
                         {t(
                             'soknad.visningsSteg.lastOppVedlegg.tittel',
                         )}

@@ -34,6 +34,7 @@ export function OpprettAnnetVedlegg({
     const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(false);
     const [visOpprett, setVisOpprett] = useState(false);
+    const [giFokusPaaLeggTil, setGiFokusPaaLeggTil] = useState(false);
     const {
         register,
         handleSubmit,
@@ -72,13 +73,14 @@ export function OpprettAnnetVedlegg({
                 },
             )
             .then((response) => {
-                leggTilVedlegg(response.data);
+                leggTilVedlegg({ ...response.data, autoFocus: true });
             })
             .catch((error) => {
                 showError(error);
             })
             .finally(() => {
                 setIsLoading(false);
+                setGiFokusPaaLeggTil(false);
                 setVisOpprett(false);
                 reset();
             });
@@ -136,9 +138,10 @@ export function OpprettAnnetVedlegg({
                                     type="button"
                                     variant="tertiary"
                                     disabled={isLoading}
-                                    onClick={() =>
-                                        setVisOpprett(false)
-                                    }
+                                    onClick={() => {
+                                        setVisOpprett(false);
+                                        setGiFokusPaaLeggTil(true);
+                                    }}
                                 >
                                     {t('soknad.vedlegg.annet.avbryt')}
                                 </Button>
@@ -152,6 +155,7 @@ export function OpprettAnnetVedlegg({
                     onClick={() => setVisOpprett(true)}
                     variant="secondary"
                     icon={<Add />}
+                    autoFocus={giFokusPaaLeggTil}
                 >
                     {t('soknad.knapper.annenVedleggKnapp')}
                 </Button>
