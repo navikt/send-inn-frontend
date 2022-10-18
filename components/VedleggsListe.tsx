@@ -367,7 +367,7 @@ function VedleggsListe({
         const changeLang = (lng) => {
             // nb / nn / en / se / pl støttede språk per 2022 for dekoratoren
 
-            if (lng === 'no') {
+            if (lng === 'no' || lng === 'nb') {
                 i18n.changeLanguage('nb');
                 setParams({
                     language: 'nb',
@@ -406,9 +406,6 @@ function VedleggsListe({
             }
 
             i18n.changeLanguage('en');
-            setParams({
-                language: 'en',
-            });
         };
 
         changeLang(soknad.spraak);
