@@ -12,6 +12,7 @@
                 "tittel": "Last opp vedlegg",
                 "ingress": "Her kan du laste opp vedlegg til saken din. Du må laste opp alle vedleggene før NAV kan behandle saken.",
                 "infoFrist": "Frist for opplasting av vedlegg: {{dato}}",
+                "advarselHovedskjema": "Du får ikke sendt inn før du har lastet opp ferdig utfylt skjema på forrige side."
             }
         },
         "skjemaNedlasting": {
