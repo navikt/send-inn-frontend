@@ -35,6 +35,7 @@ const Style = styled.div`
     margin: 0 auto;
     padding-top: 44px;
     margin-bottom: 44px;
+    outline: none;
 `;
 
 const PaddedVedlegg = styled.div`
@@ -423,10 +424,14 @@ function VedleggsListe({
                 visKvittering)
         ) {
             vedleggsListeContainer.current.focus();
-            vedleggsListeContainer.current.scrollIntoView(true);
+            if (window.scrollY !== 0) {
+                vedleggsListeContainer.current.scrollIntoView(true);
+            } else {
+                window.scrollTo(0, 0);
+            }
         }
     }, [
-        vedleggsListeContainer.current,
+        vedleggsListeContainer,
         visSteg0,
         visSteg1,
         visLastOppVedlegg,
