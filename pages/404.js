@@ -24,84 +24,79 @@ export default function Custom404() {
         <Style>
             <div>
                 <Heading level="1" size="xlarge" spacing>
-                    Fant ikke siden
+                    Vi fant ikke den siden
                 </Heading>
-
-                <Detail spacing>Statuskode 404</Detail>
             </div>
             <div>
                 <div>
                     <div>
-                        <BodyShort spacing>
-                            Beklager, siden kan være slettet eller
-                            flyttet, eller det var en feil i lenken
-                            som førte deg hit.
-                        </BodyShort>
+                        <div>
+                            <BodyShort spacing>
+                                Beklager, siden kan være slettet eller
+                                flyttet, eller det var en feil i
+                                lenken som førte deg hit.
+                            </BodyShort>
+                            <BodyShort spacing>
+                                Vi setter pris på om du melder fra om
+                                feilen via lenken nedenfor.
+                            </BodyShort>
+                        </div>
 
                         <BodyShort spacing>
-                            Bruk gjerne søket, menyen eller{' '}
                             <a href="https://nav.no">
-                                gå til forsiden
+                                Gå til forsiden på nav.no
                             </a>
                             .
                         </BodyShort>
                         <BodyShort spacing>
                             <a href="https://www.nav.no/person/kontakt-oss/tilbakemeldinger/feil-og-mangler">
-                                Meld gjerne fra om denne lenken
+                                Meld fra om denne feilen
                             </a>
                         </BodyShort>
                     </div>
+
                     <div>
-                        <Heading level="2" size="large" spacing>
-                            Hva leter du etter?
+                        <Heading level="1" size="xlarge" spacing>
+                            We did not find that page
                         </Heading>
-                        <DivWithSpacing>
-                            <form
-                                action="https://www.nav.no/sok"
-                                method="GET"
-                            >
-                                <DivWithSpacing>
-                                    <input
-                                        type="text"
-                                        aria-labelledby="search-header"
-                                        maxLength="200"
-                                        placeholder="Søk på nav.no"
-                                        id="search-input"
-                                        name="ord"
-                                        aria-invalid="false"
-                                    />
-                                    <div
-                                        id="textField-error-29a94bad-bcca-486a-8afd-0cf987c72b83"
-                                        aria-relevant="additions removals"
-                                        aria-live="polite"
-                                    />
-                                </DivWithSpacing>
-                                <DivWithSpacing>
-                                    <Button>
-                                        <span aria-live="polite">
-                                            Søk
-                                        </span>
-                                    </Button>
-                                </DivWithSpacing>
-                            </form>
-                        </DivWithSpacing>
                     </div>
                     <div>
-                        <Heading level="2" size="large" spacing>
-                            In English
-                        </Heading>
+                        <div>
+                            <div>
+                                <div>
+                                    <BodyShort spacing>
+                                        The page you requested cannot
+                                        be found. It may have been
+                                        deleted, moved, or there may
+                                        be an error in the link that
+                                        led you here. We appologize
+                                        for the inconvenience.
+                                    </BodyShort>
+                                    <BodyShort spacing>
+                                        We would appreciate it if you
+                                        report the error via the link
+                                        below.
+                                    </BodyShort>
+                                </div>
 
-                        <BodyShort spacing>
-                            The page you requested cannot be found.
-                        </BodyShort>
-                        <BodyShort spacing>
-                            Go to the{' '}
-                            <a href="https://nav.no">front page</a>,
-                            or use one of the links in the menu.
-                        </BodyShort>
+                                <BodyShort spacing>
+                                    <a href="https://nav.no">
+                                        Return to nav.no front page
+                                    </a>
+                                    .
+                                </BodyShort>
+                                <BodyShort spacing>
+                                    <a href="https://www.nav.no/person/kontakt-oss/tilbakemeldinger/feil-og-mangler">
+                                        Report this error
+                                    </a>
+                                </BodyShort>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <Detail spacing>Statuskode 404</Detail>
         </Style>
     );
 }
