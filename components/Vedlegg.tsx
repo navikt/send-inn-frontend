@@ -93,7 +93,7 @@ const filListeReducer = (filListe: FilData[], action: ActionType) => {
 
 const initialState: FilData[] = [];
 
-export const VedleggContainer = styled.article<{
+export const VedleggContainer = styled.section<{
     $extraMargin?: boolean;
 }>`
     ${(props) => props.$extraMargin && 'margin-bottom: 60px'};
