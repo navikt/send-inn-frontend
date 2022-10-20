@@ -9,6 +9,7 @@ import fetchJson from '../lib/fetchJson';
 import { AuthenticationProvider } from '../components/AuthenticationProvider';
 import { ErrorMessageProvider } from '../components/ErrorMessageProvider';
 import { setParams } from '@navikt/nav-dekoratoren-moduler';
+import App from 'next/app';
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
@@ -33,3 +34,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     );
 }
 export default MyApp;
+
+MyApp.getInitialProps = async (appContext) => {
+    // Legger til ssr på alle sider, for å fikse problem hvor dekoratoren ble statisk generert under bygg,
+    // som førte til at den ble utdatert når nav-dekoratoren fikk en ny deploy
+    const appProps = await App.getInitialProps(appContext);
+
+    return { ...appProps };
+};
