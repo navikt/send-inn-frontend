@@ -1,7 +1,12 @@
-import axios, { AxiosRequestHeaders, Method } from 'axios';
+import axios, {
+    AxiosError,
+    AxiosRequestHeaders,
+    Method,
+} from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getTokenxToken } from '../../../auth/getTokenXToken';
 import { verifyIdportenAccessToken } from '../../../auth/verifyIdPortenToken';
+import { logger, rawLogger } from '../../../lib/backendLogger';
 
 export const config = {
     api: {
@@ -21,7 +26,7 @@ export default async function handler(
             idportenToken = req.headers.authorization.split(' ')[1];
             await verifyIdportenAccessToken(idportenToken);
         } catch (e) {
-            console.warn(
+            logger.warn(
                 'kunne ikke validere idportentoken i beskyttetApi',
                 e,
             );
@@ -71,15 +76,31 @@ export default async function handler(
             res.status(response.status);
             response.data.pipe(res);
         })
-        .catch((error) => {
+        .catch((error: AxiosError) => {
             if (error.response) {
                 // The request was made and the server responded with a status code
                 // that falls out of the range of 2xx
 
-                console.log({
-                    // data: error.response.data,
-                    status: error.response.status,
-                    headers: error.response.headers,
+                let body = '';
+                error.response.data.on(
+                    'data',
+                    (chunk) => (body += chunk),
+                );
+
+                error.response.data.on('end', () => {
+                    try {
+                        const data = JSON.parse(body);
+                        rawLogger.warn({
+                            ...data,
+                            requestPath: req.url,
+                            statusCode: error.response.status,
+                        });
+                    } catch (e) {
+                        logger.error(
+                            error.response.status,
+                            ': Respons body var ikke JSON',
+                        );
+                    }
                 });
 
                 res.status(error.response.status);
@@ -88,10 +109,10 @@ export default async function handler(
             } else if (error.request) {
                 // The request was made but no response was received
                 // `error.request` is an instance of http.ClientRequest
-                console.log('No response error:', error.request);
+                logger.error('No response error:', error.request);
             } else {
                 // Something happened in setting up the request that triggered an Error
-                console.log('Invalid request error:', error.message);
+                logger.error('Invalid request error:', error.message);
             }
             res.status(500).send('Ukjent feil');
 
