@@ -3,6 +3,9 @@ import Head from 'next/head';
 import Link from 'next/link';
 
 const Home: NextPage = () => {
+    const errorMessage =
+        'this is an error from frontend at /dev: ' +
+        process.env.NODE_ENV;
     return (
         // <div>
         <div>
@@ -96,6 +99,17 @@ const Home: NextPage = () => {
                             vedlegg
                         </a>
                     </Link>
+                </div>
+
+                <div>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            throw new Error(errorMessage);
+                        }}
+                    >
+                        Throw error
+                    </button>
                 </div>
             </main>
 
