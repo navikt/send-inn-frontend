@@ -43,3 +43,6 @@ docs/.obsidian/
 .eslintcache
 
 .env
+
+# Sentry
+.sentryclirc
