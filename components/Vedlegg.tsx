@@ -221,7 +221,7 @@ function Vedlegg(props: VedleggProps) {
         if (innsendingsId && vedlegg.id) {
             axios
                 .get(
-                    `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/`,
+                    `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil`,
                 )
                 .then((response) => {
                     const responseJSON = response.data;

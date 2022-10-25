@@ -243,7 +243,7 @@ function VedleggsListe({
 
         axios
             .patch(
-                `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/`,
+                `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}`,
                 {
                     visningsSteg: nyttVisningsSteg,
                 },
