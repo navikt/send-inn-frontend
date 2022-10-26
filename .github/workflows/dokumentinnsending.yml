@@ -25,10 +25,12 @@ jobs:
               with:
                   node-version: '16'
                   cache: 'npm'
+                  registry-url: 'https://npm.pkg.github.com'
+                  scope: '@navikt'
             - name: Install dependencies
               run: npm install
               env:
-                  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Set environment variables (prod)
               if: github.ref == 'refs/heads/main'
               run: cp environments/dokumentinnsending/prod.env .env
