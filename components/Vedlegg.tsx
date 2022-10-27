@@ -93,7 +93,7 @@ const filListeReducer = (filListe: FilData[], action: ActionType) => {
 
 const initialState: FilData[] = [];
 
-export const VedleggContainer = styled.article<{
+export const VedleggContainer = styled.section<{
     $extraMargin?: boolean;
 }>`
     ${(props) => props.$extraMargin && 'margin-bottom: 60px'};
@@ -221,7 +221,7 @@ function Vedlegg(props: VedleggProps) {
         if (innsendingsId && vedlegg.id) {
             axios
                 .get(
-                    `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/`,
+                    `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil`,
                 )
                 .then((response) => {
                     const responseJSON = response.data;
