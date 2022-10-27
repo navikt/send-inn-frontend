@@ -20,6 +20,25 @@ https://send-inn-frontend-alt.dev.nav.no/
 
 Trykk testid og lim inn syntetisk fødselsnummer i
 
+## Sentry
+
+### Self hosted av NAV
+
+Vi bruker: https://sentry.gc.nav.no/
+
+### Generer.sentryclirc
+
+Du kan generere en lokal sentry cli fil ved hjelp av denne kommandoen:
+npx sentry-cli --url https://sentry.gc.nav.no/ login
+Etter dette vil du ha en fil: .sentryclirc
+
+Feil osv er tilgjengelig her:
+https://sentry.gc.nav.no/organizations/nav/projects/send-inn-frontend/
+
+### Se feil tilknyttet denne applikasjonen
+
+https://sentry.gc.nav.no/organizations/nav/projects/send-inn-frontend/
+
 ## Getting Started
 
 First, run the development server:
