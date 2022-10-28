@@ -77,6 +77,14 @@ export default async function handler(
             response.data.pipe(res);
         })
         .catch((error: AxiosError) => {
+            const commonErrorObject = {
+                requestMethod: req.method,
+                requestPath: req.url,
+                userAgent: headers['user-agent'],
+                referer: headers['referer'],
+                headerSize: error.request?._header?.length,
+                cookieSize: headers.cookie?.length, // Mistenker at cookies fra nav.no kan være uavanlig stor, i noen tilfeller
+            };
             if (error.response) {
                 // The request was made and the server responded with a status code
                 // that falls out of the range of 2xx
@@ -92,30 +100,39 @@ export default async function handler(
                         const data = JSON.parse(body);
                         rawLogger.warn({
                             ...data,
-                            requestPath: req.url,
+                            ...commonErrorObject,
                             statusCode: error.response.status,
                         });
                     } catch (e) {
-                        logger.error(
-                            error.response.status,
-                            ': Respons body var ikke JSON',
-                        );
+                        rawLogger.error({
+                            ...commonErrorObject,
+                            apiResponse: body,
+                            statusCode: error.response.status,
+                            message:
+                                'Feil format på response body. Forventer JSON',
+                        });
                     }
                 });
 
                 res.status(error.response.status);
-                // .json(error.response.data);
                 return error.response.data.pipe(res);
             } else if (error.request) {
                 // The request was made but no response was received
                 // `error.request` is an instance of http.ClientRequest
-                logger.error('No response error:', error.request);
+                rawLogger.error({
+                    ...commonErrorObject,
+                    message: 'No response error',
+                });
+                return res.status(500).send('En feil har oppstått');
             } else {
                 // Something happened in setting up the request that triggered an Error
-                logger.error('Invalid request error:', error.message);
-            }
-            res.status(500).send('Ukjent feil');
+                rawLogger.error({
+                    ...commonErrorObject,
+                    message: 'Invalid request error',
+                });
+                res.status(500).send('Ukjent feil');
 
-            throw error;
+                throw error;
+            }
         });
 }
