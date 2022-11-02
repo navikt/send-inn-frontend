@@ -657,6 +657,7 @@ function VedleggsListe({
                                             );
                                         }
                                     }}
+                                    data-cy="sendTilNAVKnapp"
                                 >
                                     {t('soknad.knapper.sendInn')}
                                 </Button>
@@ -685,6 +686,7 @@ function VedleggsListe({
                                                 );
                                             }
                                         }}
+                                        data-cy="sendTilNAVKnapp"
                                     >
                                         {t(
                                             'soknad.knapper.sendInnUfullstendig',
@@ -715,6 +717,7 @@ function VedleggsListe({
                             onClick={() => {
                                 oppdaterVisningsSteg(1);
                             }}
+                            data-cy="nesteStegKnapp"
                         >
                             {t('soknad.knapper.neste')}
                         </Button>
@@ -731,6 +734,7 @@ function VedleggsListe({
                                     }
                                     oppdaterVisningsSteg(1);
                                 }}
+                                data-cy="nesteStegKnapp"
                             >
                                 {t('soknad.knapper.neste')}
                             </Button>
@@ -739,6 +743,7 @@ function VedleggsListe({
                                     oppdaterVisningsSteg(-1);
                                 }}
                                 variant="secondary"
+                                data-cy="forrigeStegKnapp"
                             >
                                 {t('soknad.knapper.forrige')}
                             </Button>
@@ -751,6 +756,7 @@ function VedleggsListe({
                                     oppdaterVisningsSteg(-1);
                                 }}
                                 variant="secondary"
+                                data-cy="nesteStegKnapp"
                             >
                                 {t('soknad.knapper.forrige')}
                             </Button>
@@ -764,6 +770,7 @@ kanskje popup om at dette vil slette innhold? */}
                             }
                         }}
                         variant="tertiary"
+                        data-cy="slettSoknadKnapp"
                     >
                         {visLastOppVedlegg
                             ? t('soknad.knapper.slett')

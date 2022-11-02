@@ -65,6 +65,7 @@ export const FellesModal = (props: FellesModalProps) => {
                             variant="tertiary"
                             size="medium"
                             onClick={() => setOpen(false)}
+                            data-cy="neiFellesModalKnapp"
                         >
                             {cancelButtonText || 'Nei'}
                         </Button>
@@ -73,6 +74,7 @@ export const FellesModal = (props: FellesModalProps) => {
                             size="medium"
                             onClick={onAccept}
                             loading={isLoading}
+                            data-cy="jaFellesModalKnapp"
                         >
                             {acceptButtonText || 'Ja'}
                         </Button>

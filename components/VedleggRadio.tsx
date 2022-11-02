@@ -54,20 +54,29 @@ function VedleggRadio({
             >
                 {
                     vedlegg.opplastingsStatus !== 'LastetOpp' && (
-                        <Radio value="IkkeValgt">
+                        <Radio
+                            value="IkkeValgt"
+                            data-cy="lasterOppNaaRadio"
+                        >
                             {t('soknad.vedlegg.radio.lasterOppNaa')}
                         </Radio>
                     ) // jeg tror dette løser problemet med å vise disse i to situasjoner, både når noe er lastet opp og når noe ikke er lastet opp
                 }
                 {vedlegg.opplastingsStatus === 'LastetOpp' && (
-                    <Radio value="LastetOpp">
+                    <Radio
+                        value="LastetOpp"
+                        data-cy="lasterOppNaaRadio"
+                    >
                         {t('soknad.vedlegg.radio.lasterOppNaa')}
                     </Radio>
                 )}
-                <Radio value="SendSenere">
+                <Radio value="SendSenere" data-cy="sendSenereRadio">
                     {t('soknad.vedlegg.radio.sendSenere')}
                 </Radio>
-                <Radio value="SendesAvAndre">
+                <Radio
+                    value="SendesAvAndre"
+                    data-cy="sendesAvAndreRadio"
+                >
                     {t('soknad.vedlegg.radio.sendesAvAndre')}
                 </Radio>
             </StyledRadioGroup>

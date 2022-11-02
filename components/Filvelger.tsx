@@ -97,7 +97,12 @@ export function Filvelger(props: FilvelgerProps) {
     }, [handleSubmit, onSubmit, watch]);
 
     const DefaultButton = (
-        <Button as="label" variant="secondary" icon={<Upload />}>
+        <Button
+            as="label"
+            variant="secondary"
+            icon={<Upload />}
+            data-cy="filvelgerKnapp"
+        >
             {buttonText || t('filvelger.defaultText')}
         </Button>
     );

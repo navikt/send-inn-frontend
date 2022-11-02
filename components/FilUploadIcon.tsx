@@ -90,7 +90,7 @@ const SuccessStyled = styled(StyledDiv)`
 function SuccessFileIcon() {
     return (
         <SuccessStyled>
-            <div>
+            <div data-cy="fileUploadSuccessIkon">
                 <FileSuccess />
             </div>
         </SuccessStyled>
