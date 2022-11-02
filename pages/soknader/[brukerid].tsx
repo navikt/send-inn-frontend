@@ -1,22 +1,15 @@
 import type { NextPage } from 'next';
-import Head from 'next/head';
 import React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { useState, createContext, useEffect } from 'react';
-import { useRouter, NextRouter } from 'next/router';
-import { GetServerSideProps } from 'next';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Vedlegg from '../../components/Vedlegg';
 
-import { VedleggType, SoknadType } from '../../types/types';
+import { SoknadType } from '../../types/types';
 import Link from 'next/link';
-
-const qs = require('qs');
 
 const initialSoknadsliste: SoknadType[] | [] = [];
 
 const EttersendingSide: NextPage = () => {
-    const { query } = useRouter();
+    // const { query } = useRouter();
     const [soknadListe, setsoknadListe] = useState<SoknadType[]>(
         initialSoknadsliste,
     );

@@ -1,5 +1,5 @@
 import { Modal, Button, BodyLong, Heading } from '@navikt/ds-react';
-import { useState, createContext, useEffect } from 'react';
+import { useState, createContext } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 

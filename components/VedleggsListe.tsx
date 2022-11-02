@@ -1,6 +1,4 @@
-import React, { FC, ReactElement, useEffect, useRef } from 'react';
-import Link from 'next/link';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
@@ -8,13 +6,10 @@ import { VedleggType, SoknadType } from '../types/types';
 import Vedlegg from '../components/Vedlegg';
 import SkjemaNedlasting from '../components/SkjemaNedlasting';
 import Kvittering, { KvitteringsDto } from '../components/Kvittering';
-import { VedleggProps } from '../components/Vedlegg';
 import { Button, Alert } from '@navikt/ds-react';
-import { useRouter } from 'next/router';
-import { Modal, Heading, Ingress, BodyLong } from '@navikt/ds-react';
+import { Heading, Ingress, BodyLong } from '@navikt/ds-react';
 import { FellesModal } from './FellesModal';
 import { useTranslation } from 'react-i18next';
-import { Add } from '@navikt/ds-icons';
 import { setParams } from '@navikt/nav-dekoratoren-moduler';
 import {
     formatertDato,
@@ -153,17 +148,6 @@ function soknadKanSendesInn(
     return noeErLastetOpp && !detFinnesEtUpploastetHovedDokument;
 }
 
-function getHovedSkjema(vedleggsliste: VedleggType[]) {
-    vedleggsliste.forEach((element) => {
-        // om det er ettersending kan vi ignorere hoveddokumentet/skjema, alle andre dokumenter må fortsatt ha minst et dokument lastet opp
-
-        if (element.erHoveddokument) {
-            return element;
-        }
-    });
-    return null;
-}
-
 function VedleggsListe({
     soknad,
     setSoknad,
@@ -177,7 +161,6 @@ function VedleggsListe({
         useState<boolean>(false);
     const [soknadHarNoeInnlevert, setSoknadKanSendesInn] =
         useState<boolean>(false);
-    const router = useRouter();
     const [visningsSteg, setVisningsSteg] = useState(
         soknad.visningsSteg,
     );
@@ -192,7 +175,6 @@ function VedleggsListe({
         setSendInnKomplettSoknadModal,
     ] = useState(false);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const { t, i18n } = useTranslation();
 
     const [isLoading, setisLoading] = useState(false);
@@ -201,6 +183,7 @@ function VedleggsListe({
     const [soknadsInnsendingsRespons, setSoknadsInnsendingsRespons] =
         useState(null);
 
+    // todo, vi trenger ikke forandre denne verdien lenger som under utvikling, gjør det til en const variabel, venter til
     const [visningsType, setVisningsType] = useState(
         soknad.visningsType,
     );
@@ -254,10 +237,6 @@ function VedleggsListe({
             .catch((error) => {
                 showError(error);
             });
-    };
-
-    const oppdaterVisningsType = (event) => {
-        setVisningsType(event.target.value);
     };
 
     function setOpplastingStatus(id: number, status: string): void {

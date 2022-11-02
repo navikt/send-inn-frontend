@@ -8,7 +8,6 @@ import { SWRConfig } from 'swr';
 import fetchJson from '../lib/fetchJson';
 import { AuthenticationProvider } from '../components/AuthenticationProvider';
 import { ErrorMessageProvider } from '../components/ErrorMessageProvider';
-import { setParams } from '@navikt/nav-dekoratoren-moduler';
 import App from 'next/app';
 
 function MyApp({ Component, pageProps }: AppProps) {
