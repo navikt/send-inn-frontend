@@ -1,27 +1,10 @@
-import React, { useEffect, useReducer } from 'react';
-import { useState } from 'react';
-import {
-    Panel,
-    Heading,
-    Link as NavLink,
-    Ingress,
-    BodyLong,
-    Button,
-    BodyShort,
-} from '@navikt/ds-react';
-import { Filvelger } from './Filvelger';
+import React from 'react';
+import { Heading, Button, BodyShort } from '@navikt/ds-react';
 import styled from 'styled-components';
-import { v4 as uuidv4 } from 'uuid';
 import { Download } from '@navikt/ds-icons';
 import { useTranslation } from 'react-i18next';
 
-import {
-    setOpplastingStatusType,
-    OpplastetFil,
-    VedleggType,
-} from '../types/types';
-import { EndreVedlegg } from './EndreVedlegg';
-import { Fil } from './Fil';
+import { setOpplastingStatusType, VedleggType } from '../types/types';
 import { VedleggPanel } from './Vedlegg';
 
 const BeskrivelsesGruppe = styled.div`
@@ -41,12 +24,7 @@ export interface VedleggProps {
 }
 
 function SkjemaNedlasting(props: VedleggProps) {
-    const {
-        innsendingsId,
-        vedlegg,
-        setOpplastingStatus,
-        erAnnetVedlegg = true,
-    } = props;
+    const { vedlegg } = props;
 
     const { t } = useTranslation();
 

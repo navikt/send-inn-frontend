@@ -8,7 +8,6 @@ import {
     BodyShort,
 } from '@navikt/ds-react';
 import styled from 'styled-components';
-import Link from 'next/link';
 import getConfig from 'next/config';
 import { useTranslation } from 'react-i18next';
 import { Bold } from './textStyle';
