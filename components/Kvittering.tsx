@@ -8,7 +8,6 @@ import {
     BodyShort,
 } from '@navikt/ds-react';
 import styled from 'styled-components';
-import Link from 'next/link';
 import getConfig from 'next/config';
 import { useTranslation } from 'react-i18next';
 import { Bold } from './textStyle';
@@ -71,7 +70,12 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
 
     return (
         <div>
-            <Heading as="p" size="large" spacing>
+            <Heading
+                as="p"
+                size="large"
+                spacing
+                data-cy="kvitteringOverskrift"
+            >
                 {t('kvittering.tittel')}
             </Heading>
             <section aria-labelledby="mottattDokumenterHeading">

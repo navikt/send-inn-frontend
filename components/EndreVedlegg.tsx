@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
-import { Heading, Button, TextField } from '@navikt/ds-react';
+import { Button, TextField } from '@navikt/ds-react';
 import { VedleggType } from '../types/types';
 import getConfig from 'next/config';
 import styled from 'styled-components';
@@ -76,6 +76,7 @@ export function EndreVedlegg({
                 },
             )
             .then((response) => {
+                // todo response.data.tittel?
                 setTittel(data.tittel);
             })
             .catch((error) => {

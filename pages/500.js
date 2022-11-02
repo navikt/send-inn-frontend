@@ -1,4 +1,4 @@
-import { BodyShort, Search, Detail, Heading } from '@navikt/ds-react';
+import { BodyShort, Detail, Heading } from '@navikt/ds-react';
 const Style = styled.div`
     min-height: 100vh;
     max-width: 50rem;
@@ -7,9 +7,6 @@ const Style = styled.div`
     margin-bottom: 44px;
 `;
 
-const DivWithSpacing = styled.div`
-    margin-bottom: 16px;
-`;
 import styled from 'styled-components';
 
 export default function Custom500() {
