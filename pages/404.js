@@ -1,4 +1,11 @@
-import { BodyShort, Detail, Heading } from '@navikt/ds-react';
+import styled from 'styled-components';
+import {
+    BodyShort,
+    Detail,
+    Heading,
+    GuidePanel,
+} from '@navikt/ds-react';
+
 const Style = styled.div`
     min-height: 100vh;
     max-width: 50rem;
@@ -7,17 +14,22 @@ const Style = styled.div`
     margin-bottom: 44px;
 `;
 
-import styled from 'styled-components';
+
+const HorizontalLinksFlexbox = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+`;
 
 export default function Custom404() {
     return (
         <Style>
-            <div>
-                <Heading level="1" size="xlarge" spacing>
-                    Vi fant ikke den siden
-                </Heading>
-            </div>
-            <div>
+            <GuidePanel poster="true">
+                <div>
+                    <Heading level="1" size="xlarge" spacing>
+                        Vi fant ikke den siden
+                    </Heading>
+                </div>
                 <div>
                     <div>
                         <div>
@@ -31,18 +43,18 @@ export default function Custom404() {
                                 feilen via lenken nedenfor.
                             </BodyShort>
                         </div>
-
-                        <BodyShort spacing>
-                            <a href="https://nav.no">
-                                Gå til forsiden på nav.no
-                            </a>
-                            .
-                        </BodyShort>
-                        <BodyShort spacing>
-                            <a href="https://www.nav.no/person/kontakt-oss/tilbakemeldinger/feil-og-mangler">
-                                Meld fra om denne feilen
-                            </a>
-                        </BodyShort>
+                        <HorizontalLinksFlexbox>
+                            <BodyShort spacing>
+                                <a href="https://nav.no">
+                                    Gå til forsiden på nav.no
+                                </a>
+                            </BodyShort>
+                            <BodyShort spacing>
+                                <a href="https://www.nav.no/person/kontakt-oss/tilbakemeldinger/feil-og-mangler">
+                                    Meld fra om denne feilen
+                                </a>
+                            </BodyShort>
+                        </HorizontalLinksFlexbox>
                     </div>
 
                     <div>
@@ -68,25 +80,26 @@ export default function Custom404() {
                                         below.
                                     </BodyShort>
                                 </div>
-
-                                <BodyShort spacing>
-                                    <a href="https://nav.no">
-                                        Return to nav.no front page
-                                    </a>
-                                    .
-                                </BodyShort>
-                                <BodyShort spacing>
-                                    <a href="https://www.nav.no/person/kontakt-oss/tilbakemeldinger/feil-og-mangler">
-                                        Report this error
-                                    </a>
-                                </BodyShort>
+                                <HorizontalLinksFlexbox>
+                                    <BodyShort spacing>
+                                        <a href="https://nav.no">
+                                            Return to nav.no front
+                                            page
+                                        </a>
+                                    </BodyShort>
+                                    <BodyShort spacing>
+                                        <a href="https://www.nav.no/person/kontakt-oss/tilbakemeldinger/feil-og-mangler">
+                                            Report this error
+                                        </a>
+                                    </BodyShort>
+                                </HorizontalLinksFlexbox>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <Detail spacing>Statuskode 404</Detail>
+                <Detail spacing>Statuskode 404</Detail>
+            </GuidePanel>
         </Style>
     );
 }
