@@ -7,7 +7,10 @@ import * as Sentry from '@sentry/nextjs';
 const SENTRY_DSN =
     process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
 
+const environment = process.env.NEXT_PUBLIC_SENTRY_ENV || 'lokalt';
+
 Sentry.init({
+    environment,
     dsn:
         SENTRY_DSN ||
         'https://5a58507cc0de47c1898791d226660f6a@sentry.gc.nav.no/153',
