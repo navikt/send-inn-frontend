@@ -62,6 +62,7 @@ function SkjemaNedlasting(props: VedleggProps) {
                             href={vedlegg.skjemaurl}
                             rel="noopener noreferrer"
                             icon={<Download />}
+                            data-cy="lastNedKnapp"
                         >
                             {t(
                                 'soknad.skjemaNedlasting.lastNedKnapp',

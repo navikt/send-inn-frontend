@@ -70,7 +70,12 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
 
     return (
         <div>
-            <Heading as="p" size="large" spacing>
+            <Heading
+                as="p"
+                size="large"
+                spacing
+                data-cy="kvitteringOverskrift"
+            >
                 {t('kvittering.tittel')}
             </Heading>
             <section aria-labelledby="mottattDokumenterHeading">
