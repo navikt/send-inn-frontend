@@ -39,7 +39,7 @@ const InnsendingsSide: NextPage = () => {
                     }
                     if (statusCode && statusCode === 405) {
                         // Allerede sendt inn
-                        return router.push('/404');
+                        return router.push('/soknad-er-slettet');
                     }
                     return router.push('/500');
                 });
@@ -50,7 +50,7 @@ const InnsendingsSide: NextPage = () => {
         <div>
             <Head>
                 <title>
-                    {soknad ? soknad.tittel : 'Laster søknad'}{' '}
+                    {soknad ? soknad.tittel : 'Laster søknad'}
                 </title>
             </Head>
             <main>
