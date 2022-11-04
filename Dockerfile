@@ -10,6 +10,7 @@ RUN adduser --system --uid 1001 nextjs
 COPY ./next.config.js .
 COPY package.json package-lock.json ./ 
 COPY ./public ./public
+# OBS: Dette docker imaget bygger ikke hvis man ikke har kjørt "npm run build" lokalt før man forsøker å kjørte "docker build" pga kopi linjene nedenfor 
 COPY --chown=nextjs:nodejs ./.next/standalone ./
 COPY --chown=nextjs:nodejs ./.next/static ./.next/static
 

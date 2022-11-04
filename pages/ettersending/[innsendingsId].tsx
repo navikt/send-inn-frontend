@@ -41,7 +41,9 @@ const EttersendingSide: NextPage = () => {
                     }
                     if (statusCode && statusCode === 405) {
                         // Allerede sendt inn
-                        return router.push('/404');
+                        return router.push(
+                            '/soknadSendtSlettetErrorpage',
+                        );
                     }
                     return router.push('/500');
                 });
