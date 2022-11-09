@@ -89,6 +89,8 @@ export default async function handler(
                 // The request was made and the server responded with a status code
                 // that falls out of the range of 2xx
 
+                const statusCode = error.response.status;
+
                 let body = '';
                 error.response.data.on(
                     'data',
@@ -97,17 +99,19 @@ export default async function handler(
 
                 error.response.data.on('end', () => {
                     try {
+                        const logLevel =
+                            statusCode < 500 ? 'warn' : 'error';
                         const data = JSON.parse(body);
-                        rawLogger.warn({
+                        rawLogger.log(logLevel, {
                             ...data,
                             ...commonErrorObject,
-                            statusCode: error.response.status,
+                            statusCode,
                         });
                     } catch (e) {
                         rawLogger.error({
                             ...commonErrorObject,
                             apiResponse: body,
-                            statusCode: error.response.status,
+                            statusCode,
                             message:
                                 'Feil format på response body. Forventer JSON',
                         });
