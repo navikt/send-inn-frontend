@@ -151,5 +151,20 @@
         "advarselOverskrift": "Det har skjedd en feil",
         "advarselBrukerBekreftelse": "OK"
     },
-    "for": "for"
+    "for": "for",
+    "soknadSendtSlettetErrorpage": {
+        "tittel": "Du har forsøkt å gå tilbake til en søknad som allerede er sendt til NAV",
+        "hovedTekst": "Hvis du skal ettersende dokumentasjon til denne søknaden må det sendes inn på papir.",
+        "minSideLenkeTekst": "Du finner søknaden du sendte inn på min side på nav.no",
+        "ettersendelseLenkeTekst": "Gå til ettersendelse",
+        "ettersendelseLenkeUrl": "https://www.nav.no/soknader/nb/ettersendelse/person"
+    },
+    "soknadSendtSlettetErrorpage": {
+        "tittel": "",
+        "hovedTekst": "",
+        "minSideLenkeTekst": "",
+        "ettersendelseLenkeTekst": "",
+        "ettersendelseLenkeUrl": ""
+    }  
+    
 }

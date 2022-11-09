@@ -5,6 +5,7 @@ import {
     Heading,
     GuidePanel,
 } from '@navikt/ds-react';
+import { useTranslation } from 'react-i18next';
 
 const Style = styled.div`
     min-height: 100vh;
@@ -20,7 +21,9 @@ const HorizontalLinksFlexbox = styled.div`
     justify-content: space-evenly;
 `;
 
-export default function soknadSendtSlettetErrorpage() {
+export default function SoknadSendtSlettetErrorpage() {
+    const { t, i18n } = useTranslation();
+
     return (
         <Style>
             <GuidePanel poster="true">
@@ -41,13 +44,13 @@ export default function soknadSendtSlettetErrorpage() {
                         </div>
                         <HorizontalLinksFlexbox>
                             <BodyShort spacing>
-                                <a href="https://www.dev.nav.no/minside/">
+                                <a href="https://www.nav.no/minside/">
                                     Du finner søknaden du sendte inn
                                     på min side på nav.no
                                 </a>
                             </BodyShort>
                             <BodyShort spacing>
-                                <a href="https://www.nav.no/soknader/nn/ettersendelse/person">
+                                <a href="https://www.nav.no/soknader/nb/ettersendelse/person">
                                     Gå til ettersendelse
                                 </a>
                             </BodyShort>

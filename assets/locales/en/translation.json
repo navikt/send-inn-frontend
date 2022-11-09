@@ -153,5 +153,20 @@
         "advarselOverskrift": "An error has occured",
         "advarselBrukerBekreftelse": "OK"
     },
-    "for": "for"
+    "for": "for",
+    "soknadSendtSlettetErrorpage": {
+        "tittel": "Du har forsøkt å gå tilbake til en søknad som allerede er sendt til NAV",
+        "hovedTekst": "Hvis du skal ettersende dokumentasjon til denne søknaden må det sendes inn på papir.",
+        "minSideLenkeTekst": "Du finner søknaden du sendte inn på min side på nav.no",
+        "ettersendelseLenkeTekst": "Gå til ettersendelse",
+        "ettersendelseLenkeUrl": "https://www.nav.no/soknader/nb/ettersendelse/person"
+    },
+    "soknadSendtSlettetErrorpage": {
+        "tittel": "If you want to submit additional documentation to this application, it must be sent in on paper.",
+        "hovedTekst": "If you want to submit additional documentation to this application, it must be sent in on paper.", 
+        "minSideLenkeTekst": "Forward documentation",
+        "ettersendelseLenkeTekst": "You will find the application you previously submitted on my page on nav.no", 
+        "ettersendelseLenkeUrl": "https://www.nav.no/soknader/en/ettersendelse/person"
+    }  
+    
 }
