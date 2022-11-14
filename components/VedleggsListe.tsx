@@ -121,9 +121,11 @@ function soknadErKomplett(
     const detFinnesEtUopplastetPakrevdVedlegg = vedleggsliste.some(
         (element) => {
             return (
-                (element.erPakrevd === true &&
-                    element.opplastingsStatus !== 'LastetOpp') ||
-                element.opplastingsStatus !== 'Innsendt'
+                element.erPakrevd === true &&
+                !(
+                    element.opplastingsStatus === 'LastetOpp' ||
+                    element.opplastingsStatus === 'Innsendt'
+                )
             );
         },
     );
