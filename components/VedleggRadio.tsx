@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { RadioGroup, Radio } from '@navikt/ds-react';
-import { setOpplastingStatusType, VedleggType } from '../types/types';
+import { VedleggType } from '../types/types';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { VedleggslisteContext } from './VedleggsListe';
 
 interface VedleggRadioProp {
     id: number;
     vedlegg: VedleggType;
-    setOpplastingStatus: setOpplastingStatusType;
 }
 
 const SrOnly = styled.span`
@@ -26,12 +26,10 @@ const StyledRadioGroup = styled(RadioGroup)`
     }
 `;
 
-function VedleggRadio({
-    id,
-    vedlegg,
-    setOpplastingStatus,
-}: VedleggRadioProp) {
+function VedleggRadio({ id, vedlegg }: VedleggRadioProp) {
     const { t } = useTranslation();
+
+    const { setOpplastingStatus } = useContext(VedleggslisteContext);
 
     function handleChange(val) {
         setOpplastingStatus(id, val);

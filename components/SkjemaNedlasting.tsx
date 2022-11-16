@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Download } from '@navikt/ds-icons';
 import { useTranslation } from 'react-i18next';
 
-import { setOpplastingStatusType, VedleggType } from '../types/types';
+import { VedleggType } from '../types/types';
 import { VedleggPanel } from './Vedlegg';
 
 const BeskrivelsesGruppe = styled.div`
@@ -19,7 +19,6 @@ const BeskrivelsesGruppe = styled.div`
 export interface VedleggProps {
     vedlegg: VedleggType | null;
     innsendingsId: string;
-    setOpplastingStatus: setOpplastingStatusType;
     erAnnetVedlegg?: boolean;
 }
 

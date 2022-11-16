@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, {
+    useState,
+    useEffect,
+    useReducer,
+    useContext,
+} from 'react';
 import axios from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { ACTIONS, ActionType } from './Vedlegg';
-import {
-    OpplastetFil,
-    VedleggType,
-    oppdaterLokalOpplastingStatusType,
-} from '../types/types';
+import { OpplastetFil, VedleggType } from '../types/types';
 import {
     Button,
     Panel,
@@ -21,6 +22,7 @@ import getConfig from 'next/config';
 import { Filvelger } from './Filvelger';
 import { useValidation } from '../hooks/useValidation';
 import { ErrorMessageWithDot } from './textStyle';
+import { VedleggslisteContext } from './VedleggsListe';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -134,7 +136,6 @@ export interface FilProps {
     lokalFil?: File;
     opplastetFil?: OpplastetFil;
     filListeDispatch: React.Dispatch<ActionType>;
-    oppdaterLokalOpplastingStatus: oppdaterLokalOpplastingStatusType;
 }
 
 export interface FilData {
@@ -246,7 +247,6 @@ export function Fil({
     innsendingsId,
     vedlegg,
     filListeDispatch,
-    oppdaterLokalOpplastingStatus,
 }: FilProps) {
     const [filState, dispatch] = useReducer(filReducer, initialState);
     const { status } = filState;
@@ -254,6 +254,10 @@ export function Fil({
     const { t } = useTranslation();
     const [feilmelding, setFeilmelding] = useState<string>(null);
     const { showError } = useErrorMessage();
+
+    const { oppdaterLokalOpplastingStatus } = useContext(
+        VedleggslisteContext,
+    );
 
     const filnavn =
         filState.filData.opplastetFil?.filnavn ||

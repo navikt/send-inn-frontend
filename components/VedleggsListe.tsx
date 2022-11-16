@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { createContext, useEffect, useRef } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
@@ -147,6 +147,17 @@ function soknadKanSendesInn(
     );
     return noeErLastetOpp && !detFinnesEtUpploastetHovedDokument;
 }
+
+interface VedleggslisteContextType {
+    setOpplastingStatus: (id: number, status: string) => void;
+    oppdaterLokalOpplastingStatus: (
+        id: number,
+        opplastingsStatus: string,
+    ) => void;
+}
+
+export const VedleggslisteContext =
+    createContext<VedleggslisteContextType>(null);
 
 function VedleggsListe({
     soknad,
@@ -423,248 +434,226 @@ function VedleggsListe({
         setSoknad(null);
     };
     return (
-        <Style ref={vedleggsListeContainer} tabIndex={-1}>
-            {/* TODO trenger vi dette allikevel? kanskje for å jobbe med  */}
-            {/* {
+        <VedleggslisteContext.Provider
+            value={{
+                setOpplastingStatus,
+                oppdaterLokalOpplastingStatus,
+            }}
+        >
+            <Style ref={vedleggsListeContainer} tabIndex={-1}>
+                {/* TODO trenger vi dette allikevel? kanskje for å jobbe med  */}
+                {/* {
                 språktest: {t('test')} <br />
                 språk: <br />             soknad.spraak // skriver ut språk
                 <br />
 
             */}
-            {visKvittering && (
-                <div>
-                    {' '}
-                    <Kvittering
-                        kvprops={soknadsInnsendingsRespons}
-                    />{' '}
-                </div>
-            )}
-            {visSteg0 && (
-                <div>
-                    {soknad &&
-                        vedleggsliste.length > 0 &&
-                        vedleggsliste.filter((x) => x.erHoveddokument)
-                            .length > 0 && (
-                            <>
-                                <Heading
-                                    level={'2'}
-                                    size="large"
-                                    spacing
-                                >
-                                    {t(
-                                        'soknad.visningsSteg.steg0.tittel',
-                                    )}
-                                </Heading>
-                                <Linje />
-                                <SkjemaNedlasting
-                                    innsendingsId={
-                                        soknad.innsendingsId
-                                    }
-                                    setOpplastingStatus={
-                                        setOpplastingStatus
-                                    }
-                                    vedlegg={
-                                        vedleggsliste.filter(
-                                            (x) => x.erHoveddokument,
-                                        )[0]
-                                    }
-                                />
-                            </>
-                        )}
-                </div>
-            )}
-            {visSteg1 && (
-                <div>
-                    {soknad &&
-                        vedleggsliste.length > 0 &&
-                        vedleggsliste.filter((x) => x.erHoveddokument)
-                            .length > 0 && (
-                            <>
-                                <Heading
-                                    level={'2'}
-                                    size="large"
-                                    spacing
-                                >
-                                    {t(
-                                        'soknad.visningsSteg.steg1.tittel',
-                                    )}
-                                </Heading>
-                                <Linje />
-                                <SideValideringProvider
-                                    setHarValideringsfeil={
-                                        setSide1HarFeil
-                                    }
-                                    visValideringsfeil={visSide1Feil}
-                                    setVisValideringsfeil={
-                                        setVisSide1Feil
-                                    }
-                                    fokus={side1Valideringfokus}
-                                    setFokus={setSide1Valideringfokus}
-                                >
-                                    <PaddedVedlegg>
-                                        <Vedlegg
-                                            innsendingsId={
-                                                soknad.innsendingsId
-                                            }
-                                            setOpplastingStatus={
-                                                setOpplastingStatus
-                                            }
-                                            oppdaterLokalOpplastingStatus={
-                                                oppdaterLokalOpplastingStatus
-                                            }
-                                            vedlegg={
-                                                vedleggsliste.filter(
-                                                    (x) =>
-                                                        x.erHoveddokument,
-                                                )[0]
-                                            }
-                                            slettAnnetVedlegg={
-                                                slettAnnetVedlegg
-                                            }
-                                        />
-                                    </PaddedVedlegg>
-                                </SideValideringProvider>
-                            </>
-                        )}
-                </div>
-            )}
-            {visLastOppVedlegg && (
-                <div>
-                    {/* soknad.spraak skriver ut språk */}
-                    {/* {soknadKlar.toString() + " // "} */}
-                    {/* {soknadHarNoeInnlevert.toString() + " // "} */}
-                    {/* {JSON.stringify(vedleggsliste)} */}
-
-                    <Heading level={'2'} size="large" spacing>
-                        {t(
-                            'soknad.visningsSteg.lastOppVedlegg.tittel',
-                        )}
-                    </Heading>
-                    <Ingress spacing>
-                        {t(
-                            'soknad.visningsSteg.lastOppVedlegg.ingress',
-                        )}
-                    </Ingress>
-                    <FristForOpplastingInfo
-                        variant="info"
-                        inline={true}
-                        size="small"
-                    >
-                        {t(
-                            'soknad.visningsSteg.lastOppVedlegg.infoFrist',
-                            {
-                                dato: formatertDato(
-                                    seksUkerFraDato(
-                                        new Date(
-                                            soknad.opprettetDato,
-                                        ),
-                                    ),
-                                ),
-                            },
-                        )}
-                    </FristForOpplastingInfo>
-
-                    <SideValideringProvider
-                        setHarValideringsfeil={
-                            setLastOppVedleggHarFeil
-                        }
-                        visValideringsfeil={visLastOppVedleggFeil}
-                        setVisValideringsfeil={
-                            setVisLastOppVedleggFeil
-                        }
-                        fokus={lastOppVedleggValideringfokus}
-                        setFokus={setLastOppVedleggValideringfokus}
-                    >
-                        {visningsType === 'dokumentinnsending' &&
-                            visningsType === 'dokumentinnsending' &&
-                            vedleggsliste.some((element) => {
-                                return (
-                                    element.erHoveddokument ===
-                                        true &&
-                                    element.opplastingsStatus !==
-                                        'LastetOpp'
-                                );
-                            }) && (
-                                <Alert
-                                    variant="warning"
-                                    size="medium"
-                                >
-                                    {t(
-                                        'soknad.visningsSteg.lastOppVedlegg.advarselHovedskjema',
-                                    )}
-                                </Alert>
+                {visKvittering && (
+                    <div>
+                        {' '}
+                        <Kvittering
+                            kvprops={soknadsInnsendingsRespons}
+                        />{' '}
+                    </div>
+                )}
+                {visSteg0 && (
+                    <div>
+                        {soknad &&
+                            vedleggsliste.length > 0 &&
+                            vedleggsliste.filter(
+                                (x) => x.erHoveddokument,
+                            ).length > 0 && (
+                                <>
+                                    <Heading
+                                        level={'2'}
+                                        size="large"
+                                        spacing
+                                    >
+                                        {t(
+                                            'soknad.visningsSteg.steg0.tittel',
+                                        )}
+                                    </Heading>
+                                    <Linje />
+                                    <SkjemaNedlasting
+                                        innsendingsId={
+                                            soknad.innsendingsId
+                                        }
+                                        vedlegg={
+                                            vedleggsliste.filter(
+                                                (x) =>
+                                                    x.erHoveddokument,
+                                            )[0]
+                                        }
+                                    />
+                                </>
                             )}
-
-                        <PaddedVedlegg>
-                            {soknad &&
-                                vedleggsliste.length > 0 &&
-                                vedleggsliste
-                                    .filter((x) => !x.erHoveddokument)
-                                    .map((vedlegg) => {
-                                        return (
+                    </div>
+                )}
+                {visSteg1 && (
+                    <div>
+                        {soknad &&
+                            vedleggsliste.length > 0 &&
+                            vedleggsliste.filter(
+                                (x) => x.erHoveddokument,
+                            ).length > 0 && (
+                                <>
+                                    <Heading
+                                        level={'2'}
+                                        size="large"
+                                        spacing
+                                    >
+                                        {t(
+                                            'soknad.visningsSteg.steg1.tittel',
+                                        )}
+                                    </Heading>
+                                    <Linje />
+                                    <SideValideringProvider
+                                        setHarValideringsfeil={
+                                            setSide1HarFeil
+                                        }
+                                        visValideringsfeil={
+                                            visSide1Feil
+                                        }
+                                        setVisValideringsfeil={
+                                            setVisSide1Feil
+                                        }
+                                        fokus={side1Valideringfokus}
+                                        setFokus={
+                                            setSide1Valideringfokus
+                                        }
+                                    >
+                                        <PaddedVedlegg>
                                             <Vedlegg
-                                                key={vedlegg.id}
                                                 innsendingsId={
                                                     soknad.innsendingsId
                                                 }
-                                                setOpplastingStatus={
-                                                    setOpplastingStatus
+                                                vedlegg={
+                                                    vedleggsliste.filter(
+                                                        (x) =>
+                                                            x.erHoveddokument,
+                                                    )[0]
                                                 }
-                                                oppdaterLokalOpplastingStatus={
-                                                    oppdaterLokalOpplastingStatus
-                                                }
-                                                vedlegg={vedlegg}
                                                 slettAnnetVedlegg={
                                                     slettAnnetVedlegg
                                                 }
                                             />
-                                        );
-                                    })}
-
-                            {soknad.kanLasteOppAnnet && (
-                                <OpprettAnnetVedlegg
-                                    innsendingsId={
-                                        soknad.innsendingsId
-                                    }
-                                    leggTilVedlegg={leggTilVedlegg}
-                                />
+                                        </PaddedVedlegg>
+                                    </SideValideringProvider>
+                                </>
                             )}
-                        </PaddedVedlegg>
-                    </SideValideringProvider>
-                </div>
-            )}
-            {!visKvittering && (
-                <ButtonContainer>
-                    {visLastOppVedlegg && (
-                        <>
-                            {soknadKlar && (
-                                <Button
-                                    onClick={() => {
-                                        if (lastOppVedleggHarFeil) {
-                                            setLastOppVedleggValideringfokus(
-                                                true,
-                                            );
-                                            setVisLastOppVedleggFeil(
-                                                true,
-                                            );
-                                            return;
-                                        }
-                                        if (
-                                            !sendInnKomplettSoknadModal
-                                        ) {
-                                            setSendInnKomplettSoknadModal(
-                                                true,
-                                            );
-                                        }
-                                    }}
-                                    data-cy="sendTilNAVKnapp"
-                                >
-                                    {t('soknad.knapper.sendInn')}
-                                </Button>
-                            )}
+                    </div>
+                )}
+                {visLastOppVedlegg && (
+                    <div>
+                        {/* soknad.spraak skriver ut språk */}
+                        {/* {soknadKlar.toString() + " // "} */}
+                        {/* {soknadHarNoeInnlevert.toString() + " // "} */}
+                        {/* {JSON.stringify(vedleggsliste)} */}
 
-                            {
-                                soknadHarNoeInnlevert && !soknadKlar && (
+                        <Heading level={'2'} size="large" spacing>
+                            {t(
+                                'soknad.visningsSteg.lastOppVedlegg.tittel',
+                            )}
+                        </Heading>
+                        <Ingress spacing>
+                            {t(
+                                'soknad.visningsSteg.lastOppVedlegg.ingress',
+                            )}
+                        </Ingress>
+                        <FristForOpplastingInfo
+                            variant="info"
+                            inline={true}
+                            size="small"
+                        >
+                            {t(
+                                'soknad.visningsSteg.lastOppVedlegg.infoFrist',
+                                {
+                                    dato: formatertDato(
+                                        seksUkerFraDato(
+                                            new Date(
+                                                soknad.opprettetDato,
+                                            ),
+                                        ),
+                                    ),
+                                },
+                            )}
+                        </FristForOpplastingInfo>
+
+                        <SideValideringProvider
+                            setHarValideringsfeil={
+                                setLastOppVedleggHarFeil
+                            }
+                            visValideringsfeil={visLastOppVedleggFeil}
+                            setVisValideringsfeil={
+                                setVisLastOppVedleggFeil
+                            }
+                            fokus={lastOppVedleggValideringfokus}
+                            setFokus={
+                                setLastOppVedleggValideringfokus
+                            }
+                        >
+                            {visningsType === 'dokumentinnsending' &&
+                                visningsType ===
+                                    'dokumentinnsending' &&
+                                vedleggsliste.some((element) => {
+                                    return (
+                                        element.erHoveddokument ===
+                                            true &&
+                                        element.opplastingsStatus !==
+                                            'LastetOpp'
+                                    );
+                                }) && (
+                                    <Alert
+                                        variant="warning"
+                                        size="medium"
+                                    >
+                                        {t(
+                                            'soknad.visningsSteg.lastOppVedlegg.advarselHovedskjema',
+                                        )}
+                                    </Alert>
+                                )}
+
+                            <PaddedVedlegg>
+                                {soknad &&
+                                    vedleggsliste.length > 0 &&
+                                    vedleggsliste
+                                        .filter(
+                                            (x) => !x.erHoveddokument,
+                                        )
+                                        .map((vedlegg) => {
+                                            return (
+                                                <Vedlegg
+                                                    key={vedlegg.id}
+                                                    innsendingsId={
+                                                        soknad.innsendingsId
+                                                    }
+                                                    vedlegg={vedlegg}
+                                                    slettAnnetVedlegg={
+                                                        slettAnnetVedlegg
+                                                    }
+                                                />
+                                            );
+                                        })}
+
+                                {soknad.kanLasteOppAnnet && (
+                                    <OpprettAnnetVedlegg
+                                        innsendingsId={
+                                            soknad.innsendingsId
+                                        }
+                                        leggTilVedlegg={
+                                            leggTilVedlegg
+                                        }
+                                    />
+                                )}
+                            </PaddedVedlegg>
+                        </SideValideringProvider>
+                    </div>
+                )}
+                {!visKvittering && (
+                    <ButtonContainer>
+                        {visLastOppVedlegg && (
+                            <>
+                                {soknadKlar && (
                                     <Button
                                         onClick={() => {
                                             if (
@@ -679,203 +668,242 @@ function VedleggsListe({
                                                 return;
                                             }
                                             if (
-                                                !sendInnUferdigSoknadModal
+                                                !sendInnKomplettSoknadModal
                                             ) {
-                                                setSendInnUferdigSoknadModal(
+                                                setSendInnKomplettSoknadModal(
                                                     true,
                                                 );
                                             }
                                         }}
                                         data-cy="sendTilNAVKnapp"
                                     >
-                                        {t(
-                                            'soknad.knapper.sendInnUfullstendig',
-                                        )}
+                                        {t('soknad.knapper.sendInn')}
                                     </Button>
-                                )
-                                // dette virker nå, men du må reloade
-                            }
+                                )}
 
-                            {/* lagre og fortsett senere */}
+                                {
+                                    soknadHarNoeInnlevert &&
+                                        !soknadKlar && (
+                                            <Button
+                                                onClick={() => {
+                                                    if (
+                                                        lastOppVedleggHarFeil
+                                                    ) {
+                                                        setLastOppVedleggValideringfokus(
+                                                            true,
+                                                        );
+                                                        setVisLastOppVedleggFeil(
+                                                            true,
+                                                        );
+                                                        return;
+                                                    }
+                                                    if (
+                                                        !sendInnUferdigSoknadModal
+                                                    ) {
+                                                        setSendInnUferdigSoknadModal(
+                                                            true,
+                                                        );
+                                                    }
+                                                }}
+                                                data-cy="sendTilNAVKnapp"
+                                            >
+                                                {t(
+                                                    'soknad.knapper.sendInnUfullstendig',
+                                                )}
+                                            </Button>
+                                        )
+                                    // dette virker nå, men du må reloade
+                                }
+
+                                {/* lagre og fortsett senere */}
+                                <Button
+                                    variant="secondary"
+                                    onClick={() => {
+                                        if (
+                                            !fortsettSenereSoknadModal
+                                        ) {
+                                            setForstettSenereSoknadModal(
+                                                true,
+                                            );
+                                        }
+                                    }}
+                                >
+                                    {t(
+                                        'soknad.knapper.fortsettSenere',
+                                    )}
+                                </Button>
+                            </>
+                        )}
+                        {/* gå tilbake et steg */}
+                        {visSteg0 && (
                             <Button
-                                variant="secondary"
                                 onClick={() => {
-                                    if (!fortsettSenereSoknadModal) {
-                                        setForstettSenereSoknadModal(
-                                            true,
-                                        );
-                                    }
-                                }}
-                            >
-                                {t('soknad.knapper.fortsettSenere')}
-                            </Button>
-                        </>
-                    )}
-                    {/* gå tilbake et steg */}
-                    {visSteg0 && (
-                        <Button
-                            onClick={() => {
-                                oppdaterVisningsSteg(1);
-                            }}
-                            data-cy="nesteStegKnapp"
-                        >
-                            {t('soknad.knapper.neste')}
-                        </Button>
-                    )}
-                    {/* gå frem et steg */}
-                    {visSteg1 && (
-                        <>
-                            <Button
-                                onClick={() => {
-                                    if (side1HarFeil) {
-                                        setSide1Valideringfokus(true);
-                                        setVisSide1Feil(true);
-                                        return;
-                                    }
                                     oppdaterVisningsSteg(1);
                                 }}
                                 data-cy="nesteStegKnapp"
                             >
                                 {t('soknad.knapper.neste')}
                             </Button>
-                            <Button
-                                onClick={() => {
-                                    oppdaterVisningsSteg(-1);
-                                }}
-                                variant="secondary"
-                                data-cy="forrigeStegKnapp"
-                            >
-                                {t('soknad.knapper.forrige')}
-                            </Button>
-                        </>
-                    )}
-                    {visLastOppVedlegg &&
-                        visningsType === 'dokumentinnsending' && (
-                            <Button
-                                onClick={() => {
-                                    oppdaterVisningsSteg(-1);
-                                }}
-                                variant="secondary"
-                                data-cy="nesteStegKnapp"
-                            >
-                                {t('soknad.knapper.forrige')}
-                            </Button>
                         )}
-                    {/*kall slettsøknad på api, deretter, gå til ditt nav
+                        {/* gå frem et steg */}
+                        {visSteg1 && (
+                            <>
+                                <Button
+                                    onClick={() => {
+                                        if (side1HarFeil) {
+                                            setSide1Valideringfokus(
+                                                true,
+                                            );
+                                            setVisSide1Feil(true);
+                                            return;
+                                        }
+                                        oppdaterVisningsSteg(1);
+                                    }}
+                                    data-cy="nesteStegKnapp"
+                                >
+                                    {t('soknad.knapper.neste')}
+                                </Button>
+                                <Button
+                                    onClick={() => {
+                                        oppdaterVisningsSteg(-1);
+                                    }}
+                                    variant="secondary"
+                                    data-cy="forrigeStegKnapp"
+                                >
+                                    {t('soknad.knapper.forrige')}
+                                </Button>
+                            </>
+                        )}
+                        {visLastOppVedlegg &&
+                            visningsType === 'dokumentinnsending' && (
+                                <Button
+                                    onClick={() => {
+                                        oppdaterVisningsSteg(-1);
+                                    }}
+                                    variant="secondary"
+                                    data-cy="nesteStegKnapp"
+                                >
+                                    {t('soknad.knapper.forrige')}
+                                </Button>
+                            )}
+                        {/*kall slettsøknad på api, deretter, gå til ditt nav
 kanskje popup om at dette vil slette innhold? */}
-                    <Button
-                        onClick={() => {
-                            if (!slettSoknadModal) {
-                                setSlettSoknadModal(true);
-                            }
-                        }}
-                        variant="tertiary"
-                        data-cy="slettSoknadKnapp"
+                        <Button
+                            onClick={() => {
+                                if (!slettSoknadModal) {
+                                    setSlettSoknadModal(true);
+                                }
+                            }}
+                            variant="tertiary"
+                            data-cy="slettSoknadKnapp"
+                        >
+                            {visLastOppVedlegg
+                                ? t('soknad.knapper.slett')
+                                : t('soknad.knapper.avbryt')}
+                        </Button>
+                    </ButtonContainer>
+                )}
+                <div>
+                    <FellesModal
+                        open={fortsettSenereSoknadModal}
+                        setOpen={setForstettSenereSoknadModal}
+                        onAccept={tilMinSide}
+                        acceptButtonText={t(
+                            'modal.fortsettSenere.accept',
+                        )}
+                        cancelButtonText={t(
+                            'modal.fortsettSenere.cancel',
+                        )}
                     >
-                        {visLastOppVedlegg
-                            ? t('soknad.knapper.slett')
-                            : t('soknad.knapper.avbryt')}
-                    </Button>
-                </ButtonContainer>
-            )}
-            <div>
-                <FellesModal
-                    open={fortsettSenereSoknadModal}
-                    setOpen={setForstettSenereSoknadModal}
-                    onAccept={tilMinSide}
-                    acceptButtonText={t(
-                        'modal.fortsettSenere.accept',
-                    )}
-                    cancelButtonText={t(
-                        'modal.fortsettSenere.cancel',
-                    )}
-                >
-                    <Heading spacing size="medium">
-                        {t('modal.fortsettSenere.tittel')}
-                    </Heading>
-                    <BodyLong as="ul">
-                        {t('modal.fortsettSenere.liste', {
-                            returnObjects: true,
-                        }).map((element, key) => (
-                            <li key={key}>{element}</li>
-                        ))}
-                    </BodyLong>
-                </FellesModal>
+                        <Heading spacing size="medium">
+                            {t('modal.fortsettSenere.tittel')}
+                        </Heading>
+                        <BodyLong as="ul">
+                            {t('modal.fortsettSenere.liste', {
+                                returnObjects: true,
+                            }).map((element, key) => (
+                                <li key={key}>{element}</li>
+                            ))}
+                        </BodyLong>
+                    </FellesModal>
 
-                <FellesModal
-                    open={slettSoknadModal}
-                    setOpen={setSlettSoknadModal}
-                    isLoading={isLoading}
-                    onAccept={slett}
-                    acceptButtonText={t('modal.slett.accept')}
-                    cancelButtonText={t('modal.slett.cancel')}
-                >
-                    <Heading spacing size="medium">
-                        {t('modal.slett.tittel')}
-                    </Heading>
-                    <BodyLong as="ul">
-                        {t('modal.slett.liste', {
-                            returnObjects: true,
-                        }).map((element, key) => (
-                            <li key={key}>{element}</li>
-                        ))}
-                    </BodyLong>
-                </FellesModal>
+                    <FellesModal
+                        open={slettSoknadModal}
+                        setOpen={setSlettSoknadModal}
+                        isLoading={isLoading}
+                        onAccept={slett}
+                        acceptButtonText={t('modal.slett.accept')}
+                        cancelButtonText={t('modal.slett.cancel')}
+                    >
+                        <Heading spacing size="medium">
+                            {t('modal.slett.tittel')}
+                        </Heading>
+                        <BodyLong as="ul">
+                            {t('modal.slett.liste', {
+                                returnObjects: true,
+                            }).map((element, key) => (
+                                <li key={key}>{element}</li>
+                            ))}
+                        </BodyLong>
+                    </FellesModal>
 
-                <FellesModal
-                    open={sendInnUferdigSoknadModal}
-                    setOpen={setSendInnUferdigSoknadModal}
-                    onAccept={onSendInn}
-                    isLoading={isLoading}
-                    acceptButtonText={t(
-                        'modal.sendInnUferdig.accept',
-                    )}
-                    cancelButtonText={t(
-                        'modal.sendInnUferdig.cancel',
-                    )}
-                >
-                    <Heading spacing size="medium">
-                        {t('modal.sendInnUferdig.tittel')}
-                    </Heading>
-                    <BodyLong as="ul">
-                        {t('modal.sendInnUferdig.liste', {
-                            dato: formatertDato(
-                                seksUkerFraDato(
-                                    new Date(soknad.opprettetDato),
+                    <FellesModal
+                        open={sendInnUferdigSoknadModal}
+                        setOpen={setSendInnUferdigSoknadModal}
+                        onAccept={onSendInn}
+                        isLoading={isLoading}
+                        acceptButtonText={t(
+                            'modal.sendInnUferdig.accept',
+                        )}
+                        cancelButtonText={t(
+                            'modal.sendInnUferdig.cancel',
+                        )}
+                    >
+                        <Heading spacing size="medium">
+                            {t('modal.sendInnUferdig.tittel')}
+                        </Heading>
+                        <BodyLong as="ul">
+                            {t('modal.sendInnUferdig.liste', {
+                                dato: formatertDato(
+                                    seksUkerFraDato(
+                                        new Date(
+                                            soknad.opprettetDato,
+                                        ),
+                                    ),
                                 ),
-                            ),
-                            returnObjects: true,
-                        }).map((element, key) => (
-                            <li key={key}>{element}</li>
-                        ))}
-                    </BodyLong>
-                </FellesModal>
+                                returnObjects: true,
+                            }).map((element, key) => (
+                                <li key={key}>{element}</li>
+                            ))}
+                        </BodyLong>
+                    </FellesModal>
 
-                <FellesModal
-                    open={sendInnKomplettSoknadModal}
-                    setOpen={setSendInnKomplettSoknadModal}
-                    onAccept={onSendInn}
-                    isLoading={isLoading}
-                    acceptButtonText={t(
-                        'modal.sendInnKomplett.accept',
-                    )}
-                    cancelButtonText={t(
-                        'modal.sendInnKomplett.cancel',
-                    )}
-                >
-                    <Heading spacing size="medium">
-                        {t('modal.sendInnKomplett.tittel')}
-                    </Heading>
-                    <BodyLong as="ul">
-                        {t('modal.sendInnKomplett.liste', {
-                            returnObjects: true,
-                        }).map((element, key) => (
-                            <li key={key}>{element}</li>
-                        ))}
-                    </BodyLong>
-                </FellesModal>
-            </div>
-        </Style>
+                    <FellesModal
+                        open={sendInnKomplettSoknadModal}
+                        setOpen={setSendInnKomplettSoknadModal}
+                        onAccept={onSendInn}
+                        isLoading={isLoading}
+                        acceptButtonText={t(
+                            'modal.sendInnKomplett.accept',
+                        )}
+                        cancelButtonText={t(
+                            'modal.sendInnKomplett.cancel',
+                        )}
+                    >
+                        <Heading spacing size="medium">
+                            {t('modal.sendInnKomplett.tittel')}
+                        </Heading>
+                        <BodyLong as="ul">
+                            {t('modal.sendInnKomplett.liste', {
+                                returnObjects: true,
+                            }).map((element, key) => (
+                                <li key={key}>{element}</li>
+                            ))}
+                        </BodyLong>
+                    </FellesModal>
+                </div>
+            </Style>
+        </VedleggslisteContext.Provider>
     );
 }
 export default VedleggsListe;

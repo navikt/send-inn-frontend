@@ -16,12 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import VedleggRadio from '../components/VedleggRadio';
 
-import {
-    setOpplastingStatusType,
-    OpplastetFil,
-    VedleggType,
-    oppdaterLokalOpplastingStatusType,
-} from '../types/types';
+import { OpplastetFil, VedleggType } from '../types/types';
 import { EndreVedlegg } from './EndreVedlegg';
 import { Fil, FilePanel } from './Fil';
 import getConfig from 'next/config';
@@ -40,8 +35,6 @@ interface ExtendedVedleggType extends VedleggType {
 export interface VedleggProps {
     vedlegg: ExtendedVedleggType | null;
     innsendingsId: string;
-    setOpplastingStatus: setOpplastingStatusType;
-    oppdaterLokalOpplastingStatus: oppdaterLokalOpplastingStatusType;
     erAnnetVedlegg?: boolean;
     slettAnnetVedlegg: (id: number) => void;
 }
@@ -161,13 +154,7 @@ const List = styled.ul`
 `;
 
 function Vedlegg(props: VedleggProps) {
-    const {
-        innsendingsId,
-        vedlegg,
-        setOpplastingStatus,
-        slettAnnetVedlegg,
-        oppdaterLokalOpplastingStatus,
-    } = props;
+    const { innsendingsId, vedlegg, slettAnnetVedlegg } = props;
 
     const { t } = useTranslation();
 
@@ -352,9 +339,6 @@ function Vedlegg(props: VedleggProps) {
                                 <VedleggRadio
                                     id={vedlegg.id}
                                     vedlegg={vedlegg}
-                                    setOpplastingStatus={
-                                        setOpplastingStatus
-                                    }
                                 />
                             )}
 
@@ -486,9 +470,6 @@ function Vedlegg(props: VedleggProps) {
                                                 }
                                                 filListeDispatch={
                                                     dispatch
-                                                }
-                                                oppdaterLokalOpplastingStatus={
-                                                    oppdaterLokalOpplastingStatus
                                                 }
                                             />
                                         );
