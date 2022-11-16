@@ -3,7 +3,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { VedleggType, SoknadType } from '../types/types';
-import Vedlegg from '../components/Vedlegg';
+import Vedlegg, { ExtendedVedleggType } from '../components/Vedlegg';
 import SkjemaNedlasting from '../components/SkjemaNedlasting';
 import Kvittering, { KvitteringsDto } from '../components/Kvittering';
 import { Button, Alert } from '@navikt/ds-react';
@@ -154,6 +154,8 @@ interface VedleggslisteContextType {
         id: number,
         opplastingsStatus: string,
     ) => void;
+    leggTilVedlegg: (vedlegg: ExtendedVedleggType) => void;
+    slettAnnetVedlegg: (vedleggId: number) => void;
 }
 
 export const VedleggslisteContext =
@@ -281,13 +283,13 @@ function VedleggsListe({
         );
     };
 
-    const leggTilVedlegg = (vedlegg) => {
+    const leggTilVedlegg = (vedlegg: ExtendedVedleggType) => {
         setVedleggsListe((forrigeVedleggsliste) => [
             ...forrigeVedleggsliste,
             vedlegg,
         ]);
     };
-    const slettAnnetVedlegg = (vedleggsId) => {
+    const slettAnnetVedlegg = (vedleggsId: number) => {
         axios
             .delete(
                 `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${vedleggsId}`,
@@ -438,6 +440,8 @@ function VedleggsListe({
             value={{
                 setOpplastingStatus,
                 oppdaterLokalOpplastingStatus,
+                leggTilVedlegg,
+                slettAnnetVedlegg,
             }}
         >
             <Style ref={vedleggsListeContainer} tabIndex={-1}>
@@ -533,9 +537,6 @@ function VedleggsListe({
                                                             x.erHoveddokument,
                                                     )[0]
                                                 }
-                                                slettAnnetVedlegg={
-                                                    slettAnnetVedlegg
-                                                }
                                             />
                                         </PaddedVedlegg>
                                     </SideValideringProvider>
@@ -628,9 +629,6 @@ function VedleggsListe({
                                                         soknad.innsendingsId
                                                     }
                                                     vedlegg={vedlegg}
-                                                    slettAnnetVedlegg={
-                                                        slettAnnetVedlegg
-                                                    }
                                                 />
                                             );
                                         })}
@@ -639,9 +637,6 @@ function VedleggsListe({
                                     <OpprettAnnetVedlegg
                                         innsendingsId={
                                             soknad.innsendingsId
-                                        }
-                                        leggTilVedlegg={
-                                            leggTilVedlegg
                                         }
                                     />
                                 )}

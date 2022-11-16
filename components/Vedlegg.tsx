@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
@@ -25,10 +25,11 @@ import { FIL_STATUS } from '../types/enums';
 import { useValidation } from '../hooks/useValidation';
 import { ValideringsRamme } from './ValideringsRamme';
 import parse from 'html-react-parser';
+import { VedleggslisteContext } from './VedleggsListe';
 
 const { publicRuntimeConfig } = getConfig();
 
-interface ExtendedVedleggType extends VedleggType {
+export interface ExtendedVedleggType extends VedleggType {
     autoFocus?: boolean;
 }
 
@@ -36,7 +37,6 @@ export interface VedleggProps {
     vedlegg: ExtendedVedleggType | null;
     innsendingsId: string;
     erAnnetVedlegg?: boolean;
-    slettAnnetVedlegg: (id: number) => void;
 }
 
 export interface FilData {
@@ -154,7 +154,9 @@ const List = styled.ul`
 `;
 
 function Vedlegg(props: VedleggProps) {
-    const { innsendingsId, vedlegg, slettAnnetVedlegg } = props;
+    const { innsendingsId, vedlegg } = props;
+
+    const { slettAnnetVedlegg } = useContext(VedleggslisteContext);
 
     const { t } = useTranslation();
 
