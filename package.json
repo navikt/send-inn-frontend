@@ -16,7 +16,7 @@
     "@navikt/ds-icons": "^1.5.6",
     "@navikt/ds-react": "^1.5.6",
     "@navikt/nav-dekoratoren-moduler": "1.7.0",
-    "@sentry/nextjs": "^7.16.0",
+    "@sentry/nextjs": "^7.17.1",
     "axios": "^0.24.0",
     "eslint-plugin-cypress": "^2.12.1",
     "html-react-parser": "^1.4.14",
