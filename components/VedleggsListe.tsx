@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { setParams } from '@navikt/nav-dekoratoren-moduler';
 import {
     formatertDato,
-    seksUkerFraDato,
+    toUkerFraDato,
 } from '../components/Kvittering';
 import getConfig from 'next/config';
 import { OpprettAnnetVedlegg } from './OpprettAnnetVedlegg';
@@ -554,7 +554,7 @@ function VedleggsListe({
                             'soknad.visningsSteg.lastOppVedlegg.infoFrist',
                             {
                                 dato: formatertDato(
-                                    seksUkerFraDato(
+                                    toUkerFraDato(
                                         new Date(
                                             soknad.opprettetDato,
                                         ),
@@ -840,7 +840,7 @@ kanskje popup om at dette vil slette innhold? */}
                     <BodyLong as="ul">
                         {t('modal.sendInnUferdig.liste', {
                             dato: formatertDato(
-                                seksUkerFraDato(
+                                toUkerFraDato(
                                     new Date(soknad.opprettetDato),
                                 ),
                             ),

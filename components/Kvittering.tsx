@@ -52,8 +52,8 @@ const StyledAlert = styled(Alert)`
     margin-bottom: 2.75rem;
 `;
 
-export function seksUkerFraDato(date: Date) {
-    const numberOfDaysToAdd = 7 * 6; // 7 dager * 6 uker
+export function toUkerFraDato(date: Date) {
+    const numberOfDaysToAdd = 7 * 2; // 7 dager * 2 uker
     return new Date(date.setDate(date.getDate() + numberOfDaysToAdd));
 }
 
