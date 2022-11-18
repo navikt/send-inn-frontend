@@ -8,7 +8,8 @@
     "build:static": "next build && next export",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "cypress": "npx cypress open"
   },
   "dependencies": {
     "@navikt/ds-css": "^1.5.6",
