@@ -15,14 +15,12 @@ on:
                     - preprod-dokumentinnsending
 
 env:
-    TARGET_ENV: 'teststring'
+    IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:prod_${{ github.sha }}
     CI: true
     TZ: Europe/Oslo
 
 jobs:
     build-and-push:
-        env:
-            IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:${TARGET_ENV}_${{ github.sha }}
         name: Build and push Docker container
         runs-on: ubuntu-latest
         steps:
@@ -81,7 +79,7 @@ jobs:
                   PRINT_PAYLOAD: true
                   CLUSTER: dev-gcp
                   RESOURCE: .nais/nais-preprod.yml
-                  VAR: app_version=${TARGET_ENV}_${{ github.sha }}
+                  VAR: app_version=${{ github.sha }}
 
     deploy-preprod-alt:
         name: Deploy to preprod-alt
@@ -97,7 +95,7 @@ jobs:
                   PRINT_PAYLOAD: true
                   CLUSTER: dev-gcp
                   RESOURCE: .nais/nais-preprod-alt.yml
-                  VAR: app_version=${TARGET_ENV}_${{ github.sha }}
+                  VAR: app_version=${{ github.sha }}
 
     deploy-prod:
         name: Deploy to prod
@@ -113,7 +111,7 @@ jobs:
                   PRINT_PAYLOAD: true
                   CLUSTER: prod-gcp
                   RESOURCE: .nais/nais.yml
-                  VAR: app_version=${TARGET_ENV}_${{ github.sha }}
+                  VAR: app_version=${{ github.sha }}
 
     deploy-preprod-dokumentinnsending:
         name: Deploy to preprod (dokumentinnsending)
@@ -129,7 +127,7 @@ jobs:
                   PRINT_PAYLOAD: true
                   CLUSTER: dev-gcp
                   RESOURCE: .nais/dokumentinnsending/nais-preprod.yml
-                  VAR: app_version=${TARGET_ENV}_${{ github.sha }}
+                  VAR: app_version=${{ github.sha }}
 
     deploy-prod-dokumentinnsending:
         name: Deploy to prod (dokumentinnsending)
@@ -145,4 +143,4 @@ jobs:
                   PRINT_PAYLOAD: true
                   CLUSTER: prod-gcp
                   RESOURCE: .nais/dokumentinnsending/nais.yml
-                  VAR: app_version=${TARGET_ENV}_${{ github.sha }}
+                  VAR: app_version=${{ github.sha }}
