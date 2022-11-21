@@ -16,12 +16,13 @@ on:
 
 env:
     TARGET_ENV: 'teststring'
-    IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:${TARGET_ENV}_${{ github.sha }}
     CI: true
     TZ: Europe/Oslo
 
 jobs:
     build-and-push:
+        env:
+            IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:${TARGET_ENV}_${{ github.sha }}
         name: Build and push Docker container
         runs-on: ubuntu-latest
         steps:
