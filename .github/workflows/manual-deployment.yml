@@ -15,7 +15,8 @@ on:
                     - preprod-dokumentinnsending
 
 env:
-    IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:${{ github.sha }}
+    TARGET_ENV: 'teststring'
+    IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:${{ TARGET_ENV }}_${{ github.sha }}
     CI: true
     TZ: Europe/Oslo
 
