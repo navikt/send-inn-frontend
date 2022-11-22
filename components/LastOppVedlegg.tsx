@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     Heading,
     Button,
@@ -14,12 +14,16 @@ import { VedleggPanel } from './Vedlegg';
 import { SideValideringProvider } from './SideValideringProvider';
 import { SoknadType } from '../types/types';
 import Vedlegg from './Vedlegg';
-import { ButtonContainer } from './VedleggsListe';
+import {
+    ButtonContainer,
+    VedleggslisteContext,
+} from './VedleggsListe';
 import { OpprettAnnetVedlegg } from './OpprettAnnetVedlegg';
 import {
     formatertDato,
     seksUkerFraDato,
 } from '../components/Kvittering';
+import { ModalContext } from './ModalContextProvider';
 
 const FristForOpplastingInfo = styled(Alert)`
     border: 0;
@@ -37,33 +41,23 @@ const PaddedVedlegg = styled.div`
 
 export interface LastOppVedleggdProps {
     vedleggsliste: VedleggType[];
-    //innsendingsId: string;
-    //erAnnetVedlegg?: boolean;
-    soknad: SoknadType;
     oppdaterVisningsSteg: (nr: number) => void;
-    setSlettSoknadModal: (boolean: boolean) => void;
-    setFortsettSenereSoknadModal: (boolean: boolean) => void;
-    setSendInnKomplettSoknadModal: (boolean: boolean) => void;
-    setSendInnUferdigSoknadModal: (boolean: boolean) => void;
 }
-const Linje = styled.div`
-    border-bottom: 1px solid var(--navds-semantic-color-border);
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-`;
 
 function LastOppVedlegg(props: LastOppVedleggdProps) {
-    const {
-        vedleggsliste,
-        soknad,
-        oppdaterVisningsSteg,
-        setSlettSoknadModal,
-        setFortsettSenereSoknadModal,
-        setSendInnKomplettSoknadModal,
-        setSendInnUferdigSoknadModal,
-    } = props;
+    const { vedleggsliste, oppdaterVisningsSteg } = props;
 
     const { t } = useTranslation();
+
+    const { soknad, soknadKlar, soknadHarNoeInnlevert } = useContext(
+        VedleggslisteContext,
+    );
+    const {
+        openForstettSenereSoknadModal,
+        openSendInnKomplettSoknadModal,
+        openSendInnUferdigSoknadModal,
+        openSlettSoknadModal,
+    } = useContext(ModalContext);
 
     const [lastOppVedleggHarFeil, setLastOppVedleggHarFeil] =
         useState(false);
@@ -157,9 +151,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
                                 setVisLastOppVedleggFeil(true);
                                 return;
                             }
-                            if (!sendInnKomplettSoknadModal) {
-                                setSendInnKomplettSoknadModal(true);
-                            }
+                            openSendInnKomplettSoknadModal();
                         }}
                         data-cy="sendTilNAVKnapp"
                     >
@@ -167,38 +159,29 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
                     </Button>
                 )}
 
-                {
-                    soknadHarNoeInnlevert && !soknadKlar && (
-                        <Button
-                            onClick={() => {
-                                if (lastOppVedleggHarFeil) {
-                                    setLastOppVedleggValideringfokus(
-                                        true,
-                                    );
-                                    setVisLastOppVedleggFeil(true);
-                                    return;
-                                }
-                                if (!sendInnUferdigSoknadModal) {
-                                    setSendInnUferdigSoknadModal(
-                                        true,
-                                    );
-                                }
-                            }}
-                            data-cy="sendTilNAVKnapp"
-                        >
-                            {t('soknad.knapper.sendInnUfullstendig')}
-                        </Button>
-                    )
-                    // dette virker nå, men du må reloade
-                }
+                {soknadHarNoeInnlevert && !soknadKlar && (
+                    <Button
+                        onClick={() => {
+                            if (lastOppVedleggHarFeil) {
+                                setLastOppVedleggValideringfokus(
+                                    true,
+                                );
+                                setVisLastOppVedleggFeil(true);
+                                return;
+                            }
+                            openSendInnUferdigSoknadModal();
+                        }}
+                        data-cy="sendTilNAVKnapp"
+                    >
+                        {t('soknad.knapper.sendInnUfullstendig')}
+                    </Button>
+                )}
 
                 {/* lagre og fortsett senere */}
                 <Button
                     variant="secondary"
                     onClick={() => {
-                        if (!fortsettSenereSoknadModal) {
-                            setForstettSenereSoknadModal(true);
-                        }
+                        openForstettSenereSoknadModal();
                     }}
                 >
                     {t('soknad.knapper.fortsettSenere')}
@@ -217,14 +200,10 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
                         {t('soknad.knapper.forrige')}
                     </Button>
                 )}
-                {/*kall slettsøknad på api, deretter, gå til ditt nav
-kanskje popup om at dette vil slette innhold? */}
 
                 <Button
                     onClick={() => {
-                        if (!slettSoknadModal) {
-                            setSlettSoknadModal(true);
-                        }
+                        openSlettSoknadModal();
                     }}
                     variant="tertiary"
                     data-cy="slettSoknadKnapp"

@@ -34,8 +34,7 @@ function SkjemaNedlasting(props: SkjemanedlastingdProps) {
         props;
 
     const { t } = useTranslation();
-    const { openForstettSenereSoknadModal, openSlettSoknadModal } =
-        useContext(ModalContext);
+    const { openSlettSoknadModal } = useContext(ModalContext);
 
     return (
         <div>
@@ -105,15 +104,6 @@ function SkjemaNedlasting(props: SkjemanedlastingdProps) {
                     data-cy="slettSoknadKnapp"
                 >
                     {t('soknad.knapper.avbryt')}
-                </Button>
-
-                <Button
-                    variant="secondary"
-                    onClick={() => {
-                        openForstettSenereSoknadModal();
-                    }}
-                >
-                    {t('soknad.knapper.fortsettSenere')}
                 </Button>
             </ButtonContainer>
         </div>

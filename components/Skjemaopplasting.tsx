@@ -1,43 +1,24 @@
-import React, { useState } from 'react';
-import { Heading, Button, BodyShort } from '@navikt/ds-react';
+import React, { useContext, useState } from 'react';
+import { Heading, Button } from '@navikt/ds-react';
 import styled from 'styled-components';
-import { Download } from '@navikt/ds-icons';
 import { useTranslation } from 'react-i18next';
 import { VedleggType } from '../types/types';
-import { VedleggPanel } from './Vedlegg';
 import { SideValideringProvider } from './SideValideringProvider';
 import { SoknadType } from '../types/types';
 import Vedlegg from './Vedlegg';
 import { ButtonContainer } from './VedleggsListe';
-const BeskrivelsesGruppe = styled.div`
-    padding-bottom: 1.5rem;
-    @media only screen and (max-width: 600px) {
-        ol {
-            padding-left: 1.5rem;
-        }
-    }
-`;
+import { ModalContext } from './ModalContextProvider';
+
 const PaddedVedlegg = styled.div`
     > * {
         margin-top: 16px;
     }
 `;
 
-export interface VedleggProps {
-    vedlegg: VedleggType | null;
-    innsendingsId: string;
-    erAnnetVedlegg?: boolean;
-}
-
 export interface SkjemaopplastingdProps {
     vedlegg: VedleggType | null;
-    //innsendingsId: string;
-    //erAnnetVedlegg?: boolean;
     soknad: SoknadType;
     oppdaterVisningsSteg: (nr: number) => void;
-    setSlettSoknadModal: (boolean: boolean) => void;
-    //setSide1Valideringfokus: (value: React.SetStateAction<boolean>) => void;
-    //setVisSide1Feil: (value: React.SetStateAction<boolean>) => void;
 }
 const Linje = styled.div`
     border-bottom: 1px solid var(--navds-semantic-color-border);
@@ -46,14 +27,11 @@ const Linje = styled.div`
 `;
 
 function Skjemaopplasting(props: SkjemaopplastingdProps) {
-    const {
-        vedlegg,
-        soknad,
-        oppdaterVisningsSteg,
-        setSlettSoknadModal,
-    } = props;
+    const { vedlegg, soknad, oppdaterVisningsSteg } = props;
 
     const { t } = useTranslation();
+
+    const { openSlettSoknadModal } = useContext(ModalContext);
 
     const [side1HarFeil, setSide1HarFeil] = useState(false);
     const [visSide1Feil, setVisSide1Feil] = useState(false);
@@ -104,13 +82,9 @@ function Skjemaopplasting(props: SkjemaopplastingdProps) {
                         >
                             {t('soknad.knapper.forrige')}
                         </Button>
-                        {/*kall slettsøknad på api, deretter, gå til ditt nav
-kanskje popup om at dette vil slette innhold? */}
                         <Button
                             onClick={() => {
-                                //  if (!slettSoknadModal) {
-                                setSlettSoknadModal(true);
-                                // }
+                                openSlettSoknadModal();
                             }}
                             variant="tertiary"
                             data-cy="slettSoknadKnapp"
@@ -119,7 +93,6 @@ kanskje popup om at dette vil slette innhold? */}
                         </Button>
                     </ButtonContainer>
                 </SideValideringProvider>
-                showmodal=true
             </>
         </div>
     );

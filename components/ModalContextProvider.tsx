@@ -1,53 +1,20 @@
 import { Modal, Button, BodyLong, Heading } from '@navikt/ds-react';
-import { useState, createContext, useCallback } from 'react';
+import {
+    useState,
+    createContext,
+    useCallback,
+    useContext,
+} from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { FellesModal } from './FellesModal';
 import { formatertDato } from './Kvittering';
+import { VedleggslisteContext } from './VedleggsListe';
 
 export function toUkerFraDato(date: Date) {
     const numberOfDaysToAdd = 7 * 2; // 7 dager * 6 uker
     return new Date(date.setDate(date.getDate() + numberOfDaysToAdd));
 }
-
-const onSendInn = () => {
-    setisLoading(true);
-    axios
-        .post(
-            `${publicRuntimeConfig.apiUrl}/frontend/v1/sendInn/${soknad?.innsendingsId}`,
-        )
-        .then((response) => {
-            const kv: KvitteringsDto = response.data;
-            setSoknadsInnsendingsRespons(kv);
-            setSendInnUferdigSoknadModal(false);
-            setSendInnKomplettSoknadModal(false);
-            setVisKvittering(true);
-        })
-        .finally(() => {
-            setisLoading(false);
-        })
-        .catch((error) => {
-            showError(error);
-        });
-};
-
-const slett = () => {
-    setisLoading(true);
-    axios
-        .delete(
-            `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad?.innsendingsId}`,
-        )
-        .then(() => {
-            resetState();
-            tilMinSide();
-        })
-        .catch((error) => {
-            showError(error);
-        })
-        .finally(() => {
-            setisLoading(false);
-        });
-};
 
 const ButtonRow = styled.div`
     padding-top: 37px;
@@ -83,12 +50,23 @@ interface ModalContextProviderProps {
     children?: React.ReactNode;
 }
 
-export const ModalContext = createContext(null);
+interface ModalContextType {
+    openForstettSenereSoknadModal: () => void;
+    openSlettSoknadModal: () => void;
+    openSendInnUferdigSoknadModal: () => void;
+    openSendInnKomplettSoknadModal: () => void;
+}
+
+export const ModalContext = createContext<ModalContextType>(null);
 
 export const ModalContextProvider = ({
     children,
 }: ModalContextProviderProps) => {
     const { t } = useTranslation();
+
+    const { soknad, onSendInn, slettSoknad } = useContext(
+        VedleggslisteContext,
+    );
 
     const [fortsettSenereSoknadModal, setForstettSenereSoknadModal] =
         useState(false);
@@ -116,15 +94,15 @@ export const ModalContextProvider = ({
         setSendInnKomplettSoknadModal(true);
     }, [setSendInnKomplettSoknadModal]);
 
-    const value = {
-        openForstettSenereSoknadModal,
-        openSlettSoknadModal,
-        openSendInnUferdigSoknadModal,
-        openSendInnKomplettSoknadModal,
-    };
-
     return (
-        <ModalContext.Provider value={value}>
+        <ModalContext.Provider
+            value={{
+                openForstettSenereSoknadModal,
+                openSlettSoknadModal,
+                openSendInnUferdigSoknadModal,
+                openSendInnKomplettSoknadModal,
+            }}
+        >
             {children}
 
             <FellesModal
@@ -149,7 +127,7 @@ export const ModalContextProvider = ({
             <FellesModal
                 open={slettSoknadModal}
                 setOpen={setSlettSoknadModal}
-                onAccept={slett}
+                onAccept={slettSoknad}
                 acceptButtonText={t('modal.slett.accept')}
                 cancelButtonText={t('modal.slett.cancel')}
             >
