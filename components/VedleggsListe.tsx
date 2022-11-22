@@ -3,28 +3,22 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { VedleggType, SoknadType } from '../types/types';
-import Vedlegg, { ExtendedVedleggType } from '../components/Vedlegg';
+import { ExtendedVedleggType } from '../components/Vedlegg';
 import SkjemaNedlasting from '../components/SkjemaNedlasting';
-import Skjemaopplasting from '../components/Skjemaopplasting';
+import SkjemaOpplasting from './Skjemaopplasting';
 import Kvittering, { KvitteringsDto } from '../components/Kvittering';
-import { Button, Alert } from '@navikt/ds-react';
-import { Heading, Ingress, BodyLong } from '@navikt/ds-react';
-import { FellesModal } from './FellesModal';
 import { useTranslation } from 'react-i18next';
 import { setParams } from '@navikt/nav-dekoratoren-moduler';
-import {
-    formatertDato,
-    seksUkerFraDato,
-} from '../components/Kvittering';
 import getConfig from 'next/config';
 import styled from 'styled-components';
-import { SideValideringProvider } from './SideValideringProvider';
+
 import LastOppVedlegg from './LastOppVedlegg';
-import { ModalContextProvider } from './ModalContextProvider';
+import { SoknadModalProvider } from './SoknadModalProvider';
+import { navigerTilMinSide } from '../lib/navigerTilMinSide';
 
 const { publicRuntimeConfig } = getConfig();
 
-const initialVedleggsliste: VedleggType[] | [] = [];
+const initialVedleggsliste: VedleggType[] = [];
 
 const Style = styled.div`
     min-height: 100vh;
@@ -33,12 +27,6 @@ const Style = styled.div`
     padding-top: 44px;
     margin-bottom: 44px;
     outline: none;
-`;
-
-const PaddedVedlegg = styled.div`
-    > * {
-        margin-top: 16px;
-    }
 `;
 
 export const ButtonContainer = styled.div`
@@ -63,9 +51,9 @@ export interface VedleggsListeProps {
     setSoknad: React.Dispatch<
         React.SetStateAction<SoknadType | null>
     >;
-    vedleggsliste: VedleggType[] | [];
+    vedleggsliste: VedleggType[];
     setVedleggsListe: React.Dispatch<
-        React.SetStateAction<VedleggType[] | []>
+        React.SetStateAction<VedleggType[]>
     >;
     erEttersending: boolean;
     visningsSteg?: number;
@@ -123,7 +111,6 @@ function VedleggsListe({
     setSoknad,
     vedleggsliste,
     setVedleggsListe,
-    erEttersending,
 }: VedleggsListeProps) {
     const { showError } = useErrorMessage();
 
@@ -135,17 +122,7 @@ function VedleggsListe({
         soknad.visningsSteg,
     );
 
-    const [fortsettSenereSoknadModal, setForstettSenereSoknadModal] =
-        useState(false);
-    const [slettSoknadModal, setSlettSoknadModal] = useState(false);
-    const [sendInnUferdigSoknadModal, setSendInnUferdigSoknadModal] =
-        useState(false);
-    const [
-        sendInnKomplettSoknadModal,
-        setSendInnKomplettSoknadModal,
-    ] = useState(false);
-
-    const { t, i18n } = useTranslation();
+    const { i18n } = useTranslation();
 
     const [isLoading, setisLoading] = useState(false);
 
@@ -153,24 +130,7 @@ function VedleggsListe({
     const [soknadsInnsendingsRespons, setSoknadsInnsendingsRespons] =
         useState(null);
 
-    // todo, vi trenger ikke forandre denne verdien lenger som under utvikling, gjør det til en const variabel, venter til
-    const [visningsType, setVisningsType] = useState(
-        soknad.visningsType,
-    );
-
-    const [lastOppVedleggHarFeil, setLastOppVedleggHarFeil] =
-        useState(false);
-    const [visLastOppVedleggFeil, setVisLastOppVedleggFeil] =
-        useState(false);
-    const [
-        lastOppVedleggValideringfokus,
-        setLastOppVedleggValideringfokus,
-    ] = useState(false);
-
-    const [side1HarFeil, setSide1HarFeil] = useState(false);
-    const [visSide1Feil, setVisSide1Feil] = useState(false);
-    const [side1Valideringfokus, setSide1Valideringfokus] =
-        useState(false);
+    const { visningsType } = soknad;
 
     const vedleggsListeContainer = useRef(null);
 
@@ -190,18 +150,17 @@ function VedleggsListe({
             (visningsType === 'dokumentinnsending' &&
                 visningsSteg === 2));
 
-    const onSendInn = () => {
+    const onSendInn = async () => {
         setisLoading(true);
-        axios
+        await axios
             .post(
                 `${publicRuntimeConfig.apiUrl}/frontend/v1/sendInn/${soknad?.innsendingsId}`,
             )
             .then((response) => {
                 const kv: KvitteringsDto = response.data;
                 setSoknadsInnsendingsRespons(kv);
-                setSendInnUferdigSoknadModal(false);
-                setSendInnKomplettSoknadModal(false);
                 setVisKvittering(true);
+                resettFokus();
             })
             .finally(() => {
                 setisLoading(false);
@@ -219,7 +178,7 @@ function VedleggsListe({
             )
             .then(() => {
                 resetState();
-                tilMinSide();
+                navigerTilMinSide();
             })
             .catch((error) => {
                 showError(error);
@@ -229,9 +188,21 @@ function VedleggsListe({
             });
     };
 
+    const resettFokus = () => {
+        if (vedleggsListeContainer.current) {
+            vedleggsListeContainer.current.focus();
+            if (window.scrollY !== 0) {
+                vedleggsListeContainer.current.scrollIntoView(true);
+            } else {
+                window.scrollTo(0, 0);
+            }
+        }
+    };
+
     const oppdaterVisningsSteg = (nr: number) => {
         const nyttVisningsSteg = visningsSteg + nr;
         setVisningsSteg(nyttVisningsSteg);
+        resettFokus();
 
         axios
             .patch(
@@ -302,12 +273,6 @@ function VedleggsListe({
             });
     };
 
-    // todo fjern duplisert kode
-    const tilMinSide = () => {
-        console.log('TilMinSide');
-        window.location.assign(process.env.NEXT_PUBLIC_MIN_SIDE_URL);
-    };
-
     useEffect(() => {
         setSoknadErKomplett(soknadErKomplett(vedleggsliste));
         setSoknadKanSendesInn(soknadKanSendesInn(vedleggsliste));
@@ -362,29 +327,6 @@ function VedleggsListe({
         document.documentElement.lang = i18n.language;
     }, [soknad, i18n]);
 
-    useEffect(() => {
-        if (
-            vedleggsListeContainer.current &&
-            (visSteg0 ||
-                visSteg1 ||
-                visLastOppVedlegg ||
-                visKvittering)
-        ) {
-            vedleggsListeContainer.current.focus();
-            if (window.scrollY !== 0) {
-                vedleggsListeContainer.current.scrollIntoView(true);
-            } else {
-                window.scrollTo(0, 0);
-            }
-        }
-    }, [
-        vedleggsListeContainer,
-        visSteg0,
-        visSteg1,
-        visLastOppVedlegg,
-        visKvittering,
-    ]);
-
     const resetState = () => {
         setVedleggsListe(initialVedleggsliste);
         setSoknad(null);
@@ -403,44 +345,33 @@ function VedleggsListe({
                 slettAnnetVedlegg,
             }}
         >
-            <ModalContextProvider>
-                {/* 
-            todo:
-            0 ta ut knapper fra skjemanedlasting
-            1 skille vislastoppvedlegg
-            2 ta ut prop drilling og bruk kontekst istedenfor
-            */}
+            <SoknadModalProvider isLoading={isLoading}>
                 <Style ref={vedleggsListeContainer} tabIndex={-1}>
-                    {/* // skjemaopplasting, steg 1 */}
+                    {/* // skjemanedlasting, steg 1 */}
                     {visSteg0 &&
                         soknad &&
                         vedleggsliste.length > 0 &&
                         vedleggsliste.filter((x) => x.erHoveddokument)
                             .length > 0 && (
-                            <>
-                                <SkjemaNedlasting
-                                    vedlegg={
-                                        vedleggsliste.filter(
-                                            (x) => x.erHoveddokument,
-                                        )[0]
-                                    }
-                                    oppdaterVisningsSteg={
-                                        oppdaterVisningsSteg
-                                    }
-                                    setSlettSoknadModal={
-                                        setSlettSoknadModal
-                                    }
-                                />
-                            </>
+                            <SkjemaNedlasting
+                                vedlegg={
+                                    vedleggsliste.filter(
+                                        (x) => x.erHoveddokument,
+                                    )[0]
+                                }
+                                oppdaterVisningsSteg={
+                                    oppdaterVisningsSteg
+                                }
+                            />
                         )}
 
-                    {/* skjemanedlasting, steg 2*/}
+                    {/* skjemaopplasting, steg 2*/}
                     {visSteg1 &&
                         soknad &&
                         vedleggsliste.length > 0 &&
                         vedleggsliste.filter((x) => x.erHoveddokument)
                             .length > 0 && (
-                            <Skjemaopplasting
+                            <SkjemaOpplasting
                                 vedlegg={
                                     vedleggsliste.filter(
                                         (x) => x.erHoveddokument,
@@ -462,14 +393,14 @@ function VedleggsListe({
                         />
                     )}
 
-                    {/* steg 5 kvitteringsside  */}
+                    {/* steg 4 kvitteringsside  */}
                     {visKvittering && (
                         <Kvittering
                             kvprops={soknadsInnsendingsRespons}
                         />
                     )}
                 </Style>
-            </ModalContextProvider>
+            </SoknadModalProvider>
         </VedleggslisteContext.Provider>
     );
 }

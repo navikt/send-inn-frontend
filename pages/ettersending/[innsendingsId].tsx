@@ -14,7 +14,7 @@ import getConfig from 'next/config';
 const { publicRuntimeConfig } = getConfig();
 const erEttersending = true;
 
-const initialVedleggsliste: VedleggType[] | [] = [];
+const initialVedleggsliste: VedleggType[] = [];
 
 const EttersendingSide: NextPage = () => {
     const router = useRouter();

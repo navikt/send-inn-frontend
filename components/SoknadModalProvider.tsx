@@ -1,52 +1,23 @@
-import { Modal, Button, BodyLong, Heading } from '@navikt/ds-react';
+import { BodyLong, Heading } from '@navikt/ds-react';
 import {
     useState,
     createContext,
     useCallback,
     useContext,
 } from 'react';
-import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { FellesModal } from './FellesModal';
 import { formatertDato } from './Kvittering';
 import { VedleggslisteContext } from './VedleggsListe';
+import { navigerTilMinSide } from '../lib/navigerTilMinSide';
 
 export function toUkerFraDato(date: Date) {
     const numberOfDaysToAdd = 7 * 2; // 7 dager * 6 uker
     return new Date(date.setDate(date.getDate() + numberOfDaysToAdd));
 }
 
-const ButtonRow = styled.div`
-    padding-top: 37px;
-    display: flex;
-    justify-content: center;
-    button {
-        margin: 0 12px;
-    }
-`;
-
-const tilMinSide = () => {
-    console.log('TilMinSide');
-    window.location.assign(process.env.NEXT_PUBLIC_MIN_SIDE_URL);
-};
-
-const StyledContent = styled(Modal.Content)`
-    > *:first-child {
-        margin-right: 36px;
-    }
-
-    ol,
-    ul {
-        padding-left: 1.75rem;
-    }
-    @media only screen and (max-width: 600px) {
-        ol,
-        ul {
-            padding-left: 1.5rem;
-        }
-    }
-`;
-interface ModalContextProviderProps {
+interface SoknadModalProviderProps {
+    isLoading: boolean;
     children?: React.ReactNode;
 }
 
@@ -59,9 +30,10 @@ interface ModalContextType {
 
 export const ModalContext = createContext<ModalContextType>(null);
 
-export const ModalContextProvider = ({
+export const SoknadModalProvider = ({
+    isLoading,
     children,
-}: ModalContextProviderProps) => {
+}: SoknadModalProviderProps) => {
     const { t } = useTranslation();
 
     const { soknad, onSendInn, slettSoknad } = useContext(
@@ -108,7 +80,7 @@ export const ModalContextProvider = ({
             <FellesModal
                 open={fortsettSenereSoknadModal}
                 setOpen={setForstettSenereSoknadModal}
-                onAccept={tilMinSide}
+                onAccept={navigerTilMinSide}
                 acceptButtonText={t('modal.fortsettSenere.accept')}
                 cancelButtonText={t('modal.fortsettSenere.cancel')}
             >
@@ -130,6 +102,7 @@ export const ModalContextProvider = ({
                 onAccept={slettSoknad}
                 acceptButtonText={t('modal.slett.accept')}
                 cancelButtonText={t('modal.slett.cancel')}
+                isLoading={isLoading}
             >
                 <Heading spacing size="medium">
                     {t('modal.slett.tittel')}
@@ -146,9 +119,13 @@ export const ModalContextProvider = ({
             <FellesModal
                 open={sendInnUferdigSoknadModal}
                 setOpen={setSendInnUferdigSoknadModal}
-                onAccept={onSendInn}
+                onAccept={async () => {
+                    await onSendInn();
+                    setSendInnUferdigSoknadModal(false);
+                }}
                 acceptButtonText={t('modal.sendInnUferdig.accept')}
                 cancelButtonText={t('modal.sendInnUferdig.cancel')}
+                isLoading={isLoading}
             >
                 <Heading spacing size="medium">
                     {t('modal.sendInnUferdig.tittel')}
@@ -170,9 +147,13 @@ export const ModalContextProvider = ({
             <FellesModal
                 open={sendInnKomplettSoknadModal}
                 setOpen={setSendInnKomplettSoknadModal}
-                onAccept={onSendInn}
+                onAccept={async () => {
+                    await onSendInn();
+                    setSendInnKomplettSoknadModal(false);
+                }}
                 acceptButtonText={t('modal.sendInnKomplett.accept')}
                 cancelButtonText={t('modal.sendInnKomplett.cancel')}
+                isLoading={isLoading}
             >
                 <Heading spacing size="medium">
                     {t('modal.sendInnKomplett.tittel')}

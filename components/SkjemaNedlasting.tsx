@@ -7,7 +7,7 @@ import { ButtonContainer } from './VedleggsListe';
 
 import { VedleggType } from '../types/types';
 import { VedleggPanel } from './Vedlegg';
-import { ModalContext } from './ModalContextProvider';
+import { ModalContext } from './SoknadModalProvider';
 
 const Linje = styled.div`
     border-bottom: 1px solid var(--navds-semantic-color-border);
@@ -26,18 +26,16 @@ const BeskrivelsesGruppe = styled.div`
 export interface SkjemanedlastingdProps {
     vedlegg: VedleggType | null;
     oppdaterVisningsSteg: (nr: number) => void;
-    setSlettSoknadModal: (boolean: boolean) => void;
 }
 
 function SkjemaNedlasting(props: SkjemanedlastingdProps) {
-    const { vedlegg, oppdaterVisningsSteg, setSlettSoknadModal } =
-        props;
+    const { vedlegg, oppdaterVisningsSteg } = props;
 
     const { t } = useTranslation();
     const { openSlettSoknadModal } = useContext(ModalContext);
 
     return (
-        <div>
+        <>
             <Heading level={'2'} size="large" spacing>
                 {t('soknad.visningsSteg.steg0.tittel')}
             </Heading>
@@ -50,7 +48,6 @@ function SkjemaNedlasting(props: SkjemanedlastingdProps) {
                     <BodyShort>
                         {t('soknad.skjemaNedlasting.listeTittel')}
                     </BodyShort>
-                    {/* TODO: husk styling på <ol> */}
                     <BodyShort as="ol">
                         {t('soknad.skjemaNedlasting.liste', {
                             returnObjects: true,
@@ -96,9 +93,7 @@ function SkjemaNedlasting(props: SkjemanedlastingdProps) {
 
                 <Button
                     onClick={() => {
-                        //  if (!slettSoknadModal) {
                         openSlettSoknadModal();
-                        // }
                     }}
                     variant="tertiary"
                     data-cy="slettSoknadKnapp"
@@ -106,7 +101,7 @@ function SkjemaNedlasting(props: SkjemanedlastingdProps) {
                     {t('soknad.knapper.avbryt')}
                 </Button>
             </ButtonContainer>
-        </div>
+        </>
     );
 }
 export default SkjemaNedlasting;

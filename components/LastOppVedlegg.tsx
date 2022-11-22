@@ -1,18 +1,9 @@
 import React, { useContext, useState } from 'react';
-import {
-    Heading,
-    Button,
-    BodyShort,
-    Ingress,
-    Alert,
-} from '@navikt/ds-react';
+import { Heading, Button, Ingress, Alert } from '@navikt/ds-react';
 import styled from 'styled-components';
-import { Download } from '@navikt/ds-icons';
 import { useTranslation } from 'react-i18next';
 import { VedleggType } from '../types/types';
-import { VedleggPanel } from './Vedlegg';
 import { SideValideringProvider } from './SideValideringProvider';
-import { SoknadType } from '../types/types';
 import Vedlegg from './Vedlegg';
 import {
     ButtonContainer,
@@ -23,7 +14,7 @@ import {
     formatertDato,
     seksUkerFraDato,
 } from '../components/Kvittering';
-import { ModalContext } from './ModalContextProvider';
+import { ModalContext } from './SoknadModalProvider';
 
 const FristForOpplastingInfo = styled(Alert)`
     border: 0;
@@ -137,11 +128,8 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
                 </PaddedVedlegg>
             </SideValideringProvider>
 
-            {/* start */}
-
             <ButtonContainer>
-                {/* todo, fjerne skillet mellom soknad klar og ikke klar buttons, men vi trenger en ternary operator for å legge modalene, vi kan kan vurdere å beholde begge knappene, kanskje mer leselige, skal vi kanskje ha forskjellige tekster rune? */}
-                {soknadKlar && (
+                {(soknadKlar || soknadHarNoeInnlevert) && (
                     <Button
                         onClick={() => {
                             if (lastOppVedleggHarFeil) {
@@ -151,29 +139,15 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
                                 setVisLastOppVedleggFeil(true);
                                 return;
                             }
-                            openSendInnKomplettSoknadModal();
+                            if (soknadKlar) {
+                                openSendInnKomplettSoknadModal();
+                            } else {
+                                openSendInnUferdigSoknadModal();
+                            }
                         }}
                         data-cy="sendTilNAVKnapp"
                     >
                         {t('soknad.knapper.sendInn')}
-                    </Button>
-                )}
-
-                {soknadHarNoeInnlevert && !soknadKlar && (
-                    <Button
-                        onClick={() => {
-                            if (lastOppVedleggHarFeil) {
-                                setLastOppVedleggValideringfokus(
-                                    true,
-                                );
-                                setVisLastOppVedleggFeil(true);
-                                return;
-                            }
-                            openSendInnUferdigSoknadModal();
-                        }}
-                        data-cy="sendTilNAVKnapp"
-                    >
-                        {t('soknad.knapper.sendInnUfullstendig')}
                     </Button>
                 )}
 
@@ -188,7 +162,6 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
                 </Button>
 
                 {/* gå tilbake et steg */}
-
                 {soknad.visningsType === 'dokumentinnsending' && (
                     <Button
                         onClick={() => {
