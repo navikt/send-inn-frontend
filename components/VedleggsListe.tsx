@@ -5,7 +5,7 @@ import { useErrorMessage } from '../hooks/useErrorMessage';
 import { VedleggType, SoknadType } from '../types/types';
 import { ExtendedVedleggType } from '../components/Vedlegg';
 import SkjemaNedlasting from '../components/SkjemaNedlasting';
-import SkjemaOpplasting from './Skjemaopplasting';
+import SkjemaOpplasting from './SkjemaOpplasting';
 import Kvittering, { KvitteringsDto } from '../components/Kvittering';
 import { useTranslation } from 'react-i18next';
 import { setParams } from '@navikt/nav-dekoratoren-moduler';
@@ -14,7 +14,7 @@ import styled from 'styled-components';
 
 import LastOppVedlegg from './LastOppVedlegg';
 import { SoknadModalProvider } from './SoknadModalProvider';
-import { navigerTilMinSide } from '../lib/navigerTilMinSide';
+import { navigerTilMinSide } from '../utils/navigerTilMinSide';
 
 const { publicRuntimeConfig } = getConfig();
 

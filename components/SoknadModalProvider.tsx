@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { FellesModal } from './FellesModal';
 import { formatertDato } from './Kvittering';
 import { VedleggslisteContext } from './VedleggsListe';
-import { navigerTilMinSide } from '../lib/navigerTilMinSide';
+import { navigerTilMinSide } from '../utils/navigerTilMinSide';
 
 export function toUkerFraDato(date: Date) {
     const numberOfDaysToAdd = 7 * 2; // 7 dager * 6 uker
