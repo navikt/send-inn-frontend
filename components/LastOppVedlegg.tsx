@@ -5,10 +5,9 @@ import { useTranslation } from 'react-i18next';
 import { VedleggType } from '../types/types';
 import { SideValideringProvider } from './SideValideringProvider';
 import Vedlegg from './Vedlegg';
-import {
-    ButtonContainer,
-    VedleggslisteContext,
-} from './VedleggsListe';
+import { VedleggslisteContext } from './VedleggsListe';
+import { ButtonContainer } from './styles/ButtonContainer';
+
 import { OpprettAnnetVedlegg } from './OpprettAnnetVedlegg';
 import {
     formatertDato,

@@ -6,7 +6,7 @@ import { VedleggType } from '../types/types';
 import { SideValideringProvider } from './SideValideringProvider';
 import { SoknadType } from '../types/types';
 import Vedlegg from './Vedlegg';
-import { ButtonContainer } from './VedleggsListe';
+import { ButtonContainer } from './styles/ButtonContainer';
 import { ModalContext } from './SoknadModalProvider';
 
 const PaddedVedlegg = styled.div`

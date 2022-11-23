@@ -7,11 +7,9 @@ import { ExtendedVedleggType } from '../components/Vedlegg';
 import SkjemaNedlasting from '../components/SkjemaNedlasting';
 import SkjemaOpplasting from './SkjemaOpplasting';
 import Kvittering, { KvitteringsDto } from '../components/Kvittering';
-import { useTranslation } from 'react-i18next';
-import { setParams } from '@navikt/nav-dekoratoren-moduler';
 import getConfig from 'next/config';
 import styled from 'styled-components';
-
+import { useSoknadLanguage } from '../hooks/useSoknadLanguage';
 import LastOppVedlegg from './LastOppVedlegg';
 import { SoknadModalProvider } from './SoknadModalProvider';
 import { navigerTilMinSide } from '../utils/navigerTilMinSide';
@@ -27,23 +25,6 @@ const Style = styled.div`
     padding-top: 44px;
     margin-bottom: 44px;
     outline: none;
-`;
-
-export const ButtonContainer = styled.div`
-    margin-right: auto;
-    margin-top: 60px;
-    width: fit-content;
-    min-width: 207px;
-    button {
-        margin-bottom: 24px;
-    }
-    display: flex;
-
-    flex-direction: column;
-
-    @media only screen and (max-width: 600px) {
-        width: 100%;
-    }
 `;
 
 export interface VedleggsListeProps {
@@ -113,6 +94,7 @@ function VedleggsListe({
     setVedleggsListe,
 }: VedleggsListeProps) {
     const { showError } = useErrorMessage();
+    useSoknadLanguage(soknad.spraak);
 
     const [soknadKlar, setSoknadErKomplett] =
         useState<boolean>(false);
@@ -121,8 +103,6 @@ function VedleggsListe({
     const [visningsSteg, setVisningsSteg] = useState(
         soknad.visningsSteg,
     );
-
-    const { i18n } = useTranslation();
 
     const [isLoading, setisLoading] = useState(false);
 
@@ -277,55 +257,6 @@ function VedleggsListe({
         setSoknadErKomplett(soknadErKomplett(vedleggsliste));
         setSoknadKanSendesInn(soknadKanSendesInn(vedleggsliste));
     }, [vedleggsliste]);
-
-    useEffect(() => {
-        const changeLang = (lng) => {
-            // nb / nn / en / se / pl støttede språk per 2022 for dekoratoren
-
-            if (lng === 'no' || lng === 'nb') {
-                i18n.changeLanguage('nb');
-                setParams({
-                    language: 'nb',
-                });
-                return;
-            }
-            if (lng === 'nn') {
-                i18n.changeLanguage('nn');
-                setParams({
-                    language: 'nn',
-                });
-                return;
-            }
-            if (lng === 'en') {
-                i18n.changeLanguage('en');
-                setParams({
-                    language: 'en',
-                });
-                return;
-            }
-
-            if (lng === 'se') {
-                i18n.changeLanguage('se');
-                setParams({
-                    language: 'se',
-                });
-                return;
-            }
-
-            if (lng === 'pl') {
-                i18n.changeLanguage('pl');
-                setParams({
-                    language: 'pl',
-                });
-                return;
-            }
-
-            i18n.changeLanguage('en');
-        };
-
-        changeLang(soknad.spraak);
-        document.documentElement.lang = i18n.language;
-    }, [soknad, i18n]);
 
     const resetState = () => {
         setVedleggsListe(initialVedleggsliste);

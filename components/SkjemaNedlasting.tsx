@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { Heading, Button, BodyShort } from '@navikt/ds-react';
-import styled from 'styled-components';
 import { Download } from '@navikt/ds-icons';
 import { useTranslation } from 'react-i18next';
-import { ButtonContainer } from './VedleggsListe';
+import { ButtonContainer } from './styles/ButtonContainer';
 
 import { VedleggType } from '../types/types';
 import { VedleggPanel } from './Vedlegg';
 import { ModalContext } from './SoknadModalProvider';
+import styled from 'styled-components';
 
 const Linje = styled.div`
     border-bottom: 1px solid var(--navds-semantic-color-border);
