@@ -9,10 +9,7 @@ import { VedleggslisteContext } from './VedleggsListe';
 import { ButtonContainer } from './styles/ButtonContainer';
 
 import { OpprettAnnetVedlegg } from './OpprettAnnetVedlegg';
-import {
-    formatertDato,
-    seksUkerFraDato,
-} from '../components/Kvittering';
+import { formatertDato } from '../components/Kvittering';
 import { ModalContext } from './SoknadModalProvider';
 
 const FristForOpplastingInfo = styled(Alert)`
@@ -28,6 +25,11 @@ const PaddedVedlegg = styled.div`
         margin-top: 16px;
     }
 `;
+
+function toUkerFraDato(date: Date) {
+    const numberOfDaysToAdd = 7 * 2; // 7 dager * 2 uker
+    return new Date(date.setDate(date.getDate() + numberOfDaysToAdd));
+}
 
 export interface LastOppVedleggdProps {
     vedleggsliste: VedleggType[];
@@ -73,9 +75,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
             >
                 {t('soknad.visningsSteg.lastOppVedlegg.infoFrist', {
                     dato: formatertDato(
-                        seksUkerFraDato(
-                            new Date(soknad.opprettetDato),
-                        ),
+                        toUkerFraDato(new Date(soknad.opprettetDato)),
                     ),
                 })}
             </FristForOpplastingInfo>

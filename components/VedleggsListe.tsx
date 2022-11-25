@@ -313,7 +313,6 @@ function VedleggsListe({
                                     oppdaterVisningsSteg
                                 }
                             />
-
                         )}
                     {/* vedleggssiden, steg 3 (eller 1) */}
                     {visLastOppVedlegg && (
@@ -330,7 +329,6 @@ function VedleggsListe({
                         <Kvittering
                             kvprops={soknadsInnsendingsRespons}
                         />
-
                     )}
                 </Style>
             </SoknadModalProvider>
