@@ -12,7 +12,7 @@ import { VedleggslisteContext } from './VedleggsListe';
 import { navigerTilMinSide } from '../utils/navigerTilMinSide';
 
 export function toUkerFraDato(date: Date) {
-    const numberOfDaysToAdd = 7 * 2; // 7 dager * 6 uker
+    const numberOfDaysToAdd = 7 * 2; // 7 dager * 2 uker
     return new Date(date.setDate(date.getDate() + numberOfDaysToAdd));
 }
 

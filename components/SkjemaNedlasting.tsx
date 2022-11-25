@@ -55,11 +55,6 @@ function SkjemaNedlasting(props: SkjemanedlastingdProps) {
                             <li key={key}>{element}</li>
                         ))}
                     </BodyShort>
-
-                    {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
-                    {vedlegg.beskrivelse && (
-                        <BodyShort>{vedlegg.beskrivelse}</BodyShort>
-                    )}
                 </BeskrivelsesGruppe>
 
                 <div>
