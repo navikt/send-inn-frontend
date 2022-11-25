@@ -4,10 +4,10 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import axios, { AxiosError } from 'axios';
-import VedleggsListe from '../../components/VedleggsListe';
-import { SoknadHeader } from '../../components/SoknadHeader';
+import VedleggsListe from '../components/VedleggsListe';
+import { SoknadHeader } from '../components/SoknadHeader';
 
-import { VedleggType, SoknadType } from '../../types/types';
+import { VedleggType, SoknadType } from '../types/types';
 
 import getConfig from 'next/config';
 
@@ -16,7 +16,7 @@ const erEttersending = true;
 
 const initialVedleggsliste: VedleggType[] = [];
 
-const EttersendingSide: NextPage = () => {
+const InnsendingsSide: NextPage = () => {
     const router = useRouter();
     const { query } = router;
     const [soknad, setSoknad] = useState<SoknadType | null>(null);
@@ -83,4 +83,4 @@ const EttersendingSide: NextPage = () => {
     );
 };
 
-export default EttersendingSide;
+export default InnsendingsSide;

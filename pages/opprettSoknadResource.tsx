@@ -57,12 +57,9 @@ const OpprettSoknadResource: NextPage = () => {
         if (!innsendingsId) {
             return;
         }
-        if (query.erEttersendelse === 'true') {
-            router.replace(`/ettersending/${innsendingsId}`);
-        } else {
-            router.replace(`/dokumentinnsending/${innsendingsId}`);
-        }
-    }, [innsendingsId, query]);
+
+        router.replace(`/${innsendingsId}`);
+    }, [innsendingsId, router]);
 
     // TODO: Sett språk basert på query.sprak
 
