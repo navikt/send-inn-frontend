@@ -30,7 +30,7 @@ const moduleExports = {
     async redirects() {
         return [
             {
-                source: '/login',
+                source: '/redirect/login',
                 destination: '/oauth2/login',
                 permanent: false,
             },
