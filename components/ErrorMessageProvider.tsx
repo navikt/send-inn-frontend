@@ -28,6 +28,7 @@ const StyledContent = styled(Modal.Content)`
         }
     }
 `;
+
 interface ErrorMessageProviderProps {
     children?: React.ReactNode;
 }

@@ -11,7 +11,7 @@ export function AuthenticationProvider({
 }: AuthenticationProviderProps) {
     const router = useRouter();
     const { user } = useUser({
-        redirectTo: '/login',
+        redirectTo: '/redirect/login',
         redirectedFrom: router.basePath + router.asPath,
     });
 

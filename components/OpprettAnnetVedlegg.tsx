@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { VedleggPanel } from './Vedlegg';
 import { useValidation } from '../hooks/useValidation';
 import { ValideringsRamme } from './ValideringsRamme';
+import { VedleggslisteContext } from './VedleggsListe';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -19,7 +20,6 @@ const ButtomRow = styled.div`
 
 export interface EndreVedleggProps {
     innsendingsId: string;
-    leggTilVedlegg: (arg: string) => void;
 }
 
 type FormValues = {
@@ -28,7 +28,6 @@ type FormValues = {
 
 export function OpprettAnnetVedlegg({
     innsendingsId,
-    leggTilVedlegg,
 }: EndreVedleggProps) {
     const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(false);
@@ -52,6 +51,8 @@ export function OpprettAnnetVedlegg({
         ),
         harFeil: !harVailderingfeil && visOpprett,
     });
+
+    const { leggTilVedlegg } = useContext(VedleggslisteContext);
 
     useValidation({
         komponentId: feilId + '-validering',

@@ -6,7 +6,7 @@ import axios, {
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getTokenxToken } from '../../../auth/getTokenXToken';
 import { verifyIdportenAccessToken } from '../../../auth/verifyIdPortenToken';
-import { logger, rawLogger } from '../../../lib/backendLogger';
+import { logger, rawLogger } from '../../../utils/backendLogger';
 
 export const config = {
     api: {

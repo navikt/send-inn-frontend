@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
@@ -16,12 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import VedleggRadio from '../components/VedleggRadio';
 
-import {
-    setOpplastingStatusType,
-    OpplastetFil,
-    VedleggType,
-    oppdaterLokalOpplastingStatusType,
-} from '../types/types';
+import { OpplastetFil, VedleggType } from '../types/types';
 import { EndreVedlegg } from './EndreVedlegg';
 import { Fil, FilePanel } from './Fil';
 import getConfig from 'next/config';
@@ -30,20 +25,18 @@ import { FIL_STATUS } from '../types/enums';
 import { useValidation } from '../hooks/useValidation';
 import { ValideringsRamme } from './ValideringsRamme';
 import parse from 'html-react-parser';
+import { VedleggslisteContext } from './VedleggsListe';
 
 const { publicRuntimeConfig } = getConfig();
 
-interface ExtendedVedleggType extends VedleggType {
+export interface ExtendedVedleggType extends VedleggType {
     autoFocus?: boolean;
 }
 
 export interface VedleggProps {
     vedlegg: ExtendedVedleggType | null;
     innsendingsId: string;
-    setOpplastingStatus: setOpplastingStatusType;
-    oppdaterLokalOpplastingStatus: oppdaterLokalOpplastingStatusType;
     erAnnetVedlegg?: boolean;
-    slettAnnetVedlegg: (id: number) => void;
 }
 
 export interface FilData {
@@ -161,13 +154,9 @@ const List = styled.ul`
 `;
 
 function Vedlegg(props: VedleggProps) {
-    const {
-        innsendingsId,
-        vedlegg,
-        setOpplastingStatus,
-        slettAnnetVedlegg,
-        oppdaterLokalOpplastingStatus,
-    } = props;
+    const { innsendingsId, vedlegg } = props;
+
+    const { slettAnnetVedlegg } = useContext(VedleggslisteContext);
 
     const { t } = useTranslation();
 
@@ -352,9 +341,6 @@ function Vedlegg(props: VedleggProps) {
                                 <VedleggRadio
                                     id={vedlegg.id}
                                     vedlegg={vedlegg}
-                                    setOpplastingStatus={
-                                        setOpplastingStatus
-                                    }
                                 />
                             )}
 
@@ -486,9 +472,6 @@ function Vedlegg(props: VedleggProps) {
                                                 }
                                                 filListeDispatch={
                                                     dispatch
-                                                }
-                                                oppdaterLokalOpplastingStatus={
-                                                    oppdaterLokalOpplastingStatus
                                                 }
                                             />
                                         );

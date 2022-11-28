@@ -30,10 +30,10 @@ describe('Tester ettersendingsløpet', () => {
 
         cy.wait(500);
         cy.get('[data-cy="sendSenereRadio"]').eq(0).click();
-        cy.wait(500);
+        cy.wait(1500);
         cy.get('[data-cy="sendSenereRadio"]').eq(1).click();
 
-        cy.wait(1000);
+        cy.wait(1500);
         cy.get('[data-cy="sendTilNAVKnapp"]', {
             timeout: 10000,
         }).click();

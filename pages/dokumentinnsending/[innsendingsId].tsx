@@ -1,2 +1,2 @@
-import EttersendingSide from '../ettersending/[innsendingsId]';
-export default EttersendingSide;
+import InnsendingsSide from '../[innsendingsId]';
+export default InnsendingsSide;

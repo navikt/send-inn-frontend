@@ -5,7 +5,7 @@ import i18n from '../i18n';
 import '@navikt/ds-css';
 import '@navikt/ds-css-internal';
 import { SWRConfig } from 'swr';
-import fetchJson from '../lib/fetchJson';
+import fetchJson from '../utils/fetchJson';
 import { AuthenticationProvider } from '../components/AuthenticationProvider';
 import { ErrorMessageProvider } from '../components/ErrorMessageProvider';
 import App from 'next/app';

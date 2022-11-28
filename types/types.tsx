@@ -24,16 +24,6 @@ export type OpplastetFil = {
     storrelse: number;
 };
 
-export type setOpplastingStatusType = (
-    id: number,
-    opplastingStatus: string,
-) => void;
-
-export type oppdaterLokalOpplastingStatusType = (
-    id: number,
-    opplastingStatus: string,
-) => void;
-
 export type SoknadType = {
     id: number;
     innsendingsId: string;

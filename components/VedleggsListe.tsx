@@ -1,28 +1,22 @@
-import React, { useEffect, useRef } from 'react';
+import React, { createContext, useEffect, useRef } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { VedleggType, SoknadType } from '../types/types';
-import Vedlegg from '../components/Vedlegg';
+import { ExtendedVedleggType } from '../components/Vedlegg';
 import SkjemaNedlasting from '../components/SkjemaNedlasting';
+import SkjemaOpplasting from './SkjemaOpplasting';
 import Kvittering, { KvitteringsDto } from '../components/Kvittering';
-import { Button, Alert } from '@navikt/ds-react';
-import { Heading, Ingress, BodyLong } from '@navikt/ds-react';
-import { FellesModal } from './FellesModal';
-import { useTranslation } from 'react-i18next';
-import { setParams } from '@navikt/nav-dekoratoren-moduler';
-import {
-    formatertDato,
-    toUkerFraDato,
-} from '../components/Kvittering';
 import getConfig from 'next/config';
-import { OpprettAnnetVedlegg } from './OpprettAnnetVedlegg';
 import styled from 'styled-components';
-import { SideValideringProvider } from './SideValideringProvider';
+import { useSoknadLanguage } from '../hooks/useSoknadLanguage';
+import LastOppVedlegg from './LastOppVedlegg';
+import { SoknadModalProvider } from './SoknadModalProvider';
+import { navigerTilMinSide } from '../utils/navigerTilMinSide';
 
 const { publicRuntimeConfig } = getConfig();
 
-const initialVedleggsliste: VedleggType[] | [] = [];
+const initialVedleggsliste: VedleggType[] = [];
 
 const Style = styled.div`
     min-height: 100vh;
@@ -33,91 +27,21 @@ const Style = styled.div`
     outline: none;
 `;
 
-const PaddedVedlegg = styled.div`
-    > * {
-        margin-top: 16px;
-    }
-`;
-
-const ButtonContainer = styled.div`
-    margin-right: auto;
-    margin-top: 60px;
-    width: fit-content;
-    min-width: 207px;
-    button {
-        margin-bottom: 24px;
-    }
-    display: flex;
-
-    flex-direction: column;
-
-    @media only screen and (max-width: 600px) {
-        width: 100%;
-    }
-`;
-
-const Linje = styled.div`
-    border-bottom: 1px solid var(--navds-semantic-color-border);
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-`;
-
-const FristForOpplastingInfo = styled(Alert)`
-    border: 0;
-    border-bottom: 1px solid var(--navds-semantic-color-border);
-    padding-bottom: 4px;
-    border-radius: 0px;
-    margin-bottom: 24px;
-    text-transform: uppercase;
-`;
-
 export interface VedleggsListeProps {
     soknad: SoknadType;
     setSoknad: React.Dispatch<
         React.SetStateAction<SoknadType | null>
     >;
-    vedleggsliste: VedleggType[] | [];
+    vedleggsliste: VedleggType[];
     setVedleggsListe: React.Dispatch<
-        React.SetStateAction<VedleggType[] | []>
+        React.SetStateAction<VedleggType[]>
     >;
     erEttersending: boolean;
     visningsSteg?: number;
     visningsType?: string;
 }
-/*
-let example: KvitteringsDto = {
-    innsendingsId: '18c02791-82ac-42e6-ae15-419dd27459b2',
-    label: 'Svar på forhåndsvarsel i sak om barnebidrag (bidragsmottaker)',
-    mottattdato: '2022-05-24T12:00:24.8398842Z',
-    <hoveddokumentRef:></hoveddokumentRef:>
-        'soknad/18c02791-82ac-42e6-ae15-419dd27459b2/vedlegg/1/fil/2',
-    innsendteVedlegg: [
-        {
-            vedleggsnr: 'C1',
-            tittel: 'Arbeidslogg for utprøving av Innowalk som grunnlag for helhetsvurdering og vedlegg til søknad ',
-        },
-        {
-            vedleggsnr: 'W1',
-            tittel: 'Dokumentasjon på mottatt bidrag',
-        },
-    ],
-    skalEttersendes: [
-        {
-            vedleggsnr: 'C1',
-            tittel: 'Arbeidslogg for utprøving av Innowalk som grunnlag for helhetsvurdering og vedlegg til søknad ',
-        },
-        {
-            vedleggsnr: 'W1',
-            tittel: 'Dokumentasjon på mottatt bidrag',
-        },
-    ],
-    ettersendingsfrist: '2022-07-05T12:00:24.8398842Z',
-};
-*/
-function soknadErKomplett(
-    vedleggsliste: VedleggType[],
-    erEttersending: boolean,
-): boolean {
+
+function soknadErKomplett(vedleggsliste: VedleggType[]): boolean {
     const detFinnesEtUopplastetPakrevdVedlegg = vedleggsliste.some(
         (element) => {
             return (
@@ -130,10 +54,7 @@ function soknadErKomplett(
     return !detFinnesEtUopplastetPakrevdVedlegg;
 }
 
-function soknadKanSendesInn(
-    vedleggsliste: VedleggType[],
-    erEttersending: boolean,
-): boolean {
+function soknadKanSendesInn(vedleggsliste: VedleggType[]): boolean {
     const noeErLastetOpp = vedleggsliste.some((element) => {
         return element.opplastingsStatus === 'LastetOpp';
     });
@@ -148,14 +69,32 @@ function soknadKanSendesInn(
     return noeErLastetOpp && !detFinnesEtUpploastetHovedDokument;
 }
 
+interface VedleggslisteContextType {
+    soknad: SoknadType;
+    soknadKlar: boolean;
+    soknadHarNoeInnlevert: boolean;
+    onSendInn: () => void;
+    slettSoknad: () => void;
+    setOpplastingStatus: (id: number, status: string) => void;
+    oppdaterLokalOpplastingStatus: (
+        id: number,
+        opplastingsStatus: string,
+    ) => void;
+    leggTilVedlegg: (vedlegg: ExtendedVedleggType) => void;
+    slettAnnetVedlegg: (vedleggId: number) => void;
+}
+
+export const VedleggslisteContext =
+    createContext<VedleggslisteContextType>(null);
+
 function VedleggsListe({
     soknad,
     setSoknad,
     vedleggsliste,
     setVedleggsListe,
-    erEttersending,
 }: VedleggsListeProps) {
     const { showError } = useErrorMessage();
+    useSoknadLanguage(soknad.spraak);
 
     const [soknadKlar, setSoknadErKomplett] =
         useState<boolean>(false);
@@ -165,42 +104,13 @@ function VedleggsListe({
         soknad.visningsSteg,
     );
 
-    const [fortsettSenereSoknadModal, setForstettSenereSoknadModal] =
-        useState(false);
-    const [slettSoknadModal, setSlettSoknadModal] = useState(false);
-    const [sendInnUferdigSoknadModal, setSendInnUferdigSoknadModal] =
-        useState(false);
-    const [
-        sendInnKomplettSoknadModal,
-        setSendInnKomplettSoknadModal,
-    ] = useState(false);
-
-    const { t, i18n } = useTranslation();
-
     const [isLoading, setisLoading] = useState(false);
 
     const [visKvittering, setVisKvittering] = useState(false);
     const [soknadsInnsendingsRespons, setSoknadsInnsendingsRespons] =
         useState(null);
 
-    // todo, vi trenger ikke forandre denne verdien lenger som under utvikling, gjør det til en const variabel, venter til
-    const [visningsType, setVisningsType] = useState(
-        soknad.visningsType,
-    );
-
-    const [lastOppVedleggHarFeil, setLastOppVedleggHarFeil] =
-        useState(false);
-    const [visLastOppVedleggFeil, setVisLastOppVedleggFeil] =
-        useState(false);
-    const [
-        lastOppVedleggValideringfokus,
-        setLastOppVedleggValideringfokus,
-    ] = useState(false);
-
-    const [side1HarFeil, setSide1HarFeil] = useState(false);
-    const [visSide1Feil, setVisSide1Feil] = useState(false);
-    const [side1Valideringfokus, setSide1Valideringfokus] =
-        useState(false);
+    const { visningsType } = soknad;
 
     const vedleggsListeContainer = useRef(null);
 
@@ -220,9 +130,59 @@ function VedleggsListe({
             (visningsType === 'dokumentinnsending' &&
                 visningsSteg === 2));
 
+    const onSendInn = async () => {
+        setisLoading(true);
+        await axios
+            .post(
+                `${publicRuntimeConfig.apiUrl}/frontend/v1/sendInn/${soknad?.innsendingsId}`,
+            )
+            .then((response) => {
+                const kv: KvitteringsDto = response.data;
+                setSoknadsInnsendingsRespons(kv);
+                setVisKvittering(true);
+                resettFokus();
+            })
+            .finally(() => {
+                setisLoading(false);
+            })
+            .catch((error) => {
+                showError(error);
+            });
+    };
+
+    const slettSoknad = () => {
+        setisLoading(true);
+        axios
+            .delete(
+                `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad?.innsendingsId}`,
+            )
+            .then(() => {
+                resetState();
+                navigerTilMinSide();
+            })
+            .catch((error) => {
+                showError(error);
+            })
+            .finally(() => {
+                setisLoading(false);
+            });
+    };
+
+    const resettFokus = () => {
+        if (vedleggsListeContainer.current) {
+            vedleggsListeContainer.current.focus();
+            if (window.scrollY !== 0) {
+                vedleggsListeContainer.current.scrollIntoView(true);
+            } else {
+                window.scrollTo(0, 0);
+            }
+        }
+    };
+
     const oppdaterVisningsSteg = (nr: number) => {
         const nyttVisningsSteg = visningsSteg + nr;
         setVisningsSteg(nyttVisningsSteg);
+        resettFokus();
 
         axios
             .patch(
@@ -270,13 +230,13 @@ function VedleggsListe({
         );
     };
 
-    const leggTilVedlegg = (vedlegg) => {
+    const leggTilVedlegg = (vedlegg: ExtendedVedleggType) => {
         setVedleggsListe((forrigeVedleggsliste) => [
             ...forrigeVedleggsliste,
             vedlegg,
         ]);
     };
-    const slettAnnetVedlegg = (vedleggsId) => {
+    const slettAnnetVedlegg = (vedleggsId: number) => {
         axios
             .delete(
                 `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${vedleggsId}`,
@@ -293,589 +253,86 @@ function VedleggsListe({
             });
     };
 
-    const tilMinSide = () => {
-        console.log('TilMinSide');
-        window.location.assign(process.env.NEXT_PUBLIC_MIN_SIDE_URL);
-    };
-
-    const onSendInn = () => {
-        setisLoading(true);
-        axios
-            .post(
-                `${publicRuntimeConfig.apiUrl}/frontend/v1/sendInn/${soknad?.innsendingsId}`,
-            )
-            .then((response) => {
-                const kv: KvitteringsDto = response.data;
-                setSoknadsInnsendingsRespons(kv);
-                setSendInnUferdigSoknadModal(false);
-                setSendInnKomplettSoknadModal(false);
-                setVisKvittering(true);
-            })
-            .finally(() => {
-                setisLoading(false);
-            })
-            .catch((error) => {
-                showError(error);
-            });
-    };
-
-    const slett = () => {
-        setisLoading(true);
-        axios
-            .delete(
-                `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad?.innsendingsId}`,
-            )
-            .then(() => {
-                resetState();
-                tilMinSide();
-            })
-            .catch((error) => {
-                showError(error);
-            })
-            .finally(() => {
-                setisLoading(false);
-            });
-    };
-
     useEffect(() => {
-        setSoknadErKomplett(
-            soknadErKomplett(vedleggsliste, erEttersending),
-        );
-        setSoknadKanSendesInn(
-            soknadKanSendesInn(vedleggsliste, erEttersending),
-        );
-    }, [vedleggsliste, erEttersending]);
-
-    useEffect(() => {
-        const changeLang = (lng) => {
-            // nb / nn / en / se / pl støttede språk per 2022 for dekoratoren
-
-            if (lng === 'no' || lng === 'nb') {
-                i18n.changeLanguage('nb');
-                setParams({
-                    language: 'nb',
-                });
-                return;
-            }
-            if (lng === 'nn') {
-                i18n.changeLanguage('nn');
-                setParams({
-                    language: 'nn',
-                });
-                return;
-            }
-            if (lng === 'en') {
-                i18n.changeLanguage('en');
-                setParams({
-                    language: 'en',
-                });
-                return;
-            }
-
-            if (lng === 'se') {
-                i18n.changeLanguage('se');
-                setParams({
-                    language: 'se',
-                });
-                return;
-            }
-
-            if (lng === 'pl') {
-                i18n.changeLanguage('pl');
-                setParams({
-                    language: 'pl',
-                });
-                return;
-            }
-
-            i18n.changeLanguage('en');
-        };
-
-        changeLang(soknad.spraak);
-        document.documentElement.lang = i18n.language;
-    }, [soknad, i18n]);
-
-    useEffect(() => {
-        if (
-            vedleggsListeContainer.current &&
-            (visSteg0 ||
-                visSteg1 ||
-                visLastOppVedlegg ||
-                visKvittering)
-        ) {
-            vedleggsListeContainer.current.focus();
-            if (window.scrollY !== 0) {
-                vedleggsListeContainer.current.scrollIntoView(true);
-            } else {
-                window.scrollTo(0, 0);
-            }
-        }
-    }, [
-        vedleggsListeContainer,
-        visSteg0,
-        visSteg1,
-        visLastOppVedlegg,
-        visKvittering,
-    ]);
+        setSoknadErKomplett(soknadErKomplett(vedleggsliste));
+        setSoknadKanSendesInn(soknadKanSendesInn(vedleggsliste));
+    }, [vedleggsliste]);
 
     const resetState = () => {
         setVedleggsListe(initialVedleggsliste);
         setSoknad(null);
     };
     return (
-        <Style ref={vedleggsListeContainer} tabIndex={-1}>
-            {/* TODO trenger vi dette allikevel? kanskje for å jobbe med  */}
-            {/* {
-                språktest: {t('test')} <br />
-                språk: <br />             soknad.spraak // skriver ut språk
-                <br />
-
-            */}
-            {visKvittering && (
-                <div>
-                    {' '}
-                    <Kvittering
-                        kvprops={soknadsInnsendingsRespons}
-                    />{' '}
-                </div>
-            )}
-            {visSteg0 && (
-                <div>
-                    {soknad &&
+        <VedleggslisteContext.Provider
+            value={{
+                soknad,
+                soknadKlar,
+                soknadHarNoeInnlevert,
+                onSendInn,
+                slettSoknad,
+                setOpplastingStatus,
+                oppdaterLokalOpplastingStatus,
+                leggTilVedlegg,
+                slettAnnetVedlegg,
+            }}
+        >
+            <SoknadModalProvider isLoading={isLoading}>
+                <Style ref={vedleggsListeContainer} tabIndex={-1}>
+                    {/* // skjemanedlasting, steg 1 */}
+                    {visSteg0 &&
+                        soknad &&
                         vedleggsliste.length > 0 &&
                         vedleggsliste.filter((x) => x.erHoveddokument)
                             .length > 0 && (
-                            <>
-                                <Heading
-                                    level={'2'}
-                                    size="large"
-                                    spacing
-                                >
-                                    {t(
-                                        'soknad.visningsSteg.steg0.tittel',
-                                    )}
-                                </Heading>
-                                <Linje />
-                                <SkjemaNedlasting
-                                    innsendingsId={
-                                        soknad.innsendingsId
-                                    }
-                                    setOpplastingStatus={
-                                        setOpplastingStatus
-                                    }
-                                    vedlegg={
-                                        vedleggsliste.filter(
-                                            (x) => x.erHoveddokument,
-                                        )[0]
-                                    }
-                                />
-                            </>
+                            <SkjemaNedlasting
+                                vedlegg={
+                                    vedleggsliste.filter(
+                                        (x) => x.erHoveddokument,
+                                    )[0]
+                                }
+                                oppdaterVisningsSteg={
+                                    oppdaterVisningsSteg
+                                }
+                            />
                         )}
-                </div>
-            )}
-            {visSteg1 && (
-                <div>
-                    {soknad &&
+
+                    {/* skjemaopplasting, steg 2*/}
+                    {visSteg1 &&
+                        soknad &&
                         vedleggsliste.length > 0 &&
                         vedleggsliste.filter((x) => x.erHoveddokument)
                             .length > 0 && (
-                            <>
-                                <Heading
-                                    level={'2'}
-                                    size="large"
-                                    spacing
-                                >
-                                    {t(
-                                        'soknad.visningsSteg.steg1.tittel',
-                                    )}
-                                </Heading>
-                                <Linje />
-                                <SideValideringProvider
-                                    setHarValideringsfeil={
-                                        setSide1HarFeil
-                                    }
-                                    visValideringsfeil={visSide1Feil}
-                                    setVisValideringsfeil={
-                                        setVisSide1Feil
-                                    }
-                                    fokus={side1Valideringfokus}
-                                    setFokus={setSide1Valideringfokus}
-                                >
-                                    <PaddedVedlegg>
-                                        <Vedlegg
-                                            innsendingsId={
-                                                soknad.innsendingsId
-                                            }
-                                            setOpplastingStatus={
-                                                setOpplastingStatus
-                                            }
-                                            oppdaterLokalOpplastingStatus={
-                                                oppdaterLokalOpplastingStatus
-                                            }
-                                            vedlegg={
-                                                vedleggsliste.filter(
-                                                    (x) =>
-                                                        x.erHoveddokument,
-                                                )[0]
-                                            }
-                                            slettAnnetVedlegg={
-                                                slettAnnetVedlegg
-                                            }
-                                        />
-                                    </PaddedVedlegg>
-                                </SideValideringProvider>
-                            </>
+                            <SkjemaOpplasting
+                                vedlegg={
+                                    vedleggsliste.filter(
+                                        (x) => x.erHoveddokument,
+                                    )[0]
+                                }
+                                soknad={soknad}
+                                oppdaterVisningsSteg={
+                                    oppdaterVisningsSteg
+                                }
+                            />
                         )}
-                </div>
-            )}
-            {visLastOppVedlegg && (
-                <div>
-                    {/* soknad.spraak skriver ut språk */}
-                    {/* {soknadKlar.toString() + " // "} */}
-                    {/* {soknadHarNoeInnlevert.toString() + " // "} */}
-                    {/* {JSON.stringify(vedleggsliste)} */}
-
-                    <Heading level={'2'} size="large" spacing>
-                        {t(
-                            'soknad.visningsSteg.lastOppVedlegg.tittel',
-                        )}
-                    </Heading>
-                    <Ingress spacing>
-                        {t(
-                            'soknad.visningsSteg.lastOppVedlegg.ingress',
-                        )}
-                    </Ingress>
-                    <FristForOpplastingInfo
-                        variant="info"
-                        inline={true}
-                        size="small"
-                    >
-                        {t(
-                            'soknad.visningsSteg.lastOppVedlegg.infoFrist',
-                            {
-                                dato: formatertDato(
-                                    toUkerFraDato(
-                                        new Date(
-                                            soknad.opprettetDato,
-                                        ),
-                                    ),
-                                ),
-                            },
-                        )}
-                    </FristForOpplastingInfo>
-
-                    <SideValideringProvider
-                        setHarValideringsfeil={
-                            setLastOppVedleggHarFeil
-                        }
-                        visValideringsfeil={visLastOppVedleggFeil}
-                        setVisValideringsfeil={
-                            setVisLastOppVedleggFeil
-                        }
-                        fokus={lastOppVedleggValideringfokus}
-                        setFokus={setLastOppVedleggValideringfokus}
-                    >
-                        {visningsType === 'dokumentinnsending' &&
-                            visningsType === 'dokumentinnsending' &&
-                            vedleggsliste.some((element) => {
-                                return (
-                                    element.erHoveddokument ===
-                                        true &&
-                                    element.opplastingsStatus !==
-                                        'LastetOpp'
-                                );
-                            }) && (
-                                <Alert
-                                    variant="warning"
-                                    size="medium"
-                                >
-                                    {t(
-                                        'soknad.visningsSteg.lastOppVedlegg.advarselHovedskjema',
-                                    )}
-                                </Alert>
-                            )}
-
-                        <PaddedVedlegg>
-                            {soknad &&
-                                vedleggsliste.length > 0 &&
-                                vedleggsliste
-                                    .filter((x) => !x.erHoveddokument)
-                                    .map((vedlegg) => {
-                                        return (
-                                            <Vedlegg
-                                                key={vedlegg.id}
-                                                innsendingsId={
-                                                    soknad.innsendingsId
-                                                }
-                                                setOpplastingStatus={
-                                                    setOpplastingStatus
-                                                }
-                                                oppdaterLokalOpplastingStatus={
-                                                    oppdaterLokalOpplastingStatus
-                                                }
-                                                vedlegg={vedlegg}
-                                                slettAnnetVedlegg={
-                                                    slettAnnetVedlegg
-                                                }
-                                            />
-                                        );
-                                    })}
-
-                            {soknad.kanLasteOppAnnet && (
-                                <OpprettAnnetVedlegg
-                                    innsendingsId={
-                                        soknad.innsendingsId
-                                    }
-                                    leggTilVedlegg={leggTilVedlegg}
-                                />
-                            )}
-                        </PaddedVedlegg>
-                    </SideValideringProvider>
-                </div>
-            )}
-            {!visKvittering && (
-                <ButtonContainer>
+                    {/* vedleggssiden, steg 3 (eller 1) */}
                     {visLastOppVedlegg && (
-                        <>
-                            {soknadKlar && (
-                                <Button
-                                    onClick={() => {
-                                        if (lastOppVedleggHarFeil) {
-                                            setLastOppVedleggValideringfokus(
-                                                true,
-                                            );
-                                            setVisLastOppVedleggFeil(
-                                                true,
-                                            );
-                                            return;
-                                        }
-                                        if (
-                                            !sendInnKomplettSoknadModal
-                                        ) {
-                                            setSendInnKomplettSoknadModal(
-                                                true,
-                                            );
-                                        }
-                                    }}
-                                    data-cy="sendTilNAVKnapp"
-                                >
-                                    {t('soknad.knapper.sendInn')}
-                                </Button>
-                            )}
-
-                            {
-                                soknadHarNoeInnlevert && !soknadKlar && (
-                                    <Button
-                                        onClick={() => {
-                                            if (
-                                                lastOppVedleggHarFeil
-                                            ) {
-                                                setLastOppVedleggValideringfokus(
-                                                    true,
-                                                );
-                                                setVisLastOppVedleggFeil(
-                                                    true,
-                                                );
-                                                return;
-                                            }
-                                            if (
-                                                !sendInnUferdigSoknadModal
-                                            ) {
-                                                setSendInnUferdigSoknadModal(
-                                                    true,
-                                                );
-                                            }
-                                        }}
-                                        data-cy="sendTilNAVKnapp"
-                                    >
-                                        {t(
-                                            'soknad.knapper.sendInnUfullstendig',
-                                        )}
-                                    </Button>
-                                )
-                                // dette virker nå, men du må reloade
+                        <LastOppVedlegg
+                            vedleggsliste={vedleggsliste}
+                            oppdaterVisningsSteg={
+                                oppdaterVisningsSteg
                             }
+                        />
+                    )}
 
-                            {/* lagre og fortsett senere */}
-                            <Button
-                                variant="secondary"
-                                onClick={() => {
-                                    if (!fortsettSenereSoknadModal) {
-                                        setForstettSenereSoknadModal(
-                                            true,
-                                        );
-                                    }
-                                }}
-                            >
-                                {t('soknad.knapper.fortsettSenere')}
-                            </Button>
-                        </>
+                    {/* steg 4 kvitteringsside  */}
+                    {visKvittering && (
+                        <Kvittering
+                            kvprops={soknadsInnsendingsRespons}
+                        />
                     )}
-                    {/* gå tilbake et steg */}
-                    {visSteg0 && (
-                        <Button
-                            onClick={() => {
-                                oppdaterVisningsSteg(1);
-                            }}
-                            data-cy="nesteStegKnapp"
-                        >
-                            {t('soknad.knapper.neste')}
-                        </Button>
-                    )}
-                    {/* gå frem et steg */}
-                    {visSteg1 && (
-                        <>
-                            <Button
-                                onClick={() => {
-                                    if (side1HarFeil) {
-                                        setSide1Valideringfokus(true);
-                                        setVisSide1Feil(true);
-                                        return;
-                                    }
-                                    oppdaterVisningsSteg(1);
-                                }}
-                                data-cy="nesteStegKnapp"
-                            >
-                                {t('soknad.knapper.neste')}
-                            </Button>
-                            <Button
-                                onClick={() => {
-                                    oppdaterVisningsSteg(-1);
-                                }}
-                                variant="secondary"
-                                data-cy="forrigeStegKnapp"
-                            >
-                                {t('soknad.knapper.forrige')}
-                            </Button>
-                        </>
-                    )}
-                    {visLastOppVedlegg &&
-                        visningsType === 'dokumentinnsending' && (
-                            <Button
-                                onClick={() => {
-                                    oppdaterVisningsSteg(-1);
-                                }}
-                                variant="secondary"
-                                data-cy="nesteStegKnapp"
-                            >
-                                {t('soknad.knapper.forrige')}
-                            </Button>
-                        )}
-                    {/*kall slettsøknad på api, deretter, gå til ditt nav
-kanskje popup om at dette vil slette innhold? */}
-                    <Button
-                        onClick={() => {
-                            if (!slettSoknadModal) {
-                                setSlettSoknadModal(true);
-                            }
-                        }}
-                        variant="tertiary"
-                        data-cy="slettSoknadKnapp"
-                    >
-                        {visLastOppVedlegg
-                            ? t('soknad.knapper.slett')
-                            : t('soknad.knapper.avbryt')}
-                    </Button>
-                </ButtonContainer>
-            )}
-            <div>
-                <FellesModal
-                    open={fortsettSenereSoknadModal}
-                    setOpen={setForstettSenereSoknadModal}
-                    onAccept={tilMinSide}
-                    acceptButtonText={t(
-                        'modal.fortsettSenere.accept',
-                    )}
-                    cancelButtonText={t(
-                        'modal.fortsettSenere.cancel',
-                    )}
-                >
-                    <Heading spacing size="medium">
-                        {t('modal.fortsettSenere.tittel')}
-                    </Heading>
-                    <BodyLong as="ul">
-                        {t('modal.fortsettSenere.liste', {
-                            returnObjects: true,
-                        }).map((element, key) => (
-                            <li key={key}>{element}</li>
-                        ))}
-                    </BodyLong>
-                </FellesModal>
-
-                <FellesModal
-                    open={slettSoknadModal}
-                    setOpen={setSlettSoknadModal}
-                    isLoading={isLoading}
-                    onAccept={slett}
-                    acceptButtonText={t('modal.slett.accept')}
-                    cancelButtonText={t('modal.slett.cancel')}
-                >
-                    <Heading spacing size="medium">
-                        {t('modal.slett.tittel')}
-                    </Heading>
-                    <BodyLong as="ul">
-                        {t('modal.slett.liste', {
-                            returnObjects: true,
-                        }).map((element, key) => (
-                            <li key={key}>{element}</li>
-                        ))}
-                    </BodyLong>
-                </FellesModal>
-
-                <FellesModal
-                    open={sendInnUferdigSoknadModal}
-                    setOpen={setSendInnUferdigSoknadModal}
-                    onAccept={onSendInn}
-                    isLoading={isLoading}
-                    acceptButtonText={t(
-                        'modal.sendInnUferdig.accept',
-                    )}
-                    cancelButtonText={t(
-                        'modal.sendInnUferdig.cancel',
-                    )}
-                >
-                    <Heading spacing size="medium">
-                        {t('modal.sendInnUferdig.tittel')}
-                    </Heading>
-                    <BodyLong as="ul">
-                        {t('modal.sendInnUferdig.liste', {
-                            dato: formatertDato(
-                                toUkerFraDato(
-                                    new Date(soknad.opprettetDato),
-                                ),
-                            ),
-                            returnObjects: true,
-                        }).map((element, key) => (
-                            <li key={key}>{element}</li>
-                        ))}
-                    </BodyLong>
-                </FellesModal>
-
-                <FellesModal
-                    open={sendInnKomplettSoknadModal}
-                    setOpen={setSendInnKomplettSoknadModal}
-                    onAccept={onSendInn}
-                    isLoading={isLoading}
-                    acceptButtonText={t(
-                        'modal.sendInnKomplett.accept',
-                    )}
-                    cancelButtonText={t(
-                        'modal.sendInnKomplett.cancel',
-                    )}
-                >
-                    <Heading spacing size="medium">
-                        {t('modal.sendInnKomplett.tittel')}
-                    </Heading>
-                    <BodyLong as="ul">
-                        {t('modal.sendInnKomplett.liste', {
-                            returnObjects: true,
-                        }).map((element, key) => (
-                            <li key={key}>{element}</li>
-                        ))}
-                    </BodyLong>
-                </FellesModal>
-            </div>
-        </Style>
+                </Style>
+            </SoknadModalProvider>
+        </VedleggslisteContext.Provider>
     );
 }
 export default VedleggsListe;

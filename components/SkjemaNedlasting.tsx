@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Heading, Button, BodyShort } from '@navikt/ds-react';
-import styled from 'styled-components';
 import { Download } from '@navikt/ds-icons';
 import { useTranslation } from 'react-i18next';
+import { ButtonContainer } from './styles/ButtonContainer';
 
-import { setOpplastingStatusType, VedleggType } from '../types/types';
+import { VedleggType } from '../types/types';
 import { VedleggPanel } from './Vedlegg';
+import { ModalContext } from './SoknadModalProvider';
+import styled from 'styled-components';
 
+const Linje = styled.div`
+    border-bottom: 1px solid var(--navds-semantic-color-border);
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+`;
 const BeskrivelsesGruppe = styled.div`
     padding-bottom: 1.5rem;
     @media only screen and (max-width: 600px) {
@@ -16,20 +23,23 @@ const BeskrivelsesGruppe = styled.div`
     }
 `;
 
-export interface VedleggProps {
+export interface SkjemanedlastingdProps {
     vedlegg: VedleggType | null;
-    innsendingsId: string;
-    setOpplastingStatus: setOpplastingStatusType;
-    erAnnetVedlegg?: boolean;
+    oppdaterVisningsSteg: (nr: number) => void;
 }
 
-function SkjemaNedlasting(props: VedleggProps) {
-    const { vedlegg } = props;
+function SkjemaNedlasting(props: SkjemanedlastingdProps) {
+    const { vedlegg, oppdaterVisningsSteg } = props;
 
     const { t } = useTranslation();
+    const { openSlettSoknadModal } = useContext(ModalContext);
 
     return (
-        <div>
+        <>
+            <Heading level={'2'} size="large" spacing>
+                {t('soknad.visningsSteg.steg0.tittel')}
+            </Heading>
+            <Linje />
             <VedleggPanel $extraMargin>
                 <Heading level={'3'} size="small" spacing>
                     {vedlegg.label}
@@ -38,7 +48,6 @@ function SkjemaNedlasting(props: VedleggProps) {
                     <BodyShort>
                         {t('soknad.skjemaNedlasting.listeTittel')}
                     </BodyShort>
-                    {/* TODO: husk styling på <ol> */}
                     <BodyShort as="ol">
                         {t('soknad.skjemaNedlasting.liste', {
                             returnObjects: true,
@@ -46,11 +55,6 @@ function SkjemaNedlasting(props: VedleggProps) {
                             <li key={key}>{element}</li>
                         ))}
                     </BodyShort>
-
-                    {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
-                    {vedlegg.beskrivelse && (
-                        <BodyShort>{vedlegg.beskrivelse}</BodyShort>
-                    )}
                 </BeskrivelsesGruppe>
 
                 <div>
@@ -71,7 +75,28 @@ function SkjemaNedlasting(props: VedleggProps) {
                     )}
                 </div>
             </VedleggPanel>
-        </div>
+
+            <ButtonContainer>
+                <Button
+                    onClick={() => {
+                        oppdaterVisningsSteg(1);
+                    }}
+                    data-cy="nesteStegKnapp"
+                >
+                    {t('soknad.knapper.neste')}
+                </Button>
+
+                <Button
+                    onClick={() => {
+                        openSlettSoknadModal();
+                    }}
+                    variant="tertiary"
+                    data-cy="slettSoknadKnapp"
+                >
+                    {t('soknad.knapper.avbryt')}
+                </Button>
+            </ButtonContainer>
+        </>
     );
 }
 export default SkjemaNedlasting;
