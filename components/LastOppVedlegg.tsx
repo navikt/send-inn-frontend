@@ -146,27 +146,23 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
             </SideValideringProvider>
 
             <ButtonContainer>
-                {(soknadKlar || soknadHarNoeInnlevert) && (
-                    <Button
-                        onClick={() => {
-                            if (lastOppVedleggHarFeil) {
-                                setLastOppVedleggValideringfokus(
-                                    true,
-                                );
-                                setVisLastOppVedleggFeil(true);
-                                return;
-                            }
-                            if (soknadKlar) {
-                                openSendInnKomplettSoknadModal();
-                            } else {
-                                openSendInnUferdigSoknadModal();
-                            }
-                        }}
-                        data-cy="sendTilNAVKnapp"
-                    >
-                        {t('soknad.knapper.sendInn')}
-                    </Button>
-                )}
+                <Button
+                    onClick={() => {
+                        if (lastOppVedleggHarFeil) {
+                            setLastOppVedleggValideringfokus(true);
+                            setVisLastOppVedleggFeil(true);
+                            return;
+                        }
+                        if (soknadKlar) {
+                            openSendInnKomplettSoknadModal();
+                        } else {
+                            openSendInnUferdigSoknadModal();
+                        }
+                    }}
+                    data-cy="sendTilNAVKnapp"
+                >
+                    {t('soknad.knapper.sendInn')}
+                </Button>
 
                 {/* lagre og fortsett senere */}
                 <Button
