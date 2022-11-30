@@ -54,12 +54,6 @@ const InnsendingsSide: NextPage = () => {
                 <title>
                     {soknad ? soknad.tittel : 'Laster søknad'}{' '}
                 </title>
-
-                <meta
-                    name="TODO trenger vi meta når det ikke er søk "
-                    content="TODO sett avhengig av fyllut/sendinn/ettersending"
-                />
-                <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
                 {soknad && (
