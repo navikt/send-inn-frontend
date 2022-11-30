@@ -56,6 +56,12 @@ function soknadErKomplett(vedleggsliste: VedleggType[]): boolean {
     return !detFinnesEtUopplastetPakrevdVedlegg;
 }
 
+function noeErLastetOpp(vedleggsliste: VedleggType[]): boolean {
+    return vedleggsliste.some((element) => {
+        return element.opplastingsStatus === 'LastetOpp';
+    });
+}
+
 function soknadKanSendesInn(vedleggsliste: VedleggType[]): boolean {
     const noeErLastetOpp = vedleggsliste.some((element) => {
         return element.opplastingsStatus === 'LastetOpp';
