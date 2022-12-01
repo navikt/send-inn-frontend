@@ -40,7 +40,7 @@ export const FilePanel = styled(Panel)`
     }
     .filename {
         grid-area: filename;
-        color: gray;
+        color: var(--a-text-subtle);
         justify-items: left;
         white-space: nowrap;
         overflow: hidden;
