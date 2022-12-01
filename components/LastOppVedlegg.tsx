@@ -26,11 +26,6 @@ const PaddedVedlegg = styled.div`
     }
 `;
 
-function toUkerFraDato(date: Date) {
-    const numberOfDaysToAdd = 7 * 2; // 7 dager * 2 uker
-    return new Date(date.setDate(date.getDate() + numberOfDaysToAdd));
-}
-
 export interface LastOppVedleggdProps {
     vedleggsliste: VedleggType[];
     oppdaterVisningsSteg: (nr: number) => void;
@@ -75,7 +70,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
             >
                 {t('soknad.visningsSteg.lastOppVedlegg.infoFrist', {
                     dato: formatertDato(
-                        toUkerFraDato(new Date(soknad.opprettetDato)),
+                        new Date(soknad.innsendingsFristDato),
                     ),
                 })}
             </FristForOpplastingInfo>

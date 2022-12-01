@@ -35,6 +35,7 @@ export type SoknadType = {
     spraak: string;
     status: string;
     opprettetDato: string;
+    innsendingsFristDato: string;
     endretDato: string;
     innsendtDato: null;
     vedleggsListe: [] | VedleggType;
