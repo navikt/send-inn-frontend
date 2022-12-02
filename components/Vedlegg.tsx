@@ -24,8 +24,10 @@ import { FilUploadIcon } from './FilUploadIcon';
 import { FIL_STATUS } from '../types/enums';
 import { useValidation } from '../hooks/useValidation';
 import { ValideringsRamme } from './ValideringsRamme';
-import parse from 'html-react-parser';
+
 import { VedleggslisteContext } from './VedleggsListe';
+import sanitizeHtml from 'sanitize-html';
+import parse from 'html-react-parser';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -325,12 +327,14 @@ function Vedlegg(props: VedleggProps) {
                                     </BodyShort>
                                 </ListeGruppe>
                             )}
-
                             {/* beskrivelse ligger i mange søknader fra fyll ut, men finnes ikke for dokumentinnsending */}
-
                             {vedlegg.beskrivelse && (
                                 <VedleggBeskrivelse size="small">
-                                    {parse(vedlegg.beskrivelse)}
+                                    {parse(
+                                        sanitizeHtml(
+                                            vedlegg.beskrivelse,
+                                        ),
+                                    )}
                                 </VedleggBeskrivelse>
                             )}
                         </div>
