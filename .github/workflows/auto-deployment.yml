@@ -1,7 +1,7 @@
 name: Autodeployment
 on:
    schedule:
-    - cron: '0 12 * * TUE'  # kl 12 hver tirsdag
+    - cron: '0 12 * * *'  #- cron: '0 12 * * TUE'  # kl 12 hver tirsdag
 
 env:
     IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:prod_${{ github.sha }}
