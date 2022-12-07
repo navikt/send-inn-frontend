@@ -1,7 +1,7 @@
 name: Autodeployment
 on:
    schedule:
-    - cron: '0 12 * * *'  #- cron: '0 12 * * TUE'  # kl 12 hver tirsdag
+      - cron: '0 12 * * *'  # kjører i utc tid
 
 env:
     IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:prod_${{ github.sha }}
@@ -47,7 +47,7 @@ jobs:
             - uses: nais/deploy/actions/deploy@v1
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-                  DRY_RUN: true
+                  DRY_RUN: false
                   PRINT_PAYLOAD: true
                   CLUSTER: prod-gcp
                   RESOURCE: .nais/nais.yml
