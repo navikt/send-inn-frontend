@@ -5,7 +5,7 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse,
 ) {
-    const idportenToken = req.headers.authorization!.split(' ')[1];
+    const idportenToken = req.headers.authorization.split(' ')[1];
     const tokenxToken = await getTokenxToken(
         idportenToken,
         process.env.INNSENDING_API_AUDIENCE,

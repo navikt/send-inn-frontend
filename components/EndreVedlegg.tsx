@@ -75,8 +75,7 @@ export function EndreVedlegg({
                     tittel: data.tittel,
                 },
             )
-            .then((response) => {
-                // todo response.data.tittel?
+            .then(() => {
                 setTittel(data.tittel);
             })
             .catch((error) => {
