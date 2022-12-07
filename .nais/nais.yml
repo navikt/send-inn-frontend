@@ -27,7 +27,7 @@ spec:
         cpuThresholdPercentage: 50
     prometheus:
         enabled: true
-        path: /internal/metrics
+        path: /sendinn/api/internal/prometheus
     resources:
         limits:
             memory: 786Mi
