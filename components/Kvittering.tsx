@@ -52,11 +52,6 @@ const StyledAlert = styled(Alert)`
     margin-bottom: 2.75rem;
 `;
 
-export function toUkerFraDato(date: Date) {
-    const numberOfDaysToAdd = 7 * 2; // 7 dager * 2 uker
-    return new Date(date.setDate(date.getDate() + numberOfDaysToAdd));
-}
-
 export function formatertDato(date: Date) {
     // gir alltid dato og mnd med to tall
     return `${('0' + date.getDate()).slice(-2)}.${(

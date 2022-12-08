@@ -27,11 +27,6 @@ const PaddedVedlegg = styled.div`
     }
 `;
 
-function toUkerFraDato(date: Date) {
-    const numberOfDaysToAdd = 7 * 2; // 7 dager * 2 uker
-    return new Date(date.setDate(date.getDate() + numberOfDaysToAdd));
-}
-
 export interface LastOppVedleggdProps {
     vedleggsliste: VedleggType[];
     oppdaterVisningsSteg: (nr: number) => void;
@@ -82,17 +77,28 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
             <Ingress spacing>
                 {t('soknad.visningsSteg.lastOppVedlegg.ingress')}
             </Ingress>
-            <FristForOpplastingInfo
-                variant="info"
-                inline={true}
-                size="small"
-            >
-                {t('soknad.visningsSteg.lastOppVedlegg.infoFrist', {
-                    dato: formatertDato(
-                        toUkerFraDato(new Date(soknad.opprettetDato)),
-                    ),
-                })}
-            </FristForOpplastingInfo>
+
+            {soknad.visningsType !== 'dokumentinnsending' && (
+                <FristForOpplastingInfo
+                    variant="info"
+                    inline={true}
+                    size="small"
+                >
+                    {t(
+                        'soknad.visningsSteg.lastOppVedlegg.infoFrist',
+                        {
+                            dato: formatertDato(
+                                new Date(
+                                    new Date().setDate(
+                                        new Date().getDate() +
+                                            soknad.fristForEttersendelse,
+                                    ),
+                                ),
+                            ),
+                        },
+                    )}
+                </FristForOpplastingInfo>
+            )}
 
             <SideValideringProvider
                 setHarValideringsfeil={setLastOppVedleggHarFeil}

@@ -11,11 +11,6 @@ import { formatertDato } from './Kvittering';
 import { VedleggslisteContext } from './VedleggsListe';
 import { navigerTilMinSide } from '../utils/navigerTilMinSide';
 
-export function toUkerFraDato(date: Date) {
-    const numberOfDaysToAdd = 7 * 2; // 7 dager * 2 uker
-    return new Date(date.setDate(date.getDate() + numberOfDaysToAdd));
-}
-
 interface SoknadModalProviderProps {
     isLoading: boolean;
     children?: React.ReactNode;
@@ -133,10 +128,14 @@ export const SoknadModalProvider = ({
                 <BodyLong as="ul">
                     {t('modal.sendInnUferdig.liste', {
                         dato: formatertDato(
-                            toUkerFraDato(
-                                new Date(soknad.opprettetDato),
+                            new Date(
+                                new Date().setDate(
+                                    new Date().getDate() +
+                                        soknad.fristForEttersendelse,
+                                ),
                             ),
                         ),
+
                         returnObjects: true,
                     }).map((element, key) => (
                         <li key={key}>{element}</li>

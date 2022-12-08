@@ -40,6 +40,7 @@ export type SoknadType = {
     spraak: string;
     status: string;
     opprettetDato: string;
+    fristForEttersendelse: number; // dager til en evt. ettersendingsfrist etter innsending
     endretDato: string;
     innsendtDato: null;
     vedleggsListe: VedleggType[];
