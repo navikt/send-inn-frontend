@@ -33,14 +33,14 @@ function VedleggRadio({ id, vedlegg }: VedleggRadioProp) {
         useState(vedlegg.opplastingsStatus);
     const [debouncedLocalOpplastingsStatus] = useDebounce(
         localOpplastingStatus,
-        500,
+        200,
     );
 
     const { setOpplastingStatus } = useContext(VedleggslisteContext);
 
     useEffect(() => {
         setOpplastingStatus(id, debouncedLocalOpplastingsStatus);
-    }, [debouncedLocalOpplastingsStatus, id]);
+    }, [setOpplastingStatus, debouncedLocalOpplastingsStatus, id]);
 
     function handleChange(val) {
         //

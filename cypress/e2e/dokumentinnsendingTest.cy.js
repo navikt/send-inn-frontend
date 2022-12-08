@@ -12,19 +12,26 @@ describe('Tester dokumentinnsendingsløpet', () => {
             .should('be.visible')
             .click();
 
-        cy.get('[data-cy="filvelgerKnapp"]').click();
-        cy.get('[data-cy="filvelgerKnapp"]').selectFile(
-            'cypress/fixtures/MarcusAurelius.jpeg',
-        );
+        cy.wait(1000);
+        cy.get('[data-cy="filvelgerKnapp"]', {
+            timeout: 10000,
+        }).click();
+        cy.wait(1000);
+        cy.get('[data-cy="filvelgerKnapp"]', {
+            timeout: 10000,
+        }).selectFile('cypress/fixtures/MarcusAurelius.jpeg');
 
         cy.get('[data-cy="fileUploadSuccessIkon"]', {
             timeout: 10000,
         }).should('be.visible');
 
+        cy.wait(1000);
         cy.get('[data-cy="nesteStegKnapp"]').click();
-
-        cy.get('[data-cy="filvelgerKnapp"]').eq(0).click();
-        cy.get('[data-cy="filvelgerKnapp"]')
+        cy.wait(1000);
+        cy.get('[data-cy="filvelgerKnapp"]', { timeout: 10000 })
+            .eq(0)
+            .click();
+        cy.get('[data-cy="filvelgerKnapp"]', { timeout: 10000 })
             .eq(0)
             .selectFile('cypress/fixtures/MarcusAurelius.jpeg');
         cy.wait(50);
@@ -41,7 +48,7 @@ describe('Tester dokumentinnsendingsløpet', () => {
         cy.get('[data-cy="fileUploadSuccessIkon"]', {
             timeout: 10000,
         }).should('be.visible');
-        cy.wait(500);
+        cy.wait(1000);
         cy.get('[data-cy="sendTilNAVKnapp"]', {
             timeout: 10000,
         }).click();
