@@ -2,7 +2,7 @@
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
 /* eslint @typescript-eslint/no-var-requires: "off" */
-const { withSentryConfig } = require('@sentry/nextjs');
+// const { withSentryConfig } = require('@sentry/nextjs');
 
 const moduleExports = {
     reactStrictMode: true,
@@ -60,7 +60,9 @@ const sentryWebpackPluginOptions = {
     // https://github.com/getsentry/sentry-webpack-plugin#options.
 };
 
-module.exports = withSentryConfig(
-    moduleExports,
-    sentryWebpackPluginOptions,
-);
+module.exports = moduleExports;
+
+// module.exports = withSentryConfig(
+//     moduleExports,
+//     sentryWebpackPluginOptions,
+// );
