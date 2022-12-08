@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { RadioGroup, Radio } from '@navikt/ds-react';
 import { VedleggType } from '../types/types';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { VedleggslisteContext } from './VedleggsListe';
+import { useDebounce } from 'use-debounce';
 
 interface VedleggRadioProp {
     id: number;
@@ -28,15 +29,29 @@ const StyledRadioGroup = styled(RadioGroup)`
 
 function VedleggRadio({ id, vedlegg }: VedleggRadioProp) {
     const { t } = useTranslation();
+    const [localOpplastingStatus, setLocalOpplastingStatus] =
+        useState(vedlegg.opplastingsStatus);
+    const [debouncedLocalOpplastingsStatus] = useDebounce(
+        localOpplastingStatus,
+        500,
+    );
 
     const { setOpplastingStatus } = useContext(VedleggslisteContext);
 
+    useEffect(() => {
+        setOpplastingStatus(id, debouncedLocalOpplastingsStatus);
+    }, [debouncedLocalOpplastingsStatus, id]);
+
     function handleChange(val) {
-        setOpplastingStatus(id, val);
+        //
+        setLocalOpplastingStatus(val);
     }
 
     return (
         <>
+            {vedlegg.opplastingsStatus}
+            <br />
+            {localOpplastingStatus}
             <StyledRadioGroup
                 legend={
                     <>
@@ -48,10 +63,10 @@ function VedleggRadio({ id, vedlegg }: VedleggRadioProp) {
                 }
                 size="medium"
                 onChange={(val: string) => handleChange(val)}
-                value={vedlegg.opplastingsStatus}
+                value={localOpplastingStatus}
             >
                 {
-                    vedlegg.opplastingsStatus !== 'LastetOpp' && (
+                    localOpplastingStatus !== 'LastetOpp' && (
                         <Radio
                             value="IkkeValgt"
                             data-cy="lasterOppNaaRadio"
@@ -60,7 +75,7 @@ function VedleggRadio({ id, vedlegg }: VedleggRadioProp) {
                         </Radio>
                     ) // jeg tror dette løser problemet med å vise disse i to situasjoner, både når noe er lastet opp og når noe ikke er lastet opp
                 }
-                {vedlegg.opplastingsStatus === 'LastetOpp' && (
+                {localOpplastingStatus === 'LastetOpp' && (
                     <Radio
                         value="LastetOpp"
                         data-cy="lasterOppNaaRadio"
