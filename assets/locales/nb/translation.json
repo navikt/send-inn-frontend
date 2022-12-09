@@ -2,6 +2,9 @@
     "test": "det er bokmål",
     "soknad": {
         "visningsSteg": {
+            "fraFyllutUtenVedlegg": {
+                "laster": "Laster... Vennligst vent"
+            },
             "steg0": {
                 "tittel": "Last ned og fyll ut skjema"
             },

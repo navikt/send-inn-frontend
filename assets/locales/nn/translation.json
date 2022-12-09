@@ -2,6 +2,9 @@
     "test": "det er nynorsk",
     "soknad": {
         "visningsSteg": {
+            "fraFyllutUtenVedlegg": {
+                "laster": "Lastar... Ver venleg og vent"
+            },
             "steg0": {
                 "tittel": "Last ned og fyll ut skjema"
             },
