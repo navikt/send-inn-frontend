@@ -1,7 +1,7 @@
 name: Autodeployment
 on:
    schedule:
-    - cron: '0 12 * * *'  #- cron: '0 12 * * TUE'  # kl 12 hver tirsdag
+    - cron: '0 13 * * *'  #- cron: '0 12 * * TUE'  # kl 12 hver tirsdag
 
 env:
     IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:prod_${{ github.sha }}
@@ -9,11 +9,9 @@ env:
     TZ: Europe/Oslo
     AUTODEPLOY_ACTIVE: ${{ secrets.AUTODEPLOY_ACTIVE }} # autodeploy only runs if the secret is set to true
 
-
 jobs:
     build-and-push:
         name: Build and push Docker container
-        if: "${{ secrets.AUTODEPLOY_ACTIVE == 'true' }}" # AUTODEPLOY_ACTIVE skal være true eller false, vil ikke være mulig å lese i secet.env 
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
