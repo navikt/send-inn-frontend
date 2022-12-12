@@ -7,6 +7,8 @@ env:
     IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:prod_${{ github.sha }}
     CI: true
     TZ: Europe/Oslo
+    AUTODEPLOY_ACTIVE: ${{ secrets.AUTODEPLOY_ACTIVE }} # autodeploy only runs if the secret is set to true
+
 
 jobs:
     build-and-push:
@@ -31,9 +33,10 @@ jobs:
               env:
                   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
               run: npm run build
-            - name: Publish Docker image
+            - name: Build and publish Docker image
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              if: env.AUTODEPLOY_ACTIVE == 'true'
               run: |
                   docker login ghcr.io -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
                   docker build --tag ${IMAGE} .
@@ -46,6 +49,7 @@ jobs:
         steps:
             - uses: actions/checkout@v3
             - uses: nais/deploy/actions/deploy@v1
+              if: env.AUTODEPLOY_ACTIVE == 'true'
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
                   DRY_RUN: false
