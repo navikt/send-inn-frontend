@@ -48,7 +48,10 @@ function soknadErKomplett(vedleggsliste: VedleggType[]): boolean {
         (element) => {
             return (
                 element.erPakrevd === true &&
-                element.opplastingsStatus !== 'LastetOpp'
+                !(
+                    element.opplastingsStatus === 'LastetOpp' ||
+                    element.opplastingsStatus === 'Innsendt'
+                )
             );
         },
     );
