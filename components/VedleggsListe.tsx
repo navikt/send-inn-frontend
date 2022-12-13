@@ -71,6 +71,8 @@ function sjekkSoknadUendret(vedleggsliste: VedleggType[]): boolean {
     return !vedleggsliste.some((element) => {
         return element.opplastingsStatus === 'LastetOpp';
     });
+
+    // men hva med sendes av andre??? man bør vel kunne sette alt til det?
 }
 
 function sjekkNoeErLastetOpp(vedleggsliste: VedleggType[]): boolean {
