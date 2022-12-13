@@ -116,6 +116,14 @@
             "accept": "Yes, delete the application",
             "cancel": "Cancel"
         },
+        "sendInnUendret": {
+            "tittel": "You cannot send the application until you have uploaded some documents",
+            "liste": [
+                "Before you click send you need to upload at least one new document."
+            ],
+            "accept": "Ok",
+            "cancel": "Avbryt"
+        },
         "sendInnUferdig": {
             "tittel": "Are you sure you want to send the application now, even though some documents have not been uploaded?",
             "liste": [

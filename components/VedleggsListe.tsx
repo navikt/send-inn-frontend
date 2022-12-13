@@ -58,14 +58,31 @@ function soknadErKomplett(vedleggsliste: VedleggType[]): boolean {
 
     return !detFinnesEtUopplastetPakrevdVedlegg;
 }
+/*
+function soknadKanSendesInn(vedleggsliste: VedleggType[]): boolean {
+    // sjekker om noe er lastet opp
+    return vedleggsliste.some((element) => {
+        return element.opplastingsStatus === 'LastetOpp';
+    });
+}
+*/
+function sjekkSoknadUendret(vedleggsliste: VedleggType[]): boolean {
+    // sjekker om ingenting er lastet opp
+    return !vedleggsliste.some((element) => {
+        return element.opplastingsStatus === 'LastetOpp';
+    });
+}
 
-function noeErLastetOpp(vedleggsliste: VedleggType[]): boolean {
+function sjekkNoeErLastetOpp(vedleggsliste: VedleggType[]): boolean {
+    // sjekker om ingenting er lastet opp
     return vedleggsliste.some((element) => {
         return element.opplastingsStatus === 'LastetOpp';
     });
 }
 
-function soknadKanSendesInn(vedleggsliste: VedleggType[]): boolean {
+function sjekkSokknadKanSendesInn(
+    vedleggsliste: VedleggType[],
+): boolean {
     const noeErLastetOpp = vedleggsliste.some((element) => {
         return element.opplastingsStatus === 'LastetOpp';
     });
@@ -83,7 +100,8 @@ function soknadKanSendesInn(vedleggsliste: VedleggType[]): boolean {
 interface VedleggslisteContextType {
     soknad: SoknadType;
     soknadKlar: boolean;
-    soknadHarNoeInnlevert: boolean;
+    soknadKanSendesInn: boolean;
+    soknadErUendret: boolean;
     onSendInn: () => Promise<void>;
     slettSoknad: () => void;
     setOpplastingStatus: (id: number, status: string) => void;
@@ -109,7 +127,10 @@ function VedleggsListe({
 
     const [soknadKlar, setSoknadErKomplett] =
         useState<boolean>(false);
-    const [soknadHarNoeInnlevert, setSoknadKanSendesInn] =
+    const [soknadErUendret, setSoknadErUendret] =
+        useState<boolean>(true);
+
+    const [soknadKanSendesInn, setSoknadKanSendesInn] =
         useState<boolean>(false);
     const [visningsSteg, setVisningsSteg] = useState(
         soknad.visningsSteg,
@@ -276,7 +297,10 @@ function VedleggsListe({
 
     useEffect(() => {
         setSoknadErKomplett(soknadErKomplett(vedleggsliste));
-        setSoknadKanSendesInn(soknadKanSendesInn(vedleggsliste));
+        setSoknadKanSendesInn(
+            sjekkSokknadKanSendesInn(vedleggsliste),
+        );
+        setSoknadErUendret(sjekkSoknadUendret(vedleggsliste));
     }, [vedleggsliste]);
 
     const resetState = () => {
@@ -288,7 +312,8 @@ function VedleggsListe({
             value={{
                 soknad,
                 soknadKlar,
-                soknadHarNoeInnlevert,
+                soknadKanSendesInn,
+                soknadErUendret,
                 onSendInn,
                 slettSoknad,
                 setOpplastingStatus,

@@ -38,13 +38,17 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
 
     const { t } = useTranslation();
 
-    const { soknad, soknadKlar, soknadHarNoeInnlevert } = useContext(
-        VedleggslisteContext,
-    );
+    const {
+        soknad,
+        soknadKlar,
+        soknadErUendret,
+        soknadKanSendesInn,
+    } = useContext(VedleggslisteContext);
     const {
         openForstettSenereSoknadModal,
         openSendInnKomplettSoknadModal,
         openSendInnUferdigSoknadModal,
+        openSendInnUendretSoknadModal,
         openSlettSoknadModal,
     } = useContext(ModalContext);
 
@@ -148,6 +152,11 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
             <ButtonContainer>
                 <Button
                     onClick={() => {
+                        console.log(soknadErUendret);
+                        if (soknadErUendret) {
+                            alert('uendret');
+                            openSendInnUendretSoknadModal();
+                        }
                         if (lastOppVedleggHarFeil) {
                             setLastOppVedleggValideringfokus(true);
                             setVisLastOppVedleggFeil(true);
@@ -155,7 +164,8 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
                         }
                         if (soknadKlar) {
                             openSendInnKomplettSoknadModal();
-                        } else {
+                        }
+                        if (soknadKanSendesInn) {
                             openSendInnUferdigSoknadModal();
                         }
                     }}

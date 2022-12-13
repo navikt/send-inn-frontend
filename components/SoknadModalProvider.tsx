@@ -21,6 +21,7 @@ interface ModalContextType {
     openSlettSoknadModal: () => void;
     openSendInnUferdigSoknadModal: () => void;
     openSendInnKomplettSoknadModal: () => void;
+    openSendInnUendretSoknadModal: () => void;
 }
 
 export const ModalContext = createContext<ModalContextType>(null);
@@ -45,6 +46,9 @@ export const SoknadModalProvider = ({
         setSendInnKomplettSoknadModal,
     ] = useState(false);
 
+    const [sendInnUendretSoknadModal, setSendInnUendretSoknadModal] =
+        useState(false);
+
     const openForstettSenereSoknadModal = useCallback(() => {
         setForstettSenereSoknadModal(true);
     }, [setForstettSenereSoknadModal]);
@@ -61,6 +65,10 @@ export const SoknadModalProvider = ({
         setSendInnKomplettSoknadModal(true);
     }, [setSendInnKomplettSoknadModal]);
 
+    const openSendInnUendretSoknadModal = useCallback(() => {
+        setSendInnUendretSoknadModal(true);
+    }, [setSendInnUendretSoknadModal]);
+
     return (
         <ModalContext.Provider
             value={{
@@ -68,6 +76,7 @@ export const SoknadModalProvider = ({
                 openSlettSoknadModal,
                 openSendInnUferdigSoknadModal,
                 openSendInnKomplettSoknadModal,
+                openSendInnUendretSoknadModal,
             }}
         >
             {children}
@@ -160,6 +169,28 @@ export const SoknadModalProvider = ({
                 </Heading>
                 <BodyLong as="ul">
                     {t('modal.sendInnKomplett.liste', {
+                        returnObjects: true,
+                    }).map((element, key) => (
+                        <li key={key}>{element}</li>
+                    ))}
+                </BodyLong>
+            </FellesModal>
+
+            <FellesModal
+                open={sendInnUendretSoknadModal}
+                setOpen={setSendInnUendretSoknadModal}
+                onAccept={async () => {
+                    setSendInnUendretSoknadModal(false);
+                }}
+                acceptButtonText={t('modal.sendInnKomplett.accept')}
+                cancelButtonText={t('modal.sendInnKomplett.cancel')}
+                isLoading={isLoading}
+            >
+                <Heading spacing size="medium">
+                    ´ {t('modal.sendInnUendret.tittel')}
+                </Heading>
+                <BodyLong as="ul">
+                    {t('modal.sendInnUendret.liste', {
                         returnObjects: true,
                     }).map((element, key) => (
                         <li key={key}>{element}</li>
