@@ -88,6 +88,12 @@ function sjekkSokknadKanSendesInn(
     const noeErLastetOpp = vedleggsliste.some((element) => {
         return element.opplastingsStatus === 'LastetOpp';
     });
+
+    // soker kan fa beskjed om at soknaden er uendret hvis han ikke gjør noe med søknaden
+    const noeSkalSendesInnAvAndre = vedleggsliste.some((element) => {
+        return element.opplastingsStatus === 'SendesAvAndre';
+    });
+
     const detFinnesEtUpploastetHovedDokument = vedleggsliste.some(
         (element) => {
             return (
@@ -96,7 +102,10 @@ function sjekkSokknadKanSendesInn(
             );
         },
     );
-    return noeErLastetOpp && !detFinnesEtUpploastetHovedDokument;
+    return (
+        (noeErLastetOpp || noeSkalSendesInnAvAndre) &&
+        !detFinnesEtUpploastetHovedDokument
+    );
 }
 
 interface VedleggslisteContextType {
