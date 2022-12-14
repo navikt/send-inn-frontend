@@ -86,7 +86,8 @@
             "forrige": "Forrige steg",
             "avbryt": "Avbryt",
             "slett": "Slett søknad"
-        }
+        },
+        "beskjedOmAvvik": "På grunn av en teknisk feil vil enkelte som opprettet søknad mellom 12. og 14. desember oppleve at vedlegg til søknaden ikke listes opp under. Hvis dette gjelder deg anbefaler vi å slette søknaden og fylle den ut på nytt. Vi beklager ulempen."
     },
     "filvelger": {
         "defaultText": "Velg dine filer"
