@@ -86,7 +86,8 @@
             "forrige": "Forrige steg",
             "avbryt": "Avbryt",
             "slett": "Slett søknad"
-        }
+        },
+        "beskjedOmAvvik": "Vi har dessverre hatt en teknisk feil som gjorde at det ikke var mulig å sende inn vedlegg til søknader som ble opprettet mellom 12. desember kl. 16:50 og 14. desember kl. 10:40.\nHvis det ikke er noen knapp for å laste opp vedlegg nedenfor ber vi deg om å slette denne søknaden og fylle ut søknaden på nytt.\nHvis det er mulig å laste opp vedlegg til søknaden nedenfor kan du laste opp vedleggene og sende inn søknaden.\nVi beklager ulempene dette medfører."
     },
     "filvelger": {
         "defaultText": "Velg dine filer"
