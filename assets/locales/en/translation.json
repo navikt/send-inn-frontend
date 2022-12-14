@@ -87,7 +87,7 @@
             "avbryt": "Cancel",
             "slett": "Delete form"
         },
-        "beskjedOmAvvik": "På grunn av en teknisk feil vil enkelte som opprettet søknad mellom 12. og 14. desember oppleve at vedlegg til søknaden ikke listes opp nedenfor. Hvis dette gjelder deg anbefaler vi å slette søknaden og fylle den ut på nytt. Vi beklager ulempen."
+        "beskjedOmAvvik": "Unfortunately, we have had a technical error which meant that it was not possible to submit attachments to applications that were created between 12 December at 16:50 and 14 December at 10:40.\nIf there is no button to upload attachments below, please delete this application and fill out a new application.\nIf it is possible to upload attachments to the application below, you can upload the attachments and submit the application.\nWe apologize for the inconvenience this causes."
     },
     "filvelger": {
         "defaultText": "Select your files"
