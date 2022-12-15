@@ -14,6 +14,12 @@ jobs:
         name: Build and push Docker container
         runs-on: ubuntu-latest
         steps:
+            - name: prints message about env.AUTODEPLOY_ACTIVE being deactivated
+              if: env.AUTODEPLOY_ACTIVE != 'true'          
+              run: echo "Autodeployment er ikke satt til true, sett secrets.AUTODEPLOY_ACTIVE lik "true" om du ønsker faste, ukentlige deploys."
+            - name: Try to fail
+              if: env.AUTODEPLOY_ACTIVE != 'true'
+              run: exit 1
             - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
               with:
