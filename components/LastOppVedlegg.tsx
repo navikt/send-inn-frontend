@@ -74,7 +74,8 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
     return (
         <>
             {/* Melding om et spesifikt avvik. Bør fjernes senere */}
-            {t('soknad.beskjedOmAvvik') &&
+            {soknad.visningsType === 'fyllUt' &&
+                t('soknad.beskjedOmAvvik') &&
                 erDatoIAvviksPeriode(soknad.opprettetDato) && (
                     <Alert
                         style={{ marginBottom: '2rem' }}
