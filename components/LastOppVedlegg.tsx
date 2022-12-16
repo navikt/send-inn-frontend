@@ -60,8 +60,32 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
         setLastOppVedleggValideringfokus,
     ] = useState(false);
 
+    /* Brukes til å generere melding om et spesifikt avvik. Bør fjernes senere */
+    const erDatoIAvviksPeriode = (date) => {
+        const avvikStart = new Date('2022-12-12T16:50:00.000Z');
+        const avvikSlutt = new Date('2022-12-14T10:50:00.000Z');
+        const opprettet = new Date(date);
+        return (
+            avvikStart.getTime() <= opprettet.getTime() &&
+            opprettet.getTime() <= avvikSlutt.getTime()
+        );
+    };
+
     return (
         <>
+            {/* Melding om et spesifikt avvik. Bør fjernes senere */}
+            {soknad.visningsType === 'fyllUt' &&
+                t('soknad.beskjedOmAvvik') &&
+                erDatoIAvviksPeriode(soknad.opprettetDato) && (
+                    <Alert
+                        style={{ marginBottom: '2rem' }}
+                        variant="warning"
+                    >
+                        {t('soknad.beskjedOmAvvik')}
+                    </Alert>
+                )}
+            {/**/}
+
             <Heading level={'2'} size="large" spacing>
                 {t('soknad.visningsSteg.lastOppVedlegg.tittel')}
             </Heading>
