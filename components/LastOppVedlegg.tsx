@@ -11,6 +11,7 @@ import { ButtonContainer } from './styles/ButtonContainer';
 import { OpprettAnnetVedlegg } from './OpprettAnnetVedlegg';
 import { formatertDato } from '../components/Kvittering';
 import { ModalContext } from './SoknadModalProvider';
+import { erDatoIAvviksPeriode } from '../utils/midlertidigAvviksPeriode';
 
 const FristForOpplastingInfo = styled(Alert)`
     border: 0;
@@ -60,20 +61,9 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
         setLastOppVedleggValideringfokus,
     ] = useState(false);
 
-    /* Brukes til å generere melding om et spesifikt avvik. Bør fjernes senere */
-    const erDatoIAvviksPeriode = (date) => {
-        const avvikStart = new Date('2022-12-12T16:50:00.000Z');
-        const avvikSlutt = new Date('2022-12-14T10:50:00.000Z');
-        const opprettet = new Date(date);
-        return (
-            avvikStart.getTime() <= opprettet.getTime() &&
-            opprettet.getTime() <= avvikSlutt.getTime()
-        );
-    };
-
     return (
         <>
-            {/* Melding om et spesifikt avvik. Bør fjernes senere */}
+            {/* TODO: Alert kan fjernes i februar 2023  */}
             {soknad.visningsType === 'fyllUt' &&
                 t('soknad.beskjedOmAvvik') &&
                 erDatoIAvviksPeriode(soknad.opprettetDato) && (
