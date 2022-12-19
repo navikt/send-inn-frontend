@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
-    "cypress": "npx cypress open"
+    "cypress": "npx cypress open",
+    "cypress:headless": "npx cypress run"
   },
   "dependencies": {
     "@navikt/ds-css": "^1.5.6",
