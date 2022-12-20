@@ -14,15 +14,13 @@ import getConfig from 'next/config';
 const { publicRuntimeConfig } = getConfig();
 const erEttersending = true;
 
-const initialVedleggsliste: VedleggType[] = [];
-
 const InnsendingsSide: NextPage = () => {
     const router = useRouter();
     const { query } = router;
     const [soknad, setSoknad] = useState<SoknadType | null>(null);
-    const [vedleggsListe, setVedleggsListe] = useState<VedleggType[]>(
-        initialVedleggsliste,
-    );
+    const [vedleggsListe, setVedleggsListe] = useState<
+        VedleggType[] | null
+    >(null);
     const innsendingsId = query.innsendingsId;
     useEffect(() => {
         if (innsendingsId) {
@@ -31,8 +29,8 @@ const InnsendingsSide: NextPage = () => {
                     `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}`,
                 )
                 .then((response) => {
-                    setSoknad(response.data);
                     setVedleggsListe(response.data.vedleggsListe);
+                    setSoknad(response.data);
                 })
                 .catch((error: AxiosError) => {
                     const statusCode = error.response?.status;
@@ -56,7 +54,7 @@ const InnsendingsSide: NextPage = () => {
                 </title>
             </Head>
             <main>
-                {soknad && (
+                {soknad && !!vedleggsListe && (
                     <>
                         <SoknadHeader
                             soknadoverskrift={soknad.tittel}
