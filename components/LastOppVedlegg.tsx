@@ -153,14 +153,14 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
                 <Button
                     onClick={() => {
                         console.log(soknadErUendret);
-                        if (soknadErUendret) {
-                            alert('uendret');
-                            openSendInnUendretSoknadModal();
-                        }
                         if (lastOppVedleggHarFeil) {
                             setLastOppVedleggValideringfokus(true);
                             setVisLastOppVedleggFeil(true);
                             return;
+                        }
+                        if (soknadErUendret) {
+                            alert('uendret');
+                            openSendInnUendretSoknadModal();
                         }
                         if (soknadKlar) {
                             openSendInnKomplettSoknadModal();

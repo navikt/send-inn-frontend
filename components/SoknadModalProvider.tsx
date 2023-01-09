@@ -182,12 +182,12 @@ export const SoknadModalProvider = ({
                 onAccept={async () => {
                     setSendInnUendretSoknadModal(false);
                 }}
-                acceptButtonText={t('modal.sendInnKomplett.accept')}
-                cancelButtonText={t('modal.sendInnKomplett.cancel')}
+                acceptButtonText={t('modal.sendInnUendret.accept')}
+                cancelButtonText={t('modal.sendInnUendret.cancel')}
                 isLoading={isLoading}
             >
                 <Heading spacing size="medium">
-                    ´ {t('modal.sendInnUendret.tittel')}
+                    {t('modal.sendInnUendret.tittel')}
                 </Heading>
                 <BodyLong as="ul">
                     {t('modal.sendInnUendret.liste', {
