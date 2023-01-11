@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Heading, Button, BodyShort } from '@navikt/ds-react';
 import { Download } from '@navikt/ds-icons';
 import { useTranslation } from 'react-i18next';
-import { ButtonContainer } from './styles/ButtonContainer';
+import { ButtonContainer } from './common/ButtonContainer';
 
 import { VedleggType } from '../types/types';
 import { VedleggPanel } from './Vedlegg';

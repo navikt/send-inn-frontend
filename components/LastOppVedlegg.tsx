@@ -6,7 +6,7 @@ import { VedleggType } from '../types/types';
 import { SideValideringProvider } from './SideValideringProvider';
 import Vedlegg from './Vedlegg';
 import { VedleggslisteContext } from './VedleggsListe';
-import { ButtonContainer } from './styles/ButtonContainer';
+import { ButtonContainer } from './common/ButtonContainer';
 
 import { OpprettAnnetVedlegg } from './OpprettAnnetVedlegg';
 import { formatertDato } from '../utils/dato';
