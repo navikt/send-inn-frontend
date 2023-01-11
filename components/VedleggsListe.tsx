@@ -13,6 +13,8 @@ import { useSoknadLanguage } from '../hooks/useSoknadLanguage';
 import LastOppVedlegg from './LastOppVedlegg';
 import { SoknadModalProvider } from './SoknadModalProvider';
 import { navigerTilMinSide } from '../utils/navigerTilMinSide';
+import { AutomatiskInnsending } from './AutomatiskInnsending';
+import { erDatoIAvviksPeriode } from '../utils/midlertidigAvviksPeriode';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -73,7 +75,7 @@ interface VedleggslisteContextType {
     soknad: SoknadType;
     soknadKlar: boolean;
     soknadHarNoeInnlevert: boolean;
-    onSendInn: () => void;
+    onSendInn: () => Promise<void>;
     slettSoknad: () => void;
     setOpplastingStatus: (id: number, status: string) => void;
     oppdaterLokalOpplastingStatus: (
@@ -110,9 +112,18 @@ function VedleggsListe({
     const [soknadsInnsendingsRespons, setSoknadsInnsendingsRespons] =
         useState(null);
 
-    const { visningsType } = soknad;
+    const { visningsType, kanLasteOppAnnet } = soknad;
 
     const vedleggsListeContainer = useRef(null);
+
+    const erFraFyllutUtenVedlegg =
+        !visKvittering &&
+        //TODO: erDatoIAvviksPeriode kan fjernes i februar 2023
+        //Søknader i avviksperioden må gå til siden for LastOppVedlegg, selv om de ikke har vedlegg
+        !erDatoIAvviksPeriode(soknad.opprettetDato) &&
+        visningsType === 'fyllUt' &&
+        vedleggsliste.every((vedlegg) => vedlegg.erHoveddokument) &&
+        !kanLasteOppAnnet;
 
     const visSteg0 =
         !visKvittering &&
@@ -126,6 +137,7 @@ function VedleggsListe({
 
     const visLastOppVedlegg =
         !visKvittering &&
+        !erFraFyllutUtenVedlegg &&
         (visningsType !== 'dokumentinnsending' ||
             (visningsType === 'dokumentinnsending' &&
                 visningsSteg === 2));
@@ -278,6 +290,10 @@ function VedleggsListe({
         >
             <SoknadModalProvider isLoading={isLoading}>
                 <Style ref={vedleggsListeContainer} tabIndex={-1}>
+                    {/* // Er fra Fyllut uten vedlegg */}
+                    {erFraFyllutUtenVedlegg && (
+                        <AutomatiskInnsending />
+                    )}
                     {/* // skjemanedlasting, steg 1 */}
                     {visSteg0 &&
                         soknad &&

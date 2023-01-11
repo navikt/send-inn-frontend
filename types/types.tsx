@@ -24,6 +24,11 @@ export type OpplastetFil = {
     storrelse: number;
 };
 
+export type VisningsType =
+    | 'fyllUt'
+    | 'dokumentinnsending'
+    | 'ettersending';
+
 export type SoknadType = {
     id: number;
     innsendingsId: string;
@@ -37,8 +42,8 @@ export type SoknadType = {
     opprettetDato: string;
     endretDato: string;
     innsendtDato: null;
-    vedleggsListe: [] | VedleggType;
-    visningsType: string;
+    vedleggsListe: VedleggType[];
+    visningsType: VisningsType;
     visningsSteg: number;
     kanLasteOppAnnet: boolean;
 };

@@ -2,6 +2,9 @@
     "test": "this is english",
     "soknad": {
         "visningsSteg": {
+            "fraFyllutUtenVedlegg": {
+                "laster": "Loading... Please wait"
+            },
             "steg0": {
                 "tittel": "Download and fill in the form"
             },
