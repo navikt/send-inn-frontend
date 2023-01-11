@@ -8,17 +8,12 @@ import { SoknadType } from '../types/types';
 import Vedlegg from './Vedlegg';
 import { ButtonContainer } from './common/ButtonContainer';
 import { ModalContext } from './SoknadModalProvider';
+import { Linje } from './common/Linje';
 
 const PaddedVedlegg = styled.div`
     > * {
         margin-top: 16px;
     }
-`;
-
-const Linje = styled.div`
-    border-bottom: 1px solid var(--navds-semantic-color-border);
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
 `;
 
 export interface SkjemaOpplastingdProps {

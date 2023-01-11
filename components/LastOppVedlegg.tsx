@@ -12,12 +12,7 @@ import { OpprettAnnetVedlegg } from './OpprettAnnetVedlegg';
 import { formatertDato } from '../utils/dato';
 import { ModalContext } from './SoknadModalProvider';
 import { erDatoIAvviksPeriode } from '../utils/midlertidigAvviksPeriode';
-
-const Linje = styled.div`
-    border-bottom: 1px solid var(--navds-semantic-color-border);
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-`;
+import { Linje } from './common/Linje';
 
 const FristForOpplastingInfo = styled(Alert)`
     border: 0;
