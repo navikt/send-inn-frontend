@@ -9,9 +9,15 @@ import { VedleggslisteContext } from './VedleggsListe';
 import { ButtonContainer } from './styles/ButtonContainer';
 
 import { OpprettAnnetVedlegg } from './OpprettAnnetVedlegg';
-import { formatertDato } from '../components/Kvittering';
+import { formatertDato } from '../utils/dato';
 import { ModalContext } from './SoknadModalProvider';
 import { erDatoIAvviksPeriode } from '../utils/midlertidigAvviksPeriode';
+
+const Linje = styled.div`
+    border-bottom: 1px solid var(--navds-semantic-color-border);
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+`;
 
 const FristForOpplastingInfo = styled(Alert)`
     border: 0;
@@ -78,7 +84,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
                 {t('soknad.visningsSteg.lastOppVedlegg.ingress')}
             </Ingress>
 
-            {soknad.visningsType !== 'dokumentinnsending' && (
+            {soknad.visningsType === 'ettersending' ? (
                 <FristForOpplastingInfo
                     variant="info"
                     inline={true}
@@ -88,16 +94,13 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
                         'soknad.visningsSteg.lastOppVedlegg.infoFrist',
                         {
                             dato: formatertDato(
-                                new Date(
-                                    new Date().setDate(
-                                        new Date().getDate() +
-                                            soknad.fristForEttersendelse,
-                                    ),
-                                ),
+                                new Date(soknad.innsendingsFristDato),
                             ),
                         },
                     )}
                 </FristForOpplastingInfo>
+            ) : (
+                <Linje />
             )}
 
             <SideValideringProvider
