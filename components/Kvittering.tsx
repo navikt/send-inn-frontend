@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import getConfig from 'next/config';
 import { useTranslation } from 'react-i18next';
 import { Bold } from './textStyle';
+import { formatertDato } from '../utils/dato';
 
 const { publicRuntimeConfig } = getConfig();
 export interface KvitteringsProps {
@@ -51,19 +52,6 @@ const SjekkBoksListe = styled.ul`
 const StyledAlert = styled(Alert)`
     margin-bottom: 2.75rem;
 `;
-
-export function toUkerFraDato(date: Date) {
-    const numberOfDaysToAdd = 7 * 2; // 7 dager * 2 uker
-    return new Date(date.setDate(date.getDate() + numberOfDaysToAdd));
-}
-
-export function formatertDato(date: Date) {
-    // gir alltid dato og mnd med to tall
-    return `${('0' + date.getDate()).slice(-2)}.${(
-        '0' +
-        (date.getMonth() + 1)
-    ).slice(-2)}.${date.getFullYear()}`;
-}
 
 export function Kvittering({ kvprops }: KvitteringsProps) {
     const { t } = useTranslation();

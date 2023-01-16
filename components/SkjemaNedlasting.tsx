@@ -2,18 +2,14 @@ import React, { useContext } from 'react';
 import { Heading, Button, BodyShort } from '@navikt/ds-react';
 import { Download } from '@navikt/ds-icons';
 import { useTranslation } from 'react-i18next';
-import { ButtonContainer } from './styles/ButtonContainer';
+import { ButtonContainer } from './common/ButtonContainer';
 
 import { VedleggType } from '../types/types';
 import { VedleggPanel } from './Vedlegg';
 import { ModalContext } from './SoknadModalProvider';
 import styled from 'styled-components';
+import { Linje } from './common/Linje';
 
-const Linje = styled.div`
-    border-bottom: 1px solid var(--navds-semantic-color-border);
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-`;
 const BeskrivelsesGruppe = styled.div`
     padding-bottom: 1.5rem;
     @media only screen and (max-width: 600px) {

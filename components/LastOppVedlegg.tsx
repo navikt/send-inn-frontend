@@ -6,12 +6,13 @@ import { VedleggType } from '../types/types';
 import { SideValideringProvider } from './SideValideringProvider';
 import Vedlegg from './Vedlegg';
 import { VedleggslisteContext } from './VedleggsListe';
-import { ButtonContainer } from './styles/ButtonContainer';
+import { ButtonContainer } from './common/ButtonContainer';
 
 import { OpprettAnnetVedlegg } from './OpprettAnnetVedlegg';
-import { formatertDato } from '../components/Kvittering';
+import { formatertDato } from '../utils/dato';
 import { ModalContext } from './SoknadModalProvider';
 import { erDatoIAvviksPeriode } from '../utils/midlertidigAvviksPeriode';
+import { Linje } from './common/Linje';
 
 const FristForOpplastingInfo = styled(Alert)`
     border: 0;
@@ -26,11 +27,6 @@ const PaddedVedlegg = styled.div`
         margin-top: 16px;
     }
 `;
-
-function toUkerFraDato(date: Date) {
-    const numberOfDaysToAdd = 7 * 2; // 7 dager * 2 uker
-    return new Date(date.setDate(date.getDate() + numberOfDaysToAdd));
-}
 
 export interface LastOppVedleggdProps {
     vedleggsliste: VedleggType[];
@@ -82,17 +78,25 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
             <Ingress spacing>
                 {t('soknad.visningsSteg.lastOppVedlegg.ingress')}
             </Ingress>
-            <FristForOpplastingInfo
-                variant="info"
-                inline={true}
-                size="small"
-            >
-                {t('soknad.visningsSteg.lastOppVedlegg.infoFrist', {
-                    dato: formatertDato(
-                        toUkerFraDato(new Date(soknad.opprettetDato)),
-                    ),
-                })}
-            </FristForOpplastingInfo>
+
+            {soknad.visningsType === 'ettersending' ? (
+                <FristForOpplastingInfo
+                    variant="info"
+                    inline={true}
+                    size="small"
+                >
+                    {t(
+                        'soknad.visningsSteg.lastOppVedlegg.infoFrist',
+                        {
+                            dato: formatertDato(
+                                new Date(soknad.innsendingsFristDato),
+                            ),
+                        },
+                    )}
+                </FristForOpplastingInfo>
+            ) : (
+                <Linje />
+            )}
 
             <SideValideringProvider
                 setHarValideringsfeil={setLastOppVedleggHarFeil}

@@ -7,14 +7,9 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FellesModal } from './FellesModal';
-import { formatertDato } from './Kvittering';
+import { formatertDato, datoOmXDager } from '../utils/dato';
 import { VedleggslisteContext } from './VedleggsListe';
 import { navigerTilMinSide } from '../utils/navigerTilMinSide';
-
-export function toUkerFraDato(date: Date) {
-    const numberOfDaysToAdd = 7 * 2; // 7 dager * 2 uker
-    return new Date(date.setDate(date.getDate() + numberOfDaysToAdd));
-}
 
 interface SoknadModalProviderProps {
     isLoading: boolean;
@@ -133,10 +128,15 @@ export const SoknadModalProvider = ({
                 <BodyLong as="ul">
                     {t('modal.sendInnUferdig.liste', {
                         dato: formatertDato(
-                            toUkerFraDato(
-                                new Date(soknad.opprettetDato),
-                            ),
+                            soknad.visningsType === 'ettersending'
+                                ? new Date(
+                                      soknad.innsendingsFristDato,
+                                  )
+                                : datoOmXDager(
+                                      soknad.fristForEttersendelse,
+                                  ),
                         ),
+
                         returnObjects: true,
                     }).map((element, key) => (
                         <li key={key}>{element}</li>
