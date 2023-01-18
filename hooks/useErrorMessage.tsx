@@ -4,8 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ErrorContext } from '../components/ErrorMessageProvider';
 
 export const useErrorMessage = () => {
-    const { open, setOpen, message, setMessage } =
-        useContext(ErrorContext);
+    const { setOpen, setMessage } = useContext(ErrorContext);
     const { t, i18n } = useTranslation();
 
     const handleError = useCallback(
@@ -42,5 +41,13 @@ export const useErrorMessage = () => {
         [setMessage, setOpen, handleError],
     );
 
-    return { showError };
+    const customErrorMessage = useCallback(
+        (message: string) => {
+            setMessage(message);
+            setOpen(true);
+        },
+        [setMessage, setOpen],
+    );
+
+    return { showError, customErrorMessage };
 };

@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useRef } from 'react';
+import React, { createContext, useRef } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
@@ -43,13 +43,14 @@ export interface VedleggsListeProps {
     visningsType?: string;
 }
 
-function soknadErKomplett(vedleggsliste: VedleggType[]): boolean {
+const soknadErKomplett = (vedleggsliste: VedleggType[]): boolean => {
     const detFinnesEtUopplastetPakrevdVedlegg = vedleggsliste.some(
         (element) => {
             return (
                 element.erPakrevd === true &&
                 !(
                     element.opplastingsStatus === 'LastetOpp' ||
+                    element.opplastingsStatus === 'SendesAvAndre' ||
                     element.opplastingsStatus === 'Innsendt'
                 )
             );
@@ -57,43 +58,11 @@ function soknadErKomplett(vedleggsliste: VedleggType[]): boolean {
     );
 
     return !detFinnesEtUopplastetPakrevdVedlegg;
-}
-/*
-function soknadKanSendesInn(vedleggsliste: VedleggType[]): boolean {
-    // sjekker om noe er lastet opp
-    return vedleggsliste.some((element) => {
-        return element.opplastingsStatus === 'LastetOpp';
-    });
-}
-*/
-function sjekkSoknadUendret(vedleggsliste: VedleggType[]): boolean {
-    // sjekker om ingenting er lastet opp
-    return !vedleggsliste.some((element) => {
-        return element.opplastingsStatus === 'LastetOpp';
-    });
+};
 
-    // men hva med sendes av andre??? man bør vel kunne sette alt til det?
-}
-
-function sjekkNoeErLastetOpp(vedleggsliste: VedleggType[]): boolean {
-    // sjekker om ingenting er lastet opp
-    return vedleggsliste.some((element) => {
-        return element.opplastingsStatus === 'LastetOpp';
-    });
-}
-
-function sjekkSokknadKanSendesInn(
+const sjekkSoknadKanSendesInn = (
     vedleggsliste: VedleggType[],
-): boolean {
-    const noeErLastetOpp = vedleggsliste.some((element) => {
-        return element.opplastingsStatus === 'LastetOpp';
-    });
-
-    // soker kan fa beskjed om at soknaden er uendret hvis han ikke gjør noe med søknaden
-    const noeSkalSendesInnAvAndre = vedleggsliste.some((element) => {
-        return element.opplastingsStatus === 'SendesAvAndre';
-    });
-
+): boolean => {
     const detFinnesEtUpploastetHovedDokument = vedleggsliste.some(
         (element) => {
             return (
@@ -102,11 +71,8 @@ function sjekkSokknadKanSendesInn(
             );
         },
     );
-    return (
-        (noeErLastetOpp || noeSkalSendesInnAvAndre) &&
-        !detFinnesEtUpploastetHovedDokument
-    );
-}
+    return !detFinnesEtUpploastetHovedDokument;
+};
 
 interface VedleggslisteContextType {
     soknad: SoknadType;
@@ -136,13 +102,9 @@ function VedleggsListe({
     const { showError } = useErrorMessage();
     useSoknadLanguage(soknad.spraak);
 
-    const [soknadKlar, setSoknadErKomplett] =
-        useState<boolean>(false);
-    const [soknadErUendret, setSoknadErUendret] =
-        useState<boolean>(true);
+    const soknadKlar = soknadErKomplett(vedleggsliste);
+    const soknadKanSendesInn = sjekkSoknadKanSendesInn(vedleggsliste);
 
-    const [soknadKanSendesInn, setSoknadKanSendesInn] =
-        useState<boolean>(false);
     const [visningsSteg, setVisningsSteg] = useState(
         soknad.visningsSteg,
     );
@@ -306,14 +268,6 @@ function VedleggsListe({
             });
     };
 
-    useEffect(() => {
-        setSoknadErKomplett(soknadErKomplett(vedleggsliste));
-        setSoknadKanSendesInn(
-            sjekkSokknadKanSendesInn(vedleggsliste),
-        );
-        setSoknadErUendret(sjekkSoknadUendret(vedleggsliste));
-    }, [vedleggsliste]);
-
     const resetState = () => {
         setVedleggsListe(initialVedleggsliste);
         setSoknad(null);
@@ -324,7 +278,6 @@ function VedleggsListe({
                 soknad,
                 soknadKlar,
                 soknadKanSendesInn,
-                soknadErUendret,
                 onSendInn,
                 slettSoknad,
                 setOpplastingStatus,

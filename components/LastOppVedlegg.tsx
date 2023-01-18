@@ -13,6 +13,7 @@ import { formatertDato } from '../utils/dato';
 import { ModalContext } from './SoknadModalProvider';
 import { erDatoIAvviksPeriode } from '../utils/midlertidigAvviksPeriode';
 import { Linje } from './common/Linje';
+import { useErrorMessage } from '../hooks/useErrorMessage';
 
 const FristForOpplastingInfo = styled(Alert)`
     border: 0;
@@ -38,17 +39,13 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
 
     const { t } = useTranslation();
 
-    const {
-        soknad,
-        soknadKlar,
-        soknadErUendret,
-        soknadKanSendesInn,
-    } = useContext(VedleggslisteContext);
+    const { soknad, soknadKlar, soknadKanSendesInn } = useContext(
+        VedleggslisteContext,
+    );
     const {
         openForstettSenereSoknadModal,
         openSendInnKomplettSoknadModal,
         openSendInnUferdigSoknadModal,
-        openSendInnUendretSoknadModal,
         openSlettSoknadModal,
     } = useContext(ModalContext);
 
@@ -60,6 +57,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
         lastOppVedleggValideringfokus,
         setLastOppVedleggValideringfokus,
     ] = useState(false);
+    const { customErrorMessage } = useErrorMessage();
 
     return (
         <>
@@ -152,21 +150,19 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
             <ButtonContainer>
                 <Button
                     onClick={() => {
-                        console.log(soknadErUendret);
                         if (lastOppVedleggHarFeil) {
                             setLastOppVedleggValideringfokus(true);
                             setVisLastOppVedleggFeil(true);
                             return;
                         }
-                        if (soknadErUendret) {
-                            alert('uendret');
-                            openSendInnUendretSoknadModal();
-                        }
                         if (soknadKlar) {
                             openSendInnKomplettSoknadModal();
-                        }
-                        if (soknadKanSendesInn) {
+                        } else if (soknadKanSendesInn) {
                             openSendInnUferdigSoknadModal();
+                        } else {
+                            customErrorMessage(
+                                t('feil.manglerHovedskjema'),
+                            );
                         }
                     }}
                     data-cy="sendTilNAVKnapp"
