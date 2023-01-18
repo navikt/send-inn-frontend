@@ -179,7 +179,7 @@ export const SoknadModalProvider = ({
             <FellesModal
                 open={sendInnUendretSoknadModal}
                 setOpen={setSendInnUendretSoknadModal}
-                onAccept={async () => {
+                onAccept={() => {
                     setSendInnUendretSoknadModal(false);
                 }}
                 acceptButtonText={t('modal.sendInnUendret.accept')}

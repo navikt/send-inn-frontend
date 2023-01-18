@@ -78,7 +78,6 @@ interface VedleggslisteContextType {
     soknad: SoknadType;
     soknadKlar: boolean;
     soknadKanSendesInn: boolean;
-    soknadErUendret: boolean;
     onSendInn: () => Promise<void>;
     slettSoknad: () => void;
     setOpplastingStatus: (id: number, status: string) => void;
