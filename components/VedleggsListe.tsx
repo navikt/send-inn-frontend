@@ -2,7 +2,11 @@ import React, { createContext, useRef } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
-import { VedleggType, SoknadType } from '../types/types';
+import {
+    VedleggType,
+    SoknadType,
+    OpplastingsStatus,
+} from '../types/types';
 import { ExtendedVedleggType } from '../components/Vedlegg';
 import SkjemaNedlasting from '../components/SkjemaNedlasting';
 import SkjemaOpplasting from './SkjemaOpplasting';
@@ -235,7 +239,7 @@ function VedleggsListe({
 
     const oppdaterLokalOpplastingStatus = (
         id: number,
-        opplastingsStatus: string,
+        opplastingsStatus: OpplastingsStatus,
     ) => {
         setVedleggsListe((forrigeVedleggsliste) =>
             forrigeVedleggsliste.map((el) =>
