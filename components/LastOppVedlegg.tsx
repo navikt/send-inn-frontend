@@ -39,7 +39,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
 
     const { t } = useTranslation();
 
-    const { soknad, soknadKlar, soknadKanSendesInn } = useContext(
+    const { soknad, soknadKlar, soknadDelvisKlar } = useContext(
         VedleggslisteContext,
     );
     const {
@@ -157,7 +157,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
                         }
                         if (soknadKlar) {
                             openSendInnKomplettSoknadModal();
-                        } else if (soknadKanSendesInn) {
+                        } else if (soknadDelvisKlar) {
                             openSendInnUferdigSoknadModal();
                         } else {
                             customErrorMessage(

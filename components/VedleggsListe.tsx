@@ -64,7 +64,7 @@ const soknadErKomplett = (vedleggsliste: VedleggType[]): boolean => {
     return !detFinnesEtUopplastetPakrevdVedlegg;
 };
 
-const sjekkSoknadKanSendesInn = (
+const soknadKanSendesInn = (
     vedleggsliste: VedleggType[],
 ): boolean => {
     const detFinnesEtUpploastetHovedDokument = vedleggsliste.some(
@@ -81,7 +81,7 @@ const sjekkSoknadKanSendesInn = (
 interface VedleggslisteContextType {
     soknad: SoknadType;
     soknadKlar: boolean;
-    soknadKanSendesInn: boolean;
+    soknadDelvisKlar: boolean;
     onSendInn: () => Promise<void>;
     slettSoknad: () => void;
     setOpplastingStatus: (id: number, status: string) => void;
@@ -106,7 +106,7 @@ function VedleggsListe({
     useSoknadLanguage(soknad.spraak);
 
     const soknadKlar = soknadErKomplett(vedleggsliste);
-    const soknadKanSendesInn = sjekkSoknadKanSendesInn(vedleggsliste);
+    const soknadDelvisKlar = soknadKanSendesInn(vedleggsliste);
 
     const [visningsSteg, setVisningsSteg] = useState(
         soknad.visningsSteg,
@@ -280,7 +280,7 @@ function VedleggsListe({
             value={{
                 soknad,
                 soknadKlar,
-                soknadKanSendesInn,
+                soknadDelvisKlar,
                 onSendInn,
                 slettSoknad,
                 setOpplastingStatus,
