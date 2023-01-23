@@ -3,6 +3,7 @@ import React, {
     useEffect,
     useRef,
     cloneElement,
+    useMemo,
 } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button } from '@navikt/ds-react';
@@ -56,7 +57,7 @@ export function Filvelger(props: FilvelgerProps) {
     const fileRef = useRef<HTMLInputElement | null>(null);
     const { ref, ...rest } = register('file');
 
-    const inputId = uuidv4() as string;
+    const inputId = useMemo<string>(uuidv4, []);
 
     const onSubmit: SubmitHandler<FormValues> = useCallback(
         (data) => {
@@ -96,21 +97,21 @@ export function Filvelger(props: FilvelgerProps) {
         return () => subscription.unsubscribe();
     }, [handleSubmit, onSubmit, watch]);
 
-    const DefaultButton = (
-        <Button
-            as="label"
-            variant="secondary"
-            icon={<Upload />}
-            data-cy="filvelgerKnapp"
-        >
-            {buttonText || t('filvelger.defaultText')}
-        </Button>
-    );
-
-    const CurrentButton = () =>
-        cloneElement(CustomButton || DefaultButton, {
+    const CurrentButton = useCallback(() => {
+        const DefaultButton = (
+            <Button
+                as="label"
+                variant="secondary"
+                icon={<Upload />}
+                data-cy="filvelgerKnapp"
+            >
+                {buttonText || t('filvelger.defaultText')}
+            </Button>
+        );
+        return cloneElement(CustomButton || DefaultButton, {
             htmlFor: inputId,
         });
+    }, [CustomButton, inputId, buttonText, t]);
 
     return (
         <FilvelgerForm>

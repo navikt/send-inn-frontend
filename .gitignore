@@ -47,4 +47,6 @@ docs/.obsidian/
 # Sentry
 .sentryclirc
 
+# Cypress
 cypress/videos/
+cypress/screenshots/
