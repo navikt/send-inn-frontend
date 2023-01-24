@@ -116,14 +116,6 @@
             "accept": "Ja, slett søknaden",
             "cancel": "Avbryt"
         },
-        "sendInnUendret": {
-            "tittel": "Du kan ikkje senda inn før du har lasta opp noko nytt.",
-            "liste": [
-                "Før du kan senda inn til NAV må du lasta opp minst eitt nytt dokument."
-            ],
-            "accept": "Ok",
-            "cancel": "Avbryt"
-        },
         "sendInnUferdig": {
             "tittel": " Er du sikker på at du vil senda søknaden no, sjølv om ikkje alle dokumenta er lasta opp?",
             "liste": [
