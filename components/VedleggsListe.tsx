@@ -1,4 +1,4 @@
-import React, { createContext, useRef } from 'react';
+import React, { createContext, useMemo, useRef } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
@@ -47,36 +47,23 @@ export interface VedleggsListeProps {
     visningsType?: string;
 }
 
-const soknadErKomplett = (vedleggsliste: VedleggType[]): boolean => {
-    const detFinnesEtUopplastetPakrevdVedlegg = vedleggsliste.some(
-        (element) => {
+const soknadErKomplett = (vedleggsliste: VedleggType[]): boolean =>
+    vedleggsliste
+        .filter((element) => element.erPakrevd === true)
+        .every((element) => {
             return (
-                element.erPakrevd === true &&
-                !(
-                    element.opplastingsStatus === 'LastetOpp' ||
-                    element.opplastingsStatus === 'SendesAvAndre' ||
-                    element.opplastingsStatus === 'Innsendt'
-                )
+                element.opplastingsStatus === 'LastetOpp' ||
+                element.opplastingsStatus === 'SendesAvAndre' ||
+                element.opplastingsStatus === 'Innsendt'
             );
-        },
-    );
+        });
 
-    return !detFinnesEtUopplastetPakrevdVedlegg;
-};
-
-const soknadKanSendesInn = (
-    vedleggsliste: VedleggType[],
-): boolean => {
-    const detFinnesEtUpploastetHovedDokument = vedleggsliste.some(
-        (element) => {
-            return (
-                element.erHoveddokument === true &&
-                element.opplastingsStatus !== 'LastetOpp'
-            );
-        },
-    );
-    return !detFinnesEtUpploastetHovedDokument;
-};
+const soknadKanSendesInn = (vedleggsliste: VedleggType[]): boolean =>
+    vedleggsliste
+        .filter((element) => element.erHoveddokument === true)
+        .every(
+            (element) => element.opplastingsStatus === 'LastetOpp',
+        );
 
 interface VedleggslisteContextType {
     soknad: SoknadType;
@@ -105,8 +92,14 @@ function VedleggsListe({
     const { showError } = useErrorMessage();
     useSoknadLanguage(soknad.spraak);
 
-    const soknadKlar = soknadErKomplett(vedleggsliste);
-    const soknadDelvisKlar = soknadKanSendesInn(vedleggsliste);
+    const soknadKlar = useMemo(
+        () => soknadErKomplett(vedleggsliste),
+        [vedleggsliste],
+    );
+    const soknadDelvisKlar = useMemo(
+        () => soknadKanSendesInn(vedleggsliste),
+        [vedleggsliste],
+    );
 
     const [visningsSteg, setVisningsSteg] = useState(
         soknad.visningsSteg,
