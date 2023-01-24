@@ -36,6 +36,11 @@ function SkjemaOpplasting(props: SkjemaOpplastingdProps) {
 
     return (
         <>
+            <Heading level={'2'} size="large" spacing>
+                {t('soknad.visningsSteg.steg1.tittel')}
+            </Heading>
+            <Linje />
+
             <SideValideringProvider
                 setHarValideringsfeil={setSide1HarFeil}
                 visValideringsfeil={visSide1Feil}
@@ -43,11 +48,6 @@ function SkjemaOpplasting(props: SkjemaOpplastingdProps) {
                 fokus={side1Valideringfokus}
                 setFokus={setSide1Valideringfokus}
             >
-                <Heading level={'2'} size="large" spacing>
-                    {t('soknad.visningsSteg.steg1.tittel')}
-                </Heading>
-                <Linje />
-
                 <PaddedVedlegg>
                     <Vedlegg
                         innsendingsId={soknad.innsendingsId}

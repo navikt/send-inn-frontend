@@ -83,7 +83,6 @@
         "knapper": {
             "annenVedleggKnapp": "Add other documentation",
             "sendInn": "Submit to NAV",
-            "sendInnUfullstendig": "Submit to NAV",
             "fortsettSenere": "Save and continue later",
             "neste": "Next step",
             "forrige": "Previous step",
@@ -155,7 +154,8 @@
         "medTilkobling": "Check your network connection and try again.",
         "ukjent": "We are experiencing technical difficulties. We appologize for the inconvenience. Please try again later. If the problem persists, you can get help from NAV Service Centre at (+47) 55 55 33 33 or at your local NAV office.",
         "advarselOverskrift": "An error has occured",
-        "advarselBrukerBekreftelse": "OK"
+        "advarselBrukerBekreftelse": "OK",
+        "manglerHovedskjema": "You must upload the completed form. Go back to the previous step"
     },
     "for": "for"
 }

@@ -66,7 +66,7 @@ export const ErrorMessageProvider = ({
                             {t('feil.advarselOverskrift')}
                         </Heading>
 
-                        <BodyLong as="ul">{message}</BodyLong>
+                        <BodyLong>{message}</BodyLong>
                         <ButtonRow>
                             <Button
                                 variant="secondary"

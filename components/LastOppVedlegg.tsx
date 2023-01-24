@@ -13,6 +13,7 @@ import { formatertDato } from '../utils/dato';
 import { ModalContext } from './SoknadModalProvider';
 import { erDatoIAvviksPeriode } from '../utils/midlertidigAvviksPeriode';
 import { Linje } from './common/Linje';
+import { useErrorMessage } from '../hooks/useErrorMessage';
 
 const FristForOpplastingInfo = styled(Alert)`
     border: 0;
@@ -38,7 +39,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
 
     const { t } = useTranslation();
 
-    const { soknad, soknadKlar, soknadHarNoeInnlevert } = useContext(
+    const { soknad, soknadKlar, soknadDelvisKlar } = useContext(
         VedleggslisteContext,
     );
     const {
@@ -56,6 +57,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
         lastOppVedleggValideringfokus,
         setLastOppVedleggValideringfokus,
     ] = useState(false);
+    const { customErrorMessage } = useErrorMessage();
 
     return (
         <>
@@ -146,27 +148,27 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
             </SideValideringProvider>
 
             <ButtonContainer>
-                {(soknadKlar || soknadHarNoeInnlevert) && (
-                    <Button
-                        onClick={() => {
-                            if (lastOppVedleggHarFeil) {
-                                setLastOppVedleggValideringfokus(
-                                    true,
-                                );
-                                setVisLastOppVedleggFeil(true);
-                                return;
-                            }
-                            if (soknadKlar) {
-                                openSendInnKomplettSoknadModal();
-                            } else {
-                                openSendInnUferdigSoknadModal();
-                            }
-                        }}
-                        data-cy="sendTilNAVKnapp"
-                    >
-                        {t('soknad.knapper.sendInn')}
-                    </Button>
-                )}
+                <Button
+                    onClick={() => {
+                        if (lastOppVedleggHarFeil) {
+                            setLastOppVedleggValideringfokus(true);
+                            setVisLastOppVedleggFeil(true);
+                            return;
+                        }
+                        if (soknadKlar) {
+                            openSendInnKomplettSoknadModal();
+                        } else if (soknadDelvisKlar) {
+                            openSendInnUferdigSoknadModal();
+                        } else {
+                            customErrorMessage(
+                                t('feil.manglerHovedskjema'),
+                            );
+                        }
+                    }}
+                    data-cy="sendTilNAVKnapp"
+                >
+                    {t('soknad.knapper.sendInn')}
+                </Button>
 
                 {/* lagre og fortsett senere */}
                 <Button

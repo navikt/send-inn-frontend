@@ -1,4 +1,12 @@
 // API
+export type OpplastingsStatus =
+    | 'IkkeValgt'
+    | 'LastetOpp'
+    | 'Innsendt'
+    | 'SendSenere'
+    | 'SendesAvAndre'
+    | 'SendesIkke';
+
 export type VedleggType = {
     id: number;
     vedleggsnr: string;
@@ -10,7 +18,7 @@ export type VedleggType = {
     erVariant: boolean;
     erPdfa: boolean;
     skjemaurl: string;
-    opplastingsStatus: string;
+    opplastingsStatus: OpplastingsStatus;
     opprettetdato: string;
     label: string;
     beskrivelse: string;

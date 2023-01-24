@@ -1,8 +1,12 @@
-import React, { createContext, useEffect, useRef } from 'react';
+import React, { createContext, useMemo, useRef } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
-import { VedleggType, SoknadType } from '../types/types';
+import {
+    VedleggType,
+    SoknadType,
+    OpplastingsStatus,
+} from '../types/types';
 import { ExtendedVedleggType } from '../components/Vedlegg';
 import SkjemaNedlasting from '../components/SkjemaNedlasting';
 import SkjemaOpplasting from './SkjemaOpplasting';
@@ -43,38 +47,28 @@ export interface VedleggsListeProps {
     visningsType?: string;
 }
 
-function soknadErKomplett(vedleggsliste: VedleggType[]): boolean {
-    const detFinnesEtUopplastetPakrevdVedlegg = vedleggsliste.some(
-        (element) => {
+const soknadErKomplett = (vedleggsliste: VedleggType[]): boolean =>
+    vedleggsliste
+        .filter((element) => element.erPakrevd === true)
+        .every((element) => {
             return (
-                element.erPakrevd === true &&
-                element.opplastingsStatus !== 'LastetOpp'
+                element.opplastingsStatus === 'LastetOpp' ||
+                element.opplastingsStatus === 'SendesAvAndre' ||
+                element.opplastingsStatus === 'Innsendt'
             );
-        },
-    );
+        });
 
-    return !detFinnesEtUopplastetPakrevdVedlegg;
-}
-
-function soknadKanSendesInn(vedleggsliste: VedleggType[]): boolean {
-    const noeErLastetOpp = vedleggsliste.some((element) => {
-        return element.opplastingsStatus === 'LastetOpp';
-    });
-    const detFinnesEtUpploastetHovedDokument = vedleggsliste.some(
-        (element) => {
-            return (
-                element.erHoveddokument === true &&
-                element.opplastingsStatus !== 'LastetOpp'
-            );
-        },
-    );
-    return noeErLastetOpp && !detFinnesEtUpploastetHovedDokument;
-}
+const soknadKanSendesInn = (vedleggsliste: VedleggType[]): boolean =>
+    vedleggsliste
+        .filter((element) => element.erHoveddokument === true)
+        .every(
+            (element) => element.opplastingsStatus === 'LastetOpp',
+        );
 
 interface VedleggslisteContextType {
     soknad: SoknadType;
     soknadKlar: boolean;
-    soknadHarNoeInnlevert: boolean;
+    soknadDelvisKlar: boolean;
     onSendInn: () => Promise<void>;
     slettSoknad: () => void;
     setOpplastingStatus: (id: number, status: string) => void;
@@ -98,10 +92,15 @@ function VedleggsListe({
     const { showError } = useErrorMessage();
     useSoknadLanguage(soknad.spraak);
 
-    const [soknadKlar, setSoknadErKomplett] =
-        useState<boolean>(false);
-    const [soknadHarNoeInnlevert, setSoknadKanSendesInn] =
-        useState<boolean>(false);
+    const soknadKlar = useMemo(
+        () => soknadErKomplett(vedleggsliste),
+        [vedleggsliste],
+    );
+    const soknadDelvisKlar = useMemo(
+        () => soknadKanSendesInn(vedleggsliste),
+        [vedleggsliste],
+    );
+
     const [visningsSteg, setVisningsSteg] = useState(
         soknad.visningsSteg,
     );
@@ -233,7 +232,7 @@ function VedleggsListe({
 
     const oppdaterLokalOpplastingStatus = (
         id: number,
-        opplastingsStatus: string,
+        opplastingsStatus: OpplastingsStatus,
     ) => {
         setVedleggsListe((forrigeVedleggsliste) =>
             forrigeVedleggsliste.map((el) =>
@@ -265,11 +264,6 @@ function VedleggsListe({
             });
     };
 
-    useEffect(() => {
-        setSoknadErKomplett(soknadErKomplett(vedleggsliste));
-        setSoknadKanSendesInn(soknadKanSendesInn(vedleggsliste));
-    }, [vedleggsliste]);
-
     const resetState = () => {
         setVedleggsListe(initialVedleggsliste);
         setSoknad(null);
@@ -279,7 +273,7 @@ function VedleggsListe({
             value={{
                 soknad,
                 soknadKlar,
-                soknadHarNoeInnlevert,
+                soknadDelvisKlar,
                 onSendInn,
                 slettSoknad,
                 setOpplastingStatus,
