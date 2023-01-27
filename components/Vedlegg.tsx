@@ -168,6 +168,8 @@ function Vedlegg(props: VedleggProps) {
     );
     const [endrer, setEndrer] = useState(false);
     const [tittel, setTittel] = useState(vedlegg.label);
+    const [valgtOpplastingStatus, setValgtOpplastingStatus] =
+        useState(vedlegg.opplastingsStatus);
     const [autoFocus, setAutoFocus] = useState(vedlegg.autoFocus);
     const { showError } = useErrorMessage();
 
@@ -176,8 +178,8 @@ function Vedlegg(props: VedleggProps) {
         !vedlegg.erPakrevd;
     const erSendtInnTidligere = vedlegg.innsendtdato !== null;
     const skjulFiler =
-        vedlegg.opplastingsStatus === 'SendSenere' ||
-        vedlegg.opplastingsStatus === 'SendesAvAndre';
+        valgtOpplastingStatus === 'SendSenere' ||
+        valgtOpplastingStatus === 'SendesAvAndre';
 
     const manglerFilTekst = () => {
         if (vedlegg.erHoveddokument)
@@ -200,7 +202,7 @@ function Vedlegg(props: VedleggProps) {
         melding: manglerFilTekst(),
         harFeil:
             !filListe.length &&
-            vedlegg.opplastingsStatus === 'IkkeValgt' &&
+            valgtOpplastingStatus === 'IkkeValgt' &&
             !endrer,
     });
 
@@ -345,6 +347,12 @@ function Vedlegg(props: VedleggProps) {
                                 <VedleggRadio
                                     id={vedlegg.id}
                                     vedlegg={vedlegg}
+                                    valgtOpplastingStatus={
+                                        valgtOpplastingStatus
+                                    }
+                                    setValgtOpplastingStatus={
+                                        setValgtOpplastingStatus
+                                    }
                                 />
                             )}
 

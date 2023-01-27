@@ -1,13 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { RadioGroup, Radio } from '@navikt/ds-react';
-import { VedleggType } from '../types/types';
+import { OpplastingsStatus, VedleggType } from '../types/types';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { VedleggslisteContext } from './VedleggsListe';
+import { useDebounce } from 'use-debounce';
+import { useValidation } from '../hooks/useValidation';
 
 interface VedleggRadioProp {
     id: number;
     vedlegg: VedleggType;
+    valgtOpplastingStatus: OpplastingsStatus;
+    setValgtOpplastingStatus: React.Dispatch<
+        React.SetStateAction<OpplastingsStatus>
+    >;
 }
 
 const SrOnly = styled.span`
@@ -26,13 +32,49 @@ const StyledRadioGroup = styled(RadioGroup)`
     }
 `;
 
-function VedleggRadio({ id, vedlegg }: VedleggRadioProp) {
+function VedleggRadio({
+    id,
+    vedlegg,
+    valgtOpplastingStatus,
+    setValgtOpplastingStatus,
+}: VedleggRadioProp) {
     const { t } = useTranslation();
+
+    const [debouncedLokalOpplastingsStatus] = useDebounce(
+        valgtOpplastingStatus,
+        500,
+    );
 
     const { setOpplastingStatus } = useContext(VedleggslisteContext);
 
+    useValidation({
+        harFeil: valgtOpplastingStatus !== vedlegg.opplastingsStatus,
+        komponentId: 'sendTilNAVKnapp',
+        melding: t('feil.ventPaaLagring'),
+    });
+
+    useEffect(() => {
+        if (
+            debouncedLokalOpplastingsStatus ===
+            vedlegg.opplastingsStatus
+        )
+            return;
+        setOpplastingStatus(
+            id,
+            debouncedLokalOpplastingsStatus,
+        ).catch(() => {
+            setValgtOpplastingStatus(vedlegg.opplastingsStatus);
+        });
+    }, [
+        setOpplastingStatus,
+        id,
+        debouncedLokalOpplastingsStatus,
+        vedlegg.opplastingsStatus,
+        setValgtOpplastingStatus,
+    ]);
+
     function handleChange(val) {
-        setOpplastingStatus(id, val);
+        setValgtOpplastingStatus(val);
     }
 
     return (
@@ -48,19 +90,17 @@ function VedleggRadio({ id, vedlegg }: VedleggRadioProp) {
                 }
                 size="medium"
                 onChange={(val: string) => handleChange(val)}
-                value={vedlegg.opplastingsStatus}
+                value={valgtOpplastingStatus}
             >
-                {
-                    vedlegg.opplastingsStatus !== 'LastetOpp' && (
-                        <Radio
-                            value="IkkeValgt"
-                            data-cy="lasterOppNaaRadio"
-                        >
-                            {t('soknad.vedlegg.radio.lasterOppNaa')}
-                        </Radio>
-                    ) // jeg tror dette løser problemet med å vise disse i to situasjoner, både når noe er lastet opp og når noe ikke er lastet opp
-                }
-                {vedlegg.opplastingsStatus === 'LastetOpp' && (
+                {valgtOpplastingStatus !== 'LastetOpp' && (
+                    <Radio
+                        value="IkkeValgt"
+                        data-cy="lasterOppNaaRadio"
+                    >
+                        {t('soknad.vedlegg.radio.lasterOppNaa')}
+                    </Radio>
+                )}
+                {valgtOpplastingStatus === 'LastetOpp' && (
                     <Radio
                         value="LastetOpp"
                         data-cy="lasterOppNaaRadio"

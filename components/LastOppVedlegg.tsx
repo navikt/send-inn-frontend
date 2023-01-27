@@ -165,6 +165,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
                             );
                         }
                     }}
+                    id="sendTilNAVKnapp"
                     data-cy="sendTilNAVKnapp"
                 >
                     {t('soknad.knapper.sendInn')}
