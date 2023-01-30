@@ -10,19 +10,22 @@ interface ValideringsRammeProps {
 }
 
 const FeilRamme = styled.div`
-    border: 1px solid var(--navds-text-field-color-border-error);
-    box-shadow: 0 0 0 1px var(--navds-text-field-color-border-error);
-    border-radius: 8px;
-
-    :hover {
-        border-color: var(--navds-text-field-color-border-hover);
-    }
-    :focus {
+    &.visFeil {
+        border: 1px solid var(--navds-text-field-color-border-error);
         box-shadow: 0 0 0 1px
-                var(--navds-text-field-color-border-error),
-            var(--navds-shadow-focus);
+            var(--navds-text-field-color-border-error);
+        border-radius: 8px;
+
+        :hover {
+            border-color: var(--navds-text-field-color-border-hover);
+        }
+        :focus {
+            box-shadow: 0 0 0 1px
+                    var(--navds-text-field-color-border-error),
+                var(--navds-shadow-focus);
+        }
+        margin-bottom: 0.5rem;
     }
-    margin-bottom: 0.5rem;
 `;
 
 export const ValideringsRamme = ({
@@ -33,17 +36,15 @@ export const ValideringsRamme = ({
 }: ValideringsRammeProps) => {
     return (
         <>
-            {visFeil ? (
-                <>
-                    <FeilRamme id={id} tabIndex={-1}>
-                        {children}
-                    </FeilRamme>
-                    <ErrorMessageWithDot>
-                        {melding}
-                    </ErrorMessageWithDot>
-                </>
-            ) : (
-                children
+            <FeilRamme
+                id={id}
+                tabIndex={-1}
+                className={visFeil ? 'visFeil' : ''}
+            >
+                {children}
+            </FeilRamme>
+            {visFeil && (
+                <ErrorMessageWithDot>{melding}</ErrorMessageWithDot>
             )}
         </>
     );
