@@ -210,9 +210,6 @@ function VedleggsListe({
                     visningsSteg: nyttVisningsSteg,
                 },
             )
-            .then((response) => {
-                console.log(response);
-            })
             .catch((error) => {
                 showError(error);
             });

@@ -318,7 +318,6 @@ export function Fil({
     };
 
     useEffect(() => {
-        console.log(status);
         if (status === FIL_STATUS.OPPRETTET) {
             dispatch({
                 type: opplastetFilProp
@@ -389,7 +388,6 @@ export function Fil({
                     vedlegg.id,
                     'LastetOpp',
                 );
-                console.log({ response: response.data });
             })
             .catch((error) => {
                 if (axios.isCancel(error)) {

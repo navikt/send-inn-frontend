@@ -207,10 +207,6 @@ function Vedlegg(props: VedleggProps) {
     });
 
     useEffect(() => {
-        console.log({ filListe });
-    }, [filListe]);
-
-    useEffect(() => {
         if (innsendingsId && vedlegg.id) {
             axios
                 .get(
@@ -218,7 +214,6 @@ function Vedlegg(props: VedleggProps) {
                 )
                 .then((response) => {
                     const responseJSON = response.data;
-                    console.log({ responseJSON });
                     for (const item in responseJSON) {
                         const jsonitem = responseJSON[item];
                         const nyFil: FilData = {
