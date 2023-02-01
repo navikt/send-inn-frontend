@@ -5,7 +5,7 @@ import React, {
     useRef,
 } from 'react';
 import { useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import {
     VedleggType,
@@ -215,6 +215,17 @@ function VedleggsListe({
             });
     };
 
+    const oppdaterLokalOpplastingStatus = useCallback(
+        (id: number, opplastingsStatus: OpplastingsStatus) => {
+            setVedleggsListe((forrigeVedleggsliste) =>
+                forrigeVedleggsliste.map((el) =>
+                    el.id === id ? { ...el, opplastingsStatus } : el,
+                ),
+            );
+        },
+        [setVedleggsListe],
+    );
+
     const setOpplastingStatus = useCallback(
         (id: number, status: string): Promise<void> =>
             axios
@@ -224,30 +235,22 @@ function VedleggsListe({
                         opplastingsStatus: status,
                     },
                 )
-                .then((response) => {
-                    setVedleggsListe((forrigeVedleggsliste) =>
-                        forrigeVedleggsliste.map((el) =>
-                            el.id === id ? { ...response.data } : el,
-                        ),
+                .then((response: AxiosResponse<VedleggType>) => {
+                    oppdaterLokalOpplastingStatus(
+                        id,
+                        response.data.opplastingsStatus,
                     );
                 })
                 .catch((error) => {
                     showError(error);
                     throw error;
                 }),
-        [setVedleggsListe, showError, soknad.innsendingsId],
+        [
+            showError,
+            soknad.innsendingsId,
+            oppdaterLokalOpplastingStatus,
+        ],
     );
-
-    const oppdaterLokalOpplastingStatus = (
-        id: number,
-        opplastingsStatus: OpplastingsStatus,
-    ) => {
-        setVedleggsListe((forrigeVedleggsliste) =>
-            forrigeVedleggsliste.map((el) =>
-                el.id === id ? { ...el, opplastingsStatus } : el,
-            ),
-        );
-    };
 
     const leggTilVedlegg = (vedlegg: ExtendedVedleggType) => {
         setVedleggsListe((forrigeVedleggsliste) => [
