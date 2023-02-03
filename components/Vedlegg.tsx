@@ -166,6 +166,7 @@ function Vedlegg(props: VedleggProps) {
         filListeReducer,
         initialState,
     );
+    const [hasFetched, setHasFetched] = useState(false);
     const [endrer, setEndrer] = useState(false);
     const [tittel, setTittel] = useState(vedlegg.label);
     const [valgtOpplastingStatus, setValgtOpplastingStatus] =
@@ -207,7 +208,8 @@ function Vedlegg(props: VedleggProps) {
     });
 
     useEffect(() => {
-        if (innsendingsId && vedlegg.id) {
+        if (!hasFetched && innsendingsId && vedlegg.id) {
+            setHasFetched(true);
             axios
                 .get(
                     `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil`,
@@ -238,7 +240,7 @@ function Vedlegg(props: VedleggProps) {
             dispatch({
                 type: ACTIONS.RESET_LISTE,
             });
-    }, [innsendingsId, vedlegg.id, showError]);
+    }, [innsendingsId, vedlegg.id, showError, hasFetched]);
 
     const getFilvelgerButtonText = () => {
         if (vedlegg.erHoveddokument) {
