@@ -152,24 +152,33 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
             <ButtonContainer>
                 <Button
                     loading={isLoading}
-                    onClick={async () => {
-                        setIsLoading(true);
-                        await ventPaaLagring();
-                        setIsLoading(false);
+                    onClick={() => {
                         if (lastOppVedleggHarFeil) {
                             setLastOppVedleggValideringfokus(true);
                             setVisLastOppVedleggFeil(true);
                             return;
                         }
-                        if (soknadKlar) {
-                            openSendInnKomplettSoknadModal();
-                        } else if (soknadDelvisKlar) {
-                            openSendInnUferdigSoknadModal();
-                        } else {
-                            customErrorMessage(
-                                t('feil.manglerHovedskjema'),
-                            );
-                        }
+                        setIsLoading(true);
+                        ventPaaLagring()
+                            .then(() => {
+                                if (soknadKlar) {
+                                    openSendInnKomplettSoknadModal();
+                                } else if (soknadDelvisKlar) {
+                                    openSendInnUferdigSoknadModal();
+                                } else {
+                                    customErrorMessage(
+                                        t('feil.manglerHovedskjema'),
+                                    );
+                                }
+                            })
+                            .catch(() =>
+                                console.error(
+                                    'Feil oppsto ved lagring, så kan ikke starte innsending',
+                                ),
+                            )
+                            .finally(() => {
+                                setIsLoading(false);
+                            });
                     }}
                     id="sendTilNAVKnapp"
                     data-cy="sendTilNAVKnapp"

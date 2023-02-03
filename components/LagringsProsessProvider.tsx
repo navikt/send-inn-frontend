@@ -9,7 +9,7 @@ interface LagringsProsessProviderProps {
 interface LagringsProsessContextType {
     lagrer: boolean;
     ventPaaLagring: () => Promise<void>;
-    nyLagringsProsess: <T>(promise: Promise<T>) => void;
+    nyLagringsProsess: <T>(promise: Promise<T>) => Promise<T>;
 }
 
 export const LagringsProsessContext =
@@ -19,13 +19,13 @@ export const LagringsProsessProvider = ({
     children,
 }: LagringsProsessProviderProps) => {
     const [aktiveLagringsProsesser, setAktiveLagringsProsesser] =
-        useState<string[]>([]);
-    const aktiveLagringsProsesserRef = useRef<string[]>([]);
+        useState<Promise<unknown>[]>([]);
+    const aktiveLagringsProsesserRef = useRef<Promise<unknown>[]>([]);
 
     const leggTilLagringsProsess = useCallback(
-        (nyOppdateringId: string) => {
+        <T,>(promise: Promise<T>) => {
             setAktiveLagringsProsesser((o) => {
-                const nyListe = [...o, nyOppdateringId];
+                const nyListe = [...o, promise];
                 aktiveLagringsProsesserRef.current = nyListe;
                 return nyListe;
             });
@@ -33,11 +33,9 @@ export const LagringsProsessProvider = ({
         [],
     );
     const fjernLagringsProsess = useCallback(
-        (oppdateringId: string) => {
+        <T,>(promise: Promise<T>) => {
             setAktiveLagringsProsesser((o) => {
-                const nyListe = o.filter(
-                    (id) => id !== oppdateringId,
-                );
+                const nyListe = o.filter((p) => p !== promise);
                 aktiveLagringsProsesserRef.current = nyListe;
                 return nyListe;
             });
@@ -47,11 +45,10 @@ export const LagringsProsessProvider = ({
 
     const nyLagringsProsess = useCallback(
         <T,>(promise: Promise<T>) => {
-            const oppdateringId = uuidv4();
-            leggTilLagringsProsess(oppdateringId);
+            leggTilLagringsProsess(promise);
 
-            promise.finally(() => {
-                fjernLagringsProsess(oppdateringId);
+            return promise.finally(() => {
+                fjernLagringsProsess(promise);
             });
         },
         [leggTilLagringsProsess, fjernLagringsProsess],
@@ -59,7 +56,7 @@ export const LagringsProsessProvider = ({
 
     const ventPaaLagring = async () => {
         while (aktiveLagringsProsesserRef.current.length) {
-            await new Promise((resolve) => setTimeout(resolve, 10));
+            await Promise.all(aktiveLagringsProsesserRef.current);
         }
         return;
     };

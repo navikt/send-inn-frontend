@@ -67,32 +67,29 @@ function VedleggRadio({
         const newController = new AbortController();
         controller.current = newController;
         nyLagringsProsess(
-            axios
-                .patch(
-                    `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${id}`,
-                    {
-                        opplastingsStatus:
-                            debouncedLokalOpplastingsStatus,
-                    },
-                    { signal: controller.current.signal },
-                )
-                .then((response: AxiosResponse<VedleggType>) => {
-                    oppdaterLokalOpplastingStatus(
-                        id,
-                        response.data.opplastingsStatus,
-                    );
-                })
-                .catch((error) => {
-                    if (axios.isCancel(error)) {
-                        // avbrutt
-                        return;
-                    }
-                    showError(error);
-                    setValgtOpplastingStatus(
-                        vedlegg.opplastingsStatus,
-                    );
-                }),
-        );
+            axios.patch(
+                `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${id}`,
+                {
+                    opplastingsStatus:
+                        debouncedLokalOpplastingsStatus,
+                },
+                { signal: controller.current.signal },
+            ),
+        )
+            .then((response: AxiosResponse<VedleggType>) => {
+                oppdaterLokalOpplastingStatus(
+                    id,
+                    response.data.opplastingsStatus,
+                );
+            })
+            .catch((error) => {
+                if (axios.isCancel(error)) {
+                    // avbrutt
+                    return;
+                }
+                setValgtOpplastingStatus(vedlegg.opplastingsStatus);
+                showError(error);
+            });
     }, [
         id,
         debouncedLokalOpplastingsStatus,
