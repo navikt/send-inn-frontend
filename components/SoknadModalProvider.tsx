@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { FellesModal } from './FellesModal';
 import { formatertDato, datoOmXDager } from '../utils/dato';
 import { VedleggslisteContext } from './VedleggsListe';
+import { ErrorContext } from './ErrorMessageProvider';
 import { navigerTilMinSide } from '../utils/navigerTilMinSide';
 
 interface SoknadModalProviderProps {
@@ -34,6 +35,7 @@ export const SoknadModalProvider = ({
     const { soknad, onSendInn, slettSoknad } = useContext(
         VedleggslisteContext,
     );
+    const { open: hasError } = useContext(ErrorContext);
 
     const [fortsettSenereSoknadModal, setForstettSenereSoknadModal] =
         useState(false);
@@ -44,6 +46,19 @@ export const SoknadModalProvider = ({
         sendInnKomplettSoknadModal,
         setSendInnKomplettSoknadModal,
     ] = useState(false);
+
+    if (
+        hasError &&
+        (fortsettSenereSoknadModal ||
+            slettSoknadModal ||
+            sendInnUferdigSoknadModal ||
+            sendInnKomplettSoknadModal)
+    ) {
+        setForstettSenereSoknadModal(false);
+        setSlettSoknadModal(false);
+        setSendInnUferdigSoknadModal(false);
+        setSendInnKomplettSoknadModal(false);
+    }
 
     const openForstettSenereSoknadModal = useCallback(() => {
         setForstettSenereSoknadModal(true);

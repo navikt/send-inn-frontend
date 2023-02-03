@@ -1,12 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { RadioGroup, Radio } from '@navikt/ds-react';
 import { OpplastingsStatus, VedleggType } from '../types/types';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { VedleggslisteContext } from './VedleggsListe';
 import { useDebounce } from 'use-debounce';
-import { useValidation } from '../hooks/useValidation';
-
 interface VedleggRadioProp {
     id: number;
     vedlegg: VedleggType;
@@ -45,13 +43,9 @@ function VedleggRadio({
         500,
     );
 
-    const { setOpplastingStatus } = useContext(VedleggslisteContext);
-
-    useValidation({
-        harFeil: valgtOpplastingStatus !== vedlegg.opplastingsStatus,
-        komponentId: 'sendTilNAVKnapp',
-        melding: t('feil.ventPaaLagring'),
-    });
+    const { setOpplastingStatus, nyLagringsProsess } = useContext(
+        VedleggslisteContext,
+    );
 
     useEffect(() => {
         if (
@@ -59,18 +53,22 @@ function VedleggRadio({
             vedlegg.opplastingsStatus
         )
             return;
-        setOpplastingStatus(
-            id,
-            debouncedLokalOpplastingsStatus,
-        ).catch(() => {
-            setValgtOpplastingStatus(vedlegg.opplastingsStatus);
-        });
+
+        nyLagringsProsess(
+            setOpplastingStatus(
+                id,
+                debouncedLokalOpplastingsStatus,
+            ).catch(() => {
+                setValgtOpplastingStatus(vedlegg.opplastingsStatus);
+            }),
+        );
     }, [
         setOpplastingStatus,
         id,
         debouncedLokalOpplastingsStatus,
         vedlegg.opplastingsStatus,
         setValgtOpplastingStatus,
+        nyLagringsProsess,
     ]);
 
     function handleChange(val) {

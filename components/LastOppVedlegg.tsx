@@ -39,9 +39,8 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
 
     const { t } = useTranslation();
 
-    const { soknad, soknadKlar, soknadDelvisKlar } = useContext(
-        VedleggslisteContext,
-    );
+    const { soknad, soknadKlar, soknadDelvisKlar, ventPaaLagring } =
+        useContext(VedleggslisteContext);
     const {
         openForstettSenereSoknadModal,
         openSendInnKomplettSoknadModal,
@@ -57,6 +56,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
         lastOppVedleggValideringfokus,
         setLastOppVedleggValideringfokus,
     ] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const { customErrorMessage } = useErrorMessage();
 
     return (
@@ -149,7 +149,11 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
 
             <ButtonContainer>
                 <Button
-                    onClick={() => {
+                    loading={isLoading}
+                    onClick={async () => {
+                        setIsLoading(true);
+                        await ventPaaLagring();
+                        setIsLoading(false);
                         if (lastOppVedleggHarFeil) {
                             setLastOppVedleggValideringfokus(true);
                             setVisLastOppVedleggFeil(true);
