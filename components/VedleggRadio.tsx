@@ -1,10 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { RadioGroup, Radio } from '@navikt/ds-react';
 import { OpplastingsStatus, VedleggType } from '../types/types';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { VedleggslisteContext } from './VedleggsListe';
 import { useDebounce } from 'use-debounce';
+import getConfig from 'next/config';
+import axios, { AxiosResponse } from 'axios';
+import { useErrorMessage } from '../hooks/useErrorMessage';
+
+const { publicRuntimeConfig } = getConfig();
 interface VedleggRadioProp {
     id: number;
     vedlegg: VedleggType;
@@ -37,15 +42,19 @@ function VedleggRadio({
     setValgtOpplastingStatus,
 }: VedleggRadioProp) {
     const { t } = useTranslation();
+    const { showError } = useErrorMessage();
+    const controller = useRef(new AbortController());
 
     const [debouncedLokalOpplastingsStatus] = useDebounce(
         valgtOpplastingStatus,
         500,
     );
 
-    const { setOpplastingStatus, nyLagringsProsess } = useContext(
-        VedleggslisteContext,
-    );
+    const {
+        soknad,
+        nyLagringsProsess,
+        oppdaterLokalOpplastingStatus,
+    } = useContext(VedleggslisteContext);
 
     useEffect(() => {
         if (
@@ -54,21 +63,45 @@ function VedleggRadio({
         )
             return;
 
+        controller.current.abort();
+        const newController = new AbortController();
+        controller.current = newController;
         nyLagringsProsess(
-            setOpplastingStatus(
-                id,
-                debouncedLokalOpplastingsStatus,
-            ).catch(() => {
-                setValgtOpplastingStatus(vedlegg.opplastingsStatus);
-            }),
+            axios
+                .patch(
+                    `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${id}`,
+                    {
+                        opplastingsStatus:
+                            debouncedLokalOpplastingsStatus,
+                    },
+                    { signal: controller.current.signal },
+                )
+                .then((response: AxiosResponse<VedleggType>) => {
+                    oppdaterLokalOpplastingStatus(
+                        id,
+                        response.data.opplastingsStatus,
+                    );
+                })
+                .catch((error) => {
+                    if (axios.isCancel(error)) {
+                        // avbrutt
+                        return;
+                    }
+                    showError(error);
+                    setValgtOpplastingStatus(
+                        vedlegg.opplastingsStatus,
+                    );
+                }),
         );
     }, [
-        setOpplastingStatus,
         id,
         debouncedLokalOpplastingsStatus,
         vedlegg.opplastingsStatus,
         setValgtOpplastingStatus,
         nyLagringsProsess,
+        oppdaterLokalOpplastingStatus,
+        soknad.innsendingsId,
+        showError,
     ]);
 
     function handleChange(val) {

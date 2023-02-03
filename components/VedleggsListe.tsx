@@ -5,7 +5,7 @@ import React, {
     useRef,
 } from 'react';
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import {
@@ -77,10 +77,6 @@ interface VedleggslisteContextType {
     soknadDelvisKlar: boolean;
     onSendInn: () => Promise<void>;
     slettSoknad: () => void;
-    setOpplastingStatus: (
-        id: number,
-        status: string,
-    ) => Promise<void>;
     oppdaterLokalOpplastingStatus: (
         id: number,
         opplastingsStatus: string,
@@ -278,32 +274,6 @@ function VedleggsListe({
         [setVedleggsListe],
     );
 
-    const setOpplastingStatus = useCallback(
-        (id: number, status: string): Promise<void> =>
-            axios
-                .patch(
-                    `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${id}`,
-                    {
-                        opplastingsStatus: status,
-                    },
-                )
-                .then((response: AxiosResponse<VedleggType>) => {
-                    oppdaterLokalOpplastingStatus(
-                        id,
-                        response.data.opplastingsStatus,
-                    );
-                })
-                .catch((error) => {
-                    showError(error);
-                    throw error;
-                }),
-        [
-            showError,
-            soknad.innsendingsId,
-            oppdaterLokalOpplastingStatus,
-        ],
-    );
-
     const leggTilVedlegg = (vedlegg: ExtendedVedleggType) => {
         setVedleggsListe((forrigeVedleggsliste) => [
             ...forrigeVedleggsliste,
@@ -339,7 +309,6 @@ function VedleggsListe({
                 soknadDelvisKlar,
                 onSendInn,
                 slettSoknad,
-                setOpplastingStatus,
                 oppdaterLokalOpplastingStatus,
                 leggTilVedlegg,
                 slettAnnetVedlegg,
