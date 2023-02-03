@@ -1,6 +1,5 @@
 import React, { createContext, useCallback, useRef } from 'react';
 import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 
 interface LagringsProsessProviderProps {
     children?: React.ReactNode;
@@ -24,8 +23,8 @@ export const LagringsProsessProvider = ({
 
     const leggTilLagringsProsess = useCallback(
         <T,>(promise: Promise<T>) => {
-            setAktiveLagringsProsesser((o) => {
-                const nyListe = [...o, promise];
+            setAktiveLagringsProsesser((a) => {
+                const nyListe = [...a, promise];
                 aktiveLagringsProsesserRef.current = nyListe;
                 return nyListe;
             });
@@ -34,8 +33,8 @@ export const LagringsProsessProvider = ({
     );
     const fjernLagringsProsess = useCallback(
         <T,>(promise: Promise<T>) => {
-            setAktiveLagringsProsesser((o) => {
-                const nyListe = o.filter((p) => p !== promise);
+            setAktiveLagringsProsesser((a) => {
+                const nyListe = a.filter((p) => p !== promise);
                 aktiveLagringsProsesserRef.current = nyListe;
                 return nyListe;
             });
@@ -54,12 +53,12 @@ export const LagringsProsessProvider = ({
         [leggTilLagringsProsess, fjernLagringsProsess],
     );
 
-    const ventPaaLagring = async () => {
+    const ventPaaLagring = useCallback(async () => {
         while (aktiveLagringsProsesserRef.current.length) {
             await Promise.all(aktiveLagringsProsesserRef.current);
         }
         return;
-    };
+    }, []);
 
     const lagrer = aktiveLagringsProsesser.length !== 0;
 

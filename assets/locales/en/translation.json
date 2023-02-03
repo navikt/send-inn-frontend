@@ -155,8 +155,7 @@
         "ukjent": "We are experiencing technical difficulties. We appologize for the inconvenience. Please try again later. If the problem persists, you can get help from NAV Service Centre at (+47) 55 55 33 33 or at your local NAV office.",
         "advarselOverskrift": "An error has occured",
         "advarselBrukerBekreftelse": "OK",
-        "manglerHovedskjema": "You must upload the completed form. Go back to the previous step",
-        "ventPaaLagring": "Please wait"
+        "manglerHovedskjema": "You must upload the completed form. Go back to the previous step"
     },
     "for": "for"
 }

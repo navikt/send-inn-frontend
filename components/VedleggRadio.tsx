@@ -73,7 +73,7 @@ function VedleggRadio({
                     opplastingsStatus:
                         debouncedLokalOpplastingsStatus,
                 },
-                { signal: controller.current.signal },
+                { timeout: 10000, signal: controller.current.signal },
             ),
         )
             .then((response: AxiosResponse<VedleggType>) => {
