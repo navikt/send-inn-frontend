@@ -14,6 +14,7 @@ import { ModalContext } from './SoknadModalProvider';
 import { erDatoIAvviksPeriode } from '../utils/midlertidigAvviksPeriode';
 import { Linje } from './common/Linje';
 import { useErrorMessage } from '../hooks/useErrorMessage';
+import { LagringsProsessContext } from './LagringsProsessProvider';
 
 const FristForOpplastingInfo = styled(Alert)`
     border: 0;
@@ -39,14 +40,16 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
 
     const { t } = useTranslation();
 
-    const { soknad, soknadKlar, soknadDelvisKlar, ventPaaLagring } =
-        useContext(VedleggslisteContext);
+    const { soknad, soknadKlar, soknadDelvisKlar } = useContext(
+        VedleggslisteContext,
+    );
     const {
         openForstettSenereSoknadModal,
         openSendInnKomplettSoknadModal,
         openSendInnUferdigSoknadModal,
         openSlettSoknadModal,
     } = useContext(ModalContext);
+    const { ventPaaLagring } = useContext(LagringsProsessContext);
 
     const [lastOppVedleggHarFeil, setLastOppVedleggHarFeil] =
         useState(false);
@@ -99,7 +102,6 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
             ) : (
                 <Linje />
             )}
-
             <SideValideringProvider
                 setHarValideringsfeil={setLastOppVedleggHarFeil}
                 visValideringsfeil={visLastOppVedleggFeil}

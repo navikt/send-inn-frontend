@@ -8,6 +8,7 @@ import { useDebounce } from 'use-debounce';
 import getConfig from 'next/config';
 import axios, { AxiosResponse } from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
+import { LagringsProsessContext } from './LagringsProsessProvider';
 
 const { publicRuntimeConfig } = getConfig();
 interface VedleggRadioProp {
@@ -50,11 +51,10 @@ function VedleggRadio({
         500,
     );
 
-    const {
-        soknad,
-        nyLagringsProsess,
-        oppdaterLokalOpplastingStatus,
-    } = useContext(VedleggslisteContext);
+    const { soknad, oppdaterLokalOpplastingStatus } = useContext(
+        VedleggslisteContext,
+    );
+    const { nyLagringsProsess } = useContext(LagringsProsessContext);
 
     useEffect(() => {
         if (

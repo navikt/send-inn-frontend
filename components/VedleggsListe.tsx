@@ -6,7 +6,6 @@ import React, {
 } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import {
     VedleggType,
@@ -83,9 +82,6 @@ interface VedleggslisteContextType {
     ) => void;
     leggTilVedlegg: (vedlegg: ExtendedVedleggType) => void;
     slettAnnetVedlegg: (vedleggId: number) => void;
-    lagrer: boolean;
-    ventPaaLagring: () => Promise<void>;
-    nyLagringsProsess: <T>(promise: Promise<T>) => void;
 }
 
 export const VedleggslisteContext =
@@ -118,54 +114,6 @@ function VedleggsListe({
     const [visKvittering, setVisKvittering] = useState(false);
     const [soknadsInnsendingsRespons, setSoknadsInnsendingsRespons] =
         useState(null);
-
-    const [aktiveLagringsProsesser, setAktiveLagringsProsesser] =
-        useState<string[]>([]);
-    const aktiveLagringsProsesserRef = useRef<string[]>([]);
-
-    const leggTilLagringsProsess = useCallback(
-        (nyOppdateringId: string) => {
-            setAktiveLagringsProsesser((o) => {
-                const nyListe = [...o, nyOppdateringId];
-                aktiveLagringsProsesserRef.current = nyListe;
-                return nyListe;
-            });
-        },
-        [],
-    );
-    const fjernLagringsProsess = useCallback(
-        (oppdateringId: string) => {
-            setAktiveLagringsProsesser((o) => {
-                const nyListe = o.filter(
-                    (id) => id !== oppdateringId,
-                );
-                aktiveLagringsProsesserRef.current = nyListe;
-                return nyListe;
-            });
-        },
-        [],
-    );
-
-    const nyLagringsProsess = useCallback(
-        <T,>(promise: Promise<T>) => {
-            const oppdateringId = uuidv4();
-            leggTilLagringsProsess(oppdateringId);
-
-            promise.finally(() => {
-                fjernLagringsProsess(oppdateringId);
-            });
-        },
-        [leggTilLagringsProsess, fjernLagringsProsess],
-    );
-
-    const ventPaaLagring = async () => {
-        while (aktiveLagringsProsesserRef.current.length) {
-            await new Promise((resolve) => setTimeout(resolve, 10));
-        }
-        return;
-    };
-
-    const lagrer = aktiveLagringsProsesser.length !== 0;
 
     const { visningsType, kanLasteOppAnnet } = soknad;
 
@@ -312,9 +260,6 @@ function VedleggsListe({
                 oppdaterLokalOpplastingStatus,
                 leggTilVedlegg,
                 slettAnnetVedlegg,
-                ventPaaLagring,
-                nyLagringsProsess,
-                lagrer,
             }}
         >
             <SoknadModalProvider isLoading={isLoading}>
