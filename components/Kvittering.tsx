@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
     Alert,
     Heading,
@@ -12,6 +12,8 @@ import getConfig from 'next/config';
 import { useTranslation } from 'react-i18next';
 import { Bold } from './textStyle';
 import { formatertDato } from '../utils/dato';
+import { KvitteringsTillegg } from './skjemaSpesifikt/KvitteringsTillegg';
+import { VedleggslisteContext } from './VedleggsListe';
 
 const { publicRuntimeConfig } = getConfig();
 export interface KvitteringsProps {
@@ -55,6 +57,8 @@ const StyledAlert = styled(Alert)`
 
 export function Kvittering({ kvprops }: KvitteringsProps) {
     const { t } = useTranslation();
+
+    const { soknad } = useContext(VedleggslisteContext);
 
     return (
         <div>
@@ -215,6 +219,7 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
             >
                 {t('kvittering.minSideKnapp')}
             </Button>
+            <KvitteringsTillegg skjemanr={soknad.skjemanr} />
         </div>
     );
 }
