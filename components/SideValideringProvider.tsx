@@ -133,7 +133,6 @@ export const SideValideringProvider = ({
         },
         [],
     );
-    console.log({ valideringer });
     return (
         <ValideringsContext.Provider
             value={{

@@ -14,6 +14,7 @@ import { ModalContext } from './SoknadModalProvider';
 import { erDatoIAvviksPeriode } from '../utils/midlertidigAvviksPeriode';
 import { Linje } from './common/Linje';
 import { useErrorMessage } from '../hooks/useErrorMessage';
+import { LagringsProsessContext } from './LagringsProsessProvider';
 
 const FristForOpplastingInfo = styled(Alert)`
     border: 0;
@@ -48,6 +49,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
         openSendInnUferdigSoknadModal,
         openSlettSoknadModal,
     } = useContext(ModalContext);
+    const { ventPaaLagring } = useContext(LagringsProsessContext);
 
     const [lastOppVedleggHarFeil, setLastOppVedleggHarFeil] =
         useState(false);
@@ -57,6 +59,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
         lastOppVedleggValideringfokus,
         setLastOppVedleggValideringfokus,
     ] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const { customErrorMessage } = useErrorMessage();
 
     return (
@@ -99,7 +102,6 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
             ) : (
                 <Linje />
             )}
-
             <SideValideringProvider
                 setHarValideringsfeil={setLastOppVedleggHarFeil}
                 visValideringsfeil={visLastOppVedleggFeil}
@@ -149,22 +151,36 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
 
             <ButtonContainer>
                 <Button
+                    loading={isLoading}
                     onClick={() => {
                         if (lastOppVedleggHarFeil) {
                             setLastOppVedleggValideringfokus(true);
                             setVisLastOppVedleggFeil(true);
                             return;
                         }
-                        if (soknadKlar) {
-                            openSendInnKomplettSoknadModal();
-                        } else if (soknadDelvisKlar) {
-                            openSendInnUferdigSoknadModal();
-                        } else {
-                            customErrorMessage(
-                                t('feil.manglerHovedskjema'),
-                            );
-                        }
+                        setIsLoading(true);
+                        ventPaaLagring()
+                            .then(() => {
+                                if (soknadKlar) {
+                                    openSendInnKomplettSoknadModal();
+                                } else if (soknadDelvisKlar) {
+                                    openSendInnUferdigSoknadModal();
+                                } else {
+                                    customErrorMessage(
+                                        t('feil.manglerHovedskjema'),
+                                    );
+                                }
+                            })
+                            .catch(() =>
+                                console.error(
+                                    'Feil oppsto ved lagring, så kan ikke starte innsending',
+                                ),
+                            )
+                            .finally(() => {
+                                setIsLoading(false);
+                            });
                     }}
+                    id="sendTilNAVKnapp"
                     data-cy="sendTilNAVKnapp"
                 >
                     {t('soknad.knapper.sendInn')}

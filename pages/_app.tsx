@@ -9,6 +9,7 @@ import fetchJson from '../utils/fetchJson';
 import { AuthenticationProvider } from '../components/AuthenticationProvider';
 import { ErrorMessageProvider } from '../components/ErrorMessageProvider';
 import App from 'next/app';
+import { LagringsProsessProvider } from '../components/LagringsProsessProvider';
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
@@ -24,7 +25,9 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <I18nextProvider i18n={i18n}>
                     <ErrorMessageProvider>
                         <AuthenticationProvider>
-                            <Component {...pageProps} />
+                            <LagringsProsessProvider>
+                                <Component {...pageProps} />
+                            </LagringsProsessProvider>
                         </AuthenticationProvider>
                     </ErrorMessageProvider>
                 </I18nextProvider>

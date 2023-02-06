@@ -1,13 +1,23 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { RadioGroup, Radio } from '@navikt/ds-react';
-import { VedleggType } from '../types/types';
+import { OpplastingsStatus, VedleggType } from '../types/types';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { VedleggslisteContext } from './VedleggsListe';
+import { useDebounce } from 'use-debounce';
+import getConfig from 'next/config';
+import axios, { AxiosResponse } from 'axios';
+import { useErrorMessage } from '../hooks/useErrorMessage';
+import { LagringsProsessContext } from './LagringsProsessProvider';
 
+const { publicRuntimeConfig } = getConfig();
 interface VedleggRadioProp {
     id: number;
     vedlegg: VedleggType;
+    valgtOpplastingStatus: OpplastingsStatus;
+    setValgtOpplastingStatus: React.Dispatch<
+        React.SetStateAction<OpplastingsStatus>
+    >;
 }
 
 const SrOnly = styled.span`
@@ -26,13 +36,73 @@ const StyledRadioGroup = styled(RadioGroup)`
     }
 `;
 
-function VedleggRadio({ id, vedlegg }: VedleggRadioProp) {
+function VedleggRadio({
+    id,
+    vedlegg,
+    valgtOpplastingStatus,
+    setValgtOpplastingStatus,
+}: VedleggRadioProp) {
     const { t } = useTranslation();
+    const { showError } = useErrorMessage();
+    const controller = useRef(new AbortController());
 
-    const { setOpplastingStatus } = useContext(VedleggslisteContext);
+    const [debouncedLokalOpplastingsStatus] = useDebounce(
+        valgtOpplastingStatus,
+        500,
+    );
+
+    const { soknad, oppdaterLokalOpplastingStatus } = useContext(
+        VedleggslisteContext,
+    );
+    const { nyLagringsProsess } = useContext(LagringsProsessContext);
+
+    useEffect(() => {
+        if (
+            debouncedLokalOpplastingsStatus ===
+            vedlegg.opplastingsStatus
+        )
+            return;
+
+        controller.current.abort();
+        const newController = new AbortController();
+        controller.current = newController;
+        nyLagringsProsess(
+            axios.patch(
+                `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${id}`,
+                {
+                    opplastingsStatus:
+                        debouncedLokalOpplastingsStatus,
+                },
+                { timeout: 10000, signal: controller.current.signal },
+            ),
+        )
+            .then((response: AxiosResponse<VedleggType>) => {
+                oppdaterLokalOpplastingStatus(
+                    id,
+                    response.data.opplastingsStatus,
+                );
+            })
+            .catch((error) => {
+                if (axios.isCancel(error)) {
+                    // avbrutt
+                    return;
+                }
+                setValgtOpplastingStatus(vedlegg.opplastingsStatus);
+                showError(error);
+            });
+    }, [
+        id,
+        debouncedLokalOpplastingsStatus,
+        vedlegg.opplastingsStatus,
+        setValgtOpplastingStatus,
+        nyLagringsProsess,
+        oppdaterLokalOpplastingStatus,
+        soknad.innsendingsId,
+        showError,
+    ]);
 
     function handleChange(val) {
-        setOpplastingStatus(id, val);
+        setValgtOpplastingStatus(val);
     }
 
     return (
@@ -48,19 +118,17 @@ function VedleggRadio({ id, vedlegg }: VedleggRadioProp) {
                 }
                 size="medium"
                 onChange={(val: string) => handleChange(val)}
-                value={vedlegg.opplastingsStatus}
+                value={valgtOpplastingStatus}
             >
-                {
-                    vedlegg.opplastingsStatus !== 'LastetOpp' && (
-                        <Radio
-                            value="IkkeValgt"
-                            data-cy="lasterOppNaaRadio"
-                        >
-                            {t('soknad.vedlegg.radio.lasterOppNaa')}
-                        </Radio>
-                    ) // jeg tror dette løser problemet med å vise disse i to situasjoner, både når noe er lastet opp og når noe ikke er lastet opp
-                }
-                {vedlegg.opplastingsStatus === 'LastetOpp' && (
+                {valgtOpplastingStatus !== 'LastetOpp' && (
+                    <Radio
+                        value="IkkeValgt"
+                        data-cy="lasterOppNaaRadio"
+                    >
+                        {t('soknad.vedlegg.radio.lasterOppNaa')}
+                    </Radio>
+                )}
+                {valgtOpplastingStatus === 'LastetOpp' && (
                     <Radio
                         value="LastetOpp"
                         data-cy="lasterOppNaaRadio"

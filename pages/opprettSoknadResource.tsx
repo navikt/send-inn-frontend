@@ -19,7 +19,6 @@ const OpprettSoknadResource: NextPage = () => {
             // query is empty before hydration
             return;
         }
-        console.log({ query });
         const { vedleggsIder } = query;
 
         const opprettSoknadEndpoint = '/frontend/v1/soknad';
@@ -37,7 +36,6 @@ const OpprettSoknadResource: NextPage = () => {
                 vedleggsListe: (vedleggsIder as string)?.split(','),
             })
             .then((response) => {
-                console.log({ response: response.data });
                 setInnsendingsId(response.data.innsendingsId);
             })
             .catch((error: AxiosError) => {

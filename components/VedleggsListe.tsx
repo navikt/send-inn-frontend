@@ -1,4 +1,9 @@
-import React, { createContext, useMemo, useRef } from 'react';
+import React, {
+    createContext,
+    useCallback,
+    useMemo,
+    useRef,
+} from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
@@ -71,7 +76,6 @@ interface VedleggslisteContextType {
     soknadDelvisKlar: boolean;
     onSendInn: () => Promise<void>;
     slettSoknad: () => void;
-    setOpplastingStatus: (id: number, status: string) => void;
     oppdaterLokalOpplastingStatus: (
         id: number,
         opplastingsStatus: string,
@@ -202,44 +206,21 @@ function VedleggsListe({
                     visningsSteg: nyttVisningsSteg,
                 },
             )
-            .then((response) => {
-                console.log(response);
-            })
             .catch((error) => {
                 showError(error);
             });
     };
 
-    function setOpplastingStatus(id: number, status: string): void {
-        axios
-            .patch(
-                `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${id}`,
-                {
-                    opplastingsStatus: status,
-                },
-            )
-            .then((response) => {
-                setVedleggsListe((forrigeVedleggsliste) =>
-                    forrigeVedleggsliste.map((el) =>
-                        el.id === id ? { ...response.data } : el,
-                    ),
-                );
-            })
-            .catch((error) => {
-                showError(error);
-            });
-    }
-
-    const oppdaterLokalOpplastingStatus = (
-        id: number,
-        opplastingsStatus: OpplastingsStatus,
-    ) => {
-        setVedleggsListe((forrigeVedleggsliste) =>
-            forrigeVedleggsliste.map((el) =>
-                el.id === id ? { ...el, opplastingsStatus } : el,
-            ),
-        );
-    };
+    const oppdaterLokalOpplastingStatus = useCallback(
+        (id: number, opplastingsStatus: OpplastingsStatus) => {
+            setVedleggsListe((forrigeVedleggsliste) =>
+                forrigeVedleggsliste.map((el) =>
+                    el.id === id ? { ...el, opplastingsStatus } : el,
+                ),
+            );
+        },
+        [setVedleggsListe],
+    );
 
     const leggTilVedlegg = (vedlegg: ExtendedVedleggType) => {
         setVedleggsListe((forrigeVedleggsliste) => [
@@ -276,7 +257,6 @@ function VedleggsListe({
                 soknadDelvisKlar,
                 onSendInn,
                 slettSoknad,
-                setOpplastingStatus,
                 oppdaterLokalOpplastingStatus,
                 leggTilVedlegg,
                 slettAnnetVedlegg,
