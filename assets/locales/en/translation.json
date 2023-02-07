@@ -89,7 +89,7 @@
             "avbryt": "Cancel",
             "slett": "Delete form"
         },
-        "beskjedOmAvvik": "Unfortunately, we have had a technical error which meant that it was not possible to submit attachments to applications that were created between 12 December at 16:50 and 14 December at 10:40.\nIf there is no button to upload attachments below, please delete this application and fill out a new application.\nIf it is possible to upload attachments to the application below, you can upload the attachments and submit the application.\nWe apologize for the inconvenience this causes."
+        "beskjedOmAvvik": "Have you experienced problems submitting attachments? Please upload the attachment again and press Submit."
     },
     "filvelger": {
         "defaultText": "Select your files"
