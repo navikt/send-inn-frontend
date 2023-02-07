@@ -63,6 +63,12 @@ function VedleggRadio({
         )
             return;
 
+        if (
+            debouncedLokalOpplastingsStatus === 'IkkeValgt' &&
+            vedlegg.opplastingsStatus === 'LastetOpp'
+        )
+            return;
+
         controller.current.abort();
         const newController = new AbortController();
         controller.current = newController;
