@@ -64,8 +64,8 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
 
     return (
         <>
-            {/* TODO: Alert kan fjernes i februar 2023  */}
-            {soknad.visningsType === 'fyllUt' &&
+            {/* TODO: Alert kan fjernes etter 4. april  */}
+            {soknad.visningsType === 'ettersending' &&
                 t('soknad.beskjedOmAvvik') &&
                 erDatoIAvviksPeriode(soknad.opprettetDato) && (
                     <Alert
