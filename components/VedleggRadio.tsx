@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { RadioGroup, Radio } from '@navikt/ds-react';
 import { OpplastingsStatus, VedleggType } from '../types/types';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { VedleggslisteContext } from './VedleggsListe';
-import { useDebounce } from 'use-debounce';
+import { useDebouncedCallback } from 'use-debounce';
 import getConfig from 'next/config';
 import axios, { AxiosResponse } from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
@@ -14,6 +14,7 @@ const { publicRuntimeConfig } = getConfig();
 interface VedleggRadioProp {
     id: number;
     vedlegg: VedleggType;
+    harOpplastetFil: boolean;
     valgtOpplastingStatus: OpplastingsStatus;
     setValgtOpplastingStatus: React.Dispatch<
         React.SetStateAction<OpplastingsStatus>
@@ -39,6 +40,7 @@ const StyledRadioGroup = styled(RadioGroup)`
 function VedleggRadio({
     id,
     vedlegg,
+    harOpplastetFil,
     valgtOpplastingStatus,
     setValgtOpplastingStatus,
 }: VedleggRadioProp) {
@@ -46,70 +48,60 @@ function VedleggRadio({
     const { showError } = useErrorMessage();
     const controller = useRef(new AbortController());
 
-    const [debouncedLokalOpplastingsStatus] = useDebounce(
-        valgtOpplastingStatus,
-        500,
-    );
-
     const { soknad, oppdaterLokalOpplastingStatus } = useContext(
         VedleggslisteContext,
     );
     const { nyLagringsProsess } = useContext(LagringsProsessContext);
 
-    useEffect(() => {
-        if (
-            debouncedLokalOpplastingsStatus ===
-            vedlegg.opplastingsStatus
-        )
-            return;
+    const debounced = useDebouncedCallback(
+        (debouncedLokalOpplastingsStatus) => {
+            if (
+                debouncedLokalOpplastingsStatus ===
+                vedlegg.opplastingsStatus
+            )
+                return;
 
-        if (
-            debouncedLokalOpplastingsStatus === 'IkkeValgt' &&
-            vedlegg.opplastingsStatus === 'LastetOpp'
-        )
-            return;
+            nyLagringsProsess(
+                axios.patch(
+                    `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${id}`,
+                    {
+                        opplastingsStatus:
+                            debouncedLokalOpplastingsStatus,
+                    },
+                    {
+                        timeout: 10000,
+                        signal: controller.current.signal,
+                    },
+                ),
+            )
+                .then((response: AxiosResponse<VedleggType>) => {
+                    oppdaterLokalOpplastingStatus(
+                        id,
+                        response.data.opplastingsStatus,
+                    );
+                })
+                .catch((error) => {
+                    if (axios.isCancel(error)) {
+                        // avbrutt
+                        return;
+                    }
+                    setValgtOpplastingStatus(
+                        vedlegg.opplastingsStatus,
+                    );
+                    showError(error);
+                });
+        },
+        500,
+        { leading: true },
+    );
 
+    const handleChange = (val) => {
         controller.current.abort();
         const newController = new AbortController();
         controller.current = newController;
-        nyLagringsProsess(
-            axios.patch(
-                `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${id}`,
-                {
-                    opplastingsStatus:
-                        debouncedLokalOpplastingsStatus,
-                },
-                { timeout: 10000, signal: controller.current.signal },
-            ),
-        )
-            .then((response: AxiosResponse<VedleggType>) => {
-                oppdaterLokalOpplastingStatus(
-                    id,
-                    response.data.opplastingsStatus,
-                );
-            })
-            .catch((error) => {
-                if (axios.isCancel(error)) {
-                    // avbrutt
-                    return;
-                }
-                setValgtOpplastingStatus(vedlegg.opplastingsStatus);
-                showError(error);
-            });
-    }, [
-        id,
-        debouncedLokalOpplastingsStatus,
-        vedlegg.opplastingsStatus,
-        setValgtOpplastingStatus,
-        nyLagringsProsess,
-        oppdaterLokalOpplastingStatus,
-        soknad.innsendingsId,
-        showError,
-    ]);
-
-    function handleChange(val) {
+        debounced(val);
         setValgtOpplastingStatus(val);
-    }
+    };
 
     return (
         <>
@@ -124,9 +116,15 @@ function VedleggRadio({
                 }
                 size="medium"
                 onChange={(val: string) => handleChange(val)}
+                onBlur={(e) => {
+                    if (!e.currentTarget.contains(e.relatedTarget)) {
+                        // Trigger når radioGroup mister fokus
+                        debounced.flush();
+                    }
+                }}
                 value={valgtOpplastingStatus}
             >
-                {valgtOpplastingStatus !== 'LastetOpp' && (
+                {!harOpplastetFil && (
                     <Radio
                         value="IkkeValgt"
                         data-cy="lasterOppNaaRadio"
@@ -134,7 +132,7 @@ function VedleggRadio({
                         {t('soknad.vedlegg.radio.lasterOppNaa')}
                     </Radio>
                 )}
-                {valgtOpplastingStatus === 'LastetOpp' && (
+                {harOpplastetFil && (
                     <Radio
                         value="LastetOpp"
                         data-cy="lasterOppNaaRadio"

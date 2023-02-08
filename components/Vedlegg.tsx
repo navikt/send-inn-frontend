@@ -157,6 +157,7 @@ const List = styled.ul`
 
 function Vedlegg(props: VedleggProps) {
     const { innsendingsId, vedlegg } = props;
+    const { opplastingsStatus } = vedlegg;
 
     const { slettAnnetVedlegg } = useContext(VedleggslisteContext);
 
@@ -170,9 +171,20 @@ function Vedlegg(props: VedleggProps) {
     const [endrer, setEndrer] = useState(false);
     const [tittel, setTittel] = useState(vedlegg.label);
     const [valgtOpplastingStatus, setValgtOpplastingStatus] =
-        useState(vedlegg.opplastingsStatus);
+        useState(opplastingsStatus);
+    const [prevOpplastingStatus, setPrevOpplastingStatus] =
+        useState(opplastingsStatus);
     const [autoFocus, setAutoFocus] = useState(vedlegg.autoFocus);
     const { showError } = useErrorMessage();
+
+    if (opplastingsStatus !== prevOpplastingStatus) {
+        setPrevOpplastingStatus(opplastingsStatus);
+        if (valgtOpplastingStatus !== opplastingsStatus) {
+            setValgtOpplastingStatus(opplastingsStatus);
+        }
+    }
+
+    const harOpplastetFil = filListe.some((fil) => fil.opplastetFil);
 
     const erAnnetVedlegg =
         vedlegg.vedleggsnr?.toUpperCase() === 'N6' &&
@@ -284,7 +296,6 @@ function Vedlegg(props: VedleggProps) {
                                     {tittel}
                                 </Heading>
                             )}
-
                             {!vedlegg.erHoveddokument &&
                                 vedlegg.skjemaurl && (
                                     <Heading
@@ -344,6 +355,7 @@ function Vedlegg(props: VedleggProps) {
                                 <VedleggRadio
                                     id={vedlegg.id}
                                     vedlegg={vedlegg}
+                                    harOpplastetFil={harOpplastetFil}
                                     valgtOpplastingStatus={
                                         valgtOpplastingStatus
                                     }
