@@ -144,53 +144,42 @@ function VedleggRadio({
     };
 
     return (
-        <>
-            <StyledRadioGroup
-                legend={
-                    <>
-                        {t('soknad.vedlegg.radio.tittel')}
-                        <SrOnly>
-                            {t('for')} {vedlegg.label}
-                        </SrOnly>
-                    </>
+        <StyledRadioGroup
+            legend={
+                <>
+                    {t('soknad.vedlegg.radio.tittel')}
+                    <SrOnly>
+                        {t('for')} {vedlegg.label}
+                    </SrOnly>
+                </>
+            }
+            size="medium"
+            onChange={(val: string) => handleChange(val)}
+            onBlur={(e) => {
+                if (!e.currentTarget.contains(e.relatedTarget)) {
+                    // Trigger når radioGroup mister fokus
+                    debounced.flush();
                 }
-                size="medium"
-                onChange={(val: string) => handleChange(val)}
-                onBlur={(e) => {
-                    if (!e.currentTarget.contains(e.relatedTarget)) {
-                        // Trigger når radioGroup mister fokus
-                        debounced.flush();
-                    }
-                }}
-                value={valgtOpplastingStatus}
-            >
-                {!harOpplastetFil && (
-                    <Radio
-                        value="IkkeValgt"
-                        data-cy="lasterOppNaaRadio"
-                    >
-                        {t('soknad.vedlegg.radio.lasterOppNaa')}
-                    </Radio>
-                )}
-                {harOpplastetFil && (
-                    <Radio
-                        value="LastetOpp"
-                        data-cy="lasterOppNaaRadio"
-                    >
-                        {t('soknad.vedlegg.radio.lasterOppNaa')}
-                    </Radio>
-                )}
-                <Radio value="SendSenere" data-cy="sendSenereRadio">
-                    {t('soknad.vedlegg.radio.sendSenere')}
+            }}
+            value={valgtOpplastingStatus}
+        >
+            {!harOpplastetFil && (
+                <Radio value="IkkeValgt" data-cy="lasterOppNaaRadio">
+                    {t('soknad.vedlegg.radio.lasterOppNaa')}
                 </Radio>
-                <Radio
-                    value="SendesAvAndre"
-                    data-cy="sendesAvAndreRadio"
-                >
-                    {t('soknad.vedlegg.radio.sendesAvAndre')}
+            )}
+            {harOpplastetFil && (
+                <Radio value="LastetOpp" data-cy="lasterOppNaaRadio">
+                    {t('soknad.vedlegg.radio.lasterOppNaa')}
                 </Radio>
-            </StyledRadioGroup>
-        </>
+            )}
+            <Radio value="SendSenere" data-cy="sendSenereRadio">
+                {t('soknad.vedlegg.radio.sendSenere')}
+            </Radio>
+            <Radio value="SendesAvAndre" data-cy="sendesAvAndreRadio">
+                {t('soknad.vedlegg.radio.sendesAvAndre')}
+            </Radio>
+        </StyledRadioGroup>
     );
 }
 
