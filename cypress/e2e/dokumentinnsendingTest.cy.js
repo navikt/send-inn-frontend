@@ -24,10 +24,24 @@ describe('Tester dokumentinnsendingsløpet', () => {
 
         cy.get('[data-cy="filvelgerKnapp"]').should('have.length', 3);
 
+        cy.get('[data-cy="lasterOppNaaRadio"]')
+            .eq(0)
+            .should('be.checked')
+            .should('have.value', 'IkkeValgt');
+
         cy.get('[data-cy="filvelgerKnapp"]').eq(0).click();
         cy.get('[data-cy="filvelgerKnapp"]')
             .eq(0)
             .selectFile('cypress/fixtures/MarcusAurelius.jpeg');
+
+        cy.get('[data-cy="fileUploadSuccessIkon"]', {
+            timeout: 10000,
+        }).should('be.visible');
+
+        cy.get('[data-cy="lasterOppNaaRadio"]')
+            .eq(0)
+            .should('be.checked')
+            .should('have.value', 'LastetOpp');
 
         cy.get('[data-cy="sendSenereRadio"]', {
             timeout: 10000,
