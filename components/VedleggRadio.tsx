@@ -1,4 +1,10 @@
-import React, { useContext, useRef } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 import { RadioGroup, Radio } from '@navikt/ds-react';
 import { OpplastingsStatus, VedleggType } from '../types/types';
 import styled from 'styled-components';
@@ -48,25 +54,20 @@ function VedleggRadio({
     const { showError } = useErrorMessage();
     const controller = useRef(new AbortController());
 
+    const [harKjortFix, setHarKjortFix] = useState(false);
+
     const { soknad, oppdaterLokalOpplastingStatus } = useContext(
         VedleggslisteContext,
     );
     const { nyLagringsProsess } = useContext(LagringsProsessContext);
 
-    const debounced = useDebouncedCallback(
-        (debouncedLokalOpplastingsStatus) => {
-            if (
-                debouncedLokalOpplastingsStatus ===
-                vedlegg.opplastingsStatus
-            )
-                return;
-
+    const oppdaterOpplastingStatus = useCallback(
+        (nyOpplastingsStatus: OpplastingsStatus) => {
             nyLagringsProsess(
                 axios.patch(
                     `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${id}`,
                     {
-                        opplastingsStatus:
-                            debouncedLokalOpplastingsStatus,
+                        opplastingsStatus: nyOpplastingsStatus,
                     },
                     {
                         timeout: 10000,
@@ -91,9 +92,48 @@ function VedleggRadio({
                     showError(error);
                 });
         },
+        [
+            soknad.innsendingsId,
+            id,
+            vedlegg.opplastingsStatus,
+            setValgtOpplastingStatus,
+            nyLagringsProsess,
+            oppdaterLokalOpplastingStatus,
+            showError,
+        ],
+    );
+
+    const debounced = useDebouncedCallback(
+        (debouncedLokalOpplastingsStatus) => {
+            if (
+                debouncedLokalOpplastingsStatus ===
+                vedlegg.opplastingsStatus
+            )
+                return;
+
+            oppdaterOpplastingStatus(debouncedLokalOpplastingsStatus);
+        },
         500,
         { leading: true },
     );
+
+    // TODO: useEffect kan fjernes etter 4. april
+    // Fikser opp i problem som satt opplastingsStatus til IkkeValgt, etter opplasting av fil
+    useEffect(() => {
+        if (
+            !harKjortFix &&
+            vedlegg.opplastingsStatus === 'IkkeValgt' &&
+            harOpplastetFil
+        ) {
+            oppdaterOpplastingStatus('LastetOpp');
+            setHarKjortFix(true);
+        }
+    }, [
+        harKjortFix,
+        harOpplastetFil,
+        vedlegg.opplastingsStatus,
+        oppdaterOpplastingStatus,
+    ]);
 
     const handleChange = (val) => {
         controller.current.abort();
