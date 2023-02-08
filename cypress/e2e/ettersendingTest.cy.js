@@ -2,10 +2,9 @@
 
 describe('Tester ettersendingsløpet', () => {
     it('Går igjennom fra åpning av url som oppretter ettersending til kvitteringssiden', () => {
-        cy.viewport(2500, 1200);
         cy.get;
         cy.visit(
-            'http://localhost:3000/sendinn/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2',
+            '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2',
         );
         cy.get('[data-cy="filvelgerKnapp"]', {
             timeout: 10000,

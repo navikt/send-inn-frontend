@@ -150,6 +150,7 @@ export function OpprettAnnetVedlegg({
             )}
             {!visOpprett && (
                 <Button
+                    data-cy="opprettAnnetVedlegg"
                     onClick={() => setVisOpprett(true)}
                     variant="secondary"
                     icon={<Add />}
