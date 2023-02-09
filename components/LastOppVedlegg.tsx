@@ -11,7 +11,6 @@ import { ButtonContainer } from './common/ButtonContainer';
 import { OpprettAnnetVedlegg } from './OpprettAnnetVedlegg';
 import { formatertDato } from '../utils/dato';
 import { ModalContext } from './SoknadModalProvider';
-import { erDatoIAvviksPeriode } from '../utils/midlertidigAvviksPeriode';
 import { Linje } from './common/Linje';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { LagringsProsessContext } from './LagringsProsessProvider';
@@ -64,19 +63,6 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
 
     return (
         <>
-            {/* TODO: Alert kan fjernes etter 4. april  */}
-            {soknad.visningsType === 'ettersending' &&
-                t('soknad.beskjedOmAvvik') &&
-                erDatoIAvviksPeriode(soknad.opprettetDato) && (
-                    <Alert
-                        style={{ marginBottom: '2rem' }}
-                        variant="warning"
-                    >
-                        {t('soknad.beskjedOmAvvik')}
-                    </Alert>
-                )}
-            {/**/}
-
             <Heading level={'2'} size="large" spacing>
                 {t('soknad.visningsSteg.lastOppVedlegg.tittel')}
             </Heading>

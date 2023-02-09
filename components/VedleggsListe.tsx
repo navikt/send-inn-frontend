@@ -23,7 +23,6 @@ import LastOppVedlegg from './LastOppVedlegg';
 import { SoknadModalProvider } from './SoknadModalProvider';
 import { navigerTilMinSide } from '../utils/navigerTilMinSide';
 import { AutomatiskInnsending } from './AutomatiskInnsending';
-import { erDatoIAvviksPeriode } from '../utils/midlertidigAvviksPeriode';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -121,9 +120,6 @@ function VedleggsListe({
 
     const erFraFyllutUtenVedlegg =
         !visKvittering &&
-        //TODO: erDatoIAvviksPeriode kan fjernes i februar 2023
-        //Søknader i avviksperioden må gå til siden for LastOppVedlegg, selv om de ikke har vedlegg
-        !erDatoIAvviksPeriode(soknad.opprettetDato) &&
         visningsType === 'fyllUt' &&
         vedleggsliste.every((vedlegg) => vedlegg.erHoveddokument) &&
         !kanLasteOppAnnet;
