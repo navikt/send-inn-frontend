@@ -157,7 +157,14 @@
     },
     "feilside": {
         "404": {
-            "overskrift": ""
+            "tittel": "Vi fant ikke den siden",
+            "overskrift": "Vi fant ikke den siden",
+            "p1": "Beklager, siden kan være slettet eller flyttet, eller det var en feil i lenken som førte deg hit.",
+            "p2": "Vi setter pris på om du melder fra om feilen via lenken nedenfor.",
+            "lenkeTekst": {
+                "forside": "Gå til forsiden på nav.no",
+                "meldFra": "Meld fra om denne feilen"
+            }
         },
         "500": {},
         "soknadSendtInn": {

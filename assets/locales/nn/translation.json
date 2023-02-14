@@ -157,7 +157,14 @@
     },
     "feilside": {
         "404": {
-            "overskrift": ""
+            "tittel": "Me fann ikkje den sida",
+            "overskrift": "Me fann ikkje den sida",
+            "p1": "Beklagar, sida kan vera sletta eller flytta, eller det var ein feil i lenkja som førte deg hit.",
+            "p2": "Me set pris på om du melder frå om feilen via lenkja nedanfor.",
+            "lenkeTekst": {
+                "forside": "Gå til framsida på nav.no",
+                "meldFra": "Meld frå om denne feilen"
+            }
         },
         "500": {},
         "soknadSendtInn": {
