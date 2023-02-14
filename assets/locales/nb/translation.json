@@ -166,7 +166,16 @@
                 "meldFra": "Meld fra om denne feilen"
             }
         },
-        "500": {},
+        "500": {
+            "tittel": "Oops, noe gikk galt",
+            "overskrift": "Oops, noe gikk galt",
+            "p1": "Siden eller tjenesten er for tiden utilgjengelig på grunn av teknisk feil.",
+            "p2": "Vi beklager dette. Prøv igjen senere.",
+            "lenkeTekst": {
+                "forside": "Gå til forsiden på nav.no",
+                "meldFra": "Meld fra om denne feilen"
+            }
+        },
         "soknadSendtInn": {
             "tittel": "Feilside: Søknad er sendt inn",
             "overskrift": "Du har forsøkt å gå tilbake til en søknad som allerede er sendt til NAV",

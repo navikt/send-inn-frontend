@@ -166,7 +166,16 @@
                 "meldFra": "Meld frå om denne feilen"
             }
         },
-        "500": {},
+        "500": {
+            "tittel": "Oops, noko gjekk gale",
+            "overskrift": "Oops, noko gjekk gale",
+            "p1": "Sida eller tenesta er for tida utilgjengeleg på grunn av teknisk feil.",
+            "p2": "Me beklagar dette. Prøv igjen seinare.",
+            "lenkeTekst": {
+                "forside": "Gå til framsida på nav.no",
+                "meldFra": "Meld frå om denne feilen"
+            }
+        },
         "soknadSendtInn": {
             "tittel": "Feilside: Søknad er sendt inn",
             "overskrift": "Du har prøvd å gå tilbake til ein søknad som allereie er send til NAV",

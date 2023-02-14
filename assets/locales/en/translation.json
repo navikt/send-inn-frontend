@@ -168,7 +168,16 @@
                 "meldFra": "Report this error"
             }
         },
-        "500": {},
+        "500": {
+            "tittel": "Oops, something went wrong",
+            "overskrift": "Oops, something went wrong",
+            "p1": "The page or service is currently unavailable due to a technical error.",
+            "p2": "We apologize. Try again later.",
+            "lenkeTekst": {
+                "forside": "Return to nav.no front page",
+                "meldFra": "Report this error"
+            }
+        },
         "soknadSendtInn": {
             "tittel": "Error page: Application already submitted",
             "overskrift": "You have tried to reopen an application that has already been sent to NAV",
