@@ -157,5 +157,21 @@
         "advarselBrukerBekreftelse": "OK",
         "manglerHovedskjema": "You must upload the completed form. Go back to the previous step"
     },
+    "feilside": {
+        "404": {
+            "overskrift": ""
+        },
+        "500": {},
+        "soknadSendtInn": {
+            "tittel": "Error page: Application already submitted",
+            "overskrift": "You have tried to reopen an application that has already been sent to NAV",
+            "melding": "If you want to submit additional documentation to this application, it must be submitted on paper.",
+            "lenkeTekst": {
+                "minSide": "You will find the application you previously submitted on my page on nav.no (Norwegian)",
+                "ettersende": "Forward documentation"
+            }
+        }
+    },
+    "statuskode": "Status code",
     "for": "for"
 }

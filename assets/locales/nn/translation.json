@@ -155,5 +155,21 @@
         "advarselBrukerBekreftelse": "OK",
         "manglerHovedskjema": "Du må lasta opp ferdig utfylt skjema. Gå tilbake til forrige steg"
     },
+    "feilside": {
+        "404": {
+            "overskrift": ""
+        },
+        "500": {},
+        "soknadSendtInn": {
+            "tittel": "Feilside: Søknad er sendt inn",
+            "overskrift": "Du har prøvd å gå tilbake til ein søknad som allereie er send til NAV",
+            "melding": "Viss du skal ettersende dokumentasjon til denne søknaden må det sendast inn på papir.",
+            "lenkeTekst": {
+                "minSide": "Du finn søknaden du sendte inn på Mi side på(bokmål)",
+                "ettersende": "Gå til ettersending"
+            }
+        },
+        "statuskode": "Statuskode"
+    },
     "for": "for"
 }

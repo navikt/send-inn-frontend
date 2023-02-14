@@ -4,7 +4,10 @@ import {
     Detail,
     Heading,
     GuidePanel,
+    Link as NavLink,
 } from '@navikt/ds-react';
+import { useTranslation } from 'react-i18next';
+import Head from 'next/head';
 
 const { NEXT_PUBLIC_MIN_SIDE_URL } = process.env;
 
@@ -25,83 +28,60 @@ const HorizontalLinksFlexbox = styled.div`
     margin-bottom: 3rem;
 `;
 
-export default function soknadSendtSlettetErrorpage() {
+export default function SoknadSendtInn() {
+    const { t } = useTranslation();
+
+    const sprakListe = ['nb', 'nn', 'en'];
     return (
         <Style>
+            <Head>
+                <title>{t('feilside.soknadSendtInn.tittel')}</title>
+            </Head>
             <GuidePanel poster="true">
-                <div>
-                    <Heading level="1" size="medium" spacing>
-                        Du har forsøkt å gå tilbake til en søknad som
-                        allerede er sendt til NAV
-                    </Heading>
-                    <BodyShort spacing>
-                        Hvis du skal ettersende dokumentasjon til
-                        denne søknaden må det sendes inn på papir.
-                    </BodyShort>
-                    <HorizontalLinksFlexbox>
+                {sprakListe.map((sprak) => (
+                    <div key={sprak}>
+                        <Heading level="1" size="medium" spacing>
+                            {t('feilside.soknadSendtInn.overskrift', {
+                                lng: sprak,
+                            })}
+                        </Heading>
                         <BodyShort spacing>
-                            <a href={NEXT_PUBLIC_MIN_SIDE_URL}>
-                                Du finner søknaden du sendte inn på
-                                Min side på nav.no
-                            </a>
+                            {t('feilside.soknadSendtInn.melding', {
+                                lng: sprak,
+                            })}
                         </BodyShort>
-                        <BodyShort spacing>
-                            <a href="https://www.nav.no/soknader/nb/ettersendelse/person">
-                                Gå til ettersendelse
-                            </a>
-                        </BodyShort>
-                    </HorizontalLinksFlexbox>
-                </div>
-                <div>
-                    <Heading level="1" size="medium" spacing>
-                        Du har prøvd å gå tilbake til ein søknad som
-                        allereie er send til NAV
-                    </Heading>
-                    <BodyShort spacing>
-                        Viss du skal ettersende dokumentasjon til
-                        denne søknaden må det sendast inn på papir.
-                    </BodyShort>
-                    <HorizontalLinksFlexbox>
-                        <BodyShort spacing>
-                            <a href={NEXT_PUBLIC_MIN_SIDE_URL}>
-                                Du finn søknaden du sendte inn på Mi
-                                side på(bokmål)
-                            </a>
-                        </BodyShort>
-                        <BodyShort spacing>
-                            <a href="https://www.nav.no/soknader/nn/ettersendelse/person">
-                                Gå til ettersending
-                            </a>
-                        </BodyShort>
-                    </HorizontalLinksFlexbox>
-                </div>
-                <div>
-                    <Heading level="1" size="medium" spacing>
-                        You have tried to reopen an application that
-                        has already been sent to NAV
-                    </Heading>
-                    <BodyShort spacing>
-                        If you want to submit additional documentation
-                        to this application, it must be submitted on
-                        paper.
-                    </BodyShort>
-                    <HorizontalLinksFlexbox>
-                        <BodyShort spacing>
-                            <a href={NEXT_PUBLIC_MIN_SIDE_URL}>
-                                You will find the application you
-                                previously submitted on my page on
-                                nav.no (Norwegian)
-                            </a>
-                        </BodyShort>
-                        <BodyShort spacing>
-                            <a href="https://www.nav.no/soknader/en/ettersendelse/person">
-                                Forward documentation
-                            </a>
-                        </BodyShort>
-                    </HorizontalLinksFlexbox>
-                </div>
+                        <HorizontalLinksFlexbox>
+                            <BodyShort spacing>
+                                <NavLink
+                                    href={NEXT_PUBLIC_MIN_SIDE_URL}
+                                >
+                                    {t(
+                                        'feilside.soknadSendtInn.lenkeTekst.minSide',
+                                        {
+                                            lng: sprak,
+                                        },
+                                    )}
+                                </NavLink>
+                            </BodyShort>
+                            <BodyShort spacing>
+                                <NavLink
+                                    href={`https://www.nav.no/soknader${sprak}ettersendelse/person`}
+                                >
+                                    {t(
+                                        'feilside.soknadSendtInn.lenkeTekst.ettersende',
+                                        {
+                                            lng: sprak,
+                                        },
+                                    )}
+                                </NavLink>
+                            </BodyShort>
+                        </HorizontalLinksFlexbox>
+                    </div>
+                ))}
 
-                <Detail spacing>Statuskode 405</Detail>
+                <Detail spacing>
+                    {t('feilside.statuskode')} 405
+                </Detail>
             </GuidePanel>
         </Style>
     );
