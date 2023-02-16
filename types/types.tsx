@@ -27,7 +27,7 @@ export type VedleggType = {
 };
 
 export type OpplastetFil = {
-    id: string;
+    id: number;
     filnavn: string;
     storrelse: number;
 };
@@ -58,9 +58,18 @@ export type SoknadType = {
     kanLasteOppAnnet: boolean;
 };
 
+type errorCodesWithHandling =
+    | 'errorCode.illegalAction.applicationSentInOrDeleted'
+    | 'errorCode.illegalAction.fileCannotBeRead'
+    | 'errorCode.illegalAction.sendInErrorNoApplication'
+    | 'errorCode.illegalAction.sendInErrorNoChange'
+    | 'errorCode.illegalAction.notSupportedFileFormat'
+    | 'errorCode.illegalAction.fileSizeSumTooLarge'
+    | 'errorCode.illegalAction.vedleggFileSizeSumTooLarge';
+
 export type ErrorResponsDto = {
     arsak: string;
-    errorCode: string;
+    errorCode: errorCodesWithHandling;
     message: string;
     timeStamp: string;
 };
