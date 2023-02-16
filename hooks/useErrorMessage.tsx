@@ -13,7 +13,11 @@ export const useErrorMessage = () => {
         (error: AxiosError<ErrorResponsDto>) => {
             if (error.response) {
                 // Feil fra server (4xx eller 5xx)
-                if (i18n.exists(error.response.data?.errorCode)) {
+                if (
+                    i18n.exists(error.response.data?.errorCode, {
+                        ns: 'backend',
+                    })
+                ) {
                     return tB(error.response.data?.errorCode);
                 }
                 return t('feil.fraBackend');
