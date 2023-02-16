@@ -27,6 +27,10 @@ import { VedleggslisteContext } from './VedleggsListe';
 const { publicRuntimeConfig } = getConfig();
 
 const API_URL = publicRuntimeConfig.apiUrl;
+const MAX_FILE_SIZE_IN_MB = parseInt(
+    process.env.NEXT_PUBLIC_MAX_FILE_SIZE_IN_MB,
+);
+const MAX_FILE_SIZE = MAX_FILE_SIZE_IN_MB * 1024 * 1024;
 
 export const FilePanel = styled(Panel)`
     border-width: 2px;
@@ -164,6 +168,18 @@ export interface FilActionType {
     type: typeof FIL_ACTIONS[keyof typeof FIL_ACTIONS];
     filState?: FilState;
 }
+
+const filValidering = (
+    fil: File,
+): { harFeil: boolean; melding?: 'filForStor' | 'filIkkeValgt' } => {
+    if (!fil) {
+        return { harFeil: true, melding: 'filIkkeValgt' };
+    }
+    if (fil.size > MAX_FILE_SIZE) {
+        return { harFeil: true, melding: 'filForStor' };
+    }
+    return { harFeil: false };
+};
 
 const filStorrelseVisning = (bytes: number): string => {
     const enheter = ['B', 'KB', 'MB', 'GB', 'TB'];
@@ -333,6 +349,17 @@ export function Fil({
         }
         if (status !== FIL_STATUS.STARTER_OPPLASTNING) return;
 
+        const { harFeil, melding } = filValidering(
+            filState.filData?.lokalFil,
+        );
+        if (harFeil) {
+            dispatch({
+                type: FIL_ACTIONS.FEIL,
+            });
+            setFeilmelding(t(`feil.${melding}`));
+            return;
+        }
+
         const formData = new FormData();
         formData.append('file', filState.filData?.lokalFil);
         const config = {
@@ -398,6 +425,9 @@ export function Fil({
                     type: FIL_ACTIONS.FEIL,
                 });
                 const { errorCode } = error?.response?.data || {};
+                if (error.response?.status === 413) {
+                    return setFeilmelding(t('feil.filForStor'));
+                }
                 if (
                     errorCode ===
                         'errorCode.illegalAction.notSupportedFileFormat' ||

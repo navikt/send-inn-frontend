@@ -155,7 +155,9 @@
         "ukjent": "We are experiencing technical difficulties. We appologize for the inconvenience. Please try again later. If the problem persists, you can get help from NAV Service Centre at (+47) 55 55 33 33 or at your local NAV office.",
         "advarselOverskrift": "An error has occured",
         "advarselBrukerBekreftelse": "OK",
-        "manglerHovedskjema": "You must upload the completed form. Go back to the previous step"
+        "manglerHovedskjema": "You must upload the completed form. Go back to the previous step",
+        "filForStor": "The size of the selected file exceeds the maximum size limit. The maximum size allowed is 50MB.",
+        "filIkkeValgt": "An error occurred during file selection, please retry"
     },
     "for": "for"
 }

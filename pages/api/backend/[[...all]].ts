@@ -117,7 +117,9 @@ export default async function handler(
                         });
                     }
                 });
-
+                for (const key in error.response.headers) {
+                    res.setHeader(key, error.response.headers[key]);
+                }
                 res.status(error.response.status);
                 return error.response.data.pipe(res);
             } else if (error.request) {
