@@ -6,18 +6,15 @@ describe('Tester ettersendingsløpet', () => {
         cy.visit(
             '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2',
         );
-        cy.get('[data-cy="filvelgerKnapp"]', {
-            timeout: 10000,
-        }).should('be.visible');
 
         cy.get('[data-cy="filvelgerKnapp"]').should('have.length', 3);
-
         cy.get('[data-cy="filvelgerKnapp"]', {
             timeout: 10000,
         })
             .eq(0)
-            .should('be.visible')
-            .click();
+            .should('be.visible');
+
+        cy.get('[data-cy="filvelgerKnapp"]').eq(0).click();
 
         cy.get('[data-cy="filvelgerKnapp"]')
             .eq(0)
