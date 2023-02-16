@@ -91,7 +91,7 @@ export const FilePanel = styled(Panel)`
 
     ${(props) =>
         props.type === FIL_STATUS.FEIL &&
-        'border-color: var(--navds-semantic-color-interaction-danger)'};
+        'border-color: var(--a-surface-danger)'};
 
     @media only screen and (max-width: 600px) {
         grid-template-areas:
@@ -118,22 +118,18 @@ const StyledButton = styled.div`
 
 const StyledProvIgjenButton = styled(StyledButton)`
     label {
-        background-color: var(
-            --navds-semantic-color-interaction-primary-hover-subtle
-        );
+        background-color: var(--a-surface-action-subtle-hover);
     }
     label:hover {
-        background-color: var(
-            --navds-semantic-color-interaction-primary-hover
-        );
-        color: var(--navds-semantic-color-text-inverted);
+        background-color: var(--a-surface-action-hover);
+        color: var(--a-text-on-inverted);
     }
 `;
 
 const StyledTertiaryButton = styled(StyledButton)`
     @media only screen and (max-width: 600px) {
         :first-child {
-            border-top: 1px solid var(--navds-semantic-color-divider);
+            border-top: 1px solid var(--a-border-divider);
         }
         :first-child:last-child {
             margin-bottom: -0.75rem;

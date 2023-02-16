@@ -95,7 +95,7 @@ export const VedleggContainer = styled.section<{
 `;
 
 export const VedleggPanel = styled(Panel)`
-    background-color: var(--navds-semantic-color-canvas-background);
+    background-color: var(--a-bg-subtle);
     border-radius: 8px;
     padding: 24px;
     @media only screen and (max-width: 600px) {

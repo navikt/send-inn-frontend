@@ -15,18 +15,16 @@ const StyledDiv = styled.div`
     align-items: center;
     justify-content: center;
     > * {
-        border-color: var(--navds-semantic-color-interaction-danger);
+        border-color: var(--a-surface-danger);
         line-height: 0px;
     }
 `;
 
 const ErrorStyled = styled(StyledDiv)`
-    background-color: var(
-        --navds-semantic-color-feedback-danger-background
-    );
+    background-color: var(--a-surface-danger-subtle);
 
     > * {
-        color: var(--navds-semantic-color-interaction-danger);
+        color: var(--a-surface-danger);
     }
 `;
 
@@ -41,10 +39,10 @@ function ErrorFileIcon() {
 }
 
 const AlreadyUploadedStyled = styled(StyledDiv)`
-    background-color: var(--navds-semantic-color-canvas-background);
+    background-color: var(--a-bg-subtle);
 
     > * {
-        color: var(--navds-semantic-color-text-muted);
+        color: var(--a-text-subtle);
     }
 `;
 
@@ -59,12 +57,10 @@ function AlreadyUploadedFileIcon() {
 }
 
 const UploadingStyled = styled(StyledDiv)`
-    background-color: var(
-        --navds-semantic-color-feedback-info-background
-    );
+    background-color: var(--a-surface-info-subtle);
 
     > * {
-        color: var(--navds-semantic-color-feedback-info-icon);
+        color: var(--a-icon-info);
     }
 `;
 
@@ -79,11 +75,9 @@ function UploadingFileIcon() {
 }
 
 const SuccessStyled = styled(StyledDiv)`
-    background-color: var(
-        --navds-semantic-color-feedback-success-background
-    );
+    background-color: var(--a-surface-success-subtle);
     > * {
-        color: var(--navds-semantic-color-feedback-success-icon);
+        color: var(--a-icon-success);
     }
 `;
 
