@@ -4,7 +4,10 @@ import {
     Detail,
     Heading,
     GuidePanel,
+    Link as NavLink,
 } from '@navikt/ds-react';
+import { useTranslation } from 'react-i18next';
+import Head from 'next/head';
 
 const Style = styled.div`
     min-height: 100vh;
@@ -18,88 +21,66 @@ const HorizontalLinksFlexbox = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    margin-bottom: 3rem;
 `;
 
 export default function Custom500() {
+    const { t } = useTranslation();
+
+    const sprakListe = ['nb', 'nn', 'en'];
     return (
         <Style>
+            <Head>
+                <title>{t('feilside.500.tittel')}</title>
+            </Head>
             <GuidePanel poster="true">
-                <div>
-                    <Heading level="1" size="xlarge" spacing>
-                        Det har skjedd en feil
-                    </Heading>
-                </div>
-                <div>
-                    <div>
-                        <div>
+                {sprakListe.map((sprak) => (
+                    <div key={sprak}>
+                        <Heading level="1" size="xlarge" spacing>
+                            {t('feilside.500.overskrift', {
+                                lng: sprak,
+                            })}
+                        </Heading>
+                        <BodyShort spacing>
+                            {t('feilside.500.p1', {
+                                lng: sprak,
+                            })}
+                        </BodyShort>
+                        <BodyShort spacing>
+                            {t('feilside.500.p2', {
+                                lng: sprak,
+                            })}
+                        </BodyShort>
+                        <HorizontalLinksFlexbox>
                             <BodyShort spacing>
-                                Beklager, vi har tekniske problemer.
-                                Prøv igjen senere. Om problemet
-                                vedvarer ta kontakt med NAV for å få
-                                hjelp på telefon (+47) 55 55 33 33
-                                eller på ditt lokale NAV-kontor.
+                                <NavLink href="https://nav.no">
+                                    {t(
+                                        'feilside.500.lenkeTekst.forside',
+                                        {
+                                            lng: sprak,
+                                        },
+                                    )}
+                                </NavLink>
                             </BodyShort>
-
                             <BodyShort spacing>
-                                Vi setter pris på om du melder fra om
-                                feilen via lenken nedenfor.
+                                <NavLink
+                                    href={`https://www.nav.no/person/kontakt-oss/${sprak}/tilbakemeldinger/feil-og-mangler`}
+                                >
+                                    {t(
+                                        'feilside.500.lenkeTekst.meldFra',
+                                        {
+                                            lng: sprak,
+                                        },
+                                    )}
+                                </NavLink>
                             </BodyShort>
-                            <HorizontalLinksFlexbox>
-                                <BodyShort spacing>
-                                    <a href="https://www.nav.no/person/kontakt-oss/tilbakemeldinger/feil-og-mangler">
-                                        Meld fra om denne feilen
-                                    </a>
-                                </BodyShort>
-
-                                <BodyShort spacing>
-                                    <a href="https://nav.no">
-                                        Gå til forsiden på nav.no
-                                    </a>
-                                </BodyShort>
-                            </HorizontalLinksFlexbox>
-                        </div>
-
-                        <div>
-                            <Heading level="1" size="xlarge" spacing>
-                                An error has occured
-                            </Heading>
-                        </div>
-                        <div>
-                            <div>
-                                <BodyShort spacing>
-                                    We are experiencing technical
-                                    difficulties. We apologize for the
-                                    inconvenience. Please try again
-                                    later. If the problem persists,
-                                    you can get help from NAV Service
-                                    Centre at (+47) 55 55 33 33 or at
-                                    your local NAV office.
-                                </BodyShort>
-
-                                <BodyShort spacing>
-                                    We would appreciate it if you
-                                    report the error via the link
-                                    below.
-                                </BodyShort>
-                                <HorizontalLinksFlexbox>
-                                    <BodyShort spacing>
-                                        <a href="https://www.nav.no/person/kontakt-oss/tilbakemeldinger/feil-og-mangler">
-                                            Report this error
-                                        </a>
-                                    </BodyShort>
-
-                                    <BodyShort spacing>
-                                        <a href="https://nav.no">
-                                            Return to nav.no front
-                                            page
-                                        </a>
-                                    </BodyShort>
-                                </HorizontalLinksFlexbox>
-                            </div>
-                        </div>
+                        </HorizontalLinksFlexbox>
                     </div>
-                </div>
-                <Detail spacing>Statuskode 500</Detail>
+                ))}
+
+                <Detail spacing>
+                    {t('feilside.statuskode')} 500
+                </Detail>
             </GuidePanel>
         </Style>
     );

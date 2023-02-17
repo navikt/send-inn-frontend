@@ -9,6 +9,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import Head from 'next/head';
 
+const { NEXT_PUBLIC_MIN_SIDE_URL } = process.env;
+
 const Style = styled.div`
     min-height: 100vh;
     max-width: 50rem;
@@ -20,42 +22,41 @@ const Style = styled.div`
 const HorizontalLinksFlexbox = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0 1rem;
     margin-bottom: 3rem;
 `;
 
-export default function Custom404() {
+export default function SoknadSendtInn() {
     const { t } = useTranslation();
 
     const sprakListe = ['nb', 'nn', 'en'];
     return (
         <Style>
             <Head>
-                <title>{t('feilside.404.tittel')}</title>
+                <title>{t('feilside.soknadSendtInn.tittel')}</title>
             </Head>
             <GuidePanel poster="true">
                 {sprakListe.map((sprak) => (
                     <div key={sprak}>
-                        <Heading level="1" size="xlarge" spacing>
-                            {t('feilside.404.overskrift', {
+                        <Heading level="1" size="medium" spacing>
+                            {t('feilside.soknadSendtInn.overskrift', {
                                 lng: sprak,
                             })}
                         </Heading>
                         <BodyShort spacing>
-                            {t('feilside.404.p1', {
-                                lng: sprak,
-                            })}
-                        </BodyShort>
-                        <BodyShort spacing>
-                            {t('feilside.404.p2', {
+                            {t('feilside.soknadSendtInn.melding', {
                                 lng: sprak,
                             })}
                         </BodyShort>
                         <HorizontalLinksFlexbox>
                             <BodyShort spacing>
-                                <NavLink href="https://nav.no">
+                                <NavLink
+                                    href={NEXT_PUBLIC_MIN_SIDE_URL}
+                                >
                                     {t(
-                                        'feilside.404.lenkeTekst.forside',
+                                        'feilside.soknadSendtInn.lenkeTekst.minSide',
                                         {
                                             lng: sprak,
                                         },
@@ -64,10 +65,10 @@ export default function Custom404() {
                             </BodyShort>
                             <BodyShort spacing>
                                 <NavLink
-                                    href={`https://www.nav.no/person/kontakt-oss/${sprak}/tilbakemeldinger/feil-og-mangler`}
+                                    href={`https://www.nav.no/soknader${sprak}ettersendelse/person`}
                                 >
                                     {t(
-                                        'feilside.404.lenkeTekst.meldFra',
+                                        'feilside.soknadSendtInn.lenkeTekst.ettersende',
                                         {
                                             lng: sprak,
                                         },
@@ -79,7 +80,7 @@ export default function Custom404() {
                 ))}
 
                 <Detail spacing>
-                    {t('feilside.statuskode')} 404
+                    {t('feilside.statuskode')} 405
                 </Detail>
             </GuidePanel>
         </Style>

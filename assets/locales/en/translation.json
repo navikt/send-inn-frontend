@@ -159,5 +159,37 @@
         "filForStor": "The size of the selected file exceeds the maximum size limit. The maximum size allowed is 50MB.",
         "filIkkeValgt": "An error occurred during file selection, please retry"
     },
+    "feilside": {
+        "404": {
+            "tittel": "We did not find that page",
+            "overskrift": "We did not find that page",
+            "p1": "The page you requested cannot be found. It may have been deleted, moved, or there may be an error in the link that led you here. We appologize for the inconvenience.",
+            "p2": "We would appreciate it if you report the error via the link below.",
+            "lenkeTekst": {
+                "forside": "Return to nav.no front page",
+                "meldFra": "Report this error"
+            }
+        },
+        "500": {
+            "tittel": "Oops, something went wrong",
+            "overskrift": "Oops, something went wrong",
+            "p1": "The page or service is currently unavailable due to a technical error.",
+            "p2": "We apologize. Try again later.",
+            "lenkeTekst": {
+                "forside": "Return to nav.no front page",
+                "meldFra": "Report this error"
+            }
+        },
+        "soknadSendtInn": {
+            "tittel": "Error page: Application already submitted",
+            "overskrift": "You have tried to reopen an application that has already been sent to NAV",
+            "melding": "If you want to submit additional documentation to this application, it must be submitted on paper.",
+            "lenkeTekst": {
+                "minSide": "You will find the application you previously submitted on my page on nav.no (Norwegian)",
+                "ettersende": "Forward documentation"
+            }
+        }
+    },
+    "statuskode": "Status code",
     "for": "for"
 }

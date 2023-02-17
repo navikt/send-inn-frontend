@@ -157,5 +157,37 @@
         "filForStor": "Storleiken på fila overskrid maksimal tillaten storleik. Den maksimale storleiken er 50MB.",
         "filIkkeValgt": "Ein feil oppstod under val av fil. Prøv på nytt"
     },
+    "feilside": {
+        "404": {
+            "tittel": "Me fann ikkje den sida",
+            "overskrift": "Me fann ikkje den sida",
+            "p1": "Beklagar, sida kan vera sletta eller flytta, eller det var ein feil i lenkja som førte deg hit.",
+            "p2": "Me set pris på om du melder frå om feilen via lenkja nedanfor.",
+            "lenkeTekst": {
+                "forside": "Gå til framsida på nav.no",
+                "meldFra": "Meld frå om denne feilen"
+            }
+        },
+        "500": {
+            "tittel": "Oops, noko gjekk gale",
+            "overskrift": "Oops, noko gjekk gale",
+            "p1": "Sida eller tenesta er for tida utilgjengeleg på grunn av teknisk feil.",
+            "p2": "Me beklagar dette. Prøv igjen seinare.",
+            "lenkeTekst": {
+                "forside": "Gå til framsida på nav.no",
+                "meldFra": "Meld frå om denne feilen"
+            }
+        },
+        "soknadSendtInn": {
+            "tittel": "Feilside: Søknad er sendt inn",
+            "overskrift": "Du har prøvd å gå tilbake til ein søknad som allereie er send til NAV",
+            "melding": "Viss du skal ettersende dokumentasjon til denne søknaden må det sendast inn på papir.",
+            "lenkeTekst": {
+                "minSide": "Du finn søknaden du sendte inn på Mi side på(bokmål)",
+                "ettersende": "Gå til ettersending"
+            }
+        },
+        "statuskode": "Statuskode"
+    },
     "for": "for"
 }
