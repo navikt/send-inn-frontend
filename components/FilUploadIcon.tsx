@@ -15,7 +15,6 @@ const StyledDiv = styled.div`
     align-items: center;
     justify-content: center;
     > * {
-        border-color: var(--a-surface-danger);
         line-height: 0px;
     }
 `;
