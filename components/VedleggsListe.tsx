@@ -120,12 +120,14 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
     const visSteg0 =
         !visKvittering &&
         visningsType === 'dokumentinnsending' &&
-        visningsSteg === 0;
+        visningsSteg === 0 &&
+        vedleggsliste.some((x) => x.erHoveddokument);
 
     const visSteg1 =
         !visKvittering &&
         visningsType === 'dokumentinnsending' &&
-        visningsSteg === 1;
+        visningsSteg === 1 &&
+        vedleggsliste.some((x) => x.erHoveddokument);
 
     const visLastOppVedlegg =
         !visKvittering &&
@@ -258,41 +260,29 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
                         <AutomatiskInnsending />
                     )}
                     {/* // skjemanedlasting, steg 1 */}
-                    {visSteg0 &&
-                        soknad &&
-                        vedleggsliste.length > 0 &&
-                        vedleggsliste.filter((x) => x.erHoveddokument)
-                            .length > 0 && (
-                            <SkjemaNedlasting
-                                vedlegg={
-                                    vedleggsliste.filter(
-                                        (x) => x.erHoveddokument,
-                                    )[0]
-                                }
-                                oppdaterVisningsSteg={
-                                    oppdaterVisningsSteg
-                                }
-                            />
-                        )}
+                    {visSteg0 && (
+                        <SkjemaNedlasting
+                            vedlegg={vedleggsliste.find(
+                                (x) => x.erHoveddokument,
+                            )}
+                            oppdaterVisningsSteg={
+                                oppdaterVisningsSteg
+                            }
+                        />
+                    )}
 
                     {/* skjemaopplasting, steg 2*/}
-                    {visSteg1 &&
-                        soknad &&
-                        vedleggsliste.length > 0 &&
-                        vedleggsliste.filter((x) => x.erHoveddokument)
-                            .length > 0 && (
-                            <SkjemaOpplasting
-                                vedlegg={
-                                    vedleggsliste.filter(
-                                        (x) => x.erHoveddokument,
-                                    )[0]
-                                }
-                                soknad={soknad}
-                                oppdaterVisningsSteg={
-                                    oppdaterVisningsSteg
-                                }
-                            />
-                        )}
+                    {visSteg1 && (
+                        <SkjemaOpplasting
+                            vedlegg={vedleggsliste.find(
+                                (x) => x.erHoveddokument,
+                            )}
+                            soknad={soknad}
+                            oppdaterVisningsSteg={
+                                oppdaterVisningsSteg
+                            }
+                        />
+                    )}
                     {/* vedleggssiden, steg 3 (eller 1) */}
                     {visLastOppVedlegg && (
                         <LastOppVedlegg
