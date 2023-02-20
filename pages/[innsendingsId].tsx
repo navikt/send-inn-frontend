@@ -3,13 +3,14 @@ import Head from 'next/head';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import VedleggsListe from '../components/VedleggsListe';
 import { SoknadHeader } from '../components/SoknadHeader';
 
 import { VedleggType, SoknadType } from '../types/types';
 
 import getConfig from 'next/config';
+import { useSoknadLanguage } from '../hooks/useSoknadLanguage';
 
 const { publicRuntimeConfig } = getConfig();
 const erEttersending = true;
@@ -21,6 +22,7 @@ const InnsendingsSide: NextPage = () => {
     const [vedleggsListe, setVedleggsListe] = useState<
         VedleggType[] | null
     >(null);
+    const { changeLang } = useSoknadLanguage();
     const innsendingsId = query.innsendingsId;
     useEffect(() => {
         if (innsendingsId) {
@@ -28,7 +30,8 @@ const InnsendingsSide: NextPage = () => {
                 .get(
                     `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}`,
                 )
-                .then((response) => {
+                .then((response: AxiosResponse<SoknadType>) => {
+                    changeLang(response.data.spraak);
                     setVedleggsListe(response.data.vedleggsListe);
                     setSoknad(response.data);
                 })
@@ -44,7 +47,7 @@ const InnsendingsSide: NextPage = () => {
                     return router.push('/500');
                 });
         }
-    }, [innsendingsId, router]);
+    }, [innsendingsId, router, changeLang]);
 
     return (
         <div>

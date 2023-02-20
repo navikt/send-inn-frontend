@@ -18,7 +18,6 @@ import SkjemaOpplasting from './SkjemaOpplasting';
 import Kvittering, { KvitteringsDto } from '../components/Kvittering';
 import getConfig from 'next/config';
 import styled from 'styled-components';
-import { useSoknadLanguage } from '../hooks/useSoknadLanguage';
 import LastOppVedlegg from './LastOppVedlegg';
 import { SoknadModalProvider } from './SoknadModalProvider';
 import { navigerTilMinSide } from '../utils/navigerTilMinSide';
@@ -93,7 +92,6 @@ function VedleggsListe({
     setVedleggsListe,
 }: VedleggsListeProps) {
     const { showError } = useErrorMessage();
-    useSoknadLanguage(soknad.spraak);
 
     const soknadKlar = useMemo(
         () => soknadErKomplett(vedleggsliste),
