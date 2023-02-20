@@ -7,7 +7,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import VedleggsListe from '../components/VedleggsListe';
 import { SoknadHeader } from '../components/SoknadHeader';
 
-import { VedleggType, SoknadType } from '../types/types';
+import { SoknadType } from '../types/types';
 
 import getConfig from 'next/config';
 import { useSoknadLanguage } from '../hooks/useSoknadLanguage';
@@ -19,9 +19,6 @@ const InnsendingsSide: NextPage = () => {
     const router = useRouter();
     const { query } = router;
     const [soknad, setSoknad] = useState<SoknadType | null>(null);
-    const [vedleggsListe, setVedleggsListe] = useState<
-        VedleggType[] | null
-    >(null);
     const { changeLang } = useSoknadLanguage();
     const innsendingsId = query.innsendingsId;
     useEffect(() => {
@@ -32,7 +29,6 @@ const InnsendingsSide: NextPage = () => {
                 )
                 .then((response: AxiosResponse<SoknadType>) => {
                     changeLang(response.data.spraak);
-                    setVedleggsListe(response.data.vedleggsListe);
                     setSoknad(response.data);
                 })
                 .catch((error: AxiosError) => {
@@ -57,7 +53,7 @@ const InnsendingsSide: NextPage = () => {
                 </title>
             </Head>
             <main>
-                {soknad && !!vedleggsListe && (
+                {soknad && (
                     <>
                         <SoknadHeader
                             soknadoverskrift={soknad.tittel}
@@ -67,8 +63,6 @@ const InnsendingsSide: NextPage = () => {
                         <VedleggsListe
                             soknad={soknad}
                             setSoknad={setSoknad}
-                            vedleggsliste={vedleggsListe}
-                            setVedleggsListe={setVedleggsListe}
                             erEttersending={erEttersending}
                         />
                     </>

@@ -41,10 +41,6 @@ export interface VedleggsListeProps {
     setSoknad: React.Dispatch<
         React.SetStateAction<SoknadType | null>
     >;
-    vedleggsliste: VedleggType[];
-    setVedleggsListe: React.Dispatch<
-        React.SetStateAction<VedleggType[]>
-    >;
     erEttersending: boolean;
     visningsSteg?: number;
     visningsType?: string;
@@ -85,13 +81,12 @@ interface VedleggslisteContextType {
 export const VedleggslisteContext =
     createContext<VedleggslisteContextType>(null);
 
-function VedleggsListe({
-    soknad,
-    setSoknad,
-    vedleggsliste,
-    setVedleggsListe,
-}: VedleggsListeProps) {
+function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
     const { showError } = useErrorMessage();
+
+    const [vedleggsliste, setVedleggsListe] = useState<VedleggType[]>(
+        soknad.vedleggsListe,
+    );
 
     const soknadKlar = useMemo(
         () => soknadErKomplett(vedleggsliste),
