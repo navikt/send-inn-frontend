@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const Style = styled.div`
+    max-width: 50rem;
     min-height: 100vh;
     padding-top: 16px;
     margin: 0 auto;
@@ -12,7 +13,7 @@ const Style = styled.div`
     }
 `;
 
-const LayoutSC = ({ children }) => {
+export const Layout = ({ children }) => {
     return (
         <div className="content">
             <Style>
@@ -22,5 +23,3 @@ const LayoutSC = ({ children }) => {
         </div>
     );
 };
-
-export default LayoutSC;

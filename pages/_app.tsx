@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app';
-import Layout from '../components/LayoutSC';
+import { Layout } from '../components/Layout';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '../i18n';
 import '@navikt/ds-css';
