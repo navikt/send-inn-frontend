@@ -24,7 +24,6 @@ const Home: NextPage = () => {
                         href={
                             '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2'
                         }
-                        passHref
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -36,7 +35,6 @@ const Home: NextPage = () => {
                         href={
                             '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2'
                         }
-                        passHref
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -48,7 +46,6 @@ const Home: NextPage = () => {
                         href={
                             '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2'
                         }
-                        passHref
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -61,7 +58,6 @@ const Home: NextPage = () => {
                         href={
                             '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=EN&erEttersendelse=false&vedleggsIder=C1,W1,G2'
                         }
-                        passHref
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -74,7 +70,6 @@ const Home: NextPage = () => {
                         href={
                             '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NN&erEttersendelse=false&vedleggsIder=C1,W1,G2'
                         }
-                        passHref
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -87,7 +82,6 @@ const Home: NextPage = () => {
                         href={
                             '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false'
                         }
-                        passHref
                         target="_blank"
                         rel="noopener noreferrer"
                     >
