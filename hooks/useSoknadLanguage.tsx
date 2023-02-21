@@ -22,7 +22,6 @@ export const useSoknadLanguage = () => {
             const validatedLanguage =
                 supportedLanguageCodes[lng.toLowerCase()] ||
                 FALLBACK_LANGUAGE;
-            console.log('Språk settes til', validatedLanguage);
             i18n.changeLanguage(validatedLanguage);
             setParams({
                 language: validatedLanguage,
