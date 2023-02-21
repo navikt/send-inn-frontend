@@ -2,13 +2,15 @@ import { AxiosError } from 'axios';
 import { useCallback, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ErrorContext } from '../components/ErrorMessageProvider';
+import { ErrorResponsDto } from '../types/types';
 
 export const useErrorMessage = () => {
     const { setOpen, setMessage } = useContext(ErrorContext);
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
+    const { t: tB, i18n } = useTranslation('backend');
 
     const handleError = useCallback(
-        (error: AxiosError) => {
+        (error: AxiosError<ErrorResponsDto>) => {
             if (error.response) {
                 // Feil fra server (4xx eller 5xx)
                 if (
@@ -16,9 +18,7 @@ export const useErrorMessage = () => {
                         ns: 'backend',
                     })
                 ) {
-                    return t(error.response.data?.errorCode, {
-                        ns: 'backend',
-                    });
+                    return tB(error.response.data?.errorCode);
                 }
                 return t('feil.fraBackend');
             } else if (error.request) {
@@ -29,11 +29,11 @@ export const useErrorMessage = () => {
                 return t('feil.ukjent');
             }
         },
-        [t, i18n],
+        [t, tB, i18n],
     );
 
     const showError = useCallback(
-        (error: AxiosError) => {
+        (error: AxiosError<ErrorResponsDto>) => {
             const formatedMessage = handleError(error);
             setMessage(formatedMessage);
             setOpen(true);

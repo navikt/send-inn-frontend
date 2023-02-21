@@ -24,11 +24,10 @@ const Home: NextPage = () => {
                         href={
                             '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2'
                         }
-                        passHref
+                        target="_blank"
+                        rel="noopener noreferrer"
                     >
-                        <a target="_blank" rel="noopener noreferrer">
-                            Dokumentinnsending - Opprett søknad
-                        </a>
+                        Dokumentinnsending - Opprett søknad
                     </Link>
                 </div>
                 <div>
@@ -36,11 +35,10 @@ const Home: NextPage = () => {
                         href={
                             '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2'
                         }
-                        passHref
+                        target="_blank"
+                        rel="noopener noreferrer"
                     >
-                        <a target="_blank" rel="noopener noreferrer">
-                            Dokumentinnsending - Opprett ettersending
-                        </a>
+                        Dokumentinnsending - Opprett ettersending
                     </Link>
                 </div>
                 <div>
@@ -48,11 +46,10 @@ const Home: NextPage = () => {
                         href={
                             '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2'
                         }
-                        passHref
+                        target="_blank"
+                        rel="noopener noreferrer"
                     >
-                        <a target="_blank" rel="noopener noreferrer">
-                            Dokumentinnsending - Opprett ettersending
-                        </a>
+                        Dokumentinnsending - Opprett ettersending
                     </Link>
                 </div>
 
@@ -61,12 +58,10 @@ const Home: NextPage = () => {
                         href={
                             '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=EN&erEttersendelse=false&vedleggsIder=C1,W1,G2'
                         }
-                        passHref
+                        target="_blank"
+                        rel="noopener noreferrer"
                     >
-                        <a target="_blank" rel="noopener noreferrer">
-                            Dokumentinnsending - Opprett søknad,
-                            Engelsk
-                        </a>
+                        Dokumentinnsending - Opprett søknad, Engelsk
                     </Link>
                 </div>
 
@@ -75,12 +70,10 @@ const Home: NextPage = () => {
                         href={
                             '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NN&erEttersendelse=false&vedleggsIder=C1,W1,G2'
                         }
-                        passHref
+                        target="_blank"
+                        rel="noopener noreferrer"
                     >
-                        <a target="_blank" rel="noopener noreferrer">
-                            Dokumentinnsending - Opprett søknad,
-                            Nynorsk
-                        </a>
+                        Dokumentinnsending - Opprett søknad, Nynorsk
                     </Link>
                 </div>
 
@@ -89,12 +82,11 @@ const Home: NextPage = () => {
                         href={
                             '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false'
                         }
-                        passHref
+                        target="_blank"
+                        rel="noopener noreferrer"
                     >
-                        <a target="_blank" rel="noopener noreferrer">
-                            Dokumentinnsending - Opprett søknad, uten
-                            vedlegg
-                        </a>
+                        Dokumentinnsending - Opprett søknad, uten
+                        vedlegg
                     </Link>
                 </div>
 

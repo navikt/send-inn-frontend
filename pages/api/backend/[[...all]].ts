@@ -1,9 +1,11 @@
 import axios, {
     AxiosError,
     AxiosRequestHeaders,
+    AxiosResponse,
     Method,
 } from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { Stream } from 'stream';
 import { getTokenxToken } from '../../../auth/getTokenXToken';
 import { verifyIdportenAccessToken } from '../../../auth/verifyIdPortenToken';
 import { logger, rawLogger } from '../../../utils/backendLogger';
@@ -68,7 +70,7 @@ export default async function handler(
         maxContentLength: Infinity,
         maxBodyLength: Infinity,
     })
-        .then((response) => {
+        .then((response: AxiosResponse<Stream>) => {
             for (const key in response.headers) {
                 res.setHeader(key, response.headers[key]);
             }
@@ -76,7 +78,7 @@ export default async function handler(
             res.status(response.status);
             response.data.pipe(res);
         })
-        .catch((error: AxiosError) => {
+        .catch((error: AxiosError<Stream>) => {
             const commonErrorObject = {
                 requestMethod: req.method,
                 requestPath: req.url,

@@ -8,7 +8,7 @@ export interface SoknadHeaderProps {
 }
 
 export const StyledDetail = styled(Detail)`
-    color: var(--navds-global-color-gray-900);
+    color: var(--a-gray-900);
 `;
 
 export const Style = styled.div`
@@ -21,7 +21,7 @@ export const Style = styled.div`
     align-items: center;
     display: flex;
     flex-direction: column;
-    border-bottom: 0.3rem solid var(--navds-global-color-deepblue-200);
+    border-bottom: 0.3rem solid var(--a-deepblue-200);
     padding-top: 24px;
     padding-bottom: 24px;
     margin-left: -16px;

@@ -4,10 +4,18 @@ import React, {
     useReducer,
     useContext,
 } from 'react';
-import axios from 'axios';
+import axios, {
+    AxiosError,
+    AxiosProgressEvent,
+    AxiosResponse,
+} from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { ACTIONS, ActionType } from './Vedlegg';
-import { OpplastetFil, VedleggType } from '../types/types';
+import {
+    ErrorResponsDto,
+    OpplastetFil,
+    VedleggType,
+} from '../types/types';
 import {
     Button,
     Panel,
@@ -83,7 +91,7 @@ export const FilePanel = styled(Panel)`
 
     ${(props) =>
         props.type === FIL_STATUS.FEIL &&
-        'border-color: var(--navds-semantic-color-interaction-danger)'};
+        'border-color: var(--a-surface-danger)'};
 
     @media only screen and (max-width: 600px) {
         grid-template-areas:
@@ -110,22 +118,18 @@ const StyledButton = styled.div`
 
 const StyledProvIgjenButton = styled(StyledButton)`
     label {
-        background-color: var(
-            --navds-semantic-color-interaction-primary-hover-subtle
-        );
+        background-color: var(--a-surface-action-subtle-hover);
     }
     label:hover {
-        background-color: var(
-            --navds-semantic-color-interaction-primary-hover
-        );
-        color: var(--navds-semantic-color-text-inverted);
+        background-color: var(--a-surface-action-hover);
+        color: var(--a-text-on-inverted);
     }
 `;
 
 const StyledTertiaryButton = styled(StyledButton)`
     @media only screen and (max-width: 600px) {
         :first-child {
-            border-top: 1px solid var(--navds-semantic-color-divider);
+            border-top: 1px solid var(--a-border-divider);
         }
         :first-child:last-child {
             margin-bottom: -0.75rem;
@@ -268,6 +272,7 @@ export function Fil({
     const { status } = filState;
     const [controller] = useState(new AbortController());
     const { t } = useTranslation();
+    const { t: tB } = useTranslation('backend');
     const [feilmelding, setFeilmelding] = useState<string>(null);
     const { showError } = useErrorMessage();
 
@@ -367,7 +372,7 @@ export function Fil({
                 'Content-Type': 'multipart/form-data',
             },
             signal: controller.signal,
-            onUploadProgress: (progressEvent: ProgressEvent) => {
+            onUploadProgress: (progressEvent: AxiosProgressEvent) => {
                 const progress = Math.round(
                     (progressEvent.loaded * 100) /
                         progressEvent.total,
@@ -390,7 +395,7 @@ export function Fil({
                 formData,
                 config,
             )
-            .then((response) => {
+            .then((response: AxiosResponse<OpplastetFil>) => {
                 const filData = {
                     opplastetFil: {
                         id: response.data.id,
@@ -416,14 +421,15 @@ export function Fil({
                     'LastetOpp',
                 );
             })
-            .catch((error) => {
-                if (axios.isCancel(error)) {
+            .catch((error: AxiosError<ErrorResponsDto>) => {
+                if (axios.isCancel(error) as boolean) {
                     // avbrutt av bruker
                     return;
                 }
                 dispatch({
                     type: FIL_ACTIONS.FEIL,
                 });
+
                 const { errorCode } = error?.response?.data || {};
                 if (error.response?.status === 413) {
                     return setFeilmelding(t('feil.filForStor'));
@@ -434,20 +440,12 @@ export function Fil({
                     errorCode ===
                         'errorCode.illegalAction.fileCannotBeRead'
                 ) {
-                    return setFeilmelding(
-                        t(errorCode, {
-                            ns: 'backend',
-                        }),
-                    );
+                    return setFeilmelding(tB(errorCode));
                 } else if (
                     errorCode ===
                     'errorCode.illegalAction.fileSizeSumTooLarge'
                 ) {
-                    setFeilmelding(
-                        t(errorCode, {
-                            ns: 'backend',
-                        }),
-                    );
+                    setFeilmelding(tB(errorCode));
                 }
                 showError(error);
             })
@@ -471,6 +469,7 @@ export function Fil({
         filListeDispatch,
         komponentID,
         t,
+        tB,
         showError,
     ]);
 

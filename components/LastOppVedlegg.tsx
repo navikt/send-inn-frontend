@@ -17,7 +17,7 @@ import { LagringsProsessContext } from './LagringsProsessProvider';
 
 const FristForOpplastingInfo = styled(Alert)`
     border: 0;
-    border-bottom: 1px solid var(--navds-semantic-color-border);
+    border-bottom: 1px solid var(--a-border-strong);
     padding-bottom: 4px;
     border-radius: 0px;
     margin-bottom: 24px;
