@@ -3,13 +3,14 @@ import Head from 'next/head';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import VedleggsListe from '../components/VedleggsListe';
 import { SoknadHeader } from '../components/SoknadHeader';
 
-import { VedleggType, SoknadType } from '../types/types';
+import { SoknadType } from '../types/types';
 
 import getConfig from 'next/config';
+import { useSoknadLanguage } from '../hooks/useSoknadLanguage';
 
 const { publicRuntimeConfig } = getConfig();
 const erEttersending = true;
@@ -18,9 +19,7 @@ const InnsendingsSide: NextPage = () => {
     const router = useRouter();
     const { query } = router;
     const [soknad, setSoknad] = useState<SoknadType | null>(null);
-    const [vedleggsListe, setVedleggsListe] = useState<
-        VedleggType[] | null
-    >(null);
+    const { changeLang } = useSoknadLanguage();
     const innsendingsId = query.innsendingsId;
     useEffect(() => {
         if (innsendingsId) {
@@ -28,8 +27,8 @@ const InnsendingsSide: NextPage = () => {
                 .get(
                     `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}`,
                 )
-                .then((response) => {
-                    setVedleggsListe(response.data.vedleggsListe);
+                .then((response: AxiosResponse<SoknadType>) => {
+                    changeLang(response.data.spraak);
                     setSoknad(response.data);
                 })
                 .catch((error: AxiosError) => {
@@ -44,7 +43,7 @@ const InnsendingsSide: NextPage = () => {
                     return router.push('/500');
                 });
         }
-    }, [innsendingsId, router]);
+    }, [innsendingsId, router, changeLang]);
 
     return (
         <div>
@@ -54,7 +53,7 @@ const InnsendingsSide: NextPage = () => {
                 </title>
             </Head>
             <main>
-                {soknad && !!vedleggsListe && (
+                {soknad && (
                     <>
                         <SoknadHeader
                             soknadoverskrift={soknad.tittel}
@@ -64,8 +63,6 @@ const InnsendingsSide: NextPage = () => {
                         <VedleggsListe
                             soknad={soknad}
                             setSoknad={setSoknad}
-                            vedleggsliste={vedleggsListe}
-                            setVedleggsListe={setVedleggsListe}
                             erEttersending={erEttersending}
                         />
                     </>

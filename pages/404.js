@@ -10,9 +10,6 @@ import { useTranslation } from 'react-i18next';
 import Head from 'next/head';
 
 const Style = styled.div`
-    min-height: 100vh;
-    max-width: 50rem;
-    margin: 0 auto;
     padding-top: 44px;
     margin-bottom: 44px;
 `;

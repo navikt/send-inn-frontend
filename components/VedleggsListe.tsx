@@ -18,7 +18,6 @@ import SkjemaOpplasting from './SkjemaOpplasting';
 import Kvittering, { KvitteringsDto } from '../components/Kvittering';
 import getConfig from 'next/config';
 import styled from 'styled-components';
-import { useSoknadLanguage } from '../hooks/useSoknadLanguage';
 import LastOppVedlegg from './LastOppVedlegg';
 import { SoknadModalProvider } from './SoknadModalProvider';
 import { navigerTilMinSide } from '../utils/navigerTilMinSide';
@@ -29,9 +28,6 @@ const { publicRuntimeConfig } = getConfig();
 const initialVedleggsliste: VedleggType[] = [];
 
 const Style = styled.div`
-    min-height: 100vh;
-    max-width: 50rem;
-    margin: 0 auto;
     padding-top: 44px;
     margin-bottom: 44px;
     outline: none;
@@ -41,10 +37,6 @@ export interface VedleggsListeProps {
     soknad: SoknadType;
     setSoknad: React.Dispatch<
         React.SetStateAction<SoknadType | null>
-    >;
-    vedleggsliste: VedleggType[];
-    setVedleggsListe: React.Dispatch<
-        React.SetStateAction<VedleggType[]>
     >;
     erEttersending: boolean;
     visningsSteg?: number;
@@ -86,14 +78,12 @@ interface VedleggslisteContextType {
 export const VedleggslisteContext =
     createContext<VedleggslisteContextType>(null);
 
-function VedleggsListe({
-    soknad,
-    setSoknad,
-    vedleggsliste,
-    setVedleggsListe,
-}: VedleggsListeProps) {
+function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
     const { showError } = useErrorMessage();
-    useSoknadLanguage(soknad.spraak);
+
+    const [vedleggsliste, setVedleggsListe] = useState<VedleggType[]>(
+        soknad.vedleggsListe,
+    );
 
     const soknadKlar = useMemo(
         () => soknadErKomplett(vedleggsliste),
@@ -127,12 +117,14 @@ function VedleggsListe({
     const visSteg0 =
         !visKvittering &&
         visningsType === 'dokumentinnsending' &&
-        visningsSteg === 0;
+        visningsSteg === 0 &&
+        vedleggsliste.some((x) => x.erHoveddokument);
 
     const visSteg1 =
         !visKvittering &&
         visningsType === 'dokumentinnsending' &&
-        visningsSteg === 1;
+        visningsSteg === 1 &&
+        vedleggsliste.some((x) => x.erHoveddokument);
 
     const visLastOppVedlegg =
         !visKvittering &&
@@ -265,41 +257,29 @@ function VedleggsListe({
                         <AutomatiskInnsending />
                     )}
                     {/* // skjemanedlasting, steg 1 */}
-                    {visSteg0 &&
-                        soknad &&
-                        vedleggsliste.length > 0 &&
-                        vedleggsliste.filter((x) => x.erHoveddokument)
-                            .length > 0 && (
-                            <SkjemaNedlasting
-                                vedlegg={
-                                    vedleggsliste.filter(
-                                        (x) => x.erHoveddokument,
-                                    )[0]
-                                }
-                                oppdaterVisningsSteg={
-                                    oppdaterVisningsSteg
-                                }
-                            />
-                        )}
+                    {visSteg0 && (
+                        <SkjemaNedlasting
+                            vedlegg={vedleggsliste.find(
+                                (x) => x.erHoveddokument,
+                            )}
+                            oppdaterVisningsSteg={
+                                oppdaterVisningsSteg
+                            }
+                        />
+                    )}
 
                     {/* skjemaopplasting, steg 2*/}
-                    {visSteg1 &&
-                        soknad &&
-                        vedleggsliste.length > 0 &&
-                        vedleggsliste.filter((x) => x.erHoveddokument)
-                            .length > 0 && (
-                            <SkjemaOpplasting
-                                vedlegg={
-                                    vedleggsliste.filter(
-                                        (x) => x.erHoveddokument,
-                                    )[0]
-                                }
-                                soknad={soknad}
-                                oppdaterVisningsSteg={
-                                    oppdaterVisningsSteg
-                                }
-                            />
-                        )}
+                    {visSteg1 && (
+                        <SkjemaOpplasting
+                            vedlegg={vedleggsliste.find(
+                                (x) => x.erHoveddokument,
+                            )}
+                            soknad={soknad}
+                            oppdaterVisningsSteg={
+                                oppdaterVisningsSteg
+                            }
+                        />
+                    )}
                     {/* vedleggssiden, steg 3 (eller 1) */}
                     {visLastOppVedlegg && (
                         <LastOppVedlegg

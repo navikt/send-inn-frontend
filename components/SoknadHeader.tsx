@@ -26,6 +26,8 @@ export const Style = styled.div`
     padding-bottom: 24px;
     margin-left: -16px;
     margin-right: -16px;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
 `;
 
 export function SoknadHeader({

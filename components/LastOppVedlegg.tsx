@@ -111,21 +111,19 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
                     )}
 
                 <PaddedVedlegg>
-                    {soknad &&
-                        vedleggsliste.length > 0 &&
-                        vedleggsliste
-                            .filter((x) => !x.erHoveddokument)
-                            .map((vedlegg) => {
-                                return (
-                                    <Vedlegg
-                                        key={vedlegg.id}
-                                        innsendingsId={
-                                            soknad.innsendingsId
-                                        }
-                                        vedlegg={vedlegg}
-                                    />
-                                );
-                            })}
+                    {vedleggsliste
+                        .filter((x) => !x.erHoveddokument)
+                        .map((vedlegg) => {
+                            return (
+                                <Vedlegg
+                                    key={vedlegg.id}
+                                    innsendingsId={
+                                        soknad.innsendingsId
+                                    }
+                                    vedlegg={vedlegg}
+                                />
+                            );
+                        })}
 
                     {soknad.kanLasteOppAnnet && (
                         <OpprettAnnetVedlegg

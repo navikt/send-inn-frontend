@@ -184,7 +184,9 @@ function Vedlegg(props: VedleggProps) {
         }
     }
 
-    const harOpplastetFil = filListe.some((fil) => fil.opplastetFil);
+    const harOpplastetFil =
+        opplastingsStatus === 'LastetOpp' ||
+        filListe.some((fil) => fil.opplastetFil);
 
     const erAnnetVedlegg =
         vedlegg.vedleggsnr?.toUpperCase() === 'N6' &&
