@@ -42,7 +42,9 @@ const nextConfig = {
             },
         ];
     },
+};
 
+const sentryConfig = {
     sentry: {
         // Use `hidden-source-map` rather than `source-map` as the Webpack `devtool`
         // for client-side builds. (This will be the default starting in
@@ -73,7 +75,13 @@ const getConfig = (phase) => {
     ) {
         serverStartup();
     }
-    return withSentryConfig(nextConfig, sentryWebpackPluginOptions);
+    if (process.env.DISABLE_SENTRY === 'true') {
+        return nextConfig;
+    }
+    return withSentryConfig(
+        { ...nextConfig, ...sentryConfig },
+        sentryWebpackPluginOptions,
+    );
 };
 
 export default getConfig;
