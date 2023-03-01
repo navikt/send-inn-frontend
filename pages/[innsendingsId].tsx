@@ -38,7 +38,9 @@ const InnsendingsSide: NextPage = () => {
                     }
                     if (statusCode && statusCode === 405) {
                         // Allerede sendt inn
-                        return router.push('/soknad-er-slettet');
+                        return router.push(
+                            '/feilside/soknad-sendt-inn',
+                        );
                     }
                     return router.push('/500');
                 });

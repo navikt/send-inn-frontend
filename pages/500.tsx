@@ -21,30 +21,30 @@ const HorizontalLinksFlexbox = styled.div`
     margin-bottom: 3rem;
 `;
 
-export default function Custom404() {
+export default function Custom500() {
     const { t } = useTranslation();
 
     const sprakListe = ['nb', 'nn', 'en'];
     return (
         <Style>
             <Head>
-                <title>{t('feilside.404.tittel')}</title>
+                <title>{t('feilside.500.tittel')}</title>
             </Head>
-            <GuidePanel poster="true">
+            <GuidePanel poster={true}>
                 {sprakListe.map((sprak) => (
                     <div key={sprak}>
                         <Heading level="1" size="xlarge" spacing>
-                            {t('feilside.404.overskrift', {
+                            {t('feilside.500.overskrift', {
                                 lng: sprak,
                             })}
                         </Heading>
                         <BodyShort spacing>
-                            {t('feilside.404.p1', {
+                            {t('feilside.500.p1', {
                                 lng: sprak,
                             })}
                         </BodyShort>
                         <BodyShort spacing>
-                            {t('feilside.404.p2', {
+                            {t('feilside.500.p2', {
                                 lng: sprak,
                             })}
                         </BodyShort>
@@ -52,7 +52,7 @@ export default function Custom404() {
                             <BodyShort spacing>
                                 <NavLink href="https://nav.no">
                                     {t(
-                                        'feilside.404.lenkeTekst.forside',
+                                        'feilside.500.lenkeTekst.forside',
                                         {
                                             lng: sprak,
                                         },
@@ -64,7 +64,7 @@ export default function Custom404() {
                                     href={`https://www.nav.no/person/kontakt-oss/${sprak}/tilbakemeldinger/feil-og-mangler`}
                                 >
                                     {t(
-                                        'feilside.404.lenkeTekst.meldFra',
+                                        'feilside.500.lenkeTekst.meldFra',
                                         {
                                             lng: sprak,
                                         },
@@ -76,7 +76,7 @@ export default function Custom404() {
                 ))}
 
                 <Detail spacing>
-                    {t('feilside.statuskode')} 404
+                    {t('feilside.statuskode')} 500
                 </Detail>
             </GuidePanel>
         </Style>
