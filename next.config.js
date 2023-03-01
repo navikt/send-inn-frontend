@@ -2,10 +2,16 @@
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
 /* eslint @typescript-eslint/no-var-requires: "off" */
-const { withSentryConfig } = require('@sentry/nextjs');
+import { withSentryConfig } from '@sentry/nextjs';
+import {
+    PHASE_PRODUCTION_SERVER,
+    PHASE_DEVELOPMENT_SERVER,
+} from 'next/dist/shared/lib/constants.js';
+PHASE_PRODUCTION_SERVER;
+import { serverStartup } from './serverStartup.js';
 
-const moduleExports = {
-    reactStrictMode: true,
+const nextConfig = {
+    reactStrictMode: false,
     eslint: {
         // Warning: This allows production builds to successfully complete even if
         // your project has ESLint errors.
@@ -60,7 +66,14 @@ const sentryWebpackPluginOptions = {
     // https://github.com/getsentry/sentry-webpack-plugin#options.
 };
 
-module.exports = withSentryConfig(
-    moduleExports,
-    sentryWebpackPluginOptions,
-);
+const getConfig = (phase) => {
+    if (
+        phase === PHASE_DEVELOPMENT_SERVER ||
+        phase === PHASE_PRODUCTION_SERVER
+    ) {
+        serverStartup();
+    }
+    return withSentryConfig(nextConfig, sentryWebpackPluginOptions);
+};
+
+export default getConfig;
