@@ -10,10 +10,12 @@
     "build:mock": "NODE_ENV=test next build",
     "build:static": "next build && next export",
     "start": "next start",
+    "start:with:test": "NODE_ENV=test next start",
     "lint": "next lint",
     "prepare": "husky install",
     "cypress": "npx cypress open",
-    "cypress:headless": "npx cypress run"
+    "cypress:headless": "npx cypress run",
+    "test": "npx cypress run -s \"cypress/e2e/*.cy.js\""
   },
   "dependencies": {
     "@navikt/ds-css": "^2.1.7",
