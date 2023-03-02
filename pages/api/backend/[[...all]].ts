@@ -22,7 +22,10 @@ export default async function handler(
     res: NextApiResponse,
 ) {
     let tokenxToken = '';
-    if (process.env.NODE_ENV === 'production') {
+    if (
+        process.env.APP_ENV !== 'development' &&
+        process.env.APP_ENV !== 'test'
+    ) {
         let idportenToken: string;
         try {
             idportenToken = req.headers.authorization.split(' ')[1];
