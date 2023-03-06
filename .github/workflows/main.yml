@@ -19,10 +19,9 @@ env:
     TZ: Europe/Oslo
 
 jobs:
-    build:
-        name: Test and build
+    build-and-test:
+        name: Build and Test
         runs-on: ubuntu-latest
-        if: github.ref != 'refs/heads/preprod' && github.ref != 'refs/heads/main'
         steps:
             - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
@@ -32,18 +31,19 @@ jobs:
                   registry-url: 'https://npm.pkg.github.com'
                   scope: '@navikt'
             - name: Install dependencies
-              run: npm install
+              run: npm ci
               env:
-                  # Github krever autentisering for tilgang til packages
                   NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - name: Set environment variables (prod)
-              run: cp environments/prod.env .env
-            # - name: Test
-            #   run: npm run test
-            - name: Build
-              env:
-                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-              run: npm run build
+            - name: Build with mock
+              run: npm run build:mock
+            - uses: cypress-io/github-action@v5.1.0
+              with:
+                install: false
+                spec: cypress/e2e/*.cy.js
+                start: npm run start:with:test
+                wait-on: 'http://localhost:3000/sendinn/api/isAlive'
+                config: video=false
+                config-file: cypress.config.ts
 
     build-and-push:
         name: Build and push Docker container
@@ -56,7 +56,7 @@ jobs:
                   node-version: '18'
                   cache: 'npm'
             - name: Install dependencies
-              run: npm install
+              run: npm ci
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Set environment variables (prod)
@@ -82,7 +82,7 @@ jobs:
 
     deploy-preprod:
         name: Deploy to preprod
-        needs: build-and-push
+        needs: [build-and-test, build-and-push]
         if: github.ref == 'refs/heads/preprod'
         runs-on: ubuntu-latest
         steps:
@@ -98,7 +98,7 @@ jobs:
 
     deploy-prod:
         name: Deploy to prod
-        needs: build-and-push
+        needs: [build-and-test, build-and-push]
         if: github.ref == 'refs/heads/main'
         runs-on: ubuntu-latest
         steps:

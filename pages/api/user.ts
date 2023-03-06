@@ -10,7 +10,10 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<User>,
 ) {
-    if (process.env.NODE_ENV !== 'production') {
+    if (
+        process.env.APP_ENV === 'development' ||
+        process.env.APP_ENV === 'test'
+    ) {
         return res.json({
             isLoggedIn: true,
             pid: null,

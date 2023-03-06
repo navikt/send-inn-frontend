@@ -21,6 +21,31 @@ env:
     TZ: Europe/Oslo
 
 jobs:
+    build-and-test:
+        name: Build and Test
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: '18'
+                  cache: 'npm'
+                  registry-url: 'https://npm.pkg.github.com'
+                  scope: '@navikt'
+            - name: Install dependencies
+              run: npm ci
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Build with mock
+              run: npm run build:mock
+            - uses: cypress-io/github-action@v5.1.0
+              with:
+                install: false
+                spec: cypress/e2e/*.cy.js
+                start: npm run start:with:test
+                wait-on: 'http://localhost:3000/sendinn/api/isAlive'
+                config: video=false
+                config-file: cypress.config.ts
     build-and-push:
         name: Build and push Docker container
         runs-on: ubuntu-latest
@@ -33,7 +58,7 @@ jobs:
                   registry-url: 'https://npm.pkg.github.com'
                   scope: '@navikt'
             - name: Install dependencies
-              run: npm install
+              run: npm ci
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Set environment variables (prod)
@@ -51,9 +76,6 @@ jobs:
             - name: Set environment variables (preprod-dokumentinnsending)
               if: github.event.inputs.environment == 'preprod-dokumentinnsending'
               run: cp environments/dokumentinnsending/preprod.env .env
-            # fjernet fordi den bare gjør det samme som docker imaget inntil vi har tester/linting
-            # - name: Test
-            #   run: npm run test
             - name: Build
               env:
                   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
@@ -68,7 +90,7 @@ jobs:
 
     deploy-preprod:
         name: Deploy to preprod
-        needs: build-and-push
+        needs: [build-and-test, build-and-push]
         if: github.event.inputs.environment == 'preprod'
         runs-on: ubuntu-latest
         steps:
@@ -84,7 +106,7 @@ jobs:
 
     deploy-preprod-alt:
         name: Deploy to preprod-alt
-        needs: build-and-push
+        needs: [build-and-test, build-and-push]
         if: github.event.inputs.environment == 'preprod-alt'
         runs-on: ubuntu-latest
         steps:
@@ -100,7 +122,7 @@ jobs:
 
     deploy-prod:
         name: Deploy to prod
-        needs: build-and-push
+        needs: [build-and-test, build-and-push]
         if: github.event.inputs.environment == 'prod'
         runs-on: ubuntu-latest
         steps:
@@ -116,7 +138,7 @@ jobs:
 
     deploy-preprod-dokumentinnsending:
         name: Deploy to preprod (dokumentinnsending)
-        needs: build-and-push
+        needs: [build-and-test, build-and-push]
         if: github.event.inputs.environment == 'preprod-dokumentinnsending'
         runs-on: ubuntu-latest
         steps:
@@ -132,7 +154,7 @@ jobs:
 
     deploy-prod-dokumentinnsending:
         name: Deploy to prod (dokumentinnsending)
-        needs: build-and-push
+        needs: [build-and-test, build-and-push]
         if: github.event.inputs.environment == 'prod-dokumentinnsending'
         runs-on: ubuntu-latest
         steps:

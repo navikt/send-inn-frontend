@@ -34,7 +34,7 @@ export default function SoknadSendtInn() {
             <Head>
                 <title>{t('feilside.soknadSendtInn.tittel')}</title>
             </Head>
-            <GuidePanel poster="true">
+            <GuidePanel poster={true}>
                 {sprakListe.map((sprak) => (
                     <div key={sprak}>
                         <Heading level="1" size="medium" spacing>
