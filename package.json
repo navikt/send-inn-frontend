@@ -14,8 +14,7 @@
     "lint": "next lint",
     "prepare": "husky install",
     "cypress": "npx cypress open",
-    "cypress:headless": "npx cypress run",
-    "test": "npx cypress run -s \"cypress/e2e/*.cy.js\""
+    "cypress:headless": "npx cypress run"
   },
   "dependencies": {
     "@navikt/ds-css": "^2.1.7",
