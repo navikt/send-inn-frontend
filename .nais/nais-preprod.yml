@@ -46,7 +46,7 @@ spec:
             rules:
             - application: innsending-api
     ingresses:
-        - 'https://www.dev.nav.no/sendinn'
+        - 'https://www.intern.dev.nav.no/sendinn'
     env:
         - name: APP_VERSION
           value: {{ app_version }}
