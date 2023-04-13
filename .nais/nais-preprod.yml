@@ -45,6 +45,8 @@ spec:
         outbound:
             rules:
             - application: innsending-api
+            external:
+            - host: dekoratoren.ekstern.dev.nav.no
     ingresses:
         - 'https://www.intern.dev.nav.no/sendinn'
     env:
