@@ -46,7 +46,7 @@ spec:
             rules:
             - application: innsending-api
             external:
-            - host: nav.no
+            - host: www.nav.no
     ingresses:
         - "https://www.nav.no/sendinn"
     env:
