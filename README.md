@@ -1,22 +1,22 @@
 # Send inn frontend
 
-## Login i preprod
+Send Inn er en tjeneste lar en innlogget bruker(ID Porten) opprette eller åpne søknader, laste opp dokumenter/vedlegg, og deretter sende inn søknaden til NAV, ved å bruke [innsending-api](https://github.com/navikt/innsending-api/).
 
-Finn en testbruker her og logg deg inn.
-https://confluence.adeo.no/pages/viewpage.action?pageId=419521258
+Send Inn brukes ved digital innsening for [Fyll Ut](https://github.com/navikt/skjemabygging-formio).
 
-Gå til denne siden:
-https://www.dev.nav.no/sendinn
-Eller:
-https://www.dev.nav.no/sendinn-alt
+# Komme i gang
 
-Trykk testid og lim inn syntetisk fødselsnummer i
+## Lokalt utviklingsmiljø
 
-## Utviklingsmiljø
+### Opprett EVN-variabler
 
-### Oppsett
+```bash
+cp ./.env.local.example .env.local
+```
 
-Opprett filen .env.local basert på innholdet fra .env.local.example.
+Eller opprett filen `.env.local` basert på innholdet fra `.env.local.example`.
+
+### Installer node moduler
 
 ```bash
 npm install
@@ -30,28 +30,41 @@ Tokenet må minimum ha rettigheter til read:packages.
 npm login --registry=https://npm.pkg.github.com --auth-type=legacy
 ```
 
-Start løsningen lokalt på http://localhost:3000/sendinn/dev
+### Start applikasjonen i utviklingsmodus
 
 ```bash
 npm run dev
 ```
 
-### Run cypress tests
+Gå til http://localhost:3000/sendinn/dev
 
-Non-headless/interactive mode:
-`npx cypress open`
-Headless:
-`npx run cypress`
+### Kjør cypress tester
 
-### Tips for debugging
+Applikasjonen må kjøre
 
-Man kan bruke curlize i en fil som bruker axios for å console logge alle request i forbindelse med utvikling/debugging.
+med GUI:
 
-```javascript
-import curlirize from 'axios-curlirize';
-// initializing axios-curlirize with your axios instance
-curlirize(axios);
+```bash
+npm run cypress
 ```
+
+headless:
+
+```bash
+npm run cypress:headless
+```
+
+## Login i preprod (kever naisdevice)
+
+Finn en testbruker her og logg deg inn.
+https://confluence.adeo.no/pages/viewpage.action?pageId=419521258 (krever tilgang)
+
+Gå til denne siden:
+https://www.intern.dev.nav.no/sendinn
+Eller:
+https://www.intern.dev.nav.no/sendinn-alt
+
+Trykk testid og bruk syntetisk fødselsnummer tilknyttet testbrukern
 
 ## Sentry
 
@@ -77,3 +90,11 @@ https://sentry.gc.nav.no/organizations/nav/projects/send-inn-frontend/
 ### Se feil tilknyttet denne applikasjonen
 
 https://sentry.gc.nav.no/organizations/nav/projects/send-inn-frontend/
+
+# Henvendelser
+
+Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på GitHub
+
+## For NAV-ansatte
+
+Interne henvendelser kan sendes via Slack i kanalen #team-fyllut-sendinn
