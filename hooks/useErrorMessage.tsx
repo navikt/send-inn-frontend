@@ -1,32 +1,50 @@
 import { AxiosError } from 'axios';
 import { useCallback, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ErrorContext } from '../components/ErrorMessageProvider';
+import {
+    ErrorContext,
+    ErrorMessageType,
+} from '../components/ErrorMessageProvider';
 import { ErrorResponsDto } from '../types/types';
 
 export const useErrorMessage = () => {
-    const { setOpen, setMessage } = useContext(ErrorContext);
+    const { setOpen, setError } = useContext(ErrorContext);
     const { t } = useTranslation();
     const { t: tB, i18n } = useTranslation('backend');
 
     const handleError = useCallback(
-        (error: AxiosError<ErrorResponsDto>) => {
+        (error: AxiosError<ErrorResponsDto>): ErrorMessageType => {
             if (error.response) {
                 // Feil fra server (4xx eller 5xx)
+                const errorCode = error.response.data?.errorCode;
+
+                // i18next godtar any, men ikke en generell verdi
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const messageKey = `${errorCode}.message` as any;
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const titleKey = `${errorCode}.title` as any;
+
                 if (
-                    i18n.exists(error.response.data?.errorCode, {
+                    i18n.exists(messageKey, {
                         ns: 'backend',
                     })
                 ) {
-                    return tB(error.response.data?.errorCode);
+                    return {
+                        message: tB(messageKey),
+                        title: i18n.exists(titleKey, {
+                            ns: 'backend',
+                        })
+                            ? tB(titleKey)
+                            : null,
+                    };
                 }
-                return t('feil.fraBackend');
+                return { message: t('feil.fraBackend') };
             } else if (error.request) {
                 // Ingen respons. Bruker har f.eks mistet internett
-                return t('feil.medTilkobling');
+                return { message: t('feil.medTilkobling') };
             } else {
                 // Feil i klient (js-feil)
-                return t('feil.ukjent');
+                return { message: t('feil.ukjent') };
             }
         },
         [t, tB, i18n],
@@ -34,19 +52,19 @@ export const useErrorMessage = () => {
 
     const showError = useCallback(
         (error: AxiosError<ErrorResponsDto>) => {
-            const formatedMessage = handleError(error);
-            setMessage(formatedMessage);
+            const formatedError = handleError(error);
+            setError(formatedError);
             setOpen(true);
         },
-        [setMessage, setOpen, handleError],
+        [setError, setOpen, handleError],
     );
 
     const customErrorMessage = useCallback(
-        (message: string) => {
-            setMessage(message);
+        (ErrorMessage: ErrorMessageType) => {
+            setError(ErrorMessage);
             setOpen(true);
         },
-        [setMessage, setOpen],
+        [setError, setOpen],
     );
 
     return { showError, customErrorMessage };

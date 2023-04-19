@@ -33,45 +33,58 @@ interface ErrorMessageProviderProps {
     children?: React.ReactNode;
 }
 
-export const ErrorContext = createContext(null);
+export type ErrorMessageType = {
+    message: string;
+    title?: string;
+};
+interface ErrorContextType {
+    open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    error: ErrorMessageType;
+    setError: React.Dispatch<React.SetStateAction<ErrorMessageType>>;
+}
+
+export const ErrorContext = createContext<ErrorContextType>(null);
 
 export const ErrorMessageProvider = ({
     children,
 }: ErrorMessageProviderProps) => {
-    const [open, setOpen] = useState(false);
-    const [message, setMessage] = useState('');
     const { t } = useTranslation();
+    const defaultTitle = t('feil.advarselOverskrift');
+    const [open, setOpen] = useState(false);
+    const [error, setError] = useState<ErrorMessageType>({
+        message: '',
+        title: null,
+    });
 
     const value = {
         open,
         setOpen,
-        message,
-        setMessage,
+        error,
+        setError,
+    };
+
+    const onClose = () => {
+        setOpen(false);
     };
 
     return (
         <ErrorContext.Provider value={value}>
             {children}
 
-            <Modal
-                open={open}
-                onClose={() => {
-                    setOpen(false);
-                    setMessage('');
-                }}
-            >
+            <Modal open={open} onClose={onClose}>
                 <Modal.Content>
                     <StyledContent>
                         <Heading spacing size="medium">
-                            {t('feil.advarselOverskrift')}
+                            {error.title || defaultTitle}
                         </Heading>
 
-                        <BodyLong>{message}</BodyLong>
+                        <BodyLong>{error.message}</BodyLong>
                         <ButtonRow>
                             <Button
                                 variant="secondary"
                                 size="medium"
-                                onClick={() => setOpen(false)}
+                                onClick={onClose}
                             >
                                 {t('feil.advarselBrukerBekreftelse')}
                             </Button>

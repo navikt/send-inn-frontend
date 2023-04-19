@@ -440,12 +440,12 @@ export function Fil({
                     errorCode ===
                         'errorCode.illegalAction.fileCannotBeRead'
                 ) {
-                    return setFeilmelding(tB(errorCode));
+                    return setFeilmelding(tB(`${errorCode}.message`));
                 } else if (
                     errorCode ===
                     'errorCode.illegalAction.fileSizeSumTooLarge'
                 ) {
-                    setFeilmelding(tB(errorCode));
+                    setFeilmelding(tB(`${errorCode}.message`));
                 }
                 showError(error);
             })
