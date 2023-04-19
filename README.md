@@ -8,9 +8,15 @@ Send Inn brukes ved digital innsening for [Fyll Ut](https://github.com/navikt/sk
 
 ## Lokalt utviklingsmiljø
 
-### Oppsett
+### Opprett EVN-variabler
 
-Opprett filen .env.local basert på innholdet fra .env.local.example.
+```bash
+cp ./.env.local.example .env.local
+```
+
+Eller opprett filen `.env.local` basert på innholdet fra `.env.local.example`.
+
+### Installer node moduler
 
 ```bash
 npm install
@@ -24,7 +30,7 @@ Tokenet må minimum ha rettigheter til read:packages.
 npm login --registry=https://npm.pkg.github.com --auth-type=legacy
 ```
 
-### Start applikasjonen
+### Start applikasjonen i utviklingsmodus
 
 ```bash
 npm run dev
@@ -34,10 +40,19 @@ Gå til http://localhost:3000/sendinn/dev
 
 ### Kjør cypress tester
 
-Non-headless/interactive mode:
-`npm run cypress`
-Headless:
-`npm run cypress:headless`
+Applikasjonen må kjøre
+
+med GUI:
+
+```bash
+npm run cypress
+```
+
+headless:
+
+```bash
+npm run cypress:headless
+```
 
 ## Login i preprod (kever naisdevice)
 
