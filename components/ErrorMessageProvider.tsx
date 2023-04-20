@@ -1,33 +1,7 @@
-import { Modal, Button, BodyLong, Heading } from '@navikt/ds-react';
+import { BodyLong, Heading } from '@navikt/ds-react';
 import { useState, createContext } from 'react';
-import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-
-const ButtonRow = styled.div`
-    padding-top: 37px;
-    display: flex;
-    justify-content: center;
-    button {
-        margin: 0 12px;
-    }
-`;
-
-const StyledContent = styled(Modal.Content)`
-    > *:first-child {
-        margin-right: 36px;
-    }
-
-    ol,
-    ul {
-        padding-left: 1.75rem;
-    }
-    @media only screen and (max-width: 600px) {
-        ol,
-        ul {
-            padding-left: 1.5rem;
-        }
-    }
-`;
+import { FellesModal } from './FellesModal';
 
 interface ErrorMessageProviderProps {
     children?: React.ReactNode;
@@ -64,34 +38,22 @@ export const ErrorMessageProvider = ({
         setError,
     };
 
-    const onClose = () => {
-        setOpen(false);
-    };
-
     return (
         <ErrorContext.Provider value={value}>
             {children}
 
-            <Modal open={open} onClose={onClose}>
-                <Modal.Content>
-                    <StyledContent>
-                        <Heading spacing size="medium">
-                            {error.title || defaultTitle}
-                        </Heading>
+            <FellesModal
+                open={open}
+                setOpen={setOpen}
+                cancelButtonText={t('feil.advarselBrukerBekreftelse')}
+                cancelButtonVariant="secondary"
+            >
+                <Heading spacing size="medium">
+                    {error.title || defaultTitle}
+                </Heading>
 
-                        <BodyLong>{error.message}</BodyLong>
-                        <ButtonRow>
-                            <Button
-                                variant="secondary"
-                                size="medium"
-                                onClick={onClose}
-                            >
-                                {t('feil.advarselBrukerBekreftelse')}
-                            </Button>
-                        </ButtonRow>
-                    </StyledContent>
-                </Modal.Content>
-            </Modal>
+                <BodyLong>{error.message}</BodyLong>
+            </FellesModal>
         </ErrorContext.Provider>
     );
 };

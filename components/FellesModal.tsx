@@ -1,5 +1,5 @@
-import React from 'react';
-import { Modal, Button } from '@navikt/ds-react';
+import React, { useEffect } from 'react';
+import { Modal, Button, ButtonProps } from '@navikt/ds-react';
 import styled from 'styled-components';
 
 const StyledModal = styled(Modal)`
@@ -36,9 +36,11 @@ type FellesModalProps = {
     open: boolean;
     setOpen(isOpen: boolean): void;
     children?: React.ReactNode;
-    onAccept(): void;
+    onAccept?: () => void;
     acceptButtonText?: string;
     cancelButtonText?: string;
+    acceptButtonVariant?: ButtonProps['variant'];
+    cancelButtonVariant?: ButtonProps['variant'];
     isLoading?: boolean;
 };
 
@@ -48,37 +50,47 @@ export const FellesModal = (props: FellesModalProps) => {
         setOpen,
         onAccept,
         children,
-        acceptButtonText,
-        cancelButtonText,
+        acceptButtonText = null,
+        cancelButtonText = null,
+        acceptButtonVariant = 'primary',
+        cancelButtonVariant = 'tertiary',
         isLoading = false,
     } = props;
 
-    StyledModal.setAppElement('#__next');
+    useEffect(() => {
+        StyledModal.setAppElement('#__next');
+    }, []);
 
     return (
         <>
             <StyledModal open={open} onClose={() => setOpen(false)}>
                 <StyledContent>
                     {children}
-                    <ButtonRow>
-                        <Button
-                            variant="tertiary"
-                            size="medium"
-                            onClick={() => setOpen(false)}
-                            data-cy="neiFellesModalKnapp"
-                        >
-                            {cancelButtonText || 'Nei'}
-                        </Button>
-                        <Button
-                            variant="primary"
-                            size="medium"
-                            onClick={onAccept}
-                            loading={isLoading}
-                            data-cy="jaFellesModalKnapp"
-                        >
-                            {acceptButtonText || 'Ja'}
-                        </Button>
-                    </ButtonRow>
+                    {(acceptButtonText || cancelButtonText) && (
+                        <ButtonRow>
+                            {cancelButtonText && (
+                                <Button
+                                    variant={cancelButtonVariant}
+                                    size="medium"
+                                    onClick={() => setOpen(false)}
+                                    data-cy="neiFellesModalKnapp"
+                                >
+                                    {cancelButtonText}
+                                </Button>
+                            )}
+                            {acceptButtonText && (
+                                <Button
+                                    variant={acceptButtonVariant}
+                                    size="medium"
+                                    onClick={onAccept}
+                                    loading={isLoading}
+                                    data-cy="jaFellesModalKnapp"
+                                >
+                                    {acceptButtonText}
+                                </Button>
+                            )}
+                        </ButtonRow>
+                    )}
                 </StyledContent>
             </StyledModal>
         </>
