@@ -11,9 +11,9 @@ import { formatertDato, datoOmXDager } from '../utils/dato';
 import { VedleggslisteContext } from './VedleggsListe';
 import { ErrorContext } from './ErrorMessageProvider';
 import { navigerTilMinSide } from '../utils/navigerTilMinSide';
+import { LagringsProsessContext } from './LagringsProsessProvider';
 
 interface SoknadModalProviderProps {
-    isLoading: boolean;
     children?: React.ReactNode;
 }
 
@@ -27,7 +27,6 @@ interface ModalContextType {
 export const ModalContext = createContext<ModalContextType>(null);
 
 export const SoknadModalProvider = ({
-    isLoading,
     children,
 }: SoknadModalProviderProps) => {
     const { t } = useTranslation();
@@ -35,6 +34,7 @@ export const SoknadModalProvider = ({
     const { soknad, onSendInn, slettSoknad } = useContext(
         VedleggslisteContext,
     );
+    const { lagrer } = useContext(LagringsProsessContext);
     const { open: hasError } = useContext(ErrorContext);
 
     const [fortsettSenereSoknadModal, setForstettSenereSoknadModal] =
@@ -112,7 +112,7 @@ export const SoknadModalProvider = ({
                 onAccept={slettSoknad}
                 acceptButtonText={t('modal.slett.accept')}
                 cancelButtonText={t('modal.slett.cancel')}
-                isLoading={isLoading}
+                isLoading={lagrer}
             >
                 <Heading spacing size="medium">
                     {t('modal.slett.tittel')}
@@ -135,7 +135,7 @@ export const SoknadModalProvider = ({
                 }}
                 acceptButtonText={t('modal.sendInnUferdig.accept')}
                 cancelButtonText={t('modal.sendInnUferdig.cancel')}
-                isLoading={isLoading}
+                isLoading={lagrer}
             >
                 <Heading spacing size="medium">
                     {t('modal.sendInnUferdig.tittel')}
@@ -168,7 +168,7 @@ export const SoknadModalProvider = ({
                 }}
                 acceptButtonText={t('modal.sendInnKomplett.accept')}
                 cancelButtonText={t('modal.sendInnKomplett.cancel')}
-                isLoading={isLoading}
+                isLoading={lagrer}
             >
                 <Heading spacing size="medium">
                     {t('modal.sendInnKomplett.tittel')}
