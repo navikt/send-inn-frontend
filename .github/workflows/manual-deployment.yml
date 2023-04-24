@@ -12,8 +12,6 @@ on:
                     - preprod
                     - preprod-alt
                     - prod
-                    - prod-dokumentinnsending
-                    - preprod-dokumentinnsending
 
 env:
     IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:${{ github.event.inputs.environment }}_${{ github.sha }}
@@ -70,12 +68,6 @@ jobs:
             - name: Set environment variables (preprod-alt)
               if: github.event.inputs.environment == 'preprod-alt'
               run: cp environments/preprod-alt.env .env
-            - name: Set environment variables (prod-dokumentinnsending)
-              if: github.event.inputs.environment == 'prod-dokumentinnsending'
-              run: cp environments/dokumentinnsending/prod.env .env
-            - name: Set environment variables (preprod-dokumentinnsending)
-              if: github.event.inputs.environment == 'preprod-dokumentinnsending'
-              run: cp environments/dokumentinnsending/preprod.env .env
             - name: Build
               env:
                   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
@@ -136,34 +128,3 @@ jobs:
                   RESOURCE: .nais/nais.yml
                   VAR: app_version=${{ github.sha }}
 
-    deploy-preprod-dokumentinnsending:
-        name: Deploy to preprod (dokumentinnsending)
-        needs: [build-and-test, build-and-push]
-        if: github.event.inputs.environment == 'preprod-dokumentinnsending'
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - uses: nais/deploy/actions/deploy@v1
-              env:
-                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-                  DRY_RUN: false
-                  PRINT_PAYLOAD: true
-                  CLUSTER: dev-gcp
-                  RESOURCE: .nais/dokumentinnsending/nais-preprod.yml
-                  VAR: app_version=${{ github.sha }}
-
-    deploy-prod-dokumentinnsending:
-        name: Deploy to prod (dokumentinnsending)
-        needs: [build-and-test, build-and-push]
-        if: github.event.inputs.environment == 'prod-dokumentinnsending'
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - uses: nais/deploy/actions/deploy@v1
-              env:
-                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-                  DRY_RUN: false
-                  PRINT_PAYLOAD: true
-                  CLUSTER: prod-gcp
-                  RESOURCE: .nais/dokumentinnsending/nais.yml
-                  VAR: app_version=${{ github.sha }}
