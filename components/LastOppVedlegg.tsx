@@ -150,9 +150,11 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
                                 } else if (soknadDelvisKlar) {
                                     openSendInnUferdigSoknadModal();
                                 } else {
-                                    customErrorMessage(
-                                        t('feil.manglerHovedskjema'),
-                                    );
+                                    customErrorMessage({
+                                        message: t(
+                                            'feil.manglerHovedskjema',
+                                        ),
+                                    });
                                 }
                             })
                             .catch(() =>

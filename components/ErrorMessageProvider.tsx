@@ -1,84 +1,59 @@
-import { Modal, Button, BodyLong, Heading } from '@navikt/ds-react';
+import { BodyLong, Heading } from '@navikt/ds-react';
 import { useState, createContext } from 'react';
-import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-
-const ButtonRow = styled.div`
-    padding-top: 37px;
-    display: flex;
-    justify-content: center;
-    button {
-        margin: 0 12px;
-    }
-`;
-
-const StyledContent = styled(Modal.Content)`
-    > *:first-child {
-        margin-right: 36px;
-    }
-
-    ol,
-    ul {
-        padding-left: 1.75rem;
-    }
-    @media only screen and (max-width: 600px) {
-        ol,
-        ul {
-            padding-left: 1.5rem;
-        }
-    }
-`;
+import { FellesModal } from './FellesModal';
 
 interface ErrorMessageProviderProps {
     children?: React.ReactNode;
 }
 
-export const ErrorContext = createContext(null);
+export type ErrorMessageType = {
+    message: string;
+    title?: string;
+};
+interface ErrorContextType {
+    open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    error: ErrorMessageType;
+    setError: React.Dispatch<React.SetStateAction<ErrorMessageType>>;
+}
+
+export const ErrorContext = createContext<ErrorContextType>(null);
 
 export const ErrorMessageProvider = ({
     children,
 }: ErrorMessageProviderProps) => {
-    const [open, setOpen] = useState(false);
-    const [message, setMessage] = useState('');
     const { t } = useTranslation();
+    const defaultTitle = t('feil.advarselOverskrift');
+    const [open, setOpen] = useState(false);
+    const [error, setError] = useState<ErrorMessageType>({
+        message: '',
+        title: null,
+    });
 
     const value = {
         open,
         setOpen,
-        message,
-        setMessage,
+        error,
+        setError,
     };
 
     return (
         <ErrorContext.Provider value={value}>
             {children}
 
-            <Modal
+            <FellesModal
                 open={open}
-                onClose={() => {
-                    setOpen(false);
-                    setMessage('');
-                }}
+                setOpen={setOpen}
+                cancelButtonText={t('feil.advarselBrukerBekreftelse')}
+                cancelButtonVariant="secondary"
             >
-                <Modal.Content>
-                    <StyledContent>
-                        <Heading spacing size="medium">
-                            {t('feil.advarselOverskrift')}
-                        </Heading>
+                <Heading spacing size="medium">
+                    {error.title || defaultTitle}
+                </Heading>
 
-                        <BodyLong>{message}</BodyLong>
-                        <ButtonRow>
-                            <Button
-                                variant="secondary"
-                                size="medium"
-                                onClick={() => setOpen(false)}
-                            >
-                                {t('feil.advarselBrukerBekreftelse')}
-                            </Button>
-                        </ButtonRow>
-                    </StyledContent>
-                </Modal.Content>
-            </Modal>
+                <BodyLong>{error.message}</BodyLong>
+            </FellesModal>
         </ErrorContext.Provider>
     );
 };
