@@ -1,6 +1,7 @@
 import React, {
     createContext,
     useCallback,
+    useContext,
     useMemo,
     useRef,
 } from 'react';
@@ -22,6 +23,7 @@ import LastOppVedlegg from './LastOppVedlegg';
 import { SoknadModalProvider } from './SoknadModalProvider';
 import { navigerTilMinSide } from '../utils/navigerTilMinSide';
 import { AutomatiskInnsending } from './AutomatiskInnsending';
+import { LagringsProsessContext } from './LagringsProsessProvider';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -80,6 +82,9 @@ export const VedleggslisteContext =
 
 function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
     const { showError } = useErrorMessage();
+    const { lagrerNaa, nyLagringsProsess } = useContext(
+        LagringsProsessContext,
+    );
 
     const [vedleggsliste, setVedleggsListe] = useState<VedleggType[]>(
         soknad.vedleggsListe,
@@ -97,8 +102,6 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
     const [visningsSteg, setVisningsSteg] = useState(
         soknad.visningsSteg,
     );
-
-    const [isLoading, setisLoading] = useState(false);
 
     const [visKvittering, setVisKvittering] = useState(false);
     const [soknadsInnsendingsRespons, setSoknadsInnsendingsRespons] =
@@ -134,19 +137,18 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
                 visningsSteg === 2));
 
     const onSendInn = async () => {
-        setisLoading(true);
-        await axios
-            .post(
+        if (lagrerNaa()) return;
+
+        await nyLagringsProsess(
+            axios.post(
                 `${publicRuntimeConfig.apiUrl}/frontend/v1/sendInn/${soknad?.innsendingsId}`,
-            )
+            ),
+        )
             .then((response) => {
                 const kv: KvitteringsDto = response.data;
                 setSoknadsInnsendingsRespons(kv);
                 setVisKvittering(true);
                 resettFokus();
-            })
-            .finally(() => {
-                setisLoading(false);
             })
             .catch((error) => {
                 showError(error);
@@ -154,20 +156,19 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
     };
 
     const slettSoknad = () => {
-        setisLoading(true);
-        axios
-            .delete(
+        if (lagrerNaa()) return;
+
+        nyLagringsProsess(
+            axios.delete(
                 `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad?.innsendingsId}`,
-            )
+            ),
+        )
             .then(() => {
                 resetState();
                 navigerTilMinSide();
             })
             .catch((error) => {
                 showError(error);
-            })
-            .finally(() => {
-                setisLoading(false);
             });
     };
 
@@ -250,7 +251,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
                 slettAnnetVedlegg,
             }}
         >
-            <SoknadModalProvider isLoading={isLoading}>
+            <SoknadModalProvider>
                 <Style ref={vedleggsListeContainer} tabIndex={-1}>
                     {/* // Er fra Fyllut uten vedlegg */}
                     {erFraFyllutUtenVedlegg && (

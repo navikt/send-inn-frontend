@@ -7,6 +7,7 @@ interface LagringsProsessProviderProps {
 
 interface LagringsProsessContextType {
     lagrer: boolean;
+    lagrerNaa: () => boolean;
     ventPaaLagring: () => Promise<void>;
     nyLagringsProsess: <T>(promise: Promise<T>) => Promise<T>;
 }
@@ -60,6 +61,10 @@ export const LagringsProsessProvider = ({
         return;
     }, []);
 
+    const lagrerNaa = useCallback(() => {
+        return aktiveLagringsProsesserRef.current.length !== 0;
+    }, []);
+
     const lagrer = aktiveLagringsProsesser.length !== 0;
 
     return (
@@ -68,6 +73,7 @@ export const LagringsProsessProvider = ({
                 ventPaaLagring,
                 nyLagringsProsess,
                 lagrer,
+                lagrerNaa,
             }}
         >
             {children}
