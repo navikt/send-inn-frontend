@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { Heading, Button, BodyShort } from '@navikt/ds-react';
-import { Download } from '@navikt/ds-icons';
 import { useTranslation } from 'react-i18next';
 import { ButtonContainer } from './common/ButtonContainer';
 
@@ -9,6 +8,7 @@ import { VedleggPanel } from './Vedlegg';
 import { ModalContext } from './SoknadModalProvider';
 import styled from 'styled-components';
 import { Linje } from './common/Linje';
+import { LastNedKnapp } from './common/LastNedKnapp';
 
 const BeskrivelsesGruppe = styled.div`
     padding-bottom: 1.5rem;
@@ -53,23 +53,11 @@ function SkjemaNedlasting(props: SkjemanedlastingdProps) {
                     </BodyShort>
                 </BeskrivelsesGruppe>
 
-                <div>
-                    {vedlegg.skjemaurl && (
-                        <Button
-                            as="a"
-                            variant="secondary"
-                            target="_blank"
-                            href={vedlegg.skjemaurl}
-                            rel="noopener noreferrer"
-                            icon={<Download />}
-                            data-cy="lastNedKnapp"
-                        >
-                            {t(
-                                'soknad.skjemaNedlasting.lastNedKnapp',
-                            )}
-                        </Button>
-                    )}
-                </div>
+                {vedlegg.skjemaurl && (
+                    <LastNedKnapp url={vedlegg.skjemaurl}>
+                        {t('soknad.skjemaNedlasting.lastNedKnapp')}
+                    </LastNedKnapp>
+                )}
             </VedleggPanel>
 
             <ButtonContainer>
