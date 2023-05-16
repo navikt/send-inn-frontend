@@ -12,3 +12,13 @@ export const ErrorMessageWithDot = styled(ErrorMessage)`
         content: '•';
     }
 `;
+
+export const ScreenReaderOnly = styled.span`
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+`;

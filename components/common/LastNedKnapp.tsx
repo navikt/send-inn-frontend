@@ -1,5 +1,7 @@
 import { Download } from '@navikt/ds-icons';
 import { Button, ButtonProps } from '@navikt/ds-react';
+import { useTranslation } from 'react-i18next';
+import { ScreenReaderOnly } from '../textStyle';
 
 interface LastNedKnappProps {
     children: string;
@@ -12,6 +14,7 @@ export const LastNedKnapp = ({
     url,
     variant = 'secondary',
 }: LastNedKnappProps) => {
+    const { t } = useTranslation();
     return (
         <Button
             as="a"
@@ -23,6 +26,9 @@ export const LastNedKnapp = ({
             data-cy="lastNedKnapp"
         >
             {children}
+            <ScreenReaderOnly>
+                {t('link.nyFane', { tekst: '' })}
+            </ScreenReaderOnly>
         </Button>
     );
 };

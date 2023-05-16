@@ -141,7 +141,7 @@
         "mottattDokumenter": "We received the following documents on {{dato}}:",
         "skjema": "Form",
         "vedlegg": "Attachments",
-        "skjemaLenke": "Download a copy (opens in a new tab)",
+        "skjemaLenke": "Download a copy",
         "maaEttersendes": "Documents that must be sent later:",
         "sendesAvAndre": "Documents to be sent by others:",
         "fristEttersending": "Deadline for sending the missing documents: {{dato}}",

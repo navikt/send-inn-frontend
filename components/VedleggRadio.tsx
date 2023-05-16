@@ -15,6 +15,7 @@ import getConfig from 'next/config';
 import axios, { AxiosResponse } from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { LagringsProsessContext } from './LagringsProsessProvider';
+import { ScreenReaderOnly } from './textStyle';
 
 const { publicRuntimeConfig } = getConfig();
 interface VedleggRadioProp {
@@ -26,16 +27,6 @@ interface VedleggRadioProp {
         React.SetStateAction<OpplastingsStatus>
     >;
 }
-
-const SrOnly = styled.span`
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    height: 1px;
-    overflow: hidden;
-    position: absolute;
-    white-space: nowrap;
-    width: 1px;
-`;
 
 const StyledRadioGroup = styled(RadioGroup)`
     :not(:last-child) {
@@ -148,9 +139,9 @@ function VedleggRadio({
             legend={
                 <>
                     {t('soknad.vedlegg.radio.tittel')}
-                    <SrOnly>
+                    <ScreenReaderOnly>
                         {t('for')} {vedlegg.label}
-                    </SrOnly>
+                    </ScreenReaderOnly>
                 </>
             }
             size="medium"
