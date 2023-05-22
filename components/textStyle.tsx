@@ -1,4 +1,5 @@
 import { ErrorMessage } from '@navikt/ds-react';
+import React from 'react';
 import styled from 'styled-components';
 
 export const Bold = styled.span`
@@ -13,12 +14,16 @@ export const ErrorMessageWithDot = styled(ErrorMessage)`
     }
 `;
 
-export const ScreenReaderOnly = styled.span`
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    height: 1px;
-    overflow: hidden;
-    position: absolute;
-    white-space: nowrap;
-    width: 1px;
-`;
+export const ScreenReaderOnly = ({
+    className = '',
+    children,
+    ...rest
+}: React.ComponentPropsWithoutRef<'span'>) => {
+    const mergedClassNames =
+        (className ? className + ' ' : '') + 'navds-sr-only';
+    return (
+        <span className={mergedClassNames} {...rest}>
+            {children}
+        </span>
+    );
+};
