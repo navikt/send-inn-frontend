@@ -29,7 +29,7 @@ import { FilUploadIcon } from './FilUploadIcon';
 import getConfig from 'next/config';
 import { Filvelger } from './Filvelger';
 import { useValidation } from '../hooks/useValidation';
-import { ErrorMessageWithDot } from './textStyle';
+import { ErrorMessageWithDot, ScreenReaderOnly } from './textStyle';
 import { VedleggslisteContext } from './VedleggsListe';
 
 const { publicRuntimeConfig } = getConfig();
@@ -493,6 +493,9 @@ export function Fil({
                             rel="noopener noreferrer"
                         >
                             {filnavn}
+                            <ScreenReaderOnly>
+                                {t('link.nyFane', { tekst: '' })}
+                            </ScreenReaderOnly>
                         </NavLink>
                     ) : (
                         filnavn

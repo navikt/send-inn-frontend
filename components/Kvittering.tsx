@@ -4,7 +4,6 @@ import {
     Heading,
     BodyLong,
     Button,
-    Link as NavLink,
     BodyShort,
 } from '@navikt/ds-react';
 import styled from 'styled-components';
@@ -14,6 +13,7 @@ import { Bold } from './textStyle';
 import { formatertDato } from '../utils/dato';
 import { KvitteringsTillegg } from './skjemaSpesifikt/KvitteringsTillegg';
 import { VedleggslisteContext } from './VedleggsListe';
+import { LastNedKnapp } from './common/LastNedKnapp';
 
 const { publicRuntimeConfig } = getConfig();
 export interface KvitteringsProps {
@@ -43,16 +43,24 @@ export interface KvitteringsDto {
 const SjekkBoksListe = styled.ul`
     list-style: none;
     margin: 0;
-    padding-left: 10px;
-    margin-bottom: 2.75rem;
+    padding-left: 0;
 
     li:not(:last-child) {
-        padding-bottom: 1rem;
+        padding-bottom: var(--a-spacing-4);
     }
 `;
 
+const StyledSection = styled.section`
+    margin-bottom: var(--a-spacing-8);
+`;
+
+const BoksMedMargin = styled.div`
+    margin-top: var(--a-spacing-4);
+    margin-bottom: var(--a-spacing-4);
+`;
+
 const StyledAlert = styled(Alert)`
-    margin-bottom: 2.75rem;
+    margin-bottom: var(--a-spacing-11);
 `;
 
 export function Kvittering({ kvprops }: KvitteringsProps) {
@@ -70,7 +78,7 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
             >
                 {t('kvittering.tittel')}
             </Heading>
-            <section aria-labelledby="mottattDokumenterHeading">
+            <StyledSection aria-labelledby="mottattDokumenterHeading">
                 <Heading
                     id="mottattDokumenterHeading"
                     spacing
@@ -100,14 +108,15 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                                     {': '}
                                 </Bold>
                                 {kvprops.label}
-                                <br />
-                                <NavLink
-                                    href={`${publicRuntimeConfig.apiUrl}/${kvprops.hoveddokumentRef}`}
-                                    target="_blank"
+                            </Alert>
+                            <BoksMedMargin>
+                                <LastNedKnapp
+                                    url={`${publicRuntimeConfig.apiUrl}/${kvprops.hoveddokumentRef}`}
+                                    variant="primary"
                                 >
                                     {t('kvittering.skjemaLenke')}
-                                </NavLink>
-                            </Alert>
+                                </LastNedKnapp>
+                            </BoksMedMargin>
                         </li>
                     )}
                     {kvprops &&
@@ -131,11 +140,11 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                             );
                         })}
                 </SjekkBoksListe>
-            </section>
+            </StyledSection>
 
             {kvprops.skalEttersendes &&
                 kvprops.skalEttersendes.length > 0 && (
-                    <section aria-labelledby="maaEttersendesHeading">
+                    <StyledSection aria-labelledby="maaEttersendesHeading">
                         <Heading
                             id={'maaEttersendesHeading'}
                             spacing
@@ -157,12 +166,12 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                                 },
                             )}
                         </BodyShort>
-                    </section>
+                    </StyledSection>
                 )}
 
             {kvprops.skalSendesAvAndre &&
                 kvprops.skalSendesAvAndre.length > 0 && (
-                    <section aria-labelledby="sendesAvAndreHeading">
+                    <StyledSection aria-labelledby="sendesAvAndreHeading">
                         <Heading
                             id={'sendesAvAndreHeading'}
                             spacing
@@ -184,7 +193,7 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                                 },
                             )}
                         </BodyShort>
-                    </section>
+                    </StyledSection>
                 )}
 
             {kvprops.skalEttersendes &&

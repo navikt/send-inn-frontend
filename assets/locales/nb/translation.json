@@ -139,7 +139,7 @@
         "mottattDokumenter": "Vi mottok disse dokumentene {{dato}}:",
         "skjema": "Skjema",
         "vedlegg": "Vedlegg",
-        "skjemaLenke": "Last ned kopi (åpnes i ny fane)",
+        "skjemaLenke": "Last ned kopi",
         "maaEttersendes": "Dokumenter som må ettersendes:",
         "sendesAvAndre": "Dokumenter som skal sendes av andre:",
         "fristEttersending": "Frist for å ettersende dokumentene: {{dato}}",
