@@ -83,7 +83,7 @@ jobs:
     deploy-preprod:
         name: Deploy to preprod
         needs: [build-and-test, build-and-push]
-        if: github.ref == 'refs/heads/preprod'
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/preprod'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
