@@ -14,57 +14,17 @@ env:
 
 jobs:
     build-and-test:
-        name: Build and Test
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: '18'
-                  cache: 'npm'
-                  registry-url: 'https://npm.pkg.github.com'
-                  scope: '@navikt'
-            - name: Install dependencies
-              run: npm ci
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - name: Build with mock
-              run: npm run build:mock
-            - uses: cypress-io/github-action@v5.1.0
-              with:
-                install: false
-                spec: cypress/e2e/*.cy.js
-                start: npm run start:with:test
-                wait-on: 'http://localhost:3000/sendinn/api/isAlive'
-                config: video=false
-                config-file: cypress.config.ts
+      name: Test frontend
+      uses: ./.github/workflows/test.yml
 
     build-and-push:
         name: Build and push Docker container
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: '18'
-                  cache: 'npm'
-            - name: Install dependencies
-              run: npm ci
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Set environment variables (preprod)
               run: cp environments/preprod.env .env
-            - name: Build
-              env:
-                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}            
-              run: npm run build
-            - name: Publish Docker image
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: |
-                  docker login ghcr.io -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
-                  docker build --tag ${IMAGE} .
-                  docker push ${IMAGE}
+            - name: Build and push Docker container
+              uses: ./.github/workflows/build-push.yml
 
     deploy-preprod:
         name: Deploy to preprod

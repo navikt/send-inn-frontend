@@ -1,8 +1,7 @@
 name: Build and test
-on: push
+on: workflow_call
  
 env:
-    IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:${{ github.sha }}
     CI: true
     TZ: Europe/Oslo
 

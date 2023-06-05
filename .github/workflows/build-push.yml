@@ -1,0 +1,35 @@
+name: Build and push Docker container
+on: workflow_call
+ 
+env:
+    CI: true
+    TZ: Europe/Oslo
+
+jobs:
+    build-and-push:
+        name: Build and push Docker container
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: '18'
+                  cache: 'npm'
+            - name: Install dependencies
+              run: npm ci
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Build
+              env:
+                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}            
+              run: npm run build
+            - name: Publish Docker image
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  docker login ghcr.io -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
+                  docker build --tag ${IMAGE} .
+                  docker push ${IMAGE}
+
+
+
