@@ -1,5 +1,4 @@
 name: Build and push Docker container
-run-name: Build and push Docker container for ${{ inputs.environment }}
 on: 
     workflow_call:
         inputs:
@@ -7,7 +6,6 @@ on:
                 required: true
                 type: string
 
- 
 env:
     IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:${{ inputs.environment }}_${{ github.sha }}
     CI: true

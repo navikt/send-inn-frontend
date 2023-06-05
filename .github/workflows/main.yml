@@ -17,7 +17,7 @@ jobs:
       uses: ./.github/workflows/test.yml
 
     build-and-push:
-        name: Build and push Docker container
+        name: Build and push Docker container for prod
         uses: ./.github/workflows/build-push.yml
         with: 
           environment: prod
