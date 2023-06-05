@@ -1,105 +1,29 @@
 name: Build, push, and deploy
 on:
-    push:
-        paths-ignore:
-            - '**.md'
-            - '**/**.md'
-            - '.github/workflows/manual-deployment.yml'
-    pull_request:
-        branches:
-            - 'main'
-        paths-ignore:
-            - '**.md'
-            - '**/**.md'
-            - '.github/workflows/manual-deployment.yml'
-            - '.nais/**'
+  push:
+    branches:
+      - 'main'
+    paths-ignore:
+      - '**.md'
+      - '**/**.md'
 env:
-    IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:${{ github.sha }}
-    CI: true
-    TZ: Europe/Oslo
+    IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:prod_${{ github.sha }}
 
 jobs:
     build-and-test:
-        name: Build and Test
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: '18'
-                  cache: 'npm'
-                  registry-url: 'https://npm.pkg.github.com'
-                  scope: '@navikt'
-            - name: Install dependencies
-              run: npm ci
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - name: Build with mock
-              run: npm run build:mock
-            - uses: cypress-io/github-action@v5.1.0
-              with:
-                install: false
-                spec: cypress/e2e/*.cy.js
-                start: npm run start:with:test
-                wait-on: 'http://localhost:3000/sendinn/api/isAlive'
-                config: video=false
-                config-file: cypress.config.ts
+      name: Test frontend
+      uses: ./.github/workflows/test.yml
 
     build-and-push:
-        name: Build and push Docker container
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/preprod'
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: '18'
-                  cache: 'npm'
-            - name: Install dependencies
-              run: npm ci
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - name: Set environment variables (prod)
-              if: github.ref == 'refs/heads/main'
-              run: cp environments/prod.env .env
-            - name: Set environment variables (preprod)
-              if: github.ref == 'refs/heads/preprod'
-              run: cp environments/preprod.env .env
-            # fjernet fordi den bare gjør det samme som docker imaget inntil vi har tester/linting
-            # - name: Test
-            #   run: npm run test
-            - name: Build
-              env:
-                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}            
-              run: npm run build
-            - name: Publish Docker image
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: |
-                  docker login ghcr.io -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
-                  docker build --tag ${IMAGE} .
-                  docker push ${IMAGE}
-
-    deploy-preprod:
-        name: Deploy to preprod
-        needs: [build-and-test, build-and-push]
-        if: github.ref == 'refs/heads/preprod'
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - uses: nais/deploy/actions/deploy@v1
-              env:
-                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-                  DRY_RUN: false
-                  PRINT_PAYLOAD: true
-                  CLUSTER: dev-gcp
-                  RESOURCE: .nais/nais-preprod.yml
-                  VAR: app_version=${{ github.sha }}
+        name: Build and push Docker container for prod
+        uses: ./.github/workflows/build-push.yml
+        with: 
+          environment: prod
+        secrets: inherit
 
     deploy-prod:
         name: Deploy to prod
         needs: [build-and-test, build-and-push]
-        if: github.ref == 'refs/heads/main'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
