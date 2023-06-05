@@ -21,6 +21,7 @@ jobs:
         name: Build and push Docker container
         runs-on: ubuntu-latest
         steps:
+            - uses: actions/checkout@v3
             - name: Set environment variables (preprod)
               run: cp environments/preprod.env .env
             - name: Build and push Docker container

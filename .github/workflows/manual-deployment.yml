@@ -27,6 +27,7 @@ jobs:
         name: Build and push Docker container
         runs-on: ubuntu-latest
         steps:
+            - uses: actions/checkout@v3
             - name: Set environment variables (prod)
               if: github.event.inputs.environment == 'prod'
               run: cp environments/prod.env .env
