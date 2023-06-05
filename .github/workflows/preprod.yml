@@ -3,14 +3,11 @@ on:
     push:
       branches:
         - 'main'
-        - 'preprod'
       paths-ignore:
         - '**.md'
         - '**/**.md'
 env:
     IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:preprod_${{ github.sha }}
-    CI: true
-    TZ: Europe/Oslo
 
 jobs:
     build-and-test:

@@ -8,8 +8,6 @@ on:
       - '**/**.md'
 env:
     IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:prod_${{ github.sha }}
-    CI: true
-    TZ: Europe/Oslo
 
 jobs:
     build-and-test:

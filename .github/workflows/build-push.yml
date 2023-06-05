@@ -8,8 +8,6 @@ on:
 
 env:
     IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:${{ inputs.environment }}_${{ github.sha }}
-    CI: true
-    TZ: Europe/Oslo
 
 jobs:
     build-and-push:

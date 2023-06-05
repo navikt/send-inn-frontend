@@ -1,5 +1,6 @@
 name: Build and test
-on: [workflow_call, push]
+run-name: Build and test from trigger ${{ github.event_name }}
+on: [workflow_call, push, pull_request]
  
 env:
     CI: true
