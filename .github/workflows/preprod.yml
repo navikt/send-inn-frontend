@@ -1,13 +1,14 @@
-name: Build, push, and deploy
+name: Build, push, and deploy (preprod)
 on:
-  push:
-    branches:
-      - 'main'
-    paths-ignore:
-      - '**.md'
-      - '**/**.md'
+    push:
+      branches:
+        - 'main'
+        - 'preprod'
+      paths-ignore:
+        - '**.md'
+        - '**/**.md'
 env:
-    IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:prod_${{ github.sha }}
+    IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:preprod_${{ github.sha }}
     CI: true
     TZ: Europe/Oslo
 
@@ -51,8 +52,8 @@ jobs:
               run: npm ci
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - name: Set environment variables (prod)
-              run: cp environments/prod.env .env
+            - name: Set environment variables (preprod)
+              run: cp environments/preprod.env .env
             - name: Build
               env:
                   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}            
@@ -65,8 +66,8 @@ jobs:
                   docker build --tag ${IMAGE} .
                   docker push ${IMAGE}
 
-    deploy-prod:
-        name: Deploy to prod
+    deploy-preprod:
+        name: Deploy to preprod
         needs: [build-and-test, build-and-push]
         runs-on: ubuntu-latest
         steps:
@@ -76,6 +77,8 @@ jobs:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
                   DRY_RUN: false
                   PRINT_PAYLOAD: true
-                  CLUSTER: prod-gcp
-                  RESOURCE: .nais/nais.yml
+                  CLUSTER: dev-gcp
+                  RESOURCE: .nais/nais-preprod.yml
                   VAR: app_version=${{ github.sha }}
+
+
