@@ -22,25 +22,13 @@ jobs:
     build-and-test:
       name: Test frontend
       uses: ./.github/workflows/test.yml
-
+    
     build-and-push:
         name: Build and push Docker container
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - name: Set environment variables (prod)
-              if: github.event.inputs.environment == 'prod'
-              run: cp environments/prod.env .env
-            - name: Set environment variables (preprod)
-              if: github.event.inputs.environment == 'preprod'
-              run: cp environments/preprod.env .env
-            - name: Set environment variables (preprod-alt)
-              if: github.event.inputs.environment == 'preprod-alt'
-              run: cp environments/preprod-alt.env .env
-            - name: Build and push Docker container
-              uses: ./.github/workflows/build-push.yml
+        uses: ./.github/workflows/build-push.yml
+        with: 
+          environment: ${{ github.event.inputs.environment }}
  
-
     deploy-preprod:
         name: Deploy to preprod
         needs: [build-and-test, build-and-push]

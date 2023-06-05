@@ -18,13 +18,9 @@ jobs:
 
     build-and-push:
         name: Build and push Docker container
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - name: Set environment variables (prod)
-              run: cp environments/prod.env .env
-            - name: Build and push Docker container
-              uses: ./.github/workflows/build-push.yml
+        uses: ./.github/workflows/build-push.yml
+        with: 
+          environment: prod
 
     deploy-prod:
         name: Deploy to prod

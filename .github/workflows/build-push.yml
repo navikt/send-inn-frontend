@@ -1,7 +1,14 @@
 name: Build and push Docker container
-on: workflow_call
+on: 
+    workflow_call:
+        inputs:
+            environment:
+                required: true
+                type: string
+
  
 env:
+    IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:${{ inputs.environment }}_${{ github.sha }}
     CI: true
     TZ: Europe/Oslo
 
@@ -19,6 +26,8 @@ jobs:
               run: npm ci
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Set environment variables
+              run: cp environments/${{ inputs.environment }}.env .env
             - name: Build
               env:
                   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}            
