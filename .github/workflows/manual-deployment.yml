@@ -28,6 +28,7 @@ jobs:
         uses: ./.github/workflows/build-push.yml
         with: 
           environment: ${{ github.event.inputs.environment }}
+        secrets: inherit
  
     deploy-preprod:
         name: Deploy to preprod

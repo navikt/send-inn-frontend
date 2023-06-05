@@ -1,4 +1,5 @@
 name: Build and push Docker container
+run-name: Build and push Docker container for ${{ inputs.environment }}
 on: 
     workflow_call:
         inputs:
