@@ -58,14 +58,14 @@ export async function verifyIdportenAccessToken(token: string) {
         throw new Error('IdPortenToken is expired');
     }
 
-    if (
-        verified.payload.client_id !== process.env.IDPORTEN_CLIENT_ID
-    ) {
+    const { client_id, acr } = verified.payload;
+
+    if (client_id !== process.env.IDPORTEN_CLIENT_ID) {
         throw new Error('client_id matcher ikke min client ID');
     }
 
-    if (verified.payload.acr !== 'Level4') {
-        throw new Error('Har ikke acr Level4');
+    if (acr !== 'Level4' && acr !== 'idporten-loa-high') {
+        throw new Error('For lavt sikkerhetsnivå - acr: ' + acr);
     }
     return verified;
 }
