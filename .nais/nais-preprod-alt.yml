@@ -38,7 +38,6 @@ spec:
         sidecar:
             enabled: true
             level: Level4
-            autoLogin: false
     tokenx:
         enabled: true
     accessPolicy:
