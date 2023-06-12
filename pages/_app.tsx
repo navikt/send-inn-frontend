@@ -10,6 +10,7 @@ import { AuthenticationProvider } from '../components/AuthenticationProvider';
 import { ErrorMessageProvider } from '../components/ErrorMessageProvider';
 import App from 'next/app';
 import { LagringsProsessProvider } from '../components/LagringsProsessProvider';
+import { AxiosInterceptor } from '../components/AxiosInterceptor';
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
@@ -24,11 +25,13 @@ function MyApp({ Component, pageProps }: AppProps) {
             >
                 <I18nextProvider i18n={i18n}>
                     <ErrorMessageProvider>
-                        <AuthenticationProvider>
-                            <LagringsProsessProvider>
-                                <Component {...pageProps} />
-                            </LagringsProsessProvider>
-                        </AuthenticationProvider>
+                        <AxiosInterceptor>
+                            <AuthenticationProvider>
+                                <LagringsProsessProvider>
+                                    <Component {...pageProps} />
+                                </LagringsProsessProvider>
+                            </AuthenticationProvider>
+                        </AxiosInterceptor>
                     </ErrorMessageProvider>
                 </I18nextProvider>
             </SWRConfig>
