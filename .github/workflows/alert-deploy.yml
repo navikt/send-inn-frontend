@@ -1,5 +1,5 @@
 name: Deploy alerts to NAIS
-run-name: Deploy alerts to NAIS ${{ inputs.environment }} [${{ github.ref_name }}]
+run-name: Deploy alerts to NAIS ${{ github.event_name == 'push' && 'prod' || inputs.environment }} [${{ github.ref_name }}]
 on:
   workflow_dispatch:
     inputs:
@@ -11,10 +11,17 @@ on:
         options:
           - preprod
           - prod
+  push:
+    branches:
+      - 'main'
+    paths:
+      - '.nais/alerts.yml'
+      - '.github/workflows/alert-deploy.yml'
+    
 jobs:
   apply-alerts-prod:
     name: Apply alerts to prod
-    if: inputs.environment == 'prod'
+    if: (github.event_name == 'push' && github.ref_name == 'main') || inputs.environment == 'prod'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
