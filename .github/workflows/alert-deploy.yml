@@ -1,0 +1,41 @@
+name: Deploy alerts to NAIS
+run-name: Deploy alerts to NAIS ${{ inputs.environment }} [${{ github.ref_name }}]
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy alerts'
+        required: true
+        default: 'preprod'
+        type: choice
+        options:
+          - preprod
+          - prod
+jobs:
+  apply-alerts-prod:
+    name: Apply alerts to prod
+    if: inputs.environment == 'prod'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: deploy to prod
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: prod-gcp
+          RESOURCE: .nais/alerts.yml
+
+  apply-alerts-dev:
+    name: Apply alerts to dev
+    if: inputs.environment == 'preprod'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: deploy to dev
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: dev-gcp
+          RESOURCE: .nais/alerts-preprod.yml
