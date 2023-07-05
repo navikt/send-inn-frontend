@@ -22,7 +22,7 @@ export const LastNedKnapp = ({
             target="_blank"
             href={url}
             rel="noopener noreferrer"
-            icon={<Download />}
+            icon={<Download aria-hidden />}
             data-cy="lastNedKnapp"
         >
             {children}

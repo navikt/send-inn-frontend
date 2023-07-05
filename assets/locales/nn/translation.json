@@ -74,6 +74,12 @@
                 "provIgjen": "Prøv igjen",
                 "avbryt": "Avbryt",
                 "slett": "Fjern",
+                "alt": {
+                    "opplastet": "Fullført opplasting av “{{filnavn}}”",
+                    "tidligereLastetOpp": "Tidlegare sendt inn “{{filnavn}}”",
+                    "lasterOpp": "Lastar opp “{{filnavn}}”",
+                    "feil": "Feil ved opplasting av “{{filnavn}}”"
+                },
                 "feilmelding": {
                     "provIgjenEllerFjern": "Fullfør opplasting av “{{filnavn}}”, eller fjern feil",
                     "ikkeFerdigOpplastet": "Vent til fil er ferdig lasta"

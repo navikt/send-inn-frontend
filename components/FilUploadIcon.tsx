@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import { FIL_STATUS } from '../types/enums';
 import { File, FileError, FileSuccess } from '@navikt/ds-icons';
+import { useTranslation } from 'react-i18next';
 
 // https://stackoverflow.com/a/63620855
 interface FileUploadIconProps {
     filstatus: typeof FIL_STATUS[keyof typeof FIL_STATUS];
+    filnavn: string;
 }
 
 const StyledDiv = styled.div`
@@ -27,11 +29,16 @@ const ErrorStyled = styled(StyledDiv)`
     }
 `;
 
-function ErrorFileIcon() {
+function ErrorFileIcon({ filnavn }: { filnavn: string }) {
+    const { t } = useTranslation();
     return (
         <ErrorStyled>
             <div>
-                <FileError />
+                <FileError
+                    title={t('soknad.vedlegg.fil.alt.feil', {
+                        filnavn,
+                    })}
+                />
             </div>
         </ErrorStyled>
     );
@@ -45,11 +52,19 @@ const AlreadyUploadedStyled = styled(StyledDiv)`
     }
 `;
 
-function AlreadyUploadedFileIcon() {
+function AlreadyUploadedFileIcon({ filnavn }: { filnavn: string }) {
+    const { t } = useTranslation();
     return (
         <AlreadyUploadedStyled>
             <div>
-                <FileSuccess />
+                <FileSuccess
+                    title={t(
+                        'soknad.vedlegg.fil.alt.tidligereLastetOpp',
+                        {
+                            filnavn,
+                        },
+                    )}
+                />
             </div>
         </AlreadyUploadedStyled>
     );
@@ -63,11 +78,16 @@ const UploadingStyled = styled(StyledDiv)`
     }
 `;
 
-function UploadingFileIcon() {
+function UploadingFileIcon({ filnavn }: { filnavn: string }) {
+    const { t } = useTranslation();
     return (
         <UploadingStyled>
             <div>
-                <File />
+                <File
+                    title={t('soknad.vedlegg.fil.alt.lasterOpp', {
+                        filnavn,
+                    })}
+                />
             </div>
         </UploadingStyled>
     );
@@ -80,12 +100,16 @@ const SuccessStyled = styled(StyledDiv)`
     }
 `;
 
-function SuccessFileIcon() {
+function SuccessFileIcon({ filnavn }: { filnavn: string }) {
+    const { t } = useTranslation();
     return (
         <SuccessStyled>
-            <div data-cy="fileUploadSuccessIkon">
-                <FileSuccess />
-            </div>
+            <FileSuccess
+                title={t('soknad.vedlegg.fil.alt.opplastet', {
+                    filnavn,
+                })}
+                data-cy="fileUploadSuccessIkon"
+            />
         </SuccessStyled>
     );
 }
@@ -93,15 +117,17 @@ function SuccessFileIcon() {
 export function FilUploadIcon(props: FileUploadIconProps) {
     return (
         <>
-            {props.filstatus === FIL_STATUS.FEIL && <ErrorFileIcon />}
+            {props.filstatus === FIL_STATUS.FEIL && (
+                <ErrorFileIcon filnavn={props.filnavn} />
+            )}
             {props.filstatus === FIL_STATUS.OPPLASTET && (
-                <SuccessFileIcon />
+                <SuccessFileIcon filnavn={props.filnavn} />
             )}
             {props.filstatus === FIL_STATUS.LASTER_OPP && (
-                <UploadingFileIcon />
+                <UploadingFileIcon filnavn={props.filnavn} />
             )}
             {props.filstatus === FIL_STATUS.TIDLIGERE_LASTET_OPP && (
-                <AlreadyUploadedFileIcon />
+                <AlreadyUploadedFileIcon filnavn={props.filnavn} />
             )}
         </>
     );

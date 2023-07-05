@@ -483,7 +483,10 @@ export function Fil({
                 tabIndex={-1}
             >
                 <div className="icon">
-                    <FilUploadIcon filstatus={status} />
+                    <FilUploadIcon
+                        filstatus={status}
+                        filnavn={filnavn}
+                    />
                 </div>
                 <div className="filename">
                     {status === FIL_STATUS.OPPLASTET ? (

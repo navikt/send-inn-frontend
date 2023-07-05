@@ -153,7 +153,7 @@ export function OpprettAnnetVedlegg({
                     data-cy="opprettAnnetVedlegg"
                     onClick={() => setVisOpprett(true)}
                     variant="secondary"
-                    icon={<Add />}
+                    icon={<Add aria-hidden />}
                     autoFocus={giFokusPaaLeggTil}
                 >
                     {t('soknad.knapper.annenVedleggKnapp')}

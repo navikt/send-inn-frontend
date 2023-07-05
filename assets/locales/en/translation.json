@@ -74,6 +74,12 @@
                 "provIgjen": "Try again",
                 "avbryt": "Cancel",
                 "slett": "Remove",
+                "alt": {
+                    "opplastet": "Successfully uploaded “{{filnavn}}”",
+                    "tidligereLastetOpp": "Previously submitted “{{filnavn}}”",
+                    "lasterOpp": "Uploading “{{filnavn}}”",
+                    "feil": "Error during uploading of “{{filnavn}}”"
+                },
                 "feilmelding": {
                     "provIgjenEllerFjern": "Finish uploading “{{filnavn}}”, or remove file.",
                     "ikkeFerdigOpplastet": "Wait until the file has finished uploading"

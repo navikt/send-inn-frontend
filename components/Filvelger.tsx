@@ -101,7 +101,7 @@ export function Filvelger(props: FilvelgerProps) {
             <Button
                 as="label"
                 variant="secondary"
-                icon={<Upload />}
+                icon={<Upload aria-hidden />}
                 data-cy="filvelgerKnapp"
             >
                 {buttonText || t('filvelger.defaultText')}
