@@ -74,6 +74,7 @@
                 "provIgjen": "Prøv igjen",
                 "avbryt": "Avbryt",
                 "slett": "Fjern",
+                "progress": "Framgang",
                 "alt": {
                     "opplastet": "Fullført opplasting av “{{filnavn}}”",
                     "tidligereLastetOpp": "Tidlegare sendt inn “{{filnavn}}”",

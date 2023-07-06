@@ -74,6 +74,7 @@
                 "provIgjen": "Try again",
                 "avbryt": "Cancel",
                 "slett": "Remove",
+                "progress": "Progress",
                 "alt": {
                     "opplastet": "Successfully uploaded “{{filnavn}}”",
                     "tidligereLastetOpp": "Previously submitted “{{filnavn}}”",
