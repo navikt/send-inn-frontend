@@ -10,7 +10,7 @@ metadata:
         nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
 spec:
     image: '{{ image }}'
-    port: 3000
+    port: 3100
     liveness:
         path: /sendinn/api/isAlive
         initialDelay: 20

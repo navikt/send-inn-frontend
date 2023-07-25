@@ -36,7 +36,7 @@ npm login --registry=https://npm.pkg.github.com --auth-type=legacy
 npm run dev
 ```
 
-Gå til http://localhost:3000/sendinn/dev
+Gå til http://localhost:3100/sendinn/dev
 
 ### Kjør cypress tester
 
