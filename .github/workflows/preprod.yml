@@ -6,8 +6,6 @@ on:
       paths-ignore:
         - '**.md'
         - '**/**.md'
-env:
-    IMAGE: ghcr.io/${{ github.repository }}/send-inn-frontend:preprod_${{ github.sha }}
 
 jobs:
     build-and-test:
@@ -34,6 +32,6 @@ jobs:
                   PRINT_PAYLOAD: true
                   CLUSTER: dev-gcp
                   RESOURCE: .nais/nais-preprod.yml
-                  VAR: app_version=${{ github.sha }}
+                  VAR: app_version=${{ github.sha }},image=${{ needs.build-and-push.outputs.image }}
 
 
