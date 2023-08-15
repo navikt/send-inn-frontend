@@ -384,6 +384,7 @@ function Vedlegg(props: VedleggProps) {
                                             filstatus={
                                                 FIL_STATUS.TIDLIGERE_LASTET_OPP
                                             }
+                                            filnavn={vedlegg.label}
                                         />
                                     </div>
 

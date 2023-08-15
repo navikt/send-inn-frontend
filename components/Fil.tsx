@@ -483,7 +483,10 @@ export function Fil({
                 tabIndex={-1}
             >
                 <div className="icon">
-                    <FilUploadIcon filstatus={status} />
+                    <FilUploadIcon
+                        filstatus={status}
+                        filnavn={filnavn}
+                    />
                 </div>
                 <div className="filename">
                     {status === FIL_STATUS.OPPLASTET ? (
@@ -504,7 +507,8 @@ export function Fil({
                 <div className="fileinfo">
                     {status === FIL_STATUS.LASTER_OPP && (
                         <BodyShort size="small">
-                            Progress: {filState.progress}
+                            {t('soknad.vedlegg.fil.progress')}:{' '}
+                            {filState.progress}
                         </BodyShort>
                     )}
                     {status === FIL_STATUS.OPPLASTET && (
