@@ -13,7 +13,7 @@ COPY ./public ./public
 COPY --chown=nextjs:nodejs ./.next/standalone ./
 COPY --chown=nextjs:nodejs ./.next/static ./.next/static
 
-EXPOSE 3000
-ENV PORT 3000
+EXPOSE 3100
+ENV PORT 3100
 
 CMD ["node", "server.js"]
