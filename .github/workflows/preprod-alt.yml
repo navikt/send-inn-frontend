@@ -1,4 +1,4 @@
-name: Build, push, and deploy (preprod)
+name: Build, push, and deploy (preprod-alt)
 on: workflow_call
 
 jobs:
