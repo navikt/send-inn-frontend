@@ -14,62 +14,17 @@ on:
                     - prod
 
 jobs:
-    build-and-test:
-      name: Test frontend
-      uses: ./.github/workflows/test.yml
-    
-    build-and-push:
-        name: Build and push Docker container for ${{ inputs.environment }}
-        uses: ./.github/workflows/build-push.yml
-        with: 
-          environment: ${{ inputs.environment }}
+    preprod:
+        if: inputs.environment == 'preprod'
+        uses: ./.github/workflows/preprod.yml
         secrets: inherit
- 
-    deploy-preprod:
-        name: Deploy to preprod
-        needs: [build-and-test, build-and-push]
-        if: github.event.inputs.environment == 'preprod'
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - uses: nais/deploy/actions/deploy@v1
-              env:
-                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-                  DRY_RUN: false
-                  PRINT_PAYLOAD: true
-                  CLUSTER: dev-gcp
-                  RESOURCE: .nais/nais-preprod.yml
-                  VAR: app_version=${{ github.sha }},image=${{ needs.build-and-push.outputs.image }}
 
-    deploy-preprod-alt:
-        name: Deploy to preprod-alt
-        needs: [build-and-test, build-and-push]
-        if: github.event.inputs.environment == 'preprod-alt'
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - uses: nais/deploy/actions/deploy@v1
-              env:
-                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-                  DRY_RUN: false
-                  PRINT_PAYLOAD: true
-                  CLUSTER: dev-gcp
-                  RESOURCE: .nais/nais-preprod-alt.yml
-                  VAR: app_version=${{ github.sha }},image=${{ needs.build-and-push.outputs.image }}
+    preprod-alt:
+        if: inputs.environment == 'preprod-alt'
+        uses: ./.github/workflows/preprod-alt.yml
+        secrets: inherit
 
-    deploy-prod:
-        name: Deploy to prod
-        needs: [build-and-test, build-and-push]
-        if: github.event.inputs.environment == 'prod'
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - uses: nais/deploy/actions/deploy@v1
-              env:
-                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-                  DRY_RUN: false
-                  PRINT_PAYLOAD: true
-                  CLUSTER: prod-gcp
-                  RESOURCE: .nais/nais.yml
-                  VAR: app_version=${{ github.sha }},image=${{ needs.build-and-push.outputs.image }}
-
+    prod:
+        if: inputs.environment == 'prod'
+        uses: ./.github/workflows/main.yml
+        secrets: inherit
