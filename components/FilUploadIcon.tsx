@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 import { FIL_STATUS } from '../types/enums';
-import { File, FileError, FileSuccess } from '@navikt/ds-icons';
 import { useTranslation } from 'react-i18next';
+import {
+    FileLoadingIcon,
+    FileCheckmarkIcon,
+    FileXMarkIcon,
+} from '@navikt/aksel-icons';
 
 // https://stackoverflow.com/a/63620855
 interface FileUploadIconProps {
@@ -16,6 +20,7 @@ const StyledDiv = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 1.875rem;
     > * {
         line-height: 0px;
     }
@@ -34,7 +39,7 @@ function ErrorFileIcon({ filnavn }: { filnavn: string }) {
     return (
         <ErrorStyled>
             <div>
-                <FileError
+                <FileXMarkIcon
                     title={t('soknad.vedlegg.fil.alt.feil', {
                         filnavn,
                     })}
@@ -57,7 +62,7 @@ function AlreadyUploadedFileIcon({ filnavn }: { filnavn: string }) {
     return (
         <AlreadyUploadedStyled>
             <div>
-                <FileSuccess
+                <FileCheckmarkIcon
                     title={t(
                         'soknad.vedlegg.fil.alt.tidligereLastetOpp',
                         {
@@ -83,7 +88,7 @@ function UploadingFileIcon({ filnavn }: { filnavn: string }) {
     return (
         <UploadingStyled>
             <div>
-                <File
+                <FileLoadingIcon
                     title={t('soknad.vedlegg.fil.alt.lasterOpp', {
                         filnavn,
                     })}
@@ -104,7 +109,7 @@ function SuccessFileIcon({ filnavn }: { filnavn: string }) {
     const { t } = useTranslation();
     return (
         <SuccessStyled>
-            <FileSuccess
+            <FileCheckmarkIcon
                 title={t('soknad.vedlegg.fil.alt.opplastet', {
                     filnavn,
                 })}

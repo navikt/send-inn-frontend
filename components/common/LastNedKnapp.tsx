@@ -1,4 +1,4 @@
-import { Download } from '@navikt/ds-icons';
+import { DownloadIcon } from '@navikt/aksel-icons';
 import { Button, ButtonProps } from '@navikt/ds-react';
 import { useTranslation } from 'react-i18next';
 import { ScreenReaderOnly } from '../textStyle';
@@ -22,7 +22,7 @@ export const LastNedKnapp = ({
             target="_blank"
             href={url}
             rel="noopener noreferrer"
-            icon={<Download aria-hidden />}
+            icon={<DownloadIcon aria-hidden />}
             data-cy="lastNedKnapp"
         >
             {children}

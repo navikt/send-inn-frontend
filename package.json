@@ -17,8 +17,8 @@
     "cypress:headless": "npx cypress run"
   },
   "dependencies": {
+    "@navikt/aksel-icons": "^4.11.2",
     "@navikt/ds-css": "^4.11.1",
-    "@navikt/ds-icons": "^2.1.7",
     "@navikt/ds-react": "^4.11.1",
     "@navikt/nav-dekoratoren-moduler": "^2.1.1",
     "@sentry/nextjs": "^7.37.2",
