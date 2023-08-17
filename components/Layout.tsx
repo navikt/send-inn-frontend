@@ -7,6 +7,9 @@ const Style = styled.div`
     margin: 0 auto;
     padding-left: 16px;
     padding-right: 16px;
+
+    // Overskriver bakgrunnsfarge på secondary button i ds-css
+    --ac-button-secondary-bg: var(--a-surface-default);
     > * {
         margin-left: auto;
         margin-right: auto;
