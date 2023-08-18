@@ -9,7 +9,7 @@ export const Bold = styled.span`
 export const ErrorMessageWithDot = styled(ErrorMessage)`
     display: flex;
     gap: var(--a-spacing-2);
-    ::before {
+    &::before {
         content: '•';
     }
 `;
