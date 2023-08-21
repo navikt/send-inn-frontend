@@ -20,5 +20,8 @@
     },
     "illegalAction.vedleggFileSizeSumTooLarge": {
         "message": "Summen av storleiken på opplasta filer for dette vedlegget overskrid maksimal tillaten storleik. Den maksimale storleiken er 50MB totalt."
+    },
+    "illegalAction.virusScanFailed": {
+        "message": "Fila du har lasta opp inneheld virus. Prøv igjen med ei anna fil"
     }
 }

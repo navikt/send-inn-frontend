@@ -20,5 +20,8 @@
     },
     "illegalAction.vedleggFileSizeSumTooLarge": {
         "message": "The sum of the size of uploaded files for this attachment exceeds the maximum allowed size. The maximum size allowed is 50MB in total."
+    },
+    "illegalAction.virusScanFailed": {
+        "message": "The uploaded file contains a virus. Try again with another file"
     }
 }

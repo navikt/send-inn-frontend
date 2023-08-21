@@ -65,7 +65,8 @@ type errorCodesWithHandling =
     | 'illegalAction.sendInErrorNoChange'
     | 'illegalAction.notSupportedFileFormat'
     | 'illegalAction.fileSizeSumTooLarge'
-    | 'illegalAction.vedleggFileSizeSumTooLarge';
+    | 'illegalAction.vedleggFileSizeSumTooLarge'
+    | 'illegalAction.virusScanFailed';
 
 export type ErrorResponsDto = {
     arsak: string;

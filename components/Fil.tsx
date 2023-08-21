@@ -437,7 +437,8 @@ export function Fil({
                 if (
                     errorCode ===
                         'illegalAction.notSupportedFileFormat' ||
-                    errorCode === 'illegalAction.fileCannotBeRead'
+                    errorCode === 'illegalAction.fileCannotBeRead' ||
+                    errorCode === 'illegalAction.virusScanFailed'
                 ) {
                     return setFeilmelding(tB(`${errorCode}.message`));
                 } else if (
