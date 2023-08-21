@@ -436,14 +436,13 @@ export function Fil({
                 }
                 if (
                     errorCode ===
-                        'errorCode.illegalAction.notSupportedFileFormat' ||
-                    errorCode ===
-                        'errorCode.illegalAction.fileCannotBeRead'
+                        'illegalAction.notSupportedFileFormat' ||
+                    errorCode === 'illegalAction.fileCannotBeRead' ||
+                    errorCode === 'illegalAction.virusScanFailed'
                 ) {
                     return setFeilmelding(tB(`${errorCode}.message`));
                 } else if (
-                    errorCode ===
-                    'errorCode.illegalAction.fileSizeSumTooLarge'
+                    errorCode === 'illegalAction.fileSizeSumTooLarge'
                 ) {
                     setFeilmelding(tB(`${errorCode}.message`));
                 }

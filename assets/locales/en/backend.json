@@ -1,26 +1,27 @@
 {
-    "errorCode": {
-        "illegalAction.applicationSentInOrDeleted": {
-            "message": "The application cannot be displayed or changed because it has been deleted or submitted to NAV"
-        },
-        "illegalAction.fileCannotBeRead": {
-            "message": "File upload failed because the file cannot be read. Check that it is not encrypted or password protected and try again"
-        },
-        "illegalAction.sendInErrorNoApplication": {
-            "message": "Submission failed because no application document has been uploaded"
-        },
-        "illegalAction.sendInErrorNoChange": {
-            "message": "You must upload at least one new attachment that you want to send to NAV.",
-            "title": "You have not uploaded any new attachments"
-        },
-        "illegalAction.notSupportedFileFormat": {
-            "message": "Wrong file format. It is only allowed to upload files of type PDF, JPEG/JPG and PNG"
-        },
-        "illegalAction.fileSizeSumTooLarge": {
-            "message": "The sum of the size of uploaded files for the entire application exceeds the maximum allowed size. The maximum size allowed is 150MB in total."
-        },
-        "illegalAction.vedleggFileSizeSumTooLarge": {
-            "message": "The sum of the size of uploaded files for this attachment exceeds the maximum allowed size. The maximum size allowed is 50MB in total."
-        }
+    "illegalAction.applicationSentInOrDeleted": {
+        "message": "The application cannot be displayed or changed because it has been deleted or submitted to NAV"
+    },
+    "illegalAction.fileCannotBeRead": {
+        "message": "File upload failed because the file cannot be read. Check that it is not encrypted or password protected and try again"
+    },
+    "illegalAction.sendInErrorNoApplication": {
+        "message": "Submission failed because no application document has been uploaded"
+    },
+    "illegalAction.sendInErrorNoChange": {
+        "message": "You must upload at least one new attachment that you want to send to NAV.",
+        "title": "You have not uploaded any new attachments"
+    },
+    "illegalAction.notSupportedFileFormat": {
+        "message": "Wrong file format. It is only allowed to upload files of type PDF, JPEG/JPG and PNG"
+    },
+    "illegalAction.fileSizeSumTooLarge": {
+        "message": "The sum of the size of uploaded files for the entire application exceeds the maximum allowed size. The maximum size allowed is 150MB in total."
+    },
+    "illegalAction.vedleggFileSizeSumTooLarge": {
+        "message": "The sum of the size of uploaded files for this attachment exceeds the maximum allowed size. The maximum size allowed is 50MB in total."
+    },
+    "illegalAction.virusScanFailed": {
+        "message": "The uploaded file contains a virus. Try again with another file"
     }
 }

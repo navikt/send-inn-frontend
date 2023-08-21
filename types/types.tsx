@@ -59,13 +59,14 @@ export type SoknadType = {
 };
 
 type errorCodesWithHandling =
-    | 'errorCode.illegalAction.applicationSentInOrDeleted'
-    | 'errorCode.illegalAction.fileCannotBeRead'
-    | 'errorCode.illegalAction.sendInErrorNoApplication'
-    | 'errorCode.illegalAction.sendInErrorNoChange'
-    | 'errorCode.illegalAction.notSupportedFileFormat'
-    | 'errorCode.illegalAction.fileSizeSumTooLarge'
-    | 'errorCode.illegalAction.vedleggFileSizeSumTooLarge';
+    | 'illegalAction.applicationSentInOrDeleted'
+    | 'illegalAction.fileCannotBeRead'
+    | 'illegalAction.sendInErrorNoApplication'
+    | 'illegalAction.sendInErrorNoChange'
+    | 'illegalAction.notSupportedFileFormat'
+    | 'illegalAction.fileSizeSumTooLarge'
+    | 'illegalAction.vedleggFileSizeSumTooLarge'
+    | 'illegalAction.virusScanFailed';
 
 export type ErrorResponsDto = {
     arsak: string;
