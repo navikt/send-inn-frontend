@@ -1,26 +1,24 @@
 {
-    "errorCode": {
-        "illegalAction.applicationSentInOrDeleted": {
-            "message": "Søknaden kan ikkje visast eller bli endra fordi han er sletta eller sendt inn til NAV"
-        },
-        "illegalAction.fileCannotBeRead": {
-            "message": "Opplastinga av fil feila fordi ho ikkje kan lesast. Sjekk at ho ikkje er kryptert eller verna med passord og prøv igjen "
-        },
-        "illegalAction.sendInErrorNoApplication": {
-            "message": "Innsendinga feila fordi det ikkje er lasta opp søknad "
-        },
-        "illegalAction.sendInErrorNoChange": {
-            "message": "Du må lasta opp minst eitt nytt vedlegg som du vil senda til NAV.",
-            "title": "Du har ikkje lasta opp nokon nye vedlegg"
-        },
-        "illegalAction.notSupportedFileFormat": {
-            "message": "Feil filformat, det er berre lov å laste opp filer av typen PDF, JPEG/JPG og PNG"
-        },
-        "illegalAction.fileSizeSumTooLarge": {
-            "message": "Summen av storleiken på opplasta filer for heile søknaden overskrid maksimal tillaten storleik. Den maksimale storleiken er 150MB totalt."
-        },
-        "illegalAction.vedleggFileSizeSumTooLarge": {
-            "message": "Summen av storleiken på opplasta filer for dette vedlegget overskrid maksimal tillaten storleik. Den maksimale storleiken er 50MB totalt."
-        }
+    "illegalAction.applicationSentInOrDeleted": {
+        "message": "Søknaden kan ikkje visast eller bli endra fordi han er sletta eller sendt inn til NAV"
+    },
+    "illegalAction.fileCannotBeRead": {
+        "message": "Opplastinga av fil feila fordi ho ikkje kan lesast. Sjekk at ho ikkje er kryptert eller verna med passord og prøv igjen "
+    },
+    "illegalAction.sendInErrorNoApplication": {
+        "message": "Innsendinga feila fordi det ikkje er lasta opp søknad "
+    },
+    "illegalAction.sendInErrorNoChange": {
+        "message": "Du må lasta opp minst eitt nytt vedlegg som du vil senda til NAV.",
+        "title": "Du har ikkje lasta opp nokon nye vedlegg"
+    },
+    "illegalAction.notSupportedFileFormat": {
+        "message": "Feil filformat, det er berre lov å laste opp filer av typen PDF, JPEG/JPG og PNG"
+    },
+    "illegalAction.fileSizeSumTooLarge": {
+        "message": "Summen av storleiken på opplasta filer for heile søknaden overskrid maksimal tillaten storleik. Den maksimale storleiken er 150MB totalt."
+    },
+    "illegalAction.vedleggFileSizeSumTooLarge": {
+        "message": "Summen av storleiken på opplasta filer for dette vedlegget overskrid maksimal tillaten storleik. Den maksimale storleiken er 50MB totalt."
     }
 }
