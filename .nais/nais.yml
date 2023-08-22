@@ -44,8 +44,8 @@ spec:
         outbound:
             rules:
             - application: innsending-api
-            external:
-            - host: www.nav.no
+            - application: nav-dekoratoren
+              namespace: personbruker
     ingresses:
         - "https://www.nav.no/sendinn"
     env:

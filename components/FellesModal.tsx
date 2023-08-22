@@ -58,7 +58,7 @@ export const FellesModal = (props: FellesModalProps) => {
     } = props;
 
     useEffect(() => {
-        StyledModal.setAppElement('#__next');
+        Modal.setAppElement('#__next');
     }, []);
 
     return (

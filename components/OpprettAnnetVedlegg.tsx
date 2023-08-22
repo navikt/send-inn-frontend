@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { Button, TextField } from '@navikt/ds-react';
-import { Add } from '@navikt/ds-icons';
+import { PlusIcon } from '@navikt/aksel-icons';
 import getConfig from 'next/config';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
@@ -153,7 +153,7 @@ export function OpprettAnnetVedlegg({
                     data-cy="opprettAnnetVedlegg"
                     onClick={() => setVisOpprett(true)}
                     variant="secondary"
-                    icon={<Add aria-hidden />}
+                    icon={<PlusIcon aria-hidden />}
                     autoFocus={giFokusPaaLeggTil}
                 >
                     {t('soknad.knapper.annenVedleggKnapp')}

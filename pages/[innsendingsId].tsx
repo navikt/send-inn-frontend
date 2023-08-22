@@ -48,29 +48,27 @@ const InnsendingsSide: NextPage = () => {
     }, [innsendingsId, router, changeLang]);
 
     return (
-        <div>
+        <>
             <Head>
                 <title>
                     {soknad ? soknad.tittel : 'Laster søknad'}
                 </title>
             </Head>
-            <main>
-                {soknad && (
-                    <>
-                        <SoknadHeader
-                            soknadoverskrift={soknad.tittel}
-                            skjemanr={soknad.skjemanr}
-                        />
+            {soknad && (
+                <>
+                    <SoknadHeader
+                        soknadoverskrift={soknad.tittel}
+                        skjemanr={soknad.skjemanr}
+                    />
 
-                        <VedleggsListe
-                            soknad={soknad}
-                            setSoknad={setSoknad}
-                            erEttersending={erEttersending}
-                        />
-                    </>
-                )}
-            </main>
-        </div>
+                    <VedleggsListe
+                        soknad={soknad}
+                        setSoknad={setSoknad}
+                        erEttersending={erEttersending}
+                    />
+                </>
+            )}
+        </>
     );
 };
 

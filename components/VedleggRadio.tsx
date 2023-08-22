@@ -29,7 +29,7 @@ interface VedleggRadioProp {
 }
 
 const StyledRadioGroup = styled(RadioGroup)`
-    :not(:last-child) {
+    &:not(:last-child) {
         padding-bottom: 24px;
     }
 `;

@@ -33,6 +33,7 @@ const Style = styled.div`
     padding-top: 44px;
     margin-bottom: 44px;
     outline: none;
+    max-width: 50rem;
 `;
 
 export interface VedleggsListeProps {

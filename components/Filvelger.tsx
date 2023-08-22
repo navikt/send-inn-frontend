@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button } from '@navikt/ds-react';
-import { Upload } from '@navikt/ds-icons';
+import { UploadIcon } from '@navikt/aksel-icons';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
@@ -101,7 +101,7 @@ export function Filvelger(props: FilvelgerProps) {
             <Button
                 as="label"
                 variant="secondary"
-                icon={<Upload aria-hidden />}
+                icon={<UploadIcon aria-hidden />}
                 data-cy="filvelgerKnapp"
             >
                 {buttonText || t('filvelger.defaultText')}

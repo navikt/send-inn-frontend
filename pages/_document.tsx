@@ -8,14 +8,14 @@ import Document, {
 import { ServerStyleSheet } from 'styled-components';
 import {
     fetchDecoratorReact,
-    Components,
+    DecoratorComponents,
 } from '@navikt/nav-dekoratoren-moduler/ssr';
 import getConfig from 'next/config';
 
 const { publicRuntimeConfig } = getConfig();
 
 interface Props {
-    Decorator: Components;
+    Decorator: DecoratorComponents;
 }
 export default class MyDocument extends Document<Props> {
     static async getInitialProps(ctx: DocumentContext) {
@@ -38,9 +38,12 @@ export default class MyDocument extends Document<Props> {
                     process.env.DECORATOR_ENV === 'dev'
                         ? 'dev'
                         : 'prod',
-                simple: true,
-                logoutUrl:
-                    publicRuntimeConfig.basePath + '/oauth2/logout',
+                params: {
+                    simple: true,
+                    logoutUrl:
+                        publicRuntimeConfig.basePath +
+                        '/oauth2/logout',
+                },
             });
             return {
                 ...initialProps,

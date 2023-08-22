@@ -3,7 +3,6 @@ import { Layout } from '../components/Layout';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '../i18n';
 import '@navikt/ds-css';
-import '@navikt/ds-css-internal';
 import { SWRConfig } from 'swr';
 import fetchJson from '../utils/fetchJson';
 import { AuthenticationProvider } from '../components/AuthenticationProvider';
