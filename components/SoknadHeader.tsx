@@ -12,10 +12,10 @@ export const StyledDetail = styled(Detail)`
 `;
 
 export const Style = styled.div`
-    > * {
+    & > * {
         max-width: 60rem;
-        margin-left: 16px;
-        margin-right: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
     }
 
     align-items: center;
