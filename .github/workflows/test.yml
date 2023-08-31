@@ -27,7 +27,7 @@ jobs:
                   NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Build with mock
               run: npm run build:mock
-            - uses: cypress-io/github-action@v5.1.0
+            - uses: cypress-io/github-action@v6.2.0
               with:
                 install: false
                 spec: cypress/e2e/*.cy.js
