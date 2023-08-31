@@ -98,9 +98,11 @@ export const SoknadModalProvider = ({
                     {t('modal.fortsettSenere.tittel')}
                 </Heading>
                 <BodyLong as="ul">
-                    {t('modal.fortsettSenere.liste', {
-                        returnObjects: true,
-                    }).map((element, key) => (
+                    {(
+                        t('modal.fortsettSenere.liste', {
+                            returnObjects: true,
+                        }) as string[]
+                    ).map((element, key) => (
                         <li key={key}>{element}</li>
                     ))}
                 </BodyLong>
@@ -118,9 +120,11 @@ export const SoknadModalProvider = ({
                     {t('modal.slett.tittel')}
                 </Heading>
                 <BodyLong as="ul">
-                    {t('modal.slett.liste', {
-                        returnObjects: true,
-                    }).map((element, key) => (
+                    {(
+                        t('modal.slett.liste', {
+                            returnObjects: true,
+                        }) as string[]
+                    ).map((element, key) => (
                         <li key={key}>{element}</li>
                     ))}
                 </BodyLong>
@@ -141,19 +145,21 @@ export const SoknadModalProvider = ({
                     {t('modal.sendInnUferdig.tittel')}
                 </Heading>
                 <BodyLong as="ul">
-                    {t('modal.sendInnUferdig.liste', {
-                        dato: formatertDato(
-                            soknad.visningsType === 'ettersending'
-                                ? new Date(
-                                      soknad.innsendingsFristDato,
-                                  )
-                                : datoOmXDager(
-                                      soknad.fristForEttersendelse,
-                                  ),
-                        ),
+                    {(
+                        t('modal.sendInnUferdig.liste', {
+                            dato: formatertDato(
+                                soknad.visningsType === 'ettersending'
+                                    ? new Date(
+                                          soknad.innsendingsFristDato,
+                                      )
+                                    : datoOmXDager(
+                                          soknad.fristForEttersendelse,
+                                      ),
+                            ),
 
-                        returnObjects: true,
-                    }).map((element, key) => (
+                            returnObjects: true,
+                        }) as string[]
+                    ).map((element, key) => (
                         <li key={key}>{element}</li>
                     ))}
                 </BodyLong>
@@ -174,9 +180,11 @@ export const SoknadModalProvider = ({
                     {t('modal.sendInnKomplett.tittel')}
                 </Heading>
                 <BodyLong as="ul">
-                    {t('modal.sendInnKomplett.liste', {
-                        returnObjects: true,
-                    }).map((element, key) => (
+                    {(
+                        t('modal.sendInnKomplett.liste', {
+                            returnObjects: true,
+                        }) as string[]
+                    ).map((element, key) => (
                         <li key={key}>{element}</li>
                     ))}
                 </BodyLong>
