@@ -45,9 +45,11 @@ function SkjemaNedlasting(props: SkjemanedlastingdProps) {
                         {t('soknad.skjemaNedlasting.listeTittel')}
                     </BodyShort>
                     <BodyShort as="ol">
-                        {t('soknad.skjemaNedlasting.liste', {
-                            returnObjects: true,
-                        }).map((element, key) => (
+                        {(
+                            t('soknad.skjemaNedlasting.liste', {
+                                returnObjects: true,
+                            }) as string[]
+                        ).map((element, key) => (
                             <li key={key}>{element}</li>
                         ))}
                     </BodyShort>

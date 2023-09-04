@@ -55,7 +55,7 @@ export const ACTIONS = {
 } as const;
 
 export interface ActionType {
-    type: typeof ACTIONS[keyof typeof ACTIONS];
+    type: (typeof ACTIONS)[keyof typeof ACTIONS];
     filData?: FilData;
 }
 
@@ -326,11 +326,14 @@ function Vedlegg(props: VedleggProps) {
                                         )}
                                     </BodyShort>
                                     <BodyShort as="ol">
-                                        {t(
-                                            'soknad.hovedSkjema.liste',
-                                            {
-                                                returnObjects: true,
-                                            },
+                                        {(
+                                            t(
+                                                'soknad.hovedSkjema.liste',
+                                                {
+                                                    returnObjects:
+                                                        true,
+                                                },
+                                            ) as string[]
                                         ).map((element, key) => (
                                             <li key={key}>
                                                 {element}
@@ -376,7 +379,7 @@ function Vedlegg(props: VedleggProps) {
                                 >
                                     {t(
                                         'soknad.vedlegg.tidligereSendtInn',
-                                    )}
+                                    ).toLowerCase()}
                                 </Heading>
                                 <FilePanel border>
                                     <div className="icon">
