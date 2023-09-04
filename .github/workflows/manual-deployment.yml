@@ -12,6 +12,10 @@ on:
                     - preprod
                     - preprod-alt
                     - prod
+permissions:
+    contents: "read"
+    id-token: "write"
+    packages: "read"
 
 jobs:
     preprod:

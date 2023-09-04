@@ -379,7 +379,7 @@ function Vedlegg(props: VedleggProps) {
                                 >
                                     {t(
                                         'soknad.vedlegg.tidligereSendtInn',
-                                    ).toLowerCase()}
+                                    )}
                                 </Heading>
                                 <FilePanel border>
                                     <div className="icon">
