@@ -19,6 +19,10 @@ jobs:
         with: 
           environment: prod
         secrets: inherit
+        permissions:
+          contents: "read"
+          id-token: "write"
+          packages: "read"
 
     deploy-prod:
         name: Deploy to prod

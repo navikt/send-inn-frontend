@@ -12,6 +12,10 @@ jobs:
       with: 
         environment: preprod-alt
       secrets: inherit
+      permissions:
+        contents: "read"
+        id-token: "write"
+        packages: "read"
 
     deploy-preprod:
         name: Deploy to preprod-alt
