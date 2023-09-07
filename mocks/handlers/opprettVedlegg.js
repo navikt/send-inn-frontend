@@ -7,7 +7,7 @@ export const opprettVedlegg = rest.post(
     async (req, res, ctx) => {
         return res(
             ctx.status(201),
-            ctx.json(await importJSON('../data/annetVedlegg.json')),
+            ctx.json(await importJSON('annetVedlegg.json')),
         );
     },
 );

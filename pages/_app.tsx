@@ -11,6 +11,9 @@ import App from 'next/app';
 import { LagringsProsessProvider } from '../components/LagringsProsessProvider';
 import { AxiosInterceptor } from '../components/AxiosInterceptor';
 
+if (process.env.API_MOCKING === 'true') {
+    import('../mocks');
+}
 function MyApp({ Component, pageProps }: AppProps) {
     return (
         <Layout>

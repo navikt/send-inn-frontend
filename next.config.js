@@ -3,12 +3,6 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
 /* eslint @typescript-eslint/no-var-requires: "off" */
 import { withSentryConfig } from '@sentry/nextjs';
-import {
-    PHASE_PRODUCTION_SERVER,
-    PHASE_DEVELOPMENT_SERVER,
-} from 'next/dist/shared/lib/constants.js';
-PHASE_PRODUCTION_SERVER;
-import { serverStartup } from './serverStartup.js';
 
 const nextConfig = {
     reactStrictMode: false,
@@ -68,13 +62,7 @@ const sentryWebpackPluginOptions = {
     // https://github.com/getsentry/sentry-webpack-plugin#options.
 };
 
-const getConfig = (phase) => {
-    if (
-        phase === PHASE_DEVELOPMENT_SERVER ||
-        phase === PHASE_PRODUCTION_SERVER
-    ) {
-        serverStartup();
-    }
+const getConfig = () => {
     if (process.env.DISABLE_SENTRY === 'true') {
         return nextConfig;
     }

@@ -7,7 +7,7 @@ export const sendInn = rest.post(
     async (req, res, ctx) => {
         return res(
             ctx.status(200),
-            ctx.json(await importJSON('../data/kvittering.json')),
+            ctx.json(await importJSON('kvittering.json')),
         );
     },
 );
