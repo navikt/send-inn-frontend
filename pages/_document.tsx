@@ -43,6 +43,7 @@ export default class MyDocument extends Document<Props> {
                     logoutUrl:
                         publicRuntimeConfig.basePath +
                         '/oauth2/logout',
+                    logoutWarning: true,
                 },
             });
             return {
