@@ -36,6 +36,6 @@ describe('Axe testing', () => {
         cy.get('[data-cy="lasterOppNaaRadio"]').eq(0).click();
         cy.get('[data-cy="opprettAnnetVedlegg"]').click();
 
-        cy.checkA11y('.content');
+        cy.checkA11y('#__next');
     });
 });
