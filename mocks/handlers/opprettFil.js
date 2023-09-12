@@ -8,7 +8,7 @@ export const opprettFil = rest.post(
     async (req, res, ctx) => {
         return res(
             ctx.status(201),
-            ctx.json(await importJSON('../data/fil.json')),
+            ctx.json(await importJSON('fil.json')),
         );
     },
 );
