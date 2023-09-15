@@ -1,4 +1,5 @@
 import { Client, errors, GrantBody, Issuer } from 'openid-client';
+import { rawLogger } from '../utils/backendLogger';
 
 const OPError = errors.OPError;
 
@@ -74,18 +75,19 @@ export async function getTokenxToken(
             grantBody,
             additionalClaims,
         );
+        if (!grant.access_token) {
+            throw new Error(
+                'TokenX: Mangler accessToken etter token exchange',
+            );
+        }
         return grant.access_token;
     } catch (err) {
-        switch (err.constructor) {
-            case OPError:
-                console.error(
-                    `Noe gikk galt med token exchange mot TokenX.
-            Feilmelding fra openid-client: (${err}).
-            HTTP Status fra TokenX: (${err.response.statusCode} ${err.response.statusMessage})
-            Body fra TokenX:`,
-                    err.response.body,
-                );
-                break;
+        if (err instanceof OPError) {
+            rawLogger.error({
+                statusCode: err.response?.statusCode,
+                statusMessage: err.response?.statusMessage,
+                message: `Noe gikk galt med token exchange mot TokenX: ${err.error}`,
+            });
         }
         throw err;
     }

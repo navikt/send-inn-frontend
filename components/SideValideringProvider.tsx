@@ -1,6 +1,7 @@
 import React, {
     createContext,
     useCallback,
+    useContext,
     useEffect,
     useReducer,
     useRef,
@@ -34,7 +35,7 @@ export const ACTIONS = {
 } as const;
 
 export interface ActionType {
-    type: typeof ACTIONS[keyof typeof ACTIONS];
+    type: (typeof ACTIONS)[keyof typeof ACTIONS];
     validering: ValideringsType;
 }
 
@@ -78,8 +79,18 @@ interface ValideringsContextType {
     visValideringsfeil: boolean;
 }
 
-export const ValideringsContext =
-    createContext<ValideringsContextType>(null);
+const ValideringsContext =
+    createContext<ValideringsContextType | null>(null);
+
+export const useValideringsContext = () => {
+    const valideringsContext = useContext(ValideringsContext);
+    if (!valideringsContext) {
+        throw new Error(
+            'Mangler SideValideringProvider, når useValideringsContext kalles',
+        );
+    }
+    return valideringsContext;
+};
 
 export const SideValideringProvider = ({
     setHarValideringsfeil,
@@ -94,7 +105,7 @@ export const SideValideringProvider = ({
         initialState,
     );
 
-    const errorRef = useRef(null);
+    const errorRef = useRef<HTMLDivElement>(null);
 
     const valideringsFeil = valideringer.filter(
         (validering) => validering.harFeil,

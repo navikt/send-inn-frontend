@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
@@ -25,7 +25,7 @@ import { FIL_STATUS } from '../types/enums';
 import { useValidation } from '../hooks/useValidation';
 import { ValideringsRamme } from './ValideringsRamme';
 
-import { VedleggslisteContext } from './VedleggsListe';
+import { useVedleggslisteContext } from './VedleggsListe';
 import sanitizeHtml from 'sanitize-html';
 import parse from 'html-react-parser';
 
@@ -159,7 +159,7 @@ function Vedlegg(props: VedleggProps) {
     const { innsendingsId, vedlegg } = props;
     const { opplastingsStatus } = vedlegg;
 
-    const { slettAnnetVedlegg } = useContext(VedleggslisteContext);
+    const { slettAnnetVedlegg } = useVedleggslisteContext();
 
     const { t } = useTranslation();
 

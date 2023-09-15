@@ -1,9 +1,4 @@
-import React, {
-    useState,
-    useEffect,
-    useReducer,
-    useContext,
-} from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import axios, {
     AxiosError,
     AxiosProgressEvent,
@@ -30,7 +25,7 @@ import getConfig from 'next/config';
 import { Filvelger } from './Filvelger';
 import { useValidation } from '../hooks/useValidation';
 import { ErrorMessageWithDot, ScreenReaderOnly } from './textStyle';
-import { VedleggslisteContext } from './VedleggsListe';
+import { useVedleggslisteContext } from './VedleggsListe';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -165,11 +160,11 @@ export const FIL_ACTIONS = {
 export interface FilState {
     filData?: FilData;
     progress?: number;
-    status?: typeof FIL_STATUS[keyof typeof FIL_STATUS];
+    status?: (typeof FIL_STATUS)[keyof typeof FIL_STATUS];
 }
 
 export interface FilActionType {
-    type: typeof FIL_ACTIONS[keyof typeof FIL_ACTIONS];
+    type: (typeof FIL_ACTIONS)[keyof typeof FIL_ACTIONS];
     filState?: FilState;
 }
 
@@ -276,9 +271,8 @@ export function Fil({
     const [feilmelding, setFeilmelding] = useState<string>(null);
     const { showError } = useErrorMessage();
 
-    const { oppdaterLokalOpplastingStatus } = useContext(
-        VedleggslisteContext,
-    );
+    const { oppdaterLokalOpplastingStatus } =
+        useVedleggslisteContext();
 
     const filnavn =
         filState.filData.opplastetFil?.filnavn ||

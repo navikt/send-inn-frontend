@@ -1,6 +1,5 @@
 import React, {
     useCallback,
-    useContext,
     useEffect,
     useRef,
     useState,
@@ -9,12 +8,12 @@ import { RadioGroup, Radio } from '@navikt/ds-react';
 import { OpplastingsStatus, VedleggType } from '../types/types';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { VedleggslisteContext } from './VedleggsListe';
+import { useVedleggslisteContext } from './VedleggsListe';
 import { useDebouncedCallback } from 'use-debounce';
 import getConfig from 'next/config';
 import axios, { AxiosResponse } from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
-import { LagringsProsessContext } from './LagringsProsessProvider';
+import { useLagringsProsessContext } from './LagringsProsessProvider';
 import { ScreenReaderOnly } from './textStyle';
 
 const { publicRuntimeConfig } = getConfig();
@@ -47,10 +46,9 @@ function VedleggRadio({
 
     const [harKjortFix, setHarKjortFix] = useState(false);
 
-    const { soknad, oppdaterLokalOpplastingStatus } = useContext(
-        VedleggslisteContext,
-    );
-    const { nyLagringsProsess } = useContext(LagringsProsessContext);
+    const { soknad, oppdaterLokalOpplastingStatus } =
+        useVedleggslisteContext();
+    const { nyLagringsProsess } = useLagringsProsessContext();
 
     const oppdaterOpplastingStatus = useCallback(
         (nyOpplastingsStatus: OpplastingsStatus) => {
@@ -126,7 +124,7 @@ function VedleggRadio({
         oppdaterOpplastingStatus,
     ]);
 
-    const handleChange = (val) => {
+    const handleChange = (val: OpplastingsStatus) => {
         controller.current.abort();
         const newController = new AbortController();
         controller.current = newController;
@@ -145,7 +143,7 @@ function VedleggRadio({
                 </>
             }
             size="medium"
-            onChange={(val: string) => handleChange(val)}
+            onChange={(val: OpplastingsStatus) => handleChange(val)}
             onBlur={(e) => {
                 if (!e.currentTarget.contains(e.relatedTarget)) {
                     // Trigger når radioGroup mister fokus

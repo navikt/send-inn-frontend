@@ -59,7 +59,7 @@ export function EndreVedlegg({
 
     useValidation({
         komponentId: feilId + '-validering',
-        melding: errors.tittel?.message,
+        melding: errors.tittel?.message || '',
         harFeil: harVailderingfeil,
     });
 

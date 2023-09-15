@@ -12,6 +12,10 @@ const Style = styled.main`
     --ac-button-secondary-bg: var(--a-surface-default);
 `;
 
-export const Layout = ({ children }) => {
+interface LayoutProps {
+    children: React.ReactNode;
+}
+
+export const Layout = ({ children }: LayoutProps) => {
     return <Style>{children}</Style>;
 };

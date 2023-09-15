@@ -23,7 +23,7 @@ import LastOppVedlegg from './LastOppVedlegg';
 import { SoknadModalProvider } from './SoknadModalProvider';
 import { navigerTilMinSide } from '../utils/navigerTilMinSide';
 import { AutomatiskInnsending } from './AutomatiskInnsending';
-import { LagringsProsessContext } from './LagringsProsessProvider';
+import { useLagringsProsessContext } from './LagringsProsessProvider';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -72,20 +72,29 @@ interface VedleggslisteContextType {
     slettSoknad: () => void;
     oppdaterLokalOpplastingStatus: (
         id: number,
-        opplastingsStatus: string,
+        opplastingsStatus: OpplastingsStatus,
     ) => void;
     leggTilVedlegg: (vedlegg: ExtendedVedleggType) => void;
     slettAnnetVedlegg: (vedleggId: number) => void;
 }
 
 export const VedleggslisteContext =
-    createContext<VedleggslisteContextType>(null);
+    createContext<VedleggslisteContextType | null>(null);
+
+export const useVedleggslisteContext = () => {
+    const vedleggslisteContext = useContext(VedleggslisteContext);
+    if (!vedleggslisteContext) {
+        throw new Error(
+            'Mangler VedleggsListe -provider, når useVedleggslisteContext kalles',
+        );
+    }
+    return vedleggslisteContext;
+};
 
 function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
     const { showError } = useErrorMessage();
-    const { lagrerNaa, nyLagringsProsess } = useContext(
-        LagringsProsessContext,
-    );
+    const { lagrerNaa, nyLagringsProsess } =
+        useLagringsProsessContext();
 
     const [vedleggsliste, setVedleggsListe] = useState<VedleggType[]>(
         soknad.vedleggsListe,
@@ -106,11 +115,11 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
 
     const [visKvittering, setVisKvittering] = useState(false);
     const [soknadsInnsendingsRespons, setSoknadsInnsendingsRespons] =
-        useState(null);
+        useState<KvitteringsDto | null>(null);
 
     const { visningsType, kanLasteOppAnnet } = soknad;
 
-    const vedleggsListeContainer = useRef(null);
+    const vedleggsListeContainer = useRef<HTMLDivElement>(null);
 
     const erFraFyllutUtenVedlegg =
         !visKvittering &&
@@ -261,9 +270,11 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
                     {/* // skjemanedlasting, steg 1 */}
                     {visSteg0 && (
                         <SkjemaNedlasting
-                            vedlegg={vedleggsliste.find(
-                                (x) => x.erHoveddokument,
-                            )}
+                            vedlegg={
+                                vedleggsliste.find(
+                                    (x) => x.erHoveddokument,
+                                )!
+                            }
                             oppdaterVisningsSteg={
                                 oppdaterVisningsSteg
                             }
@@ -273,9 +284,11 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
                     {/* skjemaopplasting, steg 2*/}
                     {visSteg1 && (
                         <SkjemaOpplasting
-                            vedlegg={vedleggsliste.find(
-                                (x) => x.erHoveddokument,
-                            )}
+                            vedlegg={
+                                vedleggsliste.find(
+                                    (x) => x.erHoveddokument,
+                                )!
+                            }
                             soknad={soknad}
                             oppdaterVisningsSteg={
                                 oppdaterVisningsSteg
@@ -295,7 +308,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
                     {/* steg 4 kvitteringsside  */}
                     {visKvittering && (
                         <Kvittering
-                            kvprops={soknadsInnsendingsRespons}
+                            kvprops={soknadsInnsendingsRespons!}
                         />
                     )}
                 </Style>

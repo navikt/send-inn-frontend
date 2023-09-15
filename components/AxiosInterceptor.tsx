@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
@@ -14,7 +14,7 @@ export const AxiosInterceptor = ({
     const router = useRouter();
 
     useEffect(() => {
-        const responseInterceptor = (response) => {
+        const responseInterceptor = (response: AxiosResponse) => {
             return response;
         };
 

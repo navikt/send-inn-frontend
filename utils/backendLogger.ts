@@ -11,10 +11,14 @@ export const rawLogger = winston.createLogger({
 });
 
 // Etterlingner console.log - Støtter melding over flere parametere
-const debug = (...msg) => rawLogger.debug(util.format(...msg));
-const info = (...msg) => rawLogger.info(util.format(...msg));
-const warn = (...msg) => rawLogger.warn(util.format(...msg));
-const error = (...msg) => rawLogger.error(util.format(...msg));
+const debug = (...msg: unknown[]) =>
+    rawLogger.debug(util.format(...msg));
+const info = (...msg: unknown[]) =>
+    rawLogger.info(util.format(...msg));
+const warn = (...msg: unknown[]) =>
+    rawLogger.warn(util.format(...msg));
+const error = (...msg: unknown[]) =>
+    rawLogger.error(util.format(...msg));
 
 export const logger = {
     debug,

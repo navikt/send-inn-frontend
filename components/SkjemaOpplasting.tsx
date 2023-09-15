@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Heading, Button } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +7,7 @@ import { SideValideringProvider } from './SideValideringProvider';
 import { SoknadType } from '../types/types';
 import Vedlegg from './Vedlegg';
 import { ButtonContainer } from './common/ButtonContainer';
-import { ModalContext } from './SoknadModalProvider';
+import { useModalContext } from './SoknadModalProvider';
 import { Linje } from './common/Linje';
 
 const PaddedVedlegg = styled.div`
@@ -17,7 +17,7 @@ const PaddedVedlegg = styled.div`
 `;
 
 export interface SkjemaOpplastingdProps {
-    vedlegg: VedleggType | null;
+    vedlegg: VedleggType;
     soknad: SoknadType;
     oppdaterVisningsSteg: (nr: number) => void;
 }
@@ -27,7 +27,7 @@ function SkjemaOpplasting(props: SkjemaOpplastingdProps) {
 
     const { t } = useTranslation();
 
-    const { openSlettSoknadModal } = useContext(ModalContext);
+    const { openSlettSoknadModal } = useModalContext();
 
     const [side1HarFeil, setSide1HarFeil] = useState(false);
     const [visSide1Feil, setVisSide1Feil] = useState(false);
