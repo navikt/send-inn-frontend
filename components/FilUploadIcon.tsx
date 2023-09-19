@@ -9,7 +9,7 @@ import {
 
 // https://stackoverflow.com/a/63620855
 interface FileUploadIconProps {
-    filstatus: typeof FIL_STATUS[keyof typeof FIL_STATUS];
+    filstatus?: (typeof FIL_STATUS)[keyof typeof FIL_STATUS];
     filnavn: string;
 }
 
