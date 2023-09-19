@@ -28,7 +28,8 @@ const StyledUpload = styled.input`
 
 const FilvelgerForm = styled.form`
     input[type='file']:focus + label {
-        box-shadow: inset 0 0 0 2px var(--a-border-action),
+        box-shadow:
+            inset 0 0 0 2px var(--a-border-action),
             var(--a-shadow-focus);
     }
 `;
@@ -38,7 +39,7 @@ interface FilvelgerProps {
     onFileSelected: (fil: File) => void;
     CustomButton?: JSX.Element;
     allowMultiple?: boolean;
-    buttonText?: string;
+    buttonText?: string | null;
 }
 
 export function Filvelger(props: FilvelgerProps) {
