@@ -356,7 +356,7 @@ export function Fil({
             dispatch({
                 type: FIL_ACTIONS.FEIL,
             });
-            setFeilmelding(t(`feil.${melding}`));
+            setFeilmelding(t(`feil.${melding!}`));
             return;
         }
 
