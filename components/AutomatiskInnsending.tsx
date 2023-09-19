@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from 'react';
-import { VedleggslisteContext } from './VedleggsListe';
+import { useEffect, useState } from 'react';
+import { useVedleggslisteContext } from './VedleggsListe';
 import { BodyLong } from '@navikt/ds-react';
 import { useTranslation } from 'react-i18next';
 
 export const AutomatiskInnsending = () => {
-    const { onSendInn } = useContext(VedleggslisteContext);
+    const { onSendInn } = useVedleggslisteContext();
     const { t } = useTranslation();
     const [skalSendeInn, setSkalSendeInn] = useState(true);
 

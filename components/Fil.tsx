@@ -1,9 +1,4 @@
-import React, {
-    useState,
-    useEffect,
-    useReducer,
-    useContext,
-} from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import axios, {
     AxiosError,
     AxiosProgressEvent,
@@ -30,13 +25,13 @@ import getConfig from 'next/config';
 import { Filvelger } from './Filvelger';
 import { useValidation } from '../hooks/useValidation';
 import { ErrorMessageWithDot, ScreenReaderOnly } from './textStyle';
-import { VedleggslisteContext } from './VedleggsListe';
+import { useVedleggslisteContext } from './VedleggsListe';
 
 const { publicRuntimeConfig } = getConfig();
 
 const API_URL = publicRuntimeConfig.apiUrl;
 const MAX_FILE_SIZE_IN_MB = parseInt(
-    process.env.NEXT_PUBLIC_MAX_FILE_SIZE_IN_MB,
+    process.env.NEXT_PUBLIC_MAX_FILE_SIZE_IN_MB!,
 );
 const MAX_FILE_SIZE = MAX_FILE_SIZE_IN_MB * 1024 * 1024;
 
@@ -165,16 +160,16 @@ export const FIL_ACTIONS = {
 export interface FilState {
     filData?: FilData;
     progress?: number;
-    status?: typeof FIL_STATUS[keyof typeof FIL_STATUS];
+    status?: (typeof FIL_STATUS)[keyof typeof FIL_STATUS];
 }
 
 export interface FilActionType {
-    type: typeof FIL_ACTIONS[keyof typeof FIL_ACTIONS];
+    type: (typeof FIL_ACTIONS)[keyof typeof FIL_ACTIONS];
     filState?: FilState;
 }
 
 const filValidering = (
-    fil: File,
+    fil?: File,
 ): { harFeil: boolean; melding?: 'filForStor' | 'filIkkeValgt' } => {
     if (!fil) {
         return { harFeil: true, melding: 'filIkkeValgt' };
@@ -209,27 +204,27 @@ const filReducer = (
             return {
                 ...filState,
                 status: FIL_STATUS.STARTER_OPPLASTNING,
-                filData: action.filState.filData,
+                filData: action.filState?.filData,
             };
         }
         case FIL_ACTIONS.LAST_OPP_NY_FIL: {
             return {
                 ...filState,
                 status: FIL_STATUS.STARTER_OPPLASTNING,
-                filData: action.filState.filData,
+                filData: action.filState?.filData,
             };
         }
         case FIL_ACTIONS.OPPLASTET: {
             return {
                 ...filState,
                 status: FIL_STATUS.OPPLASTET,
-                filData: action.filState.filData,
+                filData: action.filState?.filData,
             };
         }
         case FIL_ACTIONS.OPPDATER_PROGRESS: {
             return {
                 ...filState,
-                progress: action.filState.progress,
+                progress: action.filState?.progress,
             };
         }
         case FIL_ACTIONS.AVBRYT: {
@@ -245,10 +240,10 @@ const filReducer = (
             };
         }
         case FIL_ACTIONS.SETT_STATUS: {
-            console.debug('Status:', action.filState.status);
+            console.debug('Status:', action.filState?.status);
             return {
                 ...filState,
-                status: action.filState.status,
+                status: action.filState?.status,
             };
         }
     }
@@ -273,16 +268,17 @@ export function Fil({
     const [controller] = useState(new AbortController());
     const { t } = useTranslation();
     const { t: tB } = useTranslation('backend');
-    const [feilmelding, setFeilmelding] = useState<string>(null);
+    const [feilmelding, setFeilmelding] = useState<string | null>(
+        null,
+    );
     const { showError } = useErrorMessage();
 
-    const { oppdaterLokalOpplastingStatus } = useContext(
-        VedleggslisteContext,
-    );
+    const { oppdaterLokalOpplastingStatus } =
+        useVedleggslisteContext();
 
     const filnavn =
-        filState.filData.opplastetFil?.filnavn ||
-        filState.filData.lokalFil?.name;
+        filState.filData?.opplastetFil?.filnavn ||
+        filState.filData?.lokalFil?.name;
 
     useValidation({
         komponentId: komponentID,
@@ -309,7 +305,7 @@ export function Fil({
             type: FIL_ACTIONS.SETT_STATUS,
             filState: { status: FIL_STATUS.SLETTER },
         });
-        if (!filState.filData.opplastetFil) {
+        if (!filState.filData?.opplastetFil) {
             filListeDispatch({
                 type: ACTIONS.SLETT_FIL,
                 filData: { komponentID },
@@ -354,29 +350,30 @@ export function Fil({
         }
         if (status !== FIL_STATUS.STARTER_OPPLASTNING) return;
 
-        const { harFeil, melding } = filValidering(
-            filState.filData?.lokalFil,
-        );
+        const lokalFil = filState.filData?.lokalFil;
+        const { harFeil, melding } = filValidering(lokalFil);
         if (harFeil) {
             dispatch({
                 type: FIL_ACTIONS.FEIL,
             });
-            setFeilmelding(t(`feil.${melding}`));
+            setFeilmelding(t(`feil.${melding!}`));
             return;
         }
 
         const formData = new FormData();
-        formData.append('file', filState.filData?.lokalFil);
+        formData.append('file', lokalFil!);
         const config = {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
             signal: controller.signal,
             onUploadProgress: (progressEvent: AxiosProgressEvent) => {
-                const progress = Math.round(
-                    (progressEvent.loaded * 100) /
-                        progressEvent.total,
-                );
+                const totalSize = progressEvent.total;
+                const progress = totalSize
+                    ? Math.round(
+                          (progressEvent.loaded * 100) / totalSize,
+                      )
+                    : 0;
                 dispatch({
                     type: FIL_ACTIONS.OPPDATER_PROGRESS,
                     filState: { progress },
@@ -399,7 +396,7 @@ export function Fil({
                 const filData = {
                     opplastetFil: {
                         id: response.data.id,
-                        filnavn: filState.filData.lokalFil.name,
+                        filnavn: lokalFil!.name,
                         storrelse: response.data.storrelse,
                     },
                 };
@@ -484,14 +481,14 @@ export function Fil({
                 <div className="icon">
                     <FilUploadIcon
                         filstatus={status}
-                        filnavn={filnavn}
+                        filnavn={filnavn || ''}
                     />
                 </div>
                 <div className="filename">
                     {status === FIL_STATUS.OPPLASTET ? (
                         <NavLink
                             target="_blank"
-                            href={`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/${filState.filData.opplastetFil?.id}`}
+                            href={`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/${filState.filData?.opplastetFil?.id}`}
                             rel="noopener noreferrer"
                         >
                             {filnavn}
@@ -513,8 +510,8 @@ export function Fil({
                     {status === FIL_STATUS.OPPLASTET && (
                         <BodyShort size="small">
                             {filStorrelseVisning(
-                                filState.filData.opplastetFil
-                                    ?.storrelse,
+                                filState.filData?.opplastetFil
+                                    ?.storrelse || 0,
                             )}
                         </BodyShort>
                     )}

@@ -1,14 +1,14 @@
 import { AxiosError } from 'axios';
-import { useCallback, useContext } from 'react';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-    ErrorContext,
     ErrorMessageType,
+    useErrorMessageContext,
 } from '../components/ErrorMessageProvider';
 import { ErrorResponsDto } from '../types/types';
 
 export const useErrorMessage = () => {
-    const { setOpen, setError } = useContext(ErrorContext);
+    const { setOpen, setError } = useErrorMessageContext();
     const { t } = useTranslation();
     const { t: tB, i18n } = useTranslation('backend');
 
@@ -35,7 +35,7 @@ export const useErrorMessage = () => {
                             ns: 'backend',
                         })
                             ? tB(titleKey)
-                            : null,
+                            : undefined,
                     };
                 }
                 return { message: t('feil.fraBackend') };

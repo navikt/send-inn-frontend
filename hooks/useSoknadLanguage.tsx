@@ -1,9 +1,12 @@
-import { setParams } from '@navikt/nav-dekoratoren-moduler';
+import {
+    DecoratorLocale,
+    setParams,
+} from '@navikt/nav-dekoratoren-moduler';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // nb / nn / en / se / pl støttede språk per 2022 for dekoratoren
-const supportedLanguageCodes = {
+const supportedLanguageCodes: Record<string, DecoratorLocale> = {
     no: 'nb',
     nb: 'nb',
     nn: 'nn',

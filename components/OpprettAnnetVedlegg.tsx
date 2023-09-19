@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { VedleggPanel } from './Vedlegg';
 import { useValidation } from '../hooks/useValidation';
 import { ValideringsRamme } from './ValideringsRamme';
-import { VedleggslisteContext } from './VedleggsListe';
+import { useVedleggslisteContext } from './VedleggsListe';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -52,11 +52,11 @@ export function OpprettAnnetVedlegg({
         harFeil: !harVailderingfeil && visOpprett,
     });
 
-    const { leggTilVedlegg } = useContext(VedleggslisteContext);
+    const { leggTilVedlegg } = useVedleggslisteContext();
 
     useValidation({
         komponentId: feilId + '-validering',
-        melding: errors.tittel?.message,
+        melding: errors.tittel?.message || '',
         harFeil: harVailderingfeil && visOpprett,
     });
 

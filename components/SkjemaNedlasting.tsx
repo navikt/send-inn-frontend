@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Heading, Button, BodyShort } from '@navikt/ds-react';
 import { useTranslation } from 'react-i18next';
 import { ButtonContainer } from './common/ButtonContainer';
 
 import { VedleggType } from '../types/types';
 import { VedleggPanel } from './Vedlegg';
-import { ModalContext } from './SoknadModalProvider';
+import { useModalContext } from './SoknadModalProvider';
 import styled from 'styled-components';
 import { Linje } from './common/Linje';
 import { LastNedKnapp } from './common/LastNedKnapp';
@@ -20,7 +20,7 @@ const BeskrivelsesGruppe = styled.div`
 `;
 
 export interface SkjemanedlastingdProps {
-    vedlegg: VedleggType | null;
+    vedlegg: VedleggType;
     oppdaterVisningsSteg: (nr: number) => void;
 }
 
@@ -28,7 +28,7 @@ function SkjemaNedlasting(props: SkjemanedlastingdProps) {
     const { vedlegg, oppdaterVisningsSteg } = props;
 
     const { t } = useTranslation();
-    const { openSlettSoknadModal } = useContext(ModalContext);
+    const { openSlettSoknadModal } = useModalContext();
 
     return (
         <>

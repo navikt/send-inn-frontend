@@ -1,4 +1,9 @@
-import React, { createContext, useCallback, useRef } from 'react';
+import React, {
+    createContext,
+    useCallback,
+    useContext,
+    useRef,
+} from 'react';
 import { useState } from 'react';
 
 interface LagringsProsessProviderProps {
@@ -12,8 +17,18 @@ interface LagringsProsessContextType {
     nyLagringsProsess: <T>(promise: Promise<T>) => Promise<T>;
 }
 
-export const LagringsProsessContext =
-    createContext<LagringsProsessContextType>(null);
+const LagringsProsessContext =
+    createContext<LagringsProsessContextType | null>(null);
+
+export const useLagringsProsessContext = () => {
+    const lagringsProsessContext = useContext(LagringsProsessContext);
+    if (!lagringsProsessContext) {
+        throw new Error(
+            'Mangler LagringsProsessProvider, når useLagringsProsessContext kalles',
+        );
+    }
+    return lagringsProsessContext;
+};
 
 export const LagringsProsessProvider = ({
     children,

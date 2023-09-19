@@ -1,19 +1,19 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Heading, Button, Ingress, Alert } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { VedleggType } from '../types/types';
 import { SideValideringProvider } from './SideValideringProvider';
 import Vedlegg from './Vedlegg';
-import { VedleggslisteContext } from './VedleggsListe';
+import { useVedleggslisteContext } from './VedleggsListe';
 import { ButtonContainer } from './common/ButtonContainer';
 
 import { OpprettAnnetVedlegg } from './OpprettAnnetVedlegg';
 import { formatertDato } from '../utils/dato';
-import { ModalContext } from './SoknadModalProvider';
+import { useModalContext } from './SoknadModalProvider';
 import { Linje } from './common/Linje';
 import { useErrorMessage } from '../hooks/useErrorMessage';
-import { LagringsProsessContext } from './LagringsProsessProvider';
+import { useLagringsProsessContext } from './LagringsProsessProvider';
 
 const FristForOpplastingInfo = styled(Alert)`
     border: 0;
@@ -39,16 +39,15 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
 
     const { t } = useTranslation();
 
-    const { soknad, soknadKlar, soknadDelvisKlar } = useContext(
-        VedleggslisteContext,
-    );
+    const { soknad, soknadKlar, soknadDelvisKlar } =
+        useVedleggslisteContext();
     const {
         openForstettSenereSoknadModal,
         openSendInnKomplettSoknadModal,
         openSendInnUferdigSoknadModal,
         openSlettSoknadModal,
-    } = useContext(ModalContext);
-    const { ventPaaLagring } = useContext(LagringsProsessContext);
+    } = useModalContext();
+    const { ventPaaLagring } = useLagringsProsessContext();
 
     const [lastOppVedleggHarFeil, setLastOppVedleggHarFeil] =
         useState(false);

@@ -8,10 +8,10 @@ import {
 import { useTranslation } from 'react-i18next';
 import { FellesModal } from './FellesModal';
 import { formatertDato, datoOmXDager } from '../utils/dato';
-import { VedleggslisteContext } from './VedleggsListe';
-import { ErrorContext } from './ErrorMessageProvider';
+import { useVedleggslisteContext } from './VedleggsListe';
+import { useErrorMessageContext } from './ErrorMessageProvider';
 import { navigerTilMinSide } from '../utils/navigerTilMinSide';
-import { LagringsProsessContext } from './LagringsProsessProvider';
+import { useLagringsProsessContext } from './LagringsProsessProvider';
 
 interface SoknadModalProviderProps {
     children?: React.ReactNode;
@@ -24,18 +24,27 @@ interface ModalContextType {
     openSendInnKomplettSoknadModal: () => void;
 }
 
-export const ModalContext = createContext<ModalContextType>(null);
+const ModalContext = createContext<ModalContextType | null>(null);
+
+export const useModalContext = () => {
+    const modalContext = useContext(ModalContext);
+    if (!modalContext) {
+        throw new Error(
+            'Mangler ErrorMessageProvider, når useModalContext kalles',
+        );
+    }
+    return modalContext;
+};
 
 export const SoknadModalProvider = ({
     children,
 }: SoknadModalProviderProps) => {
     const { t } = useTranslation();
 
-    const { soknad, onSendInn, slettSoknad } = useContext(
-        VedleggslisteContext,
-    );
-    const { lagrer } = useContext(LagringsProsessContext);
-    const { open: hasError } = useContext(ErrorContext);
+    const { soknad, onSendInn, slettSoknad } =
+        useVedleggslisteContext();
+    const { lagrer } = useLagringsProsessContext();
+    const { open: hasError } = useErrorMessageContext();
 
     const [fortsettSenereSoknadModal, setForstettSenereSoknadModal] =
         useState(false);

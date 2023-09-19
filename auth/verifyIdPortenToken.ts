@@ -6,7 +6,6 @@ import {
     JWTPayload,
 } from 'jose';
 import { GetKeyFunction } from 'jose/dist/types/types';
-import getConfig from 'next/config';
 import { Client, Issuer } from 'openid-client';
 
 let _issuer: Issuer<Client>;
@@ -46,7 +45,7 @@ async function issuer() {
 }
 
 export const isExpired = (payload: JWTPayload) => {
-    if (payload.exp * 1000 <= Date.now()) {
+    if (payload?.exp && payload.exp * 1000 <= Date.now()) {
         return true;
     }
     return false;

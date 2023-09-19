@@ -1,5 +1,5 @@
-import { useContext, useEffect, useMemo } from 'react';
-import { ValideringsContext } from '../components/SideValideringProvider';
+import { useEffect, useMemo } from 'react';
+import { useValideringsContext } from '../components/SideValideringProvider';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -15,7 +15,7 @@ export const useValidation = ({
     melding,
 }: UseValidationProps) => {
     const { lagreValidering, slettValidering, visValideringsfeil } =
-        useContext(ValideringsContext);
+        useValideringsContext();
 
     const valideringsId = useMemo<string>(uuidv4, []);
 

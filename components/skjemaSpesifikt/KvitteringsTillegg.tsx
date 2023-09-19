@@ -1,6 +1,7 @@
 import Script from 'next/script';
+import { ReactNode } from 'react';
 
-const Skjemaer = {
+const Skjemaer: Record<string, ReactNode> = {
     'NAV 08-09.06': (
         <>
             <Script

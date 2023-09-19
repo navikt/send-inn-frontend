@@ -28,7 +28,8 @@ export default async function handler(
     ) {
         let idportenToken: string;
         try {
-            idportenToken = req.headers.authorization.split(' ')[1];
+            idportenToken =
+                req.headers.authorization?.split(' ')[1] || '';
             await verifyIdportenAccessToken(idportenToken);
         } catch (e) {
             logger.warn(
@@ -37,9 +38,11 @@ export default async function handler(
             );
             return res.status(401).json({ message: 'Access denied' });
         }
+        if (!idportenToken) return;
+
         tokenxToken = await getTokenxToken(
             idportenToken,
-            process.env.INNSENDING_API_AUDIENCE,
+            process.env.INNSENDING_API_AUDIENCE!,
         );
     }
 

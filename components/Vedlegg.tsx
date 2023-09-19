@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { useErrorMessage } from '../hooks/useErrorMessage';
@@ -25,7 +25,7 @@ import { FIL_STATUS } from '../types/enums';
 import { useValidation } from '../hooks/useValidation';
 import { ValideringsRamme } from './ValideringsRamme';
 
-import { VedleggslisteContext } from './VedleggsListe';
+import { useVedleggslisteContext } from './VedleggsListe';
 import sanitizeHtml from 'sanitize-html';
 import parse from 'html-react-parser';
 
@@ -36,7 +36,7 @@ export interface ExtendedVedleggType extends VedleggType {
 }
 
 export interface VedleggProps {
-    vedlegg: ExtendedVedleggType | null;
+    vedlegg: ExtendedVedleggType;
     innsendingsId: string;
     erAnnetVedlegg?: boolean;
 }
@@ -54,10 +54,15 @@ export const ACTIONS = {
     RESET_LISTE: 'RESET_LISTE',
 } as const;
 
-export interface ActionType {
-    type: (typeof ACTIONS)[keyof typeof ACTIONS];
-    filData?: FilData;
-}
+export type ActionType =
+    | {
+          type: Exclude<
+              (typeof ACTIONS)[keyof typeof ACTIONS],
+              typeof ACTIONS.RESET_LISTE
+          >;
+          filData: FilData;
+      }
+    | { type: typeof ACTIONS.RESET_LISTE };
 
 const filListeReducer = (filListe: FilData[], action: ActionType) => {
     switch (action.type) {
@@ -159,7 +164,7 @@ function Vedlegg(props: VedleggProps) {
     const { innsendingsId, vedlegg } = props;
     const { opplastingsStatus } = vedlegg;
 
-    const { slettAnnetVedlegg } = useContext(VedleggslisteContext);
+    const { slettAnnetVedlegg } = useVedleggslisteContext();
 
     const { t } = useTranslation();
 
@@ -403,7 +408,7 @@ function Vedlegg(props: VedleggProps) {
                                             </BodyShort>
                                             <BodyShort>
                                                 {new Date(
-                                                    vedlegg.innsendtdato,
+                                                    vedlegg.innsendtdato!,
                                                 ).toLocaleString(
                                                     'no',
                                                     {
@@ -485,7 +490,7 @@ function Vedlegg(props: VedleggProps) {
                                             <Fil
                                                 key={fil.komponentID}
                                                 komponentID={
-                                                    fil.komponentID
+                                                    fil.komponentID!
                                                 }
                                                 vedlegg={vedlegg}
                                                 innsendingsId={

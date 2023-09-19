@@ -1,5 +1,5 @@
 import { BodyLong, Heading } from '@navikt/ds-react';
-import { useState, createContext } from 'react';
+import { useState, createContext, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FellesModal } from './FellesModal';
 
@@ -11,14 +11,25 @@ export type ErrorMessageType = {
     message: string;
     title?: string;
 };
-interface ErrorContextType {
+interface ErrorMessageContextType {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
     error: ErrorMessageType;
     setError: React.Dispatch<React.SetStateAction<ErrorMessageType>>;
 }
 
-export const ErrorContext = createContext<ErrorContextType>(null);
+const ErrorMessageContext =
+    createContext<ErrorMessageContextType | null>(null);
+
+export const useErrorMessageContext = () => {
+    const errorMessageContext = useContext(ErrorMessageContext);
+    if (!errorMessageContext) {
+        throw new Error(
+            'Mangler ErrorMessageProvider, når useErrorMessageContext kalles',
+        );
+    }
+    return errorMessageContext;
+};
 
 export const ErrorMessageProvider = ({
     children,
@@ -28,7 +39,6 @@ export const ErrorMessageProvider = ({
     const [open, setOpen] = useState(false);
     const [error, setError] = useState<ErrorMessageType>({
         message: '',
-        title: null,
     });
 
     const value = {
@@ -39,7 +49,7 @@ export const ErrorMessageProvider = ({
     };
 
     return (
-        <ErrorContext.Provider value={value}>
+        <ErrorMessageContext.Provider value={value}>
             {children}
 
             <FellesModal
@@ -54,6 +64,6 @@ export const ErrorMessageProvider = ({
 
                 <BodyLong>{error.message}</BodyLong>
             </FellesModal>
-        </ErrorContext.Provider>
+        </ErrorMessageContext.Provider>
     );
 };
