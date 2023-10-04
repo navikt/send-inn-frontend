@@ -1,4 +1,5 @@
 package-lock.json
 
-# Ignore nais.yaml files because it contains handlebars logic
-nais.yaml
+# Ignore yaml files because it contains handlebars logic 
+*.yaml
+*.yml
