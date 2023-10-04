@@ -27,6 +27,7 @@
     "jose": "^4.14.6",
     "next": "13.5.3",
     "openid-client": "^5.5.0",
+    "prettier-plugin-organize-imports": "^3.2.3",
     "prom-client": "^14.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -60,9 +61,14 @@
     "typescript": "^5.2.2"
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "*.{js,ts,tsx,css,md}": "prettier --write"
-  }, 
+    "*.{js,jsx,ts,tsx,mjs}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{md,mdx}": [
+      "prettier --write"
+    ]
+  },
   "engines": {
     "node": ">=20.0.0"
   }
