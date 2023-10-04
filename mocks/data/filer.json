@@ -1,29 +1,29 @@
 [
-    {
-        "vedleggsid": 12686,
-        "id": 4349,
-        "filnavn": "image (5).png",
-        "mimetype": "application/pdf",
-        "storrelse": 113158,
-        "data": null,
-        "opprettetdato": "2023-02-24T12:43:37.145411+01:00"
-    },
-    {
-        "vedleggsid": 12686,
-        "id": 4350,
-        "filnavn": "image (3).png",
-        "mimetype": "application/pdf",
-        "storrelse": 6241,
-        "data": null,
-        "opprettetdato": "2023-02-24T12:58:49.059569+01:00"
-    },
-    {
-        "vedleggsid": 12686,
-        "id": 4351,
-        "filnavn": "image (4).png",
-        "mimetype": "application/pdf",
-        "storrelse": 169888,
-        "data": null,
-        "opprettetdato": "2023-02-24T12:58:49.101954+01:00"
-    }
+  {
+    "vedleggsid": 12686,
+    "id": 4349,
+    "filnavn": "image (5).png",
+    "mimetype": "application/pdf",
+    "storrelse": 113158,
+    "data": null,
+    "opprettetdato": "2023-02-24T12:43:37.145411+01:00"
+  },
+  {
+    "vedleggsid": 12686,
+    "id": 4350,
+    "filnavn": "image (3).png",
+    "mimetype": "application/pdf",
+    "storrelse": 6241,
+    "data": null,
+    "opprettetdato": "2023-02-24T12:58:49.059569+01:00"
+  },
+  {
+    "vedleggsid": 12686,
+    "id": 4351,
+    "filnavn": "image (4).png",
+    "mimetype": "application/pdf",
+    "storrelse": 169888,
+    "data": null,
+    "opprettetdato": "2023-02-24T12:58:49.101954+01:00"
+  }
 ]

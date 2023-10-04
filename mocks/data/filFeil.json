@@ -1,6 +1,6 @@
 {
-    "arsak": "Opplastet fil er ikke lesbar",
-    "message": "Kan ikke laste opp kryptert fil",
-    "timeStamp": "2023-02-24T13:04:36.702613584",
-    "errorCode": "illegalAction.fileCannotBeRead"
+  "arsak": "Opplastet fil er ikke lesbar",
+  "message": "Kan ikke laste opp kryptert fil",
+  "timeStamp": "2023-02-24T13:04:36.702613584",
+  "errorCode": "illegalAction.fileCannotBeRead"
 }

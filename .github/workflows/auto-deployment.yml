@@ -1,14 +1,14 @@
 name: Autodeployment
 run-name: Autodeploy til prod (hver mandag)
 on:
-    schedule:
-        - cron: '0 08 * * 1' # kl 09 hver mandag
+  schedule:
+    - cron: '0 08 * * 1' # kl 09 hver mandag
 
 jobs:
-    build-push-deploy-main:
-      uses: ./.github/workflows/main.yml
-      secrets: inherit
-      permissions:
-        contents: "read"
-        id-token: "write"
-        packages: "read"
+  build-push-deploy-main:
+    uses: ./.github/workflows/main.yml
+    secrets: inherit
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+      packages: 'read'

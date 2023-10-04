@@ -2,12 +2,9 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { register } from 'prom-client';
 import '../../../metrics';
 
-async function prometheus(
-    req: NextApiRequest,
-    res: NextApiResponse,
-): Promise<void> {
-    res.setHeader('Content-type', register.contentType);
-    res.send(await register.metrics());
+async function prometheus(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+  res.setHeader('Content-type', register.contentType);
+  res.send(await register.metrics());
 }
 
 export default prometheus;

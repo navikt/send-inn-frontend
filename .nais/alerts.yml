@@ -1,4 +1,4 @@
-apiVersion: "monitoring.coreos.com/v1"
+apiVersion: 'monitoring.coreos.com/v1'
 kind: PrometheusRule
 metadata:
   name: alert-send-inn-frontend
@@ -14,13 +14,13 @@ spec:
           expr: (100 * sum by (app, namespace) (rate(log_messages_errors{app="send-inn-frontend",level="Error"}[3m])) / sum by (app, namespace) (rate(log_messages_total{app="send-inn-frontend"}[3m]))) > 10
           for: 3m
           annotations:
-            title: "Høy feilrate i logger"
-            consequence: "Det kan være mange forskjellige årsaker til feilmeldingene. Se i loggene og undersøk hvorfor det er flere feilmeldinger enn normalt."
+            title: 'Høy feilrate i logger'
+            consequence: 'Det kan være mange forskjellige årsaker til feilmeldingene. Se i loggene og undersøk hvorfor det er flere feilmeldinger enn normalt.'
             action: https://logs.adeo.no/app/discover#/view/332450f0-0e73-11ee-b29f-0f158c56b75a
           labels:
             service: send-inn-frontend
             namespace: fyllut-sendinn
-            special_type_to_use_in_alertmanager_config: "fyllut-sendinn-alerts"
+            special_type_to_use_in_alertmanager_config: 'fyllut-sendinn-alerts'
             alert_type: custom
             severity: warning
 
@@ -28,13 +28,13 @@ spec:
           expr: kube_deployment_status_replicas_available{deployment="send-inn-frontend"} == 0
           for: 1m
           annotations:
-            title: "send-inn-frontend er nede"
-            consequence: "Tjenesten er utilgjengelig. Undersøk hvorfor poddene er nede."
+            title: 'send-inn-frontend er nede'
+            consequence: 'Tjenesten er utilgjengelig. Undersøk hvorfor poddene er nede.'
             action: https://logs.adeo.no/app/discover#/view/332450f0-0e73-11ee-b29f-0f158c56b75a
             sla: respond within 1h, during office hours
           labels:
             service: send-inn-frontend
             namespace: fyllut-sendinn
-            special_type_to_use_in_alertmanager_config: "fyllut-sendinn-alerts"
+            special_type_to_use_in_alertmanager_config: 'fyllut-sendinn-alerts'
             alert_type: custom
             severity: critical

@@ -9,32 +9,32 @@ on:
   workflow_call:
 
 jobs:
-    build-and-test:
-      name: Test frontend
-      uses: ./.github/workflows/test.yml
+  build-and-test:
+    name: Test frontend
+    uses: ./.github/workflows/test.yml
 
-    build-and-push:
-        name: Build and push Docker container for prod
-        uses: ./.github/workflows/build-push.yml
-        with: 
-          environment: prod
-        secrets: inherit
-        permissions:
-          contents: "read"
-          id-token: "write"
-          packages: "read"
+  build-and-push:
+    name: Build and push Docker container for prod
+    uses: ./.github/workflows/build-push.yml
+    with:
+      environment: prod
+    secrets: inherit
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+      packages: 'read'
 
-    deploy-prod:
-        name: Deploy to prod
-        needs: [build-and-test, build-and-push]
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - uses: nais/deploy/actions/deploy@v1
-              env:
-                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-                  DRY_RUN: false
-                  PRINT_PAYLOAD: true
-                  CLUSTER: prod-gcp
-                  RESOURCE: .nais/nais.yml
-                  VAR: app_version=${{ github.sha }},image=${{ needs.build-and-push.outputs.image }}
+  deploy-prod:
+    name: Deploy to prod
+    needs: [build-and-test, build-and-push]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          DRY_RUN: false
+          PRINT_PAYLOAD: true
+          CLUSTER: prod-gcp
+          RESOURCE: .nais/nais.yml
+          VAR: app_version=${{ github.sha }},image=${{ needs.build-and-push.outputs.image }}

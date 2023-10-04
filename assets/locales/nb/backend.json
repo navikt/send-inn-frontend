@@ -1,27 +1,27 @@
 {
-    "illegalAction.applicationSentInOrDeleted": {
-        "message": "Søknaden kan ikke vises eller endres fordi den er slettet eller sendt inn til NAV"
-    },
-    "illegalAction.fileCannotBeRead": {
-        "message": "Opplasting av fil feilet fordi den ikke kan leses. Sjekk at den ikke er kryptert eller passordbeskyttet og prøv igjen"
-    },
-    "illegalAction.sendInErrorNoApplication": {
-        "message": "Innsending feilet fordi det ikke er lastet opp søknad"
-    },
-    "illegalAction.sendInErrorNoChange": {
-        "message": "Du må laste opp minst ett nytt vedlegg som du vil sende til NAV.",
-        "title": "Du har ikke lastet opp noen nye vedlegg"
-    },
-    "illegalAction.notSupportedFileFormat": {
-        "message": "Feil filformat, det er kun lov å laste opp filer av type PDF, JPEG/JPG og PNG"
-    },
-    "illegalAction.fileSizeSumTooLarge": {
-        "message": "Summen av størrelsen på opplastede filer for hele søknaden overskrider maksimal tillatt størrelse. Den maksimale størrelsen er 150MB totalt."
-    },
-    "illegalAction.vedleggFileSizeSumTooLarge": {
-        "message": "Summen av størrelsen på opplastede filer for dette vedlegget overskrider maksimal tillatt størrelse. Den maksimale størrelsen er 50MB totalt."
-    },
-    "illegalAction.virusScanFailed": {
-        "message": "Filen du har lastet opp inneholder virus. Prøv igjen med en annen fil"
-    }
+  "illegalAction.applicationSentInOrDeleted": {
+    "message": "Søknaden kan ikke vises eller endres fordi den er slettet eller sendt inn til NAV"
+  },
+  "illegalAction.fileCannotBeRead": {
+    "message": "Opplasting av fil feilet fordi den ikke kan leses. Sjekk at den ikke er kryptert eller passordbeskyttet og prøv igjen"
+  },
+  "illegalAction.sendInErrorNoApplication": {
+    "message": "Innsending feilet fordi det ikke er lastet opp søknad"
+  },
+  "illegalAction.sendInErrorNoChange": {
+    "message": "Du må laste opp minst ett nytt vedlegg som du vil sende til NAV.",
+    "title": "Du har ikke lastet opp noen nye vedlegg"
+  },
+  "illegalAction.notSupportedFileFormat": {
+    "message": "Feil filformat, det er kun lov å laste opp filer av type PDF, JPEG/JPG og PNG"
+  },
+  "illegalAction.fileSizeSumTooLarge": {
+    "message": "Summen av størrelsen på opplastede filer for hele søknaden overskrider maksimal tillatt størrelse. Den maksimale størrelsen er 150MB totalt."
+  },
+  "illegalAction.vedleggFileSizeSumTooLarge": {
+    "message": "Summen av størrelsen på opplastede filer for dette vedlegget overskrider maksimal tillatt størrelse. Den maksimale størrelsen er 50MB totalt."
+  },
+  "illegalAction.virusScanFailed": {
+    "message": "Filen du har lastet opp inneholder virus. Prøv igjen med en annen fil"
+  }
 }

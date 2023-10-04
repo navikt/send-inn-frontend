@@ -1,9 +1,4 @@
-import axios, {
-    AxiosError,
-    AxiosRequestHeaders,
-    AxiosResponse,
-    Method,
-} from 'axios';
+import axios, { AxiosError, AxiosRequestHeaders, AxiosResponse, Method } from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Stream } from 'stream';
 import { getTokenxToken } from '../../../auth/getTokenXToken';
@@ -11,142 +6,124 @@ import { verifyIdportenAccessToken } from '../../../auth/verifyIdPortenToken';
 import { logger, rawLogger } from '../../../utils/backendLogger';
 
 export const config = {
-    api: {
-        // Fjerner bodyParser for å unngå problem med 'multipart/form-data'
-        bodyParser: false,
-    },
+  api: {
+    // Fjerner bodyParser for å unngå problem med 'multipart/form-data'
+    bodyParser: false,
+  },
 };
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse,
-) {
-    let tokenxToken = '';
-    if (
-        process.env.APP_ENV !== 'development' &&
-        process.env.APP_ENV !== 'test'
-    ) {
-        let idportenToken: string;
-        try {
-            idportenToken =
-                req.headers.authorization?.split(' ')[1] || '';
-            await verifyIdportenAccessToken(idportenToken);
-        } catch (e) {
-            logger.warn(
-                'kunne ikke validere idportentoken i beskyttetApi',
-                e,
-            );
-            return res.status(401).json({ message: 'Access denied' });
-        }
-        if (!idportenToken) return;
-
-        tokenxToken = await getTokenxToken(
-            idportenToken,
-            process.env.INNSENDING_API_AUDIENCE!,
-        );
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  let tokenxToken = '';
+  if (process.env.APP_ENV !== 'development' && process.env.APP_ENV !== 'test') {
+    let idportenToken: string;
+    try {
+      idportenToken = req.headers.authorization?.split(' ')[1] || '';
+      await verifyIdportenAccessToken(idportenToken);
+    } catch (e) {
+      logger.warn('kunne ikke validere idportentoken i beskyttetApi', e);
+      return res.status(401).json({ message: 'Access denied' });
     }
+    if (!idportenToken) return;
 
-    const { all: nextPath, ...params } = req.query;
+    tokenxToken = await getTokenxToken(idportenToken, process.env.INNSENDING_API_AUDIENCE!);
+  }
 
-    let path = '';
-    if (typeof nextPath === 'string') {
-        path = nextPath;
-    }
+  const { all: nextPath, ...params } = req.query;
 
-    if (typeof nextPath !== 'string' && nextPath) {
-        path = nextPath.join('/');
-    }
+  let path = '';
+  if (typeof nextPath === 'string') {
+    path = nextPath;
+  }
 
-    const method = req.method as Method;
+  if (typeof nextPath !== 'string' && nextPath) {
+    path = nextPath.join('/');
+  }
 
-    // Removed host-header because of certification issues with node
-    const { host, ...headers } = req.headers as AxiosRequestHeaders;
+  const method = req.method as Method;
 
-    await axios({
-        method: method,
-        url: `${process.env.REMOTE_API_URL}/${path}`,
-        params: params,
-        data: req, // Sender data videre som stream
-        headers: {
-            ...headers,
-            authorization: `Bearer ${tokenxToken}`,
-        },
-        responseType: 'stream',
-        timeout: 60000,
-        maxContentLength: Infinity,
-        maxBodyLength: Infinity,
+  // Removed host-header because of certification issues with node
+  const { host, ...headers } = req.headers as AxiosRequestHeaders;
+
+  await axios({
+    method: method,
+    url: `${process.env.REMOTE_API_URL}/${path}`,
+    params: params,
+    data: req, // Sender data videre som stream
+    headers: {
+      ...headers,
+      authorization: `Bearer ${tokenxToken}`,
+    },
+    responseType: 'stream',
+    timeout: 60000,
+    maxContentLength: Infinity,
+    maxBodyLength: Infinity,
+  })
+    .then((response: AxiosResponse<Stream>) => {
+      for (const key in response.headers) {
+        res.setHeader(key, response.headers[key]);
+      }
+
+      res.status(response.status);
+      response.data.pipe(res);
     })
-        .then((response: AxiosResponse<Stream>) => {
-            for (const key in response.headers) {
-                res.setHeader(key, response.headers[key]);
-            }
+    .catch((error: AxiosError<Stream>) => {
+      const commonErrorObject = {
+        requestMethod: req.method,
+        requestPath: req.url,
+        userAgent: headers['user-agent'],
+        referer: headers['referer'],
+        headerSize: error.request?._header?.length,
+        cookieSize: headers.cookie?.length, // Mistenker at cookies fra nav.no kan være uavanlig stor, i noen tilfeller
+      };
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
 
-            res.status(response.status);
-            response.data.pipe(res);
-        })
-        .catch((error: AxiosError<Stream>) => {
-            const commonErrorObject = {
-                requestMethod: req.method,
-                requestPath: req.url,
-                userAgent: headers['user-agent'],
-                referer: headers['referer'],
-                headerSize: error.request?._header?.length,
-                cookieSize: headers.cookie?.length, // Mistenker at cookies fra nav.no kan være uavanlig stor, i noen tilfeller
-            };
-            if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
+        const statusCode = error.response.status;
 
-                const statusCode = error.response.status;
+        let body = '';
+        error.response.data.on('data', (chunk) => (body += chunk));
 
-                let body = '';
-                error.response.data.on(
-                    'data',
-                    (chunk) => (body += chunk),
-                );
-
-                error.response.data.on('end', () => {
-                    try {
-                        const logLevel =
-                            statusCode < 500 ? 'warn' : 'error';
-                        const data = JSON.parse(body);
-                        rawLogger.log(logLevel, {
-                            ...data,
-                            ...commonErrorObject,
-                            statusCode,
-                        });
-                    } catch (e) {
-                        rawLogger.error({
-                            ...commonErrorObject,
-                            apiResponse: body,
-                            statusCode,
-                            message:
-                                'Feil format på response body. Forventer JSON',
-                        });
-                    }
-                });
-                for (const key in error.response.headers) {
-                    res.setHeader(key, error.response.headers[key]);
-                }
-                res.status(error.response.status);
-                return error.response.data.pipe(res);
-            } else if (error.request) {
-                // The request was made but no response was received
-                // `error.request` is an instance of http.ClientRequest
-                rawLogger.error({
-                    ...commonErrorObject,
-                    message: 'No response error',
-                });
-                return res.status(500).send('En feil har oppstått');
-            } else {
-                // Something happened in setting up the request that triggered an Error
-                rawLogger.error({
-                    ...commonErrorObject,
-                    message: 'Invalid request error',
-                });
-                res.status(500).send('Ukjent feil');
-
-                throw error;
-            }
+        error.response.data.on('end', () => {
+          try {
+            const logLevel = statusCode < 500 ? 'warn' : 'error';
+            const data = JSON.parse(body);
+            rawLogger.log(logLevel, {
+              ...data,
+              ...commonErrorObject,
+              statusCode,
+            });
+          } catch (e) {
+            rawLogger.error({
+              ...commonErrorObject,
+              apiResponse: body,
+              statusCode,
+              message: 'Feil format på response body. Forventer JSON',
+            });
+          }
         });
+        for (const key in error.response.headers) {
+          res.setHeader(key, error.response.headers[key]);
+        }
+        res.status(error.response.status);
+        return error.response.data.pipe(res);
+      } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of http.ClientRequest
+        rawLogger.error({
+          ...commonErrorObject,
+          message: 'No response error',
+        });
+        return res.status(500).send('En feil har oppstått');
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        rawLogger.error({
+          ...commonErrorObject,
+          message: 'Invalid request error',
+        });
+        res.status(500).send('Ukjent feil');
+
+        throw error;
+      }
+    });
 }
