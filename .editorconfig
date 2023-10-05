@@ -10,4 +10,3 @@ max_line_length = 120
 
 [*.{js,ejs,cjs,mjs,ts,jsx,tsx,json,css,less,yml,yaml}]
 indent_size = 2
-
