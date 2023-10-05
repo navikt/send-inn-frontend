@@ -1,202 +1,198 @@
 {
-    "test": "this is english",
-    "soknad": {
-        "visningsSteg": {
-            "fraFyllutUtenVedlegg": {
-                "laster": "Loading... Please wait"
-            },
-            "steg0": {
-                "tittel": "Download and fill in the form"
-            },
-            "steg1": {
-                "tittel": "Upload the completed form"
-            },
-            "lastOppVedlegg": {
-                "tittel": "Upload attachments",
-                "ingress": "You can upload attachments to your case here. You must upload all the attachments before NAV can process the case.",
-                "infoFrist": "Deadline for uploading attachments: {{dato}}",
-                "advarselHovedskjema": "UTGÅR!! Du får ikke sendt inn før du har lastet opp ferdig utfylt skjema på forrige side."
-            }
-        },
-        "skjemaNedlasting": {
-            "listeTittel": "Instructions:",
-            "liste": [
-                "Click “Download form”.",
-                "Open and fill in the downloaded pdf form.",
-                "Save the form on your device after filling it out.",
-                "Click “Next step”."
-            ],
-            "lastNedKnapp": "Download form"
-        },
-        "hovedSkjema": {
-            "listeTittel": "Instructions:",
-            "liste": [
-                "Click “Upload completed form”.",
-                "Find and upload the completed form.",
-                "Click “Next step”.",
-                "You can upload any attachments in the next step."
-            ],
-            "filvelgerKnapp": "Upload completed form",
-            "feilmelding": {
-                "manglerFil": "Upload completed form: {{label}}"
-            }
-        },
-        "vedlegg": {
-            "tidligereSendtInn": "Previously submitted documents:",
-            "sendtInnNaa": "Documents you have uploaded now:",
-            "mottatt": "Recieved",
-            "ettersendingFilvelgerKnapp": "Upload new files",
-            "feilmelding": {
-                "manglerFil": "Upload {{label}}"
-            },
-            "annet": {
-                "tittel": "Describe the document",
-                "beskrivelse": "Give a descriptive name to the document you wish to upload.",
-                "rediger": "Edit",
-                "slett": "Delete attachment",
-                "bekreft": "Confirm",
-                "avbryt": "Cancel",
-                "feilmelding": {
-                    "fullforOpprettelse": "Complete or cancel attachment description",
-                    "fullforRedigering": "Complete and confirm the attachment description",
-                    "manglerFil": "Upload or delete attachment: {{label}}",
-                    "manglerNavn": "Describe the attachment",
-                    "navnForLangt": "The attachment description is too long. Max {{maxLength}} characters."
-                }
-            },
-            "radio": {
-                "tittel": "Select submission",
-                "lasterOppNaa": "I will upload this now",
-                "sendSenere": "I will upload this later",
-                "sendesAvAndre": "Will be submitted by others (e.g. doctor, employer)"
-            },
-            "fil": {
-                "provIgjen": "Try again",
-                "avbryt": "Cancel",
-                "slett": "Remove",
-                "progress": "Progress",
-                "alt": {
-                    "opplastet": "Successfully uploaded “{{filnavn}}”",
-                    "tidligereLastetOpp": "Previously submitted “{{filnavn}}”",
-                    "lasterOpp": "Uploading “{{filnavn}}”",
-                    "feil": "Error while uploading “{{filnavn}}”"
-                },
-                "feilmelding": {
-                    "provIgjenEllerFjern": "Finish uploading “{{filnavn}}”, or remove file.",
-                    "ikkeFerdigOpplastet": "Wait until the file has finished uploading"
-                }
-            }
-        },
-        "knapper": {
-            "annenVedleggKnapp": "Add other documentation",
-            "sendInn": "Submit to NAV",
-            "fortsettSenere": "Save and continue later",
-            "neste": "Next step",
-            "forrige": "Previous step",
-            "avbryt": "Cancel",
-            "slett": "Delete form"
-        },
-        "beskjedOmAvvik": "Have you experienced problems submitting attachments? Please upload the attachment again and press Submit."
+  "test": "this is english",
+  "soknad": {
+    "visningsSteg": {
+      "fraFyllutUtenVedlegg": {
+        "laster": "Loading... Please wait"
+      },
+      "steg0": {
+        "tittel": "Download and fill in the form"
+      },
+      "steg1": {
+        "tittel": "Upload the completed form"
+      },
+      "lastOppVedlegg": {
+        "tittel": "Upload attachments",
+        "ingress": "You can upload attachments to your case here. You must upload all the attachments before NAV can process the case.",
+        "infoFrist": "Deadline for uploading attachments: {{dato}}",
+        "advarselHovedskjema": "UTGÅR!! Du får ikke sendt inn før du har lastet opp ferdig utfylt skjema på forrige side."
+      }
     },
-    "filvelger": {
-        "defaultText": "Select your files"
+    "skjemaNedlasting": {
+      "listeTittel": "Instructions:",
+      "liste": [
+        "Click “Download form”.",
+        "Open and fill in the downloaded pdf form.",
+        "Save the form on your device after filling it out.",
+        "Click “Next step”."
+      ],
+      "lastNedKnapp": "Download form"
     },
-    "link": {
-        "nyFane": "{{tekst}} (opens in a new tab)"
+    "hovedSkjema": {
+      "listeTittel": "Instructions:",
+      "liste": [
+        "Click “Upload completed form”.",
+        "Find and upload the completed form.",
+        "Click “Next step”.",
+        "You can upload any attachments in the next step."
+      ],
+      "filvelgerKnapp": "Upload completed form",
+      "feilmelding": {
+        "manglerFil": "Upload completed form: {{label}}"
+      }
     },
-    "modal": {
-        "fortsettSenere": {
-            "tittel": "Are you sure you want to save the form and continue later?",
-            "liste": [
-                "The form will NOT be sent to the case manager in NAV now, but only saved so that you can continue later.",
-                "If you want to set today's date as the start date for the application, you must click “Cancel” and select “Send to NAV”.",
-                "We have created a task at nav.no/minside (my page) with a link to the application."
-            ],
-            "accept": "Yes, save and continue later",
-            "cancel": "Cancel"
-        },
-        "slett": {
-            "tittel": "Are you sure you want to delete the application?",
-            "liste": [
-                "The application and all documents you have uploaded will be deleted."
-            ],
-            "accept": "Yes, delete the application",
-            "cancel": "Cancel"
-        },
-        "sendInnUferdig": {
-            "tittel": "Are you sure you want to send the application now, even though some documents have not been uploaded?",
-            "liste": [
-                "Today's date will be set as the date of receipt of the application.",
-                "You have not uploaded all the documents required to process the application.",
-                "You must send the missing documents by {{dato}}.",
-                "We have created a task at nav.no/minside (my page) with a link to the application. There you will find the list of attachments you must send."
-            ],
-            "accept": "Yes, send the application",
-            "cancel": "Cancel"
-        },
-        "sendInnKomplett": {
-            "tittel": "The application is ready for submission. Do you want to send it now?",
-            "liste": [
-                "Today's date will be set as the date of receipt of the application."
-            ],
-            "accept": "Yes, send the application",
-            "cancel": "Cancel"
+    "vedlegg": {
+      "tidligereSendtInn": "Previously submitted documents:",
+      "sendtInnNaa": "Documents you have uploaded now:",
+      "mottatt": "Recieved",
+      "ettersendingFilvelgerKnapp": "Upload new files",
+      "feilmelding": {
+        "manglerFil": "Upload {{label}}"
+      },
+      "annet": {
+        "tittel": "Describe the document",
+        "beskrivelse": "Give a descriptive name to the document you wish to upload.",
+        "rediger": "Edit",
+        "slett": "Delete attachment",
+        "bekreft": "Confirm",
+        "avbryt": "Cancel",
+        "feilmelding": {
+          "fullforOpprettelse": "Complete or cancel attachment description",
+          "fullforRedigering": "Complete and confirm the attachment description",
+          "manglerFil": "Upload or delete attachment: {{label}}",
+          "manglerNavn": "Describe the attachment",
+          "navnForLangt": "The attachment description is too long. Max {{maxLength}} characters."
         }
-    },
-    "kvittering": {
-        "tittel": "Thank you!",
-        "mottattDokumenter": "We received the following documents on {{dato}}:",
-        "skjema": "Form",
-        "vedlegg": "Attachments",
-        "skjemaLenke": "Download a copy",
-        "maaEttersendes": "Documents that must be sent later:",
-        "sendesAvAndre": "Documents to be sent by others:",
-        "fristEttersending": "Deadline for sending the missing documents: {{dato}}",
-        "ettersendingsInfo": "We cannot process your case until we have received all the required documents. The task for sending the remaining documents can be found at nav.no/minside (my page).",
-        "altMottatInfo": "All necessary documents have been received. You can find them under Dine saker (Your cases) at nav.no/minside (my page).",
-        "minSideKnapp": "Go to My page"
-    },
-    "feil": {
-        "fraBackend": "We are experiencing technical difficulties. We apologize for the inconvenience. Please try again later. If the problem persists, you can get help from NAV Service Centre at (+47) 55 55 33 33 or at your local NAV office.",
-        "medTilkobling": "Check your network connection and try again.",
-        "ukjent": "We are experiencing technical difficulties. We apologize for the inconvenience. Please try again later. If the problem persists, you can get help from NAV Service Centre at (+47) 55 55 33 33 or at your local NAV office.",
-        "advarselOverskrift": "An error has occurred",
-        "advarselBrukerBekreftelse": "OK",
-        "manglerHovedskjema": "You must upload the completed form. Go back to the previous step",
-        "filForStor": "The size of the selected file exceeds the maximum size limit. The maximum size allowed is 50MB.",
-        "filIkkeValgt": "An error occurred during file selection, please retry"
-    },
-    "feilside": {
-        "404": {
-            "tittel": "We did not find that page",
-            "overskrift": "We did not find that page",
-            "p1": "The page you requested cannot be found. It may have been deleted, moved, or there may be an error in the link that led you here. We apologize for the inconvenience.",
-            "p2": "We would appreciate it if you report the error via the link below.",
-            "lenkeTekst": {
-                "forside": "Return to nav.no front page",
-                "meldFra": "Report this error"
-            }
+      },
+      "radio": {
+        "tittel": "Select submission",
+        "lasterOppNaa": "I will upload this now",
+        "sendSenere": "I will upload this later",
+        "sendesAvAndre": "Will be submitted by others (e.g. doctor, employer)"
+      },
+      "fil": {
+        "provIgjen": "Try again",
+        "avbryt": "Cancel",
+        "slett": "Remove",
+        "progress": "Progress",
+        "alt": {
+          "opplastet": "Successfully uploaded “{{filnavn}}”",
+          "tidligereLastetOpp": "Previously submitted “{{filnavn}}”",
+          "lasterOpp": "Uploading “{{filnavn}}”",
+          "feil": "Error while uploading “{{filnavn}}”"
         },
-        "500": {
-            "tittel": "Oops, something went wrong",
-            "overskrift": "Oops, something went wrong",
-            "p1": "The page or service is currently unavailable due to a technical error.",
-            "p2": "We apologize. Try again later.",
-            "lenkeTekst": {
-                "forside": "Return to nav.no front page",
-                "meldFra": "Report this error"
-            }
-        },
-        "soknadSendtInn": {
-            "tittel": "Error page: Application already submitted",
-            "overskrift": "You have tried to reopen an application that has already been sent to NAV",
-            "melding": "If you want to submit additional documentation to this application, it must be submitted on paper.",
-            "lenkeTekst": {
-                "minSide": "You will find the application you previously submitted on my page on nav.no (Norwegian)",
-                "ettersende": "Forward documentation"
-            }
+        "feilmelding": {
+          "provIgjenEllerFjern": "Finish uploading “{{filnavn}}”, or remove file.",
+          "ikkeFerdigOpplastet": "Wait until the file has finished uploading"
         }
+      }
     },
-    "statuskode": "Status code",
-    "for": "for"
+    "knapper": {
+      "annenVedleggKnapp": "Add other documentation",
+      "sendInn": "Submit to NAV",
+      "fortsettSenere": "Save and continue later",
+      "neste": "Next step",
+      "forrige": "Previous step",
+      "avbryt": "Cancel",
+      "slett": "Delete form"
+    },
+    "beskjedOmAvvik": "Have you experienced problems submitting attachments? Please upload the attachment again and press Submit."
+  },
+  "filvelger": {
+    "defaultText": "Select your files"
+  },
+  "link": {
+    "nyFane": "{{tekst}} (opens in a new tab)"
+  },
+  "modal": {
+    "fortsettSenere": {
+      "tittel": "Are you sure you want to save the form and continue later?",
+      "liste": [
+        "The form will NOT be sent to the case manager in NAV now, but only saved so that you can continue later.",
+        "If you want to set today's date as the start date for the application, you must click “Cancel” and select “Send to NAV”.",
+        "We have created a task at nav.no/minside (my page) with a link to the application."
+      ],
+      "accept": "Yes, save and continue later",
+      "cancel": "Cancel"
+    },
+    "slett": {
+      "tittel": "Are you sure you want to delete the application?",
+      "liste": ["The application and all documents you have uploaded will be deleted."],
+      "accept": "Yes, delete the application",
+      "cancel": "Cancel"
+    },
+    "sendInnUferdig": {
+      "tittel": "Are you sure you want to send the application now, even though some documents have not been uploaded?",
+      "liste": [
+        "Today's date will be set as the date of receipt of the application.",
+        "You have not uploaded all the documents required to process the application.",
+        "You must send the missing documents by {{dato}}.",
+        "We have created a task at nav.no/minside (my page) with a link to the application. There you will find the list of attachments you must send."
+      ],
+      "accept": "Yes, send the application",
+      "cancel": "Cancel"
+    },
+    "sendInnKomplett": {
+      "tittel": "The application is ready for submission. Do you want to send it now?",
+      "liste": ["Today's date will be set as the date of receipt of the application."],
+      "accept": "Yes, send the application",
+      "cancel": "Cancel"
+    }
+  },
+  "kvittering": {
+    "tittel": "Thank you!",
+    "mottattDokumenter": "We received the following documents on {{dato}}:",
+    "skjema": "Form",
+    "vedlegg": "Attachments",
+    "skjemaLenke": "Download a copy",
+    "maaEttersendes": "Documents that must be sent later:",
+    "sendesAvAndre": "Documents to be sent by others:",
+    "fristEttersending": "Deadline for sending the missing documents: {{dato}}",
+    "ettersendingsInfo": "We cannot process your case until we have received all the required documents. The task for sending the remaining documents can be found at nav.no/minside (my page).",
+    "altMottatInfo": "All necessary documents have been received. You can find them under Dine saker (Your cases) at nav.no/minside (my page).",
+    "minSideKnapp": "Go to My page"
+  },
+  "feil": {
+    "fraBackend": "We are experiencing technical difficulties. We apologize for the inconvenience. Please try again later. If the problem persists, you can get help from NAV Service Centre at (+47) 55 55 33 33 or at your local NAV office.",
+    "medTilkobling": "Check your network connection and try again.",
+    "ukjent": "We are experiencing technical difficulties. We apologize for the inconvenience. Please try again later. If the problem persists, you can get help from NAV Service Centre at (+47) 55 55 33 33 or at your local NAV office.",
+    "advarselOverskrift": "An error has occurred",
+    "advarselBrukerBekreftelse": "OK",
+    "manglerHovedskjema": "You must upload the completed form. Go back to the previous step",
+    "filForStor": "The size of the selected file exceeds the maximum size limit. The maximum size allowed is 50MB.",
+    "filIkkeValgt": "An error occurred during file selection, please retry"
+  },
+  "feilside": {
+    "404": {
+      "tittel": "We did not find that page",
+      "overskrift": "We did not find that page",
+      "p1": "The page you requested cannot be found. It may have been deleted, moved, or there may be an error in the link that led you here. We apologize for the inconvenience.",
+      "p2": "We would appreciate it if you report the error via the link below.",
+      "lenkeTekst": {
+        "forside": "Return to nav.no front page",
+        "meldFra": "Report this error"
+      }
+    },
+    "500": {
+      "tittel": "Oops, something went wrong",
+      "overskrift": "Oops, something went wrong",
+      "p1": "The page or service is currently unavailable due to a technical error.",
+      "p2": "We apologize. Try again later.",
+      "lenkeTekst": {
+        "forside": "Return to nav.no front page",
+        "meldFra": "Report this error"
+      }
+    },
+    "soknadSendtInn": {
+      "tittel": "Error page: Application already submitted",
+      "overskrift": "You have tried to reopen an application that has already been sent to NAV",
+      "melding": "If you want to submit additional documentation to this application, it must be submitted on paper.",
+      "lenkeTekst": {
+        "minSide": "You will find the application you previously submitted on my page on nav.no (Norwegian)",
+        "ettersende": "Forward documentation"
+      }
+    }
+  },
+  "statuskode": "Status code",
+  "for": "for"
 }

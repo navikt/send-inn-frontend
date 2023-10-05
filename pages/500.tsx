@@ -1,84 +1,68 @@
-import styled from 'styled-components';
-import {
-    BodyShort,
-    Detail,
-    Heading,
-    GuidePanel,
-    Link as NavLink,
-} from '@navikt/ds-react';
-import { useTranslation } from 'react-i18next';
+import { BodyShort, Detail, GuidePanel, Heading, Link as NavLink } from '@navikt/ds-react';
 import Head from 'next/head';
+import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 
 const Style = styled.div`
-    padding-top: 44px;
-    margin-bottom: 44px;
+  padding-top: 44px;
+  margin-bottom: 44px;
 `;
 
 const HorizontalLinksFlexbox = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    margin-bottom: 3rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-bottom: 3rem;
 `;
 
 export default function Custom500() {
-    const { t } = useTranslation();
+  const { t } = useTranslation();
 
-    const sprakListe = ['nb', 'nn', 'en'];
-    return (
-        <Style>
-            <Head>
-                <title>{t('feilside.500.tittel')}</title>
-            </Head>
-            <GuidePanel poster={true}>
-                {sprakListe.map((sprak) => (
-                    <div key={sprak}>
-                        <Heading level="1" size="xlarge" spacing>
-                            {t('feilside.500.overskrift', {
-                                lng: sprak,
-                            })}
-                        </Heading>
-                        <BodyShort spacing>
-                            {t('feilside.500.p1', {
-                                lng: sprak,
-                            })}
-                        </BodyShort>
-                        <BodyShort spacing>
-                            {t('feilside.500.p2', {
-                                lng: sprak,
-                            })}
-                        </BodyShort>
-                        <HorizontalLinksFlexbox>
-                            <BodyShort spacing>
-                                <NavLink href="https://nav.no">
-                                    {t(
-                                        'feilside.500.lenkeTekst.forside',
-                                        {
-                                            lng: sprak,
-                                        },
-                                    )}
-                                </NavLink>
-                            </BodyShort>
-                            <BodyShort spacing>
-                                <NavLink
-                                    href={`https://www.nav.no/person/kontakt-oss/${sprak}/tilbakemeldinger/feil-og-mangler`}
-                                >
-                                    {t(
-                                        'feilside.500.lenkeTekst.meldFra',
-                                        {
-                                            lng: sprak,
-                                        },
-                                    )}
-                                </NavLink>
-                            </BodyShort>
-                        </HorizontalLinksFlexbox>
-                    </div>
-                ))}
+  const sprakListe = ['nb', 'nn', 'en'];
+  return (
+    <Style>
+      <Head>
+        <title>{t('feilside.500.tittel')}</title>
+      </Head>
+      <GuidePanel poster={true}>
+        {sprakListe.map((sprak) => (
+          <div key={sprak}>
+            <Heading level="1" size="xlarge" spacing>
+              {t('feilside.500.overskrift', {
+                lng: sprak,
+              })}
+            </Heading>
+            <BodyShort spacing>
+              {t('feilside.500.p1', {
+                lng: sprak,
+              })}
+            </BodyShort>
+            <BodyShort spacing>
+              {t('feilside.500.p2', {
+                lng: sprak,
+              })}
+            </BodyShort>
+            <HorizontalLinksFlexbox>
+              <BodyShort spacing>
+                <NavLink href="https://nav.no">
+                  {t('feilside.500.lenkeTekst.forside', {
+                    lng: sprak,
+                  })}
+                </NavLink>
+              </BodyShort>
+              <BodyShort spacing>
+                <NavLink href={`https://www.nav.no/person/kontakt-oss/${sprak}/tilbakemeldinger/feil-og-mangler`}>
+                  {t('feilside.500.lenkeTekst.meldFra', {
+                    lng: sprak,
+                  })}
+                </NavLink>
+              </BodyShort>
+            </HorizontalLinksFlexbox>
+          </div>
+        ))}
 
-                <Detail spacing>
-                    {t('feilside.statuskode')} 500
-                </Detail>
-            </GuidePanel>
-        </Style>
-    );
+        <Detail spacing>{t('feilside.statuskode')} 500</Detail>
+      </GuidePanel>
+    </Style>
+  );
 }

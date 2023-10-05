@@ -1,19 +1,19 @@
 {
-    "innsendingsId": "58419268-4811-430d-8ab4-bfd59e45d19c",
-    "label": "Svar på forhåndsvarsel i sak om barnebidrag (bidragsmottaker)",
-    "mottattdato": "2023-02-27T10:28:09.314438147+01:00",
-    "hoveddokumentRef": null,
-    "innsendteVedlegg": [],
-    "skalEttersendes": [],
-    "skalSendesAvAndre": [
-        {
-            "vedleggsnr": "W1",
-            "tittel": "Dokumentasjon på mottatt bidrag"
-        },
-        {
-            "vedleggsnr": "G2",
-            "tittel": "Bekreftelse på arbeidsforhold og permittering"
-        }
-    ],
-    "ettersendingsfrist": "2023-03-10T09:33:24.076606+01:00"
+  "innsendingsId": "58419268-4811-430d-8ab4-bfd59e45d19c",
+  "label": "Svar på forhåndsvarsel i sak om barnebidrag (bidragsmottaker)",
+  "mottattdato": "2023-02-27T10:28:09.314438147+01:00",
+  "hoveddokumentRef": null,
+  "innsendteVedlegg": [],
+  "skalEttersendes": [],
+  "skalSendesAvAndre": [
+    {
+      "vedleggsnr": "W1",
+      "tittel": "Dokumentasjon på mottatt bidrag"
+    },
+    {
+      "vedleggsnr": "G2",
+      "tittel": "Bekreftelse på arbeidsforhold og permittering"
+    }
+  ],
+  "ettersendingsfrist": "2023-03-10T09:33:24.076606+01:00"
 }

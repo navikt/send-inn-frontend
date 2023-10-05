@@ -17,7 +17,7 @@ on:
     paths:
       - '.nais/alerts.yml'
       - '.github/workflows/alert-deploy.yml'
-    
+
 jobs:
   apply-alerts-prod:
     name: Apply alerts to prod

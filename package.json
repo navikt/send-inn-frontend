@@ -11,10 +11,11 @@
     "build:static": "next build && next export",
     "start": "next start -p 3100",
     "start:with:test": "NODE_ENV=test next start -p 3100",
-    "lint": "next lint",
+    "lint": "eslint .",
     "prepare": "husky install",
     "cypress": "npx cypress open",
-    "cypress:headless": "npx cypress run"
+    "cypress:headless": "npx cypress run",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@navikt/aksel-icons": "^4.12.1",
@@ -40,8 +41,8 @@
     "winston": "^3.10.0"
   },
   "devDependencies": {
-    "@sentry/cli": "^2.21.2",
-    "@types/node": "^18",
+    "@sentry/cli": "^2.21.1",
+    "@types/node": "^20.8.2",
     "@types/react": "^18.2.24",
     "@types/sanitize-html": "^2.9.1",
     "@types/uuid": "^9.0.4",
@@ -57,12 +58,18 @@
     "lint-staged": "^14.0.0",
     "msw": "^1.3.2",
     "prettier": "^3.0.3",
+    "prettier-plugin-organize-imports": "^3.2.3",
     "typescript": "^5.2.2"
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "*.{js,ts,tsx,css,md}": "prettier --write"
-  }, 
+    "*.{js,jsx,ts,tsx,mjs}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{md,mdx}": [
+      "prettier --write"
+    ]
+  },
   "engines": {
     "node": ">=20.0.0"
   }

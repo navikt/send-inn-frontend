@@ -1,34 +1,34 @@
 name: Manually triggered deployment
 run-name: Manual deploy to ${{ inputs.environment }} [${{ github.ref_name }}]
 on:
-    workflow_dispatch:
-        inputs:
-            environment:
-                description: 'Environment to deploy'
-                required: true
-                default: 'preprod'
-                type: choice
-                options:
-                    - preprod
-                    - preprod-alt
-                    - prod
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy'
+        required: true
+        default: 'preprod'
+        type: choice
+        options:
+          - preprod
+          - preprod-alt
+          - prod
 permissions:
-    contents: "read"
-    id-token: "write"
-    packages: "read"
+  contents: 'read'
+  id-token: 'write'
+  packages: 'read'
 
 jobs:
-    preprod:
-        if: inputs.environment == 'preprod'
-        uses: ./.github/workflows/preprod.yml
-        secrets: inherit
+  preprod:
+    if: inputs.environment == 'preprod'
+    uses: ./.github/workflows/preprod.yml
+    secrets: inherit
 
-    preprod-alt:
-        if: inputs.environment == 'preprod-alt'
-        uses: ./.github/workflows/preprod-alt.yml
-        secrets: inherit
+  preprod-alt:
+    if: inputs.environment == 'preprod-alt'
+    uses: ./.github/workflows/preprod-alt.yml
+    secrets: inherit
 
-    prod:
-        if: inputs.environment == 'prod'
-        uses: ./.github/workflows/main.yml
-        secrets: inherit
+  prod:
+    if: inputs.environment == 'prod'
+    uses: ./.github/workflows/main.yml
+    secrets: inherit
