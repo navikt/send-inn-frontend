@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@sentry/cli": "^2.21.2",
-    "@types/node": "^18",
+    "@types/node": "^20",
     "@types/react": "^18.2.24",
     "@types/sanitize-html": "^2.9.1",
     "@types/uuid": "^9.0.4",
