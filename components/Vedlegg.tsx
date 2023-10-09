@@ -199,13 +199,12 @@ function Vedlegg(props: VedleggProps) {
         .get(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil`)
         .then((response) => {
           const responseJSON = response.data;
-          for (const item in responseJSON) {
-            const jsonitem = responseJSON[item];
+          for (const item of responseJSON) {
             const nyFil: FilData = {
               opplastetFil: {
-                id: jsonitem.id,
-                filnavn: jsonitem.filnavn,
-                storrelse: jsonitem.storrelse,
+                id: item.id,
+                filnavn: item.filnavn,
+                storrelse: item.storrelse,
               },
             };
             dispatch({
