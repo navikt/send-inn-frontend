@@ -490,7 +490,12 @@ export function Fil({
 
           {status !== FIL_STATUS.LASTER_OPP && (
             <StyledTertiaryButton>
-              <Button onClick={slettFil} variant="tertiary" aria-label={`${t('soknad.vedlegg.fil.slett')} ${filnavn}`}>
+              <Button
+                data-cy="slettFilKnapp"
+                onClick={slettFil}
+                variant="tertiary"
+                aria-label={`${t('soknad.vedlegg.fil.slett')} ${filnavn}`}
+              >
                 {t('soknad.vedlegg.fil.slett')}
               </Button>
             </StyledTertiaryButton>

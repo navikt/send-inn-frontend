@@ -82,7 +82,7 @@ export function OpprettAnnetVedlegg({ innsendingsId }: EndreVedleggProps) {
     <>
       {visOpprett && (
         <ValideringsRamme id={feilId} visFeil={visFeil} melding={valideringsMelding}>
-          <VedleggPanel>
+          <VedleggPanel data-cy="opprettAnnetVedleggPanel">
             <form onSubmit={handleSubmit(onSubmit)}>
               <TextField
                 id={feilId + '-validering'}

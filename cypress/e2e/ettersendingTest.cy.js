@@ -7,26 +7,28 @@ describe('Tester ettersendingsløpet', () => {
       '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2',
     );
 
-    cy.get('[data-cy="filvelgerKnapp"]').should('have.length', 3);
-    cy.get('[data-cy="filvelgerKnapp"]', {
-      timeout: 10000,
-    })
+    cy.get('[data-cy="VedleggContainer"]')
       .eq(0)
-      .should('be.visible');
+      .within(() => {
+        cy.get('[data-cy="filvelgerKnapp"]').click();
+        cy.get('[data-cy="filvelgerKnapp"]').should('be.visible').selectFile('cypress/fixtures/MarcusAurelius.jpeg');
+        cy.get('[data-cy="fileUploadSuccessIkon"]').should('be.visible');
+        cy.get('[data-cy="filvelgerKnapp"]').should('be.visible');
+      });
 
-    cy.get('[data-cy="filvelgerKnapp"]').eq(0).click();
+    cy.get('[data-cy="VedleggContainer"]')
+      .eq(1)
+      .within(() => {
+        cy.get('[data-cy="sendSenereRadio"]').click();
+        cy.get('[data-cy="sendSenereRadio"]').should('be.checked');
+      });
 
-    cy.get('[data-cy="filvelgerKnapp"]').eq(0).should('be.visible').selectFile('cypress/fixtures/MarcusAurelius.jpeg');
-
-    cy.get('[data-cy="fileUploadSuccessIkon"]', {
-      timeout: 10000,
-    }).should('be.visible');
-
-    cy.get('[data-cy="sendSenereRadio"]').eq(0).click();
-    cy.get('[data-cy="sendSenereRadio"]').eq(0).should('be.checked');
-
-    cy.get('[data-cy="sendSenereRadio"]').eq(1).click();
-    cy.get('[data-cy="sendSenereRadio"]').eq(1).should('be.checked');
+    cy.get('[data-cy="VedleggContainer"]')
+      .eq(2)
+      .within(() => {
+        cy.get('[data-cy="sendesAvAndreRadio"]').click();
+        cy.get('[data-cy="sendesAvAndreRadio"]').should('be.checked');
+      });
 
     cy.get('[data-cy="sendTilNAVKnapp"]', {
       timeout: 10000,
