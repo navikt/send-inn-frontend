@@ -1,5 +1,5 @@
 import { BodyShort, Button, Link as NavLink, Panel } from '@navikt/ds-react';
-import axios, { AxiosError, AxiosProgressEvent, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosProgressEvent, AxiosRequestConfig, AxiosResponse } from 'axios';
 import getConfig from 'next/config';
 import React, { useEffect, useReducer, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -319,10 +319,11 @@ export function Fil({
 
     const formData = new FormData();
     formData.append('file', lokalFil!);
-    const config = {
+    const config: AxiosRequestConfig = {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
+      timeout: 0, // Proxy håndterer timeout
       signal: controller.signal,
       onUploadProgress: (progressEvent: AxiosProgressEvent) => {
         const totalSize = progressEvent.total;

@@ -54,7 +54,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       authorization: `Bearer ${tokenxToken}`,
     },
     responseType: 'stream',
-    timeout: 60000,
+    timeout: 180000,
     maxContentLength: Infinity,
     maxBodyLength: Infinity,
   })

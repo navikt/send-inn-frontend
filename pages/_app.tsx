@@ -1,4 +1,5 @@
 import '@navikt/ds-css';
+import axios from 'axios';
 import type { AppContext, AppProps } from 'next/app';
 import App from 'next/app';
 import { I18nextProvider } from 'react-i18next';
@@ -10,6 +11,8 @@ import { LagringsProsessProvider } from '../components/LagringsProsessProvider';
 import { Layout } from '../components/Layout';
 import i18n from '../i18n';
 import fetchJson from '../utils/fetchJson';
+
+axios.defaults.timeout = 60000;
 
 if (process.env.API_MOCKING === 'true') {
   import('../mocks');
