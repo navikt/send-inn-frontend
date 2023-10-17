@@ -8,6 +8,7 @@ describe('Tester validering', () => {
       '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2',
     );
 
+    // sjekker at valideringsfeil stopper neste steg, og at valideringsfeil-boksen får fokus
     cy.get('[data-cy="nesteStegKnapp"]').should('be.visible').click();
     cy.get('[data-cy="nesteStegKnapp"]').click();
 
@@ -17,6 +18,7 @@ describe('Tester validering', () => {
         cy.get('li').should('have.length', 1);
       });
 
+    // fikser feil, og går til neste steg
     cy.get('[data-cy="filvelgerKnapp"]').click();
     cy.get('[data-cy="filvelgerKnapp"]').selectFile('cypress/fixtures/MarcusAurelius.jpeg');
 
@@ -26,6 +28,7 @@ describe('Tester validering', () => {
 
     cy.get('[data-cy="filvelgerKnapp"]').should('have.length', 3);
 
+    // Oppretter annet vedlegg, og prøver å sende inn uten å laste opp noe
     cy.get('[data-cy="opprettAnnetVedlegg"]').click();
     cy.get('[data-cy="opprettAnnetVedleggPanel"]').should('be.visible');
     cy.get('[data-cy="opprettAnnetVedleggPanel"]').within(() => {
@@ -42,6 +45,7 @@ describe('Tester validering', () => {
         cy.get('li').should('have.length', 4);
       });
 
+    // fikser alle valideringsfeil, og sender inn
     cy.get('[data-cy="VedleggContainer"]')
       .eq(0)
       .within(() => {

@@ -12,6 +12,6 @@ export const opprettVedlegg = rest.post(
     vedleggBody.label = tittel;
     vedleggBody.id = Date.now();
 
-    return res(ctx.status(201), ctx.json(await importJSON('annetVedlegg.json')));
+    return res(ctx.status(201), ctx.json(vedleggBody));
   },
 );

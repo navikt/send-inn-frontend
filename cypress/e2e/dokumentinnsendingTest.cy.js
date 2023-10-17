@@ -7,16 +7,20 @@ describe('Tester dokumentinnsendingsløpet', () => {
       '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2',
     );
 
+    // Bekrefter at siden er rendret
     cy.get('[data-cy="nesteStegKnapp"]').should('be.visible').click();
 
+    // Laster opp fil på hoveddokument
     cy.get('[data-cy="filvelgerKnapp"]').click();
     cy.get('[data-cy="filvelgerKnapp"]').selectFile('cypress/fixtures/MarcusAurelius.jpeg');
     cy.get('[data-cy="fileUploadSuccessIkon"]').should('be.visible');
 
+    // Går til vedleggsiden
     cy.get('[data-cy="nesteStegKnapp"]').click();
 
     cy.get('[data-cy="filvelgerKnapp"]').should('have.length', 3);
 
+    // Laster opp fil på første vedlegg
     cy.get('[data-cy="VedleggContainer"]')
       .eq(0)
       .within(() => {
@@ -27,6 +31,7 @@ describe('Tester dokumentinnsendingsløpet', () => {
         cy.get('[data-cy="filvelgerKnapp"]').should('be.visible');
       });
 
+    // Setter de to neste vedleggene til "Sendes senere"
     cy.get('[data-cy="VedleggContainer"]')
       .eq(1)
       .within(() => {
@@ -41,6 +46,7 @@ describe('Tester dokumentinnsendingsløpet', () => {
         cy.get('[data-cy="sendSenereRadio"]').should('be.checked');
       });
 
+    // Oppretter nytt annet vedlegg
     cy.get('[data-cy="opprettAnnetVedlegg"]').click();
     cy.get('[data-cy="opprettAnnetVedleggPanel"]')
       .should('be.visible')
@@ -50,6 +56,7 @@ describe('Tester dokumentinnsendingsløpet', () => {
       });
     cy.get('[data-cy="VedleggContainer"]').should('have.length', 4);
 
+    // Laster opp to filer, og sletter den ene
     cy.get('[data-cy="VedleggContainer"]')
       .eq(3)
       .within(() => {
@@ -61,6 +68,7 @@ describe('Tester dokumentinnsendingsløpet', () => {
         cy.get('[data-cy="fileUploadSuccessIkon"]').should('have.length', 1);
       });
 
+    // Oppretter nytt annet vedlegg, og sletter det
     cy.get('[data-cy="opprettAnnetVedlegg"]').click();
     cy.get('[data-cy="opprettAnnetVedleggPanel"]')
       .should('be.visible')
@@ -77,6 +85,7 @@ describe('Tester dokumentinnsendingsløpet', () => {
       });
     cy.get('[data-cy="VedleggContainer"]').should('have.length', 4);
 
+    // Sender inn
     cy.get('[data-cy="sendTilNAVKnapp"]').click();
 
     cy.get('[data-cy="jaFellesModalKnapp"]').should('be.visible').click();

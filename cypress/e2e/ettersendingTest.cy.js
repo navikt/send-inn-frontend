@@ -7,6 +7,7 @@ describe('Tester ettersendingsløpet', () => {
       '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2',
     );
 
+    // Laster opp fil på første vedlegg
     cy.get('[data-cy="VedleggContainer"]')
       .eq(0)
       .within(() => {
@@ -16,6 +17,7 @@ describe('Tester ettersendingsløpet', () => {
         cy.get('[data-cy="filvelgerKnapp"]').should('be.visible');
       });
 
+    // Setter andre vedlegg til "Send senere", og tredje til "sendes av andre"
     cy.get('[data-cy="VedleggContainer"]')
       .eq(1)
       .within(() => {
@@ -30,6 +32,7 @@ describe('Tester ettersendingsløpet', () => {
         cy.get('[data-cy="sendesAvAndreRadio"]').should('be.checked');
       });
 
+    // Sender inn
     cy.get('[data-cy="sendTilNAVKnapp"]', {
       timeout: 10000,
     }).click();
