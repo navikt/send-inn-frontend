@@ -109,7 +109,11 @@ export const SideValideringProvider = ({
       }}
     >
       {harFeil && visValideringsfeil && (
-        <ErrorSummary heading="Du må fikse disse feilene før du kan sende inn søknad." ref={errorRef}>
+        <ErrorSummary
+          data-cy="valideringsfeil"
+          heading="Du må fikse disse feilene før du kan sende inn søknad."
+          ref={errorRef}
+        >
           {valideringsFeil.map((validering) => (
             <ErrorSummary.Item key={validering.valideringsId} href={'#' + validering.komponentId}>
               {validering.melding}

@@ -235,7 +235,11 @@ function Vedlegg(props: VedleggProps) {
   };
 
   return (
-    <VedleggContainer aria-labelledby={`heading-${vedlegg.id}`} $extraMargin={vedlegg.erHoveddokument}>
+    <VedleggContainer
+      data-cy="VedleggContainer"
+      aria-labelledby={`heading-${vedlegg.id}`}
+      $extraMargin={vedlegg.erHoveddokument}
+    >
       <ValideringsRamme id={feilId} visFeil={visFeil} melding={valideringsMelding}>
         {endrer ? (
           <EndreVedlegg

@@ -30,7 +30,6 @@ jobs:
       - uses: cypress-io/github-action@v6.5.0
         with:
           install: false
-          spec: cypress/e2e/*.cy.js
           start: npm run start:with:test
           wait-on: 'http://localhost:3100/sendinn/api/isAlive'
           config: video=false
