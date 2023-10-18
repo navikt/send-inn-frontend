@@ -41,6 +41,10 @@ spec:
   tokenx:
     enabled: true
   accessPolicy:
+    inbound:
+      rules:
+        - application: statuspoll
+          namespace: navdig
     outbound:
       rules:
         - application: innsending-api
