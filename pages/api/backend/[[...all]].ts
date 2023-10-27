@@ -112,7 +112,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // `error.request` is an instance of http.ClientRequest
         rawLogger.error({
           ...commonErrorObject,
-          message: 'No response error',
+          message: `No response error: ${error.message}`,
         });
         return res.status(500).send('En feil har oppstått');
       } else {
