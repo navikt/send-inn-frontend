@@ -15,7 +15,7 @@ jobs:
       packages: 'read'
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
@@ -27,7 +27,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build with mock
         run: npm run build:mock
-      - uses: cypress-io/github-action@v6.5.0
+      - uses: cypress-io/github-action@v6.6.0
         with:
           install: false
           start: npm run start:with:test
