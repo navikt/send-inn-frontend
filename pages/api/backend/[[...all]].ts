@@ -110,10 +110,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       } else if (error.request) {
         // The request was made but no response was received
         // `error.request` is an instance of http.ClientRequest
-        rawLogger.error({
-          ...commonErrorObject,
-          message: `No response error: ${error.message}`,
-        });
+        if (error.code === 'ECONNRESET') {
+          // Connection was most likely aborted because client lost connection, or canceled the request
+          rawLogger.warn({
+            ...commonErrorObject,
+            message: `No response - ECONNRESET: ${error.message}`,
+          });
+        } else if (error.code === AxiosError.ECONNABORTED) {
+          // Request timed out due to exceeding timeout specified in axios configuration
+          rawLogger.error({
+            ...commonErrorObject,
+            message: `No response - Timeout: ${error.message}`,
+          });
+        } else {
+          rawLogger.error({
+            ...commonErrorObject,
+            message: `No response error - Unknown: ${error.message}`,
+          });
+        }
         return res.status(500).send('En feil har oppstått');
       } else {
         // Something happened in setting up the request that triggered an Error
