@@ -167,7 +167,7 @@ function Vedlegg(props: VedleggProps) {
   const harOpplastetFil = opplastingsStatus === 'LastetOpp' || filListe.some((fil) => fil.opplastetFil);
 
   const erAnnetVedlegg = vedlegg.vedleggsnr?.toUpperCase() === 'N6' && !vedlegg.erPakrevd;
-  const erSendtInnTidligere = vedlegg.innsendtdato !== null;
+  const erSendtInnTidligere = !!vedlegg.innsendtdato;
   const skjulFiler = valgtOpplastingStatus === 'SendSenere' || valgtOpplastingStatus === 'SendesAvAndre';
 
   const manglerFilTekst = () => {
