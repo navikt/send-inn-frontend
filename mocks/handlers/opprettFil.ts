@@ -1,5 +1,5 @@
 import { rest } from 'msw';
-import { importJSON } from '../utils/importJSON.js';
+import { importJSON } from '../utils/importJSON';
 const { REMOTE_API_URL } = process.env;
 
 export const opprettFil = rest.post(

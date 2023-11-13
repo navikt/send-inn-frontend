@@ -1,14 +1,14 @@
-import { endreSoknad } from './handlers/endreSoknad.js';
-import { endreVedlegg } from './handlers/endreVedlegg.js';
-import { hentFiler } from './handlers/hentFiler.js';
-import { hentSoknad } from './handlers/hentSoknad.js';
-import { opprettEttersending } from './handlers/opprettEttersending.js';
-import { opprettFil } from './handlers/opprettFil.js';
-import { opprettSoknad } from './handlers/opprettSoknad.js';
-import { opprettVedlegg } from './handlers/opprettVedlegg.js';
-import { sendInn } from './handlers/sendInn.js';
-import { slettFil } from './handlers/slettFil.js';
-import { slettVedlegg } from './handlers/slettVedlegg.js';
+import { endreSoknad } from './handlers/endreSoknad';
+import { endreVedlegg } from './handlers/endreVedlegg';
+import { hentFiler } from './handlers/hentFiler';
+import { hentSoknad } from './handlers/hentSoknad';
+import { opprettEttersending } from './handlers/opprettEttersending';
+import { opprettFil } from './handlers/opprettFil';
+import { opprettSoknad } from './handlers/opprettSoknad';
+import { opprettVedlegg } from './handlers/opprettVedlegg';
+import { sendInn } from './handlers/sendInn';
+import { slettFil } from './handlers/slettFil';
+import { slettVedlegg } from './handlers/slettVedlegg';
 
 export const handlers = [
   opprettSoknad,
