@@ -1,16 +1,16 @@
-import { rest } from 'msw';
+import { HttpResponse, http } from 'msw';
 const { REMOTE_API_URL } = process.env;
 
-export const slettVedlegg = rest.delete(
+export const slettVedlegg = http.delete(
   REMOTE_API_URL + '/frontend/v1/soknad/:innsendingsId/vedlegg/:vedleggId',
-  async (req, res, ctx) => {
-    const { vedleggId } = req.params;
-    return res(
-      ctx.status(200),
-      ctx.json({
+  async ({ params }) => {
+    const { vedleggId } = params;
+    return HttpResponse.json(
+      {
         status: 'OK',
         info: 'Slettet vedlegg med id ' + vedleggId,
-      }),
+      },
+      { status: 200 },
     );
   },
 );

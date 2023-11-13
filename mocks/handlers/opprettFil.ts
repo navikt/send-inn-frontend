@@ -1,10 +1,10 @@
-import { rest } from 'msw';
+import { HttpResponse, http } from 'msw';
 import { importJSON } from '../utils/importJSON';
 const { REMOTE_API_URL } = process.env;
 
-export const opprettFil = rest.post(
+export const opprettFil = http.post(
   REMOTE_API_URL + '/frontend/v1/soknad/:innsendingsId/vedlegg/:vedleggId/fil',
-  async (req, res, ctx) => {
-    return res(ctx.status(201), ctx.json(await importJSON('fil.json')));
+  async () => {
+    return HttpResponse.json(await importJSON('fil.json'), { status: 201 });
   },
 );

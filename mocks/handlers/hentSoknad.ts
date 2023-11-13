@@ -1,10 +1,10 @@
-import { rest } from 'msw';
-import { soknadMock } from '../data/soknad/index.js';
+import { HttpResponse, http } from 'msw';
+import { soknadMock } from '../data/soknad';
 const { REMOTE_API_URL } = process.env;
 
-export const hentSoknad = rest.get(REMOTE_API_URL + '/frontend/v1/soknad/:innsendingsId', async (req, res, ctx) => {
-  const { innsendingsId } = req.params;
-  const soknad = await soknadMock(innsendingsId);
+export const hentSoknad = http.get(REMOTE_API_URL + '/frontend/v1/soknad/:innsendingsId', async ({ params }) => {
+  const { innsendingsId } = params;
+  const soknad = await soknadMock(innsendingsId as string);
   soknad.innsendingsId = innsendingsId;
-  return res(ctx.status(200), ctx.json(soknad));
+  return HttpResponse.json(soknad, { status: 200 });
 });

@@ -1,7 +1,7 @@
-import { rest } from 'msw';
-import { soknadMock } from '../data/soknad/index.js';
+import { http, HttpResponse } from 'msw';
+import { soknadMock } from '../data/soknad';
 const { REMOTE_API_URL } = process.env;
 
-export const opprettSoknad = rest.post(REMOTE_API_URL + '/frontend/v1/soknad', async (req, res, ctx) => {
-  return res(ctx.status(201), ctx.json(await soknadMock('dokumentinnsending-default')));
+export const opprettSoknad = http.post(REMOTE_API_URL + '/frontend/v1/soknad', async () => {
+  return HttpResponse.json(await soknadMock('dokumentinnsending-default'), { status: 201 });
 });

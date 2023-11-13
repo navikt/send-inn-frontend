@@ -1,14 +1,14 @@
-import { rest } from 'msw';
+import { HttpResponse, http } from 'msw';
 const { REMOTE_API_URL } = process.env;
 
-export const slettFil = rest.delete(
+export const slettFil = http.delete(
   REMOTE_API_URL + '/frontend/v1/soknad/:innsendingsId/vedlegg/:vedleggId/fil/:filId',
-  async (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
+  async () => {
+    return HttpResponse.json(
+      {
         opplastingsStatus: 'IkkeValgt',
-      }),
+      },
+      { status: 200 },
     );
   },
 );

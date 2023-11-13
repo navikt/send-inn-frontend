@@ -1,6 +1,6 @@
-import { rest } from 'msw';
+import { http } from 'msw';
 const { REMOTE_API_URL } = process.env;
 
-export const endreSoknad = rest.patch(REMOTE_API_URL + '/frontend/v1/soknad/:innsendingsId', (req, res, ctx) => {
-  return res(ctx.status(204));
+export const endreSoknad = http.patch(REMOTE_API_URL + '/frontend/v1/soknad/:innsendingsId', () => {
+  return new Response(null, { status: 204 });
 });
