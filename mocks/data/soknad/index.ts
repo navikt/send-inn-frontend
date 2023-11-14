@@ -1,4 +1,4 @@
-export const soknadMock = async (id) => {
+export const soknadMock = async (id: string) => {
   const { default: data } =
     (await import(`./${id}.json`, {
       assert: { type: 'json' },
