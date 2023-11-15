@@ -151,14 +151,23 @@ export interface FilActionType {
   filState?: FilState;
 }
 
-const filValidering = (fil?: File): { harFeil: boolean; melding?: 'filForStor' | 'filIkkeValgt' } => {
+const GYLDIGE_FILFORMATER = ['application/pdf', 'image/jpeg', 'image/png'];
+
+const filValidering = (fil?: File) => {
   if (!fil) {
-    return { harFeil: true, melding: 'filIkkeValgt' };
+    return { harFeil: true, melding: 'filIkkeValgt' } as const;
+  }
+  if (!fil.size) {
+    return { harFeil: true, melding: 'filUtenInnhold' } as const;
   }
   if (fil.size > MAX_FILE_SIZE) {
-    return { harFeil: true, melding: 'filForStor' };
+    return { harFeil: true, melding: 'filForStor' } as const;
   }
-  return { harFeil: false };
+  if (!GYLDIGE_FILFORMATER.includes(fil.type)) {
+    return { harFeil: true, melding: 'ugyldigFilformat' } as const;
+  }
+
+  return { harFeil: false } as const;
 };
 
 const filStorrelseVisning = (bytes: number): string => {
@@ -313,7 +322,7 @@ export function Fil({
       dispatch({
         type: FIL_ACTIONS.FEIL,
       });
-      setFeilmelding(t(`feil.${melding!}`));
+      setFeilmelding(t(`feil.${melding}`));
       return;
     }
 

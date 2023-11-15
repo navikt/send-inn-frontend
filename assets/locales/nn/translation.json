@@ -160,7 +160,9 @@
     "advarselBrukerBekreftelse": "OK",
     "manglerHovedskjema": "Du må lasta opp ferdig utfylt skjema. Gå tilbake til forrige steg",
     "filForStor": "Storleiken på fila overskrid maksimal tillaten storleik. Den maksimale storleiken er 50MB.",
-    "filIkkeValgt": "Ein feil oppstod under val av fil. Prøv på nytt"
+    "filIkkeValgt": "Ein feil oppstod under val av fil. Prøv på nytt",
+    "filUtenInnhold": "Vald fil manglar innhald, vel ei fil som er større ein 0 B",
+    "ugyldigFilformat": "Feil filformat, det er berre lov å laste opp filer av typen PDF, JPEG/JPG og PNG"
   },
   "feilside": {
     "404": {
