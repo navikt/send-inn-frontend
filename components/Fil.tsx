@@ -8,6 +8,7 @@ import { useErrorMessage } from '../hooks/useErrorMessage';
 import { useValidation } from '../hooks/useValidation';
 import { FIL_STATUS } from '../types/enums';
 import { ErrorResponsDto, OpplastetFil, VedleggType } from '../types/types';
+import { sendLog } from '../utils/frontendLogger';
 import { FilUploadIcon } from './FilUploadIcon';
 import { Filvelger } from './Filvelger';
 import { ACTIONS, ActionType } from './Vedlegg';
@@ -158,6 +159,7 @@ const filValidering = (fil?: File) => {
     return { harFeil: true, melding: 'filIkkeValgt' } as const;
   }
   if (!fil.size) {
+    sendLog({ message: `NoFileContentError - size: ${fil.size}, type: ${fil.type}`, level: 'warn' });
     return { harFeil: true, melding: 'filUtenInnhold' } as const;
   }
   if (fil.size > MAX_FILE_SIZE) {
