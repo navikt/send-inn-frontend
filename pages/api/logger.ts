@@ -9,7 +9,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     return res.status(404).send('Not found');
   }
   const { message, level }: LoggerDto = req.body || {};
-  if (typeof message !== 'string' || typeof level !== 'string' || !VALID_LEVELS.includes(level)) {
+  if (
+    typeof message !== 'string' ||
+    typeof level !== 'string' ||
+    message.length > 500 ||
+    !VALID_LEVELS.includes(level)
+  ) {
     return res.status(400).send('Bad request');
   }
 

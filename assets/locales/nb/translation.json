@@ -161,7 +161,7 @@
     "manglerHovedskjema": "Du må laste opp ferdig utfylt skjema. Gå tilbake til forrige steg",
     "filForStor": "Størrelsen på filen overskrider maksimal tillatt størrelse. Den maksimale størrelsen er 50MB.",
     "filIkkeValgt": "En feil oppsto under valg av fil. Prøv på nytt",
-    "filUtenInnhold": "Valgt fil mangler innhold, velg en fil som er større en 0 B",
+    "filUtenInnhold": "Valgt fil mangler innhold, velg en fil som er større en 0 kB",
     "ugyldigFilformat": "Invalid file format. It is only allowed to upload files of type PDF, JPEG/JPG and PNG"
   },
   "feilside": {

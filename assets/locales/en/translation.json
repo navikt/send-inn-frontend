@@ -161,7 +161,7 @@
     "manglerHovedskjema": "You must upload the completed form. Go back to the previous step",
     "filForStor": "The size of the selected file exceeds the maximum size limit. The maximum size allowed is 50MB.",
     "filIkkeValgt": "An error occurred during file selection, please retry",
-    "filUtenInnhold": "Selected file has no content, choose a file larger than 0 B",
+    "filUtenInnhold": "Selected file has no content, choose a file larger than 0 kB",
     "ugyldigFilformat": "Feil filformat, det er kun lov å laste opp filer av type PDF, JPEG/JPG og PNG"
   },
   "feilside": {
