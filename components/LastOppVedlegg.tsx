@@ -10,6 +10,7 @@ import { ButtonContainer } from './common/ButtonContainer';
 
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { formatertDato } from '../utils/dato';
+import AndreVedlegg from './AndreVedlegg';
 import { useLagringsProsessContext } from './LagringsProsessProvider';
 import { OpprettAnnetVedlegg } from './OpprettAnnetVedlegg';
 import { useModalContext } from './SoknadModalProvider';
@@ -89,7 +90,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
 
         <PaddedVedlegg>
           {vedleggsliste
-            .filter((x) => !x.erHoveddokument)
+            .filter((x) => !x.erHoveddokument && x.opplastingsStatus !== 'LastetOppIkkeRelevantLenger')
             .map((vedlegg) => {
               return <Vedlegg key={vedlegg.id} innsendingsId={soknad.innsendingsId} vedlegg={vedlegg} />;
             })}
@@ -97,6 +98,10 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
           {soknad.kanLasteOppAnnet && <OpprettAnnetVedlegg innsendingsId={soknad.innsendingsId} />}
         </PaddedVedlegg>
       </SideValideringProvider>
+
+      {vedleggsliste.filter((x) => x.opplastingsStatus === 'LastetOppIkkeRelevantLenger').length > 0 && (
+        <AndreVedlegg vedleggsliste={vedleggsliste}></AndreVedlegg>
+      )}
 
       <ButtonContainer>
         <Button

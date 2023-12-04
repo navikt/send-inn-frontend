@@ -1,5 +1,12 @@
 // API
-export type OpplastingsStatus = 'IkkeValgt' | 'LastetOpp' | 'Innsendt' | 'SendSenere' | 'SendesAvAndre' | 'SendesIkke';
+export type OpplastingsStatus =
+  | 'IkkeValgt'
+  | 'LastetOpp'
+  | 'Innsendt'
+  | 'SendSenere'
+  | 'SendesAvAndre'
+  | 'SendesIkke'
+  | 'LastetOppIkkeRelevantLenger';
 
 export type VedleggType = {
   id: number;
