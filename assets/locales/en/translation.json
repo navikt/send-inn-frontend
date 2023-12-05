@@ -110,7 +110,7 @@
       "liste": [
         "The form will NOT be sent to the case manager in NAV now, but only saved so that you can continue later.",
         "If you want to set today's date as the start date for the application, you must click “Cancel” and select “Send to NAV”.",
-        "We have created a task at nav.no/minside (my page) with a link to the application."
+        "We create a task at nav.no/minside (my page) with a link to the application."
       ],
       "accept": "Yes, save and continue later",
       "cancel": "Cancel"
@@ -127,7 +127,7 @@
         "Today's date will be set as the date of receipt of the application.",
         "You have not uploaded all the documents required to process the application.",
         "You must send the missing documents by {{dato}}.",
-        "We have created a task at nav.no/minside (my page) with a link to the application. There you will find the list of attachments you must send."
+        "We will create a task to upload the missing documents. You will find a link to this at nav.no/minside (my page)."
       ],
       "accept": "Yes, send the application",
       "cancel": "Cancel"

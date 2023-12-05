@@ -110,7 +110,7 @@
       "liste": [
         "Søknaden blir IKKJE send til saksbehandlar i NAV no, men berre lagra slik at du kan fortsetja seinare.",
         "Viss du ønsker å setja dagens dato som startdato for søknaden må du klikke “Avbryt” og velja “Send til NAV”.",
-        "Vi har oppretta ei oppgåve på nav.no/minside med ei lenke til søknaden."
+        "Vi oppretter eit utkast på nav.no/minside med ei lenke til søknaden."
       ],
       "accept": "Ja, lagre og fortsett seinare",
       "cancel": "Avbryt"
@@ -127,7 +127,7 @@
         "Dagens dato vil bli sett som mottaksdato for søknaden.",
         "Du har ikkje lasta opp alle dokumenta som er nødvendig for å behandle søknaden.",
         "Du må ettersenda dokumenta som manglar innan {{dato}}.",
-        "Vi har oppretta ei oppgåve på nav.no/minside med ei lenke til søknaden. Der finn du vedlegga du må ettersenda."
+        "Vi vil opprette ei oppgåve for ettersending av manglande dokumenter. Du finn lenke til denne på nav.no/minside."
       ],
       "accept": "Ja, send søknaden",
       "cancel": "Avbryt"
