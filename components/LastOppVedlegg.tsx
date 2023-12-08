@@ -153,12 +153,25 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
               oppdaterVisningsSteg(-1);
             }}
             variant="secondary"
-            data-cy="nesteStegKnapp"
+            data-cy="forrigeStegKnapp"
           >
             {t('soknad.knapper.forrige')}
           </Button>
         )}
 
+        {soknad.visningsType === 'fyllUt' && soknad.skjemaPath && (
+          <Button
+            onClick={() => {
+              location.assign(
+                `${process.env.NEXT_PUBLIC_FYLLUT_URL}/${soknad.skjemaPath}/oppsummering?sub=digital&innsendingsId=${soknad.innsendingsId}`,
+              );
+            }}
+            variant="secondary"
+            data-cy="forrigeStegKnapp"
+          >
+            {t('soknad.knapper.forrige')}
+          </Button>
+        )}
         <Button
           onClick={() => {
             openSlettSoknadModal();

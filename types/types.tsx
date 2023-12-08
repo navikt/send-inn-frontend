@@ -40,6 +40,7 @@ export type SoknadType = {
   innsendingsId: string;
   ettersendingsId: null;
   brukerId: string;
+  skjemaPath: string;
   skjemanr: string;
   tittel: string;
   tema: string;
