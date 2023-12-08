@@ -17,7 +17,7 @@
         "infoFrist": "Deadline for uploading attachments: {{dato}}",
         "advarselHovedskjema": "UTGÅR!! Du får ikke sendt inn før du har lastet opp ferdig utfylt skjema på forrige side.",
         "andreVedleggTittel": "Other attachments",
-        "andreVedleggIngress": "This is attachments you have previously uploaded that are no longer relevant for the application. These will be deleted after you send in the application. If you still want to send in these documents you can upload them as 'Other documentation'"
+        "andreVedleggIngress": "Below you will find attachments that you have already uploaded, but which are no longer necessary for the application. They will be deleted when you submit the application. If you still want to submit the documents, you can upload them as 'Other documentation' above."
       }
     },
     "skjemaNedlasting": {
