@@ -18,29 +18,35 @@ export const Style = styled.div`
     padding-right: 16px;
   }
 
-  align-items: center;
   display: flex;
   flex-direction: column;
-  border-bottom: 0.3rem solid var(--a-deepblue-200);
   padding-top: 24px;
   padding-bottom: 24px;
   margin-left: -16px;
   margin-right: -16px;
   width: 100vw;
+`;
+
+export const Line = styled.div`
+  width: 100vw;
+  border-bottom: 0.3rem solid var(--a-deepblue-200);
   margin-left: calc(50% - 50vw);
 `;
 
 export function SoknadHeader({ soknadoverskrift, skjemanr }: SoknadHeaderProps) {
   return (
-    <Style>
-      <div>
-        <Heading level="1" size="xlarge">
-          {soknadoverskrift}
-        </Heading>
-        <StyledDetail size="small" uppercase>
-          {skjemanr}
-        </StyledDetail>
-      </div>
-    </Style>
+    <>
+      <Style>
+        <div>
+          <Heading level="1" size="xlarge">
+            {soknadoverskrift}
+          </Heading>
+          <StyledDetail size="small" uppercase>
+            {skjemanr}
+          </StyledDetail>
+        </div>
+      </Style>
+      <Line />
+    </>
   );
 }

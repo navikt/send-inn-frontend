@@ -123,7 +123,7 @@ const FilListeGruppe = styled.div`
   }
 `;
 
-const FilMottattFelt = styled.div`
+export const FilMottattFelt = styled.div`
   display: flex;
   flex-direction: column;
   @media only screen and (max-width: 600px) {

@@ -15,7 +15,9 @@
         "tittel": "Last opp vedlegg",
         "ingress": "Her kan du lasta opp vedlegg til saka di. Du må lasta opp alle vedlegga før NAV kan behandla saka.",
         "infoFrist": "Frist for opplasting av vedlegg: {{dato}}",
-        "advarselHovedskjema": "UTGÅR!! Du får ikkje sendt inn før du har lasta opp ferdig utfylt skjema på førre side."
+        "advarselHovedskjema": "UTGÅR!! Du får ikkje sendt inn før du har lasta opp ferdig utfylt skjema på førre side.",
+        "andreVedleggTittel": "Andre vedlegg",
+        "andreVedleggIngress": "Nedenfor finn du vedlegg som du allereie har lasta opp, men som ikkje er nødvendig for søknaden lenger. Dei blir sletta når du sender inn søknaden. Viss du likevel vil sende inn dokumenta kan du laste dei opp som 'Anna dokumentasjon' ovanfor."
       }
     },
     "skjemaNedlasting": {
@@ -43,8 +45,10 @@
     },
     "vedlegg": {
       "tidligereSendtInn": "Dokument du har sendt inn tidlegare:",
+      "tidligereLastetOpp": "Dokumenter du har lastet opp tidligere:",
       "sendtInnNaa": "Dokument du har lasta opp nå:",
       "mottatt": "Tatt imot",
+      "lastetOpp": "Lastet opp",
       "ettersendingFilvelgerKnapp": "Last opp nye filer",
       "feilmelding": {
         "manglerFil": "Last opp {{label}}"
