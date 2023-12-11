@@ -10,6 +10,7 @@ import { SoknadType } from '../types/types';
 
 import getConfig from 'next/config';
 import { useSoknadLanguage } from '../hooks/useSoknadLanguage';
+import { navigerTilFyllut } from '../utils/navigerTilFyllut';
 
 const { publicRuntimeConfig } = getConfig();
 const erEttersending = true;
@@ -25,8 +26,13 @@ const InnsendingsSide: NextPage = () => {
       axios
         .get(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}`)
         .then((response: AxiosResponse<SoknadType>) => {
-          changeLang(response.data.spraak);
-          setSoknad(response.data);
+          const { data } = response;
+          if (data.visningsType === 'fyllUt' && data.status === 'Opprettet') {
+            navigerTilFyllut(data);
+            return;
+          }
+          changeLang(data.spraak);
+          setSoknad(data);
         })
         .catch((error: AxiosError) => {
           const statusCode = error.response?.status;

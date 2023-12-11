@@ -11,6 +11,7 @@ import { ButtonContainer } from './common/ButtonContainer';
 import { ArrowLeftIcon } from '@navikt/aksel-icons';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { formatertDato } from '../utils/dato';
+import { navigerTilFyllut } from '../utils/navigerTilFyllut';
 import AndreVedlegg from './AndreVedlegg';
 import { useAxiosInterceptorContext } from './AxiosInterceptor';
 import { useLagringsProsessContext } from './LagringsProsessProvider';
@@ -168,9 +169,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
         {soknad.visningsType === 'fyllUt' && soknad.skjemaPath && (
           <Button
             onClick={() => {
-              location.assign(
-                `${process.env.NEXT_PUBLIC_FYLLUT_URL}/${soknad.skjemaPath}/oppsummering?sub=digital&innsendingsId=${soknad.innsendingsId}`,
-              );
+              navigerTilFyllut(soknad);
             }}
             variant="secondary"
             data-cy="forrigeStegKnapp"
