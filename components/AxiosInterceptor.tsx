@@ -1,18 +1,38 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 interface PropsAxiosInterceptor {
   children: React.ReactNode;
 }
 
+interface AxiosInterceptorContextType {
+  savedAt?: string;
+}
+
+const AxiosInterceptorContext = createContext<AxiosInterceptorContextType | null>(null);
+
+export const useAxiosInterceptorContext = () => {
+  const axiosInterceptorContext = useContext(AxiosInterceptorContext);
+  if (!axiosInterceptorContext) {
+    throw new Error('Mangler AxiosInterceptor, når useAxiosInterceptorContext kalles');
+  }
+  return axiosInterceptorContext;
+};
+
 export const AxiosInterceptor = ({ children }: PropsAxiosInterceptor) => {
   const [isSet, setIsSet] = useState(false);
+  const [savedAt, setSavedAt] = useState<string>();
 
   const router = useRouter();
 
   useEffect(() => {
     const responseInterceptor = (response: AxiosResponse) => {
+      const method = response.config.method?.toLowerCase() || '';
+      const updateMethods = ['post', 'put', 'patch', 'delete'];
+      if (updateMethods.includes(method)) {
+        setSavedAt(new Date(Date.now()).toLocaleString('nb'));
+      }
       return response;
     };
 
@@ -30,5 +50,10 @@ export const AxiosInterceptor = ({ children }: PropsAxiosInterceptor) => {
     return () => axios.interceptors.response.eject(interceptor);
   }, [router]);
 
-  return <>{isSet && children}</>;
+  return (
+    <AxiosInterceptorContext.Provider value={{ savedAt }}>
+      {savedAt}
+      {isSet && children}
+    </AxiosInterceptorContext.Provider>
+  );
 };

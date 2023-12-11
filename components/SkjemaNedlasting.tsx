@@ -2,10 +2,11 @@ import { BodyShort, Button, Heading } from '@navikt/ds-react';
 import { useTranslation } from 'react-i18next';
 import { ButtonContainer } from './common/ButtonContainer';
 
+import { ArrowRightIcon } from '@navikt/aksel-icons';
 import styled from 'styled-components';
 import { VedleggType } from '../types/types';
 import { useModalContext } from './SoknadModalProvider';
-import { VedleggPanel } from './Vedlegg';
+import { VedleggContainer, VedleggPanel } from './Vedlegg';
 import { LastNedKnapp } from './common/LastNedKnapp';
 import { Linje } from './common/Linje';
 
@@ -35,27 +36,29 @@ function SkjemaNedlasting(props: SkjemanedlastingdProps) {
         {t('soknad.visningsSteg.steg0.tittel')}
       </Heading>
       <Linje />
-      <VedleggPanel $extraMargin>
-        <Heading level={'3'} size="small" spacing>
-          {vedlegg.label}
-        </Heading>
-        <BeskrivelsesGruppe>
-          <BodyShort>{t('soknad.skjemaNedlasting.listeTittel')}</BodyShort>
-          <BodyShort as="ol">
-            {(
-              t('soknad.skjemaNedlasting.liste', {
-                returnObjects: true,
-              }) as string[]
-            ).map((element, key) => (
-              <li key={key}>{element}</li>
-            ))}
-          </BodyShort>
-        </BeskrivelsesGruppe>
+      <VedleggContainer $extraMargin>
+        <VedleggPanel $extraMargin>
+          <Heading level={'3'} size="small" spacing>
+            {vedlegg.label}
+          </Heading>
+          <BeskrivelsesGruppe>
+            <BodyShort>{t('soknad.skjemaNedlasting.listeTittel')}</BodyShort>
+            <BodyShort as="ol">
+              {(
+                t('soknad.skjemaNedlasting.liste', {
+                  returnObjects: true,
+                }) as string[]
+              ).map((element, key) => (
+                <li key={key}>{element}</li>
+              ))}
+            </BodyShort>
+          </BeskrivelsesGruppe>
 
-        {vedlegg.skjemaurl && (
-          <LastNedKnapp url={vedlegg.skjemaurl}>{t('soknad.skjemaNedlasting.lastNedKnapp')}</LastNedKnapp>
-        )}
-      </VedleggPanel>
+          {vedlegg.skjemaurl && (
+            <LastNedKnapp url={vedlegg.skjemaurl}>{t('soknad.skjemaNedlasting.lastNedKnapp')}</LastNedKnapp>
+          )}
+        </VedleggPanel>
+      </VedleggContainer>
 
       <ButtonContainer>
         <Button
@@ -63,10 +66,13 @@ function SkjemaNedlasting(props: SkjemanedlastingdProps) {
             oppdaterVisningsSteg(1);
           }}
           data-cy="nesteStegKnapp"
+          icon={<ArrowRightIcon />}
+          iconPosition="right"
         >
           {t('soknad.knapper.neste')}
         </Button>
-
+      </ButtonContainer>
+      <ButtonContainer>
         <Button
           onClick={() => {
             openSlettSoknadModal();

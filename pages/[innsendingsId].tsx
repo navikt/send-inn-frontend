@@ -47,11 +47,17 @@ const InnsendingsSide: NextPage = () => {
       <Head>
         <title>{soknad ? soknad.tittel : 'Laster søknad'}</title>
       </Head>
+
       {soknad && (
         <>
-          <SoknadHeader soknadoverskrift={soknad.tittel} skjemanr={soknad.skjemanr} />
+          <div className="layout-header">
+            <SoknadHeader soknadoverskrift={soknad.tittel} skjemanr={soknad.skjemanr} />
+          </div>
 
-          <VedleggsListe soknad={soknad} setSoknad={setSoknad} erEttersending={erEttersending} />
+          <div className="side-column"></div>
+          <div className="main-column">
+            <VedleggsListe soknad={soknad} setSoknad={setSoknad} erEttersending={erEttersending} />
+          </div>
         </>
       )}
     </>
