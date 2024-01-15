@@ -47,6 +47,7 @@ export const FilePanel = styled(Panel)`
   }
   .documentarchive {
     color: var(--a-text-subtle);
+    grid-area: fileinfo;
   }
   .fileinfo {
     grid-area: fileinfo;
