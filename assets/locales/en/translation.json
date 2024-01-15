@@ -53,6 +53,8 @@
       "feilmelding": {
         "manglerFil": "Upload {{label}}"
       },
+      "lastNedFiler": "The files can be downloaded from",
+      "dokumentarkivet": "the document archive",
       "annet": {
         "tittel": "Describe the document",
         "beskrivelse": "Give a descriptive name to the document you wish to upload.",
