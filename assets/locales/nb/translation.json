@@ -53,6 +53,8 @@
       "feilmelding": {
         "manglerFil": "Last opp {{label}}"
       },
+      "lastNedFiler": "Filene kan lastes ned fra",
+      "dokumentarkivet": "dokumentarkivet",
       "annet": {
         "tittel": "Beskriv vedlegget",
         "beskrivelse": "Gi et beskrivende navn på dokumentet du ønsker å laste opp.",

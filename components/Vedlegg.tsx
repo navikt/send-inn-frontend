@@ -306,8 +306,15 @@ function Vedlegg(props: VedleggProps) {
                   <div className="icon">
                     <FilUploadIcon filstatus={FIL_STATUS.TIDLIGERE_LASTET_OPP} filnavn={vedlegg.label} />
                   </div>
-
                   <BodyShort className="filename">{vedlegg.label}</BodyShort>
+                  <BodyShort className="documentarchive" size="small">
+                    {t('soknad.vedlegg.lastNedFiler') + ' '}
+                    <NavLink target="_blank" href={process.env.NEXT_PUBLIC_DOKUMENTARKIV_URL} rel="noopener noreferrer">
+                      {t('link.nyFane', {
+                        tekst: t('soknad.vedlegg.dokumentarkivet'),
+                      })}
+                    </NavLink>
+                  </BodyShort>
                   <div className="hoyreHalvdel">
                     <FilMottattFelt>
                       <BodyShort>{t('soknad.vedlegg.mottatt')}</BodyShort>

@@ -45,6 +45,10 @@ export const FilePanel = styled(Panel)`
       display: block;
     }
   }
+  .documentarchive {
+    color: var(--a-text-subtle);
+    grid-area: fileinfo;
+  }
   .fileinfo {
     grid-area: fileinfo;
     justify-items: left;
