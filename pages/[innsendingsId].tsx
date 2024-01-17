@@ -27,7 +27,7 @@ const InnsendingsSide: NextPage = () => {
         .get(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}`)
         .then((response: AxiosResponse<SoknadType>) => {
           const { data } = response;
-          if (data.visningsType === 'fyllUt' && data.status === 'Opprettet') {
+          if (data.visningsType === 'fyllUt' && data.status === 'Opprettet' && data.skjemaPath) {
             navigerTilFyllut(data);
             return;
           }
