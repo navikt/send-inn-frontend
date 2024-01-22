@@ -1,5 +1,5 @@
 import '@navikt/ds-css';
-import { Detail, Heading } from '@navikt/ds-react';
+import { BodyShort, Heading } from '@navikt/ds-react';
 import styled from 'styled-components';
 
 export interface SoknadHeaderProps {
@@ -7,7 +7,7 @@ export interface SoknadHeaderProps {
   skjemanr: string;
 }
 
-export const StyledDetail = styled(Detail)`
+export const StyledDetail = styled(BodyShort)`
   color: var(--a-gray-900);
 `;
 
@@ -20,8 +20,7 @@ export const Style = styled.div`
 
   display: flex;
   flex-direction: column;
-  padding-top: 24px;
-  padding-bottom: 24px;
+  padding: 1.5rem 0;
   margin-left: -16px;
   margin-right: -16px;
   width: 100vw;
@@ -41,9 +40,7 @@ export function SoknadHeader({ soknadoverskrift, skjemanr }: SoknadHeaderProps) 
           <Heading level="1" size="xlarge">
             {soknadoverskrift}
           </Heading>
-          <StyledDetail size="small" uppercase>
-            {skjemanr}
-          </StyledDetail>
+          <StyledDetail uppercase>{skjemanr}</StyledDetail>
         </div>
       </Style>
       <Line />

@@ -17,7 +17,8 @@
         "infoFrist": "Frist for opplasting av vedlegg: {{dato}}",
         "advarselHovedskjema": "Du får ikke sendt inn før du har lastet opp ferdig utfylt skjema på forrige side.",
         "andreVedleggTittel": "Andre vedlegg",
-        "andreVedleggIngress": "Nedenfor finner du vedlegg som du allerede har lastet opp, men som ikke er nødvendig for søknaden lenger. De blir slettet når du sender inn søknaden. Hvis du likevel vil sende inn dokumentene kan du laste dem opp som 'Annen dokumentasjon' ovenfor."
+        "andreVedleggIngress": "Nedenfor finner du vedlegg som du allerede har lastet opp, men som ikke er nødvendig for søknaden lenger. De blir slettet når du sender inn søknaden. Hvis du likevel vil sende inn dokumentene kan du laste dem opp som 'Annen dokumentasjon' ovenfor.",
+        "sistLagret": "Sist lagret"
       }
     },
     "skjemaNedlasting": {

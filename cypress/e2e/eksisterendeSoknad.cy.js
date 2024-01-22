@@ -6,3 +6,16 @@ describe('Vedlegg lastet opp, men ikke relevant lenger', () => {
     cy.contains('Urelevant vedlegg').should('exist');
   });
 });
+
+describe('Navigering til Fyllut', () => {
+  it('Skal gå til fyllut ved klikk', () => {
+    cy.visit(`/fyll-ut-default`);
+    cy.get('[data-cy="forrigeStegKnapp"]').click();
+    cy.url().should('include', '/fyllut/');
+  });
+
+  it('Skal gå til fyllut automatisk', () => {
+    cy.visit(`/fyll-ut-ikke-utfylt`);
+    cy.url().should('include', '/fyllut/');
+  });
+});

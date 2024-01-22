@@ -1,4 +1,4 @@
-import { Alert, Button, Heading, Ingress } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, Heading, Ingress } from '@navikt/ds-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -8,9 +8,12 @@ import Vedlegg from './Vedlegg';
 import { useVedleggslisteContext } from './VedleggsListe';
 import { ButtonContainer } from './common/ButtonContainer';
 
+import { ArrowLeftIcon } from '@navikt/aksel-icons';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { formatertDato } from '../utils/dato';
+import { navigerTilFyllut } from '../utils/navigerTilFyllut';
 import AndreVedlegg from './AndreVedlegg';
+import { useAxiosInterceptorContext } from './AxiosInterceptor';
 import { useLagringsProsessContext } from './LagringsProsessProvider';
 import { OpprettAnnetVedlegg } from './OpprettAnnetVedlegg';
 import { useModalContext } from './SoknadModalProvider';
@@ -28,6 +31,14 @@ const PaddedVedlegg = styled.div`
   > * {
     margin-top: 16px;
   }
+  margin-bottom: var(--a-spacing-10);
+`;
+
+const SistLagret = styled(BodyShort)`
+  display: flex;
+  justify-content: center;
+  margin-top: var(--a-spacing-5);
+  margin-bottom: var(--a-spacing-5);
 `;
 
 export interface LastOppVedleggdProps {
@@ -48,6 +59,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
     openSlettSoknadModal,
   } = useModalContext();
   const { ventPaaLagring } = useLagringsProsessContext();
+  const { savedAt } = useAxiosInterceptorContext();
 
   const [lastOppVedleggHarFeil, setLastOppVedleggHarFeil] = useState(false);
   const [visLastOppVedleggFeil, setVisLastOppVedleggFeil] = useState(false);
@@ -103,7 +115,11 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
         <AndreVedlegg vedleggsliste={vedleggsliste}></AndreVedlegg>
       )}
 
-      <ButtonContainer>
+      <SistLagret>{`${t('soknad.visningsSteg.lastOppVedlegg.sistLagret')}: ${
+        savedAt || new Date(soknad.endretDato).toLocaleString()
+      }`}</SistLagret>
+
+      <ButtonContainer $reverse>
         <Button
           loading={isLoading}
           onClick={() => {
@@ -136,16 +152,6 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
           {t('soknad.knapper.sendInn')}
         </Button>
 
-        {/* lagre og fortsett senere */}
-        <Button
-          variant="secondary"
-          onClick={() => {
-            openForstettSenereSoknadModal();
-          }}
-        >
-          {t('soknad.knapper.fortsettSenere')}
-        </Button>
-
         {/* gå tilbake et steg */}
         {soknad.visningsType === 'dokumentinnsending' && (
           <Button
@@ -153,11 +159,36 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
               oppdaterVisningsSteg(-1);
             }}
             variant="secondary"
-            data-cy="nesteStegKnapp"
+            data-cy="forrigeStegKnapp"
+            icon={<ArrowLeftIcon />}
           >
             {t('soknad.knapper.forrige')}
           </Button>
         )}
+
+        {soknad.visningsType === 'fyllUt' && soknad.skjemaPath && (
+          <Button
+            onClick={() => {
+              navigerTilFyllut(soknad);
+            }}
+            variant="secondary"
+            data-cy="forrigeStegKnapp"
+            icon={<ArrowLeftIcon />}
+          >
+            {t('soknad.knapper.forrige')}
+          </Button>
+        )}
+      </ButtonContainer>
+      <ButtonContainer>
+        {/* lagre og fortsett senere */}
+        <Button
+          variant="tertiary"
+          onClick={() => {
+            openForstettSenereSoknadModal();
+          }}
+        >
+          {t('soknad.knapper.fortsettSenere')}
+        </Button>
 
         <Button
           onClick={() => {

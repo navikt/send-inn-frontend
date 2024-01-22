@@ -1,3 +1,4 @@
+import { ArrowLeftIcon, ArrowRightIcon } from '@navikt/aksel-icons';
 import { Button, Heading } from '@navikt/ds-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -49,7 +50,7 @@ function SkjemaOpplasting(props: SkjemaOpplastingdProps) {
         <PaddedVedlegg>
           <Vedlegg innsendingsId={soknad.innsendingsId} vedlegg={vedlegg} />
         </PaddedVedlegg>
-        <ButtonContainer>
+        <ButtonContainer $reverse>
           <Button
             onClick={() => {
               if (side1HarFeil) {
@@ -60,6 +61,8 @@ function SkjemaOpplasting(props: SkjemaOpplastingdProps) {
               oppdaterVisningsSteg(1);
             }}
             data-cy="nesteStegKnapp"
+            icon={<ArrowRightIcon />}
+            iconPosition="right"
           >
             {t('soknad.knapper.neste')}
           </Button>
@@ -69,9 +72,12 @@ function SkjemaOpplasting(props: SkjemaOpplastingdProps) {
             }}
             variant="secondary"
             data-cy="forrigeStegKnapp"
+            icon={<ArrowLeftIcon />}
           >
             {t('soknad.knapper.forrige')}
           </Button>
+        </ButtonContainer>
+        <ButtonContainer>
           <Button
             onClick={() => {
               openSlettSoknadModal();
