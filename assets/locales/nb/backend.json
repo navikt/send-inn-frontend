@@ -1,19 +1,19 @@
 {
   "illegalAction.applicationSentInOrDeleted": {
-    "message": "Søknaden kan ikke vises eller endres fordi den er slettet eller sendt inn til NAV"
+    "message": "Søknaden kan ikke vises eller endres fordi den er slettet eller sendt inn til NA."
   },
   "illegalAction.fileCannotBeRead": {
-    "message": "Opplasting av fil feilet fordi den ikke kan leses. Sjekk at den ikke er kryptert eller passordbeskyttet og prøv igjen"
+    "message": "Opplasting av fil feilet fordi den ikke kan leses. Sjekk at den ikke er kryptert eller passordbeskyttet og prøv igjen."
   },
   "illegalAction.sendInErrorNoApplication": {
-    "message": "Innsending feilet fordi det ikke er lastet opp søknad"
+    "message": "Innsending feilet fordi det ikke er lastet opp søknad."
   },
   "illegalAction.sendInErrorNoChange": {
     "message": "Du må laste opp minst ett nytt vedlegg som du vil sende til NAV.",
     "title": "Du har ikke lastet opp noen nye vedlegg"
   },
   "illegalAction.notSupportedFileFormat": {
-    "message": "Feil filformat, det er kun lov å laste opp filer av type PDF, JPEG/JPG og PNG"
+    "message": "Feil filformat, det er kun lov å laste opp filer av type PDF, JPEG/JPG og PNG."
   },
   "illegalAction.fileSizeSumTooLarge": {
     "message": "Summen av størrelsen på opplastede filer for hele søknaden overskrider maksimal tillatt størrelse. Den maksimale størrelsen er 150MB totalt."
@@ -22,6 +22,10 @@
     "message": "Summen av størrelsen på opplastede filer for dette vedlegget overskrider maksimal tillatt størrelse. Den maksimale størrelsen er 50MB totalt."
   },
   "illegalAction.virusScanFailed": {
-    "message": "Filen du har lastet opp inneholder virus. Prøv igjen med en annen fil"
+    "message": "Filen du har lastet opp inneholder virus. Prøv igjen med en annen fil."
+  },
+  "illegalAction.fileWithTooManyPages": {
+    "message": "Filen du lastet opp har for mange sider. Det kan være maksimalt 200 sider."
   }
+   
 }

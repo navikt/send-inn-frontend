@@ -396,7 +396,8 @@ export function Fil({
         if (
           errorCode === 'illegalAction.notSupportedFileFormat' ||
           errorCode === 'illegalAction.fileCannotBeRead' ||
-          errorCode === 'illegalAction.virusScanFailed'
+          errorCode === 'illegalAction.virusScanFailed' ||
+          errorCode === 'illegalAction.fileWithTooManyPages'
         ) {
           return setFeilmelding(tB(`${errorCode}.message`));
         } else if (errorCode === 'illegalAction.fileSizeSumTooLarge') {
