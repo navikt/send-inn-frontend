@@ -153,7 +153,7 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
         </>
       )}
       {!kvprops.skalEttersendes.length && !kvprops.skalSendesAvAndre.length && <StyledAlert variant="info">{t('kvittering.altMottatInfo')}</StyledAlert>}
-      {!kvprops.skalEttersendes.length && kvprops.skalSendesAvAndre.length  && kvprops.skalSendesAvAndre.length > 0 && <StyledAlert variant="info">{t('kvittering.manglerInnsendtAvAndrealtMottatInfo')}</StyledAlert>}
+      {!kvprops.skalEttersendes.length && kvprops.skalSendesAvAndre.length  && kvprops.skalSendesAvAndre.length > 0 && <StyledAlert variant="info">{('kvittering.manglerInnsendtAvAndrealtMottatInfo')}</StyledAlert>}
       <Button as="a" href={process.env.NEXT_PUBLIC_MIN_SIDE_URL} variant="secondary" size="medium">
         {t('kvittering.minSideKnapp')}
       </Button>
