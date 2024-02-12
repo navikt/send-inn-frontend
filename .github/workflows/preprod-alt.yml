@@ -21,11 +21,12 @@ jobs:
     name: Deploy to preprod-alt
     needs: [build-and-test, build-and-push]
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - uses: actions/checkout@v4
-      - uses: nais/deploy/actions/deploy@v1
+      - uses: nais/deploy/actions/deploy@v2
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           DRY_RUN: false
           PRINT_PAYLOAD: true
           CLUSTER: dev-gcp
