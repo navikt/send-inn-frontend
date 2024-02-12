@@ -156,6 +156,7 @@
     "fristEttersending": "Frist for å ettersenda dokumenta: {{dato}}",
     "ettersendingsInfo": "Vi kan ikkje behandla saka di før vi har tatt imot desse. Oppgåva for å ettersenda dokumentasjonen finn du på nav.no/minside.",
     "altMottatInfo": "Alle nødvendige dokument er tatt imot. Du finn dei under Dine saker på nav.no/minside.",
+    "manglerInnsendtAvAndre": "Vi kan ikkje behandla saka di før vi har motteke dokumentane som andre skal sende inn. Du kan finne Dine saker på nav.no/minside.",
     "minSideKnapp": "Gå til Min side"
   },
   "feil": {
