@@ -157,7 +157,7 @@
     "ettersendingsInfo": "We cannot process your case until we have received all the required documents. The task for sending the remaining documents can be found at nav.no/minside (my page).",
     "altMottatInfo": "All necessary documents have been received. You can find them under Dine saker (Your cases) at nav.no/minside (my page).",
     "manglerInnsendtAvAndre": "We cannot process your case until we have received all the required documents. You can find the the documents You sent in under Dine saker (Your cases) at nav.no/minside (my page).",
-    "manglerInnsendingAvSelvOgAndre": "For at søknaden skal bli komplett må du sende inn vedleggene som mangler.<br/>Sørg også for at dokumentene som skal sendes inn av andre blir sendt inn.<br/>På Min side kan du se hvilke dokumenter som er sendt inn.",
+    "manglerInnsendingAvSelvOgAndre": "For at søknaden skal bli komplett må du sende inn vedleggene som mangler. Sørg også for at dokumentene som skal sendes inn av andre blir sendt inn. På Min side kan du se hvilke dokumenter som er sendt inn.",
     "minSideKnapp": "Go to My page"
   },
   "feil": {
