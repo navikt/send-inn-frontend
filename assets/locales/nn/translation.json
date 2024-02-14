@@ -157,6 +157,7 @@
     "ettersendingsInfo": "Vi kan ikkje behandla saka di før vi har tatt imot desse. Oppgåva for å ettersenda dokumentasjonen finn du på nav.no/minside.",
     "altMottatInfo": "Alle nødvendige dokument er tatt imot. Du finn dei under Dine saker på nav.no/minside.",
     "manglerInnsendtAvAndre": "Vi kan ikkje behandla saka di før vi har motteke dokumentane som andre skal sende inn. Du kan finne Dine saker på nav.no/minside.",
+    "manglerInnsendingAvSelvOgAndre": "For at søknaden skal bli komplett må du sende inn vedleggene som mangler.<br/>Sørg også for at dokumentene som skal sendes inn av andre blir sendt inn.<br/>På Min side kan du se hvilke dokumenter som er sendt inn.",
     "minSideKnapp": "Gå til Min side"
   },
   "feil": {
