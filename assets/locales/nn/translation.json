@@ -156,8 +156,8 @@
     "fristEttersending": "Frist for å ettersenda dokumenta: {{dato}}",
     "ettersendingsInfo": "Vi kan ikkje behandla saka di før vi har tatt imot desse. Oppgåva for å ettersenda dokumentasjonen finn du på nav.no/minside.",
     "altMottatInfo": "Alle nødvendige dokument er tatt imot. Du finn dei under Dine saker på nav.no/minside.",
-    "manglerInnsendtAvAndre": "Vi kan ikkje behandla saka di før vi har motteke dokumentane som andre skal sende inn. Du kan finne Dine saker på nav.no/minside.",
-    "manglerInnsendingAvSelvOgAndre": "For at søknaden skal bli komplett må du sende inn vedleggene som mangler. Sørg også for at dokumentene som skal sendes inn av andre blir sendt inn. På Min side kan du se hvilke dokumenter som er sendt inn.",
+    "manglerInnsendtAvAndre": "Syt for at dokumentane som andre skal ettersenda blir sende inn. På Min side kan du sjå kva for nokre dokument som er sende inn.",
+    "manglerInnsendingAvSelvOgAndre": "Vi kan ikkje behandla saka di før vi har tatt imot vedleggene som du skal skal ettersende. Syt også for at dokumentae som aandre skal ettersenda blir sende inn. På Min side kan du sjå kva for nokre dokument som er sende inn.",
     "minSideKnapp": "Gå til Min side"
   },
   "feil": {
