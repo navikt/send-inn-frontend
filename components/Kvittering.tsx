@@ -61,6 +61,13 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
 
   const { soknad } = useVedleggslisteContext();
 
+  function ettersendingsTekst({ kvprops }: KvitteringsProps) {
+    if ((kvprops.skalEttersendes.length && kvprops.skalEttersendes.length > 0) && !kvprops.skalSendesAvAndre.length) return t('kvittering.ettersendingsInfo')
+    else if ((kvprops.skalSendesAvAndre.length && kvprops.skalSendesAvAndre.length > 0) && !kvprops.skalEttersendes.length)  return t('kvittering.manglerInnsendtAvAndre')
+    else if ((kvprops.skalEttersendes.length &&  kvprops.skalEttersendes.length > 0) && (kvprops.skalSendesAvAndre.length && kvprops.skalSendesAvAndre.length > 0)) return t('kvittering.manglerInnsendingAvSelvOgAndre')
+    else return null
+  }
+
   return (
     <div>
       <Heading as="p" size="large" spacing data-cy="kvitteringOverskrift">
@@ -148,9 +155,7 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                 dato: formatertDato(new Date(kvprops.ettersendingsfrist)),
               })}
             </Heading>
-            {(kvprops.skalEttersendes.length && kvprops.skalEttersendes.length > 0) && !kvprops.skalSendesAvAndre.length && <BodyLong>{t('kvittering.ettersendingsInfo')}</BodyLong>}
-            {(kvprops.skalSendesAvAndre.length && kvprops.skalSendesAvAndre.length > 0) && !kvprops.skalEttersendes.length && <BodyLong>{t('kvittering.manglerInnsendtAvAndre')}</BodyLong>}
-            {(kvprops.skalEttersendes.length &&  kvprops.skalEttersendes.length > 0) && (kvprops.skalSendesAvAndre.length && kvprops.skalSendesAvAndre.length > 0) && <BodyLong>{t('kvittering.manglerInnsendingAvSelvOgAndre')}</BodyLong>}
+            <BodyLong>{ettersendingsTekst({kvprops})}</BodyLong>
           </StyledAlert>
         </>
       )}
@@ -163,4 +168,3 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
   );
 }
 
-export default Kvittering;
