@@ -153,8 +153,8 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
         </>
       )}
       {!kvprops.skalEttersendes.length && !kvprops.skalSendesAvAndre.length && <StyledAlert variant="info">{t('kvittering.altMottatInfo')}</StyledAlert>}
-      {(kvprops.skalEttersendes.length && kvprops.skalEttersendes.length > 0) && !(kvprops.skalSendesAvAndre.length && kvprops.skalSendesAvAndre.length > 0) && <StyledAlert variant="info">{t('kvittering.ettersendingsInfo')}</StyledAlert>}
-      {!kvprops.skalEttersendes.length && (kvprops.skalSendesAvAndre.length && kvprops.skalSendesAvAndre.length > 0) && <StyledAlert variant="info">{t('kvittering.manglerInnsendtAvAndre')}</StyledAlert>}
+      {(kvprops.skalEttersendes.length && kvprops.skalEttersendes.length > 0) && !kvprops.skalSendesAvAndre.length && <StyledAlert variant="info">{t('kvittering.ettersendingsInfo')}</StyledAlert>}
+      {(kvprops.skalSendesAvAndre.length && kvprops.skalSendesAvAndre.length > 0) && !kvprops.skalEttersendes.length && <StyledAlert variant="info">{t('kvittering.manglerInnsendtAvAndre')}</StyledAlert>}
       {(kvprops.skalEttersendes.length &&  kvprops.skalEttersendes.length > 0) && (kvprops.skalSendesAvAndre.length && kvprops.skalSendesAvAndre.length > 0) && <StyledAlert variant="info">{t('kvittering.manglerInnsendingAvSelvOgAndre')}</StyledAlert>}
       <Button as="a" href={process.env.NEXT_PUBLIC_MIN_SIDE_URL} variant="secondary" size="medium">
         {t('kvittering.minSideKnapp')}
