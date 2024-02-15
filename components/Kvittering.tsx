@@ -56,17 +56,18 @@ const StyledAlert = styled(Alert)`
   margin-bottom: var(--a-spacing-11);
 `;
 
-export function Kvittering({ kvprops }: KvitteringsProps) {
+export function ettersendingsTekst({ kvprops }: KvitteringsProps) {
+  const { t } = useTranslation();
+  if ((kvprops.skalEttersendes.length && kvprops.skalEttersendes.length > 0) && !kvprops.skalSendesAvAndre.length) return t('kvittering.ettersendingsInfo')
+  else if ((kvprops.skalSendesAvAndre.length && kvprops.skalSendesAvAndre.length > 0) && !kvprops.skalEttersendes.length)  return t('kvittering.manglerInnsendtAvAndre')
+  else if ((kvprops.skalEttersendes.length &&  kvprops.skalEttersendes.length > 0) && (kvprops.skalSendesAvAndre.length && kvprops.skalSendesAvAndre.length > 0)) return t('kvittering.manglerInnsendingAvSelvOgAndre')
+  else return ""
+}
+
+export default function Kvittering({ kvprops }: KvitteringsProps) {
   const { t } = useTranslation();
 
   const { soknad } = useVedleggslisteContext();
-
-  function ettersendingsTekst({ kvprops }: KvitteringsProps) {
-    if ((kvprops.skalEttersendes.length && kvprops.skalEttersendes.length > 0) && !kvprops.skalSendesAvAndre.length) return t('kvittering.ettersendingsInfo')
-    else if ((kvprops.skalSendesAvAndre.length && kvprops.skalSendesAvAndre.length > 0) && !kvprops.skalEttersendes.length)  return t('kvittering.manglerInnsendtAvAndre')
-    else if ((kvprops.skalEttersendes.length &&  kvprops.skalEttersendes.length > 0) && (kvprops.skalSendesAvAndre.length && kvprops.skalSendesAvAndre.length > 0)) return t('kvittering.manglerInnsendingAvSelvOgAndre')
-    else return null
-  }
 
   return (
     <div>
