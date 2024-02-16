@@ -153,11 +153,11 @@
     "skjemaLenke": "Download a copy",
     "maaEttersendes": "Documents that must be sent later:",
     "sendesAvAndre": "Documents to be sent by others:",
-    "fristEttersending": "Deadline for sending the missing documents: {{dato}}",
-    "ettersendingsInfo": "We cannot process your case until we have received all the required documents. The task for sending the remaining documents can be found at nav.no/minside (my page).",
-    "altMottatInfo": "All necessary documents have been received. You can find them under Dine saker (Your cases) at nav.no/minside (my page).",
-    "manglerInnsendtAvAndre": "We cannot process your case until we have received all the required documents. You can find the the documents You sent in under Dine saker (Your cases) at nav.no/minside (my page).",
-    "manglerInnsendingAvSelvOgAndre": "To complete the application send in the missing documents. In addition, ensure that the other documents also is sent in. På Min side kan du se hvilke dokumenter som er sendt inn.",
+    "fristEttersending": "Deadline for forwarding documents: {{dato}}",
+    "ettersendingsInfo": "You have to submit the attachments that are missing in order to complete the application. Go to My page to see the submitted documents.",
+    "altMottatInfo": "Go to My page to see the submitted documents.",
+    "manglerInnsendtAvAndre": "Ensure that the documents to be submitted by others are submitted. Go to My page to see the submitted documents.",
+    "manglerInnsendingAvSelvOgAndre": "You have to submit the attachments that are missing in order to complete the application.\n\nAlso ensure that the documents to be submitted by others are submitted.\n\nGo to My page to see the submitted documents.",
     "minSideKnapp": "Go to My page"
   },
   "feil": {
