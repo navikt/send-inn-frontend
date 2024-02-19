@@ -56,7 +56,15 @@ const StyledAlert = styled(Alert)`
   margin-bottom: var(--a-spacing-11);
 `;
 
-export function Kvittering({ kvprops }: KvitteringsProps) {
+function ettersendingsTekst({ kvprops }: KvitteringsProps) {
+  const { t } = useTranslation();
+  if ((kvprops.skalEttersendes.length && kvprops.skalEttersendes.length > 0) && !kvprops.skalSendesAvAndre.length) return t('kvittering.ettersendingsInfo')
+  else if ((kvprops.skalSendesAvAndre.length && kvprops.skalSendesAvAndre.length > 0) && !kvprops.skalEttersendes.length)  return t('kvittering.manglerInnsendtAvAndre')
+  else if ((kvprops.skalEttersendes.length &&  kvprops.skalEttersendes.length > 0) && (kvprops.skalSendesAvAndre.length && kvprops.skalSendesAvAndre.length > 0)) return t('kvittering.manglerInnsendingAvSelvOgAndre')
+  else return ""
+}
+
+export default function Kvittering({ kvprops }: KvitteringsProps) {
   const { t } = useTranslation();
 
   const { soknad } = useVedleggslisteContext();
@@ -140,7 +148,7 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
         </StyledSection>
       )}
 
-      {kvprops.skalEttersendes && kvprops.skalEttersendes.length > 0 && (
+      {((kvprops.skalEttersendes && kvprops.skalEttersendes.length > 0) || (kvprops.skalSendesAvAndre && kvprops.skalSendesAvAndre.length > 0)) && (
         <>
           <StyledAlert variant="info">
             <Heading level={'3'} spacing size="small">
@@ -148,11 +156,11 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
                 dato: formatertDato(new Date(kvprops.ettersendingsfrist)),
               })}
             </Heading>
-            <BodyLong>{t('kvittering.ettersendingsInfo')}</BodyLong>
+            <BodyLong>{ettersendingsTekst({kvprops})}</BodyLong>
           </StyledAlert>
         </>
       )}
-      {!kvprops.skalEttersendes.length && <StyledAlert variant="info">{t('kvittering.altMottatInfo')}</StyledAlert>}
+      {!kvprops.skalEttersendes.length && !kvprops.skalSendesAvAndre.length && <StyledAlert variant="info">{t('kvittering.altMottatInfo')}</StyledAlert>}
       <Button as="a" href={process.env.NEXT_PUBLIC_MIN_SIDE_URL} variant="secondary" size="medium">
         {t('kvittering.minSideKnapp')}
       </Button>
@@ -161,4 +169,3 @@ export function Kvittering({ kvprops }: KvitteringsProps) {
   );
 }
 
-export default Kvittering;
