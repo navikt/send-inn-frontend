@@ -12,7 +12,7 @@
     "start": "next start -p 3100",
     "start:with:test": "NODE_ENV=test next start -p 3100",
     "lint": "eslint .",
-    "prepare": "husky install",
+    "prepare": "husky",
     "cypress": "npx cypress open",
     "cypress:headless": "npx cypress run",
     "prettier": "prettier --write ."
@@ -54,7 +54,7 @@
     "eslint-config-next": "^14.1.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-cypress": "^2.15.1",
-    "husky": "^8.0.3",
+    "husky": "^9.0.11",
     "lint-staged": "^15.2.1",
     "msw": "^2.1.5",
     "prettier": "^3.2.4",
