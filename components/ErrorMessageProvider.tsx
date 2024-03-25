@@ -1,4 +1,4 @@
-import { BodyLong, Heading } from '@navikt/ds-react';
+import { BodyLong } from '@navikt/ds-react';
 import { createContext, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FellesModal } from './FellesModal';
@@ -48,15 +48,12 @@ export const ErrorMessageProvider = ({ children }: ErrorMessageProviderProps) =>
       {children}
 
       <FellesModal
+        heading={error.title || defaultTitle}
         open={open}
         setOpen={setOpen}
         cancelButtonText={t('feil.advarselBrukerBekreftelse')}
         cancelButtonVariant="secondary"
       >
-        <Heading spacing size="medium">
-          {error.title || defaultTitle}
-        </Heading>
-
         <BodyLong>{error.message}</BodyLong>
       </FellesModal>
     </ErrorMessageContext.Provider>

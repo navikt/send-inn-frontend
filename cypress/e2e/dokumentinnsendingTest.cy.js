@@ -88,7 +88,7 @@ describe('Tester dokumentinnsendingsløpet', () => {
     // Sender inn
     cy.get('[data-cy="sendTilNAVKnapp"]').click();
 
-    cy.get('[data-cy="jaFellesModalKnapp"]').should('be.visible').click();
+    cy.get('[data-cy="jaFellesModalKnapp"]').filter(':visible').should('be.visible').click();
 
     cy.get('[data-cy="kvitteringOverskrift"]').should('be.visible');
   });
