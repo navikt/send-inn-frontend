@@ -82,7 +82,13 @@ export function Filvelger(props: FilvelgerProps) {
 
   const CurrentButton = useCallback(() => {
     const DefaultButton = (
-      <Button as="label" variant="secondary" icon={<UploadIcon aria-hidden />} data-cy="filvelgerKnapp">
+      <Button
+        as="label"
+        variant="secondary"
+        icon={<UploadIcon aria-hidden />}
+        data-cy="filvelgerKnapp"
+        role={undefined} // Label kan ikke ha role='button', som settes automatisk
+      >
         {buttonText || t('filvelger.defaultText')}
       </Button>
     );

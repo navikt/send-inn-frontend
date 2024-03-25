@@ -33,18 +33,10 @@ describe('Tester ettersendingsløpet', () => {
       });
 
     // Sender inn
-    cy.get('[data-cy="sendTilNAVKnapp"]', {
-      timeout: 10000,
-    }).click();
+    cy.get('[data-cy="sendTilNAVKnapp"]').click();
 
-    cy.get('[data-cy="jaFellesModalKnapp"]', {
-      timeout: 10000,
-    }).should('be.visible');
+    cy.get('[data-cy="jaFellesModalKnapp"]').filter(':visible').should('be.visible').click();
 
-    cy.get('[data-cy="jaFellesModalKnapp"]').click();
-
-    cy.get('[data-cy="kvitteringOverskrift"]', {
-      timeout: 10000,
-    }).should('be.visible');
+    cy.get('[data-cy="kvitteringOverskrift"]').should('be.visible');
   });
 });

@@ -476,7 +476,8 @@ export function Fil({
                   })
                 }
                 CustomButton={
-                  <Button as="label" variant="tertiary">
+                  // Label kan ikke ha role='button', som settes automatisk
+                  <Button as="label" variant="tertiary" role={undefined}>
                     {t('soknad.vedlegg.fil.provIgjen')}
                   </Button>
                 }

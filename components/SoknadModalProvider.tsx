@@ -1,4 +1,4 @@
-import { BodyLong, Heading } from '@navikt/ds-react';
+import { BodyLong } from '@navikt/ds-react';
 import { createContext, useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { datoOmXDager, formatertDato } from '../utils/dato';
@@ -79,15 +79,13 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
       {children}
 
       <FellesModal
+        heading={t('modal.fortsettSenere.tittel')}
         open={fortsettSenereSoknadModal}
         setOpen={setForstettSenereSoknadModal}
         onAccept={navigerTilMinSide}
         acceptButtonText={t('modal.fortsettSenere.accept')}
         cancelButtonText={t('modal.fortsettSenere.cancel')}
       >
-        <Heading spacing size="medium">
-          {t('modal.fortsettSenere.tittel')}
-        </Heading>
         <BodyLong as="ul">
           {(
             t('modal.fortsettSenere.liste', {
@@ -100,6 +98,7 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
       </FellesModal>
 
       <FellesModal
+        heading={t('modal.slett.tittel')}
         open={slettSoknadModal}
         setOpen={setSlettSoknadModal}
         onAccept={slettSoknad}
@@ -107,9 +106,6 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
         cancelButtonText={t('modal.slett.cancel')}
         isLoading={lagrer}
       >
-        <Heading spacing size="medium">
-          {t('modal.slett.tittel')}
-        </Heading>
         <BodyLong as="ul">
           {(
             t('modal.slett.liste', {
@@ -122,6 +118,7 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
       </FellesModal>
 
       <FellesModal
+        heading={t('modal.sendInnUferdig.tittel')}
         open={sendInnUferdigSoknadModal}
         setOpen={setSendInnUferdigSoknadModal}
         onAccept={async () => {
@@ -132,9 +129,6 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
         cancelButtonText={t('modal.sendInnUferdig.cancel')}
         isLoading={lagrer}
       >
-        <Heading spacing size="medium">
-          {t('modal.sendInnUferdig.tittel')}
-        </Heading>
         <BodyLong as="ul">
           {(
             t('modal.sendInnUferdig.liste', {
@@ -153,6 +147,7 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
       </FellesModal>
 
       <FellesModal
+        heading={t('modal.sendInnKomplett.tittel')}
         open={sendInnKomplettSoknadModal}
         setOpen={setSendInnKomplettSoknadModal}
         onAccept={async () => {
@@ -163,9 +158,6 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
         cancelButtonText={t('modal.sendInnKomplett.cancel')}
         isLoading={lagrer}
       >
-        <Heading spacing size="medium">
-          {t('modal.sendInnKomplett.tittel')}
-        </Heading>
         <BodyLong as="ul">
           {(
             t('modal.sendInnKomplett.liste', {

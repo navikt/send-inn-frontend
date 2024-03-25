@@ -5,6 +5,9 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 import { withSentryConfig } from '@sentry/nextjs';
 
 const nextConfig = {
+  experimental: {
+    optimizePackageImports: ['@navikt/ds-react', '@navikt/aksel-icons'],
+  },
   reactStrictMode: false,
   eslint: {
     // Warning: This allows production builds to successfully complete even if
