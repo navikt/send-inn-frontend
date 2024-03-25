@@ -76,7 +76,7 @@ export function OpprettAnnetVedlegg({ innsendingsId }: EndreVedleggProps) {
         reset();
       });
   };
-  const maxLength = 250;
+  const maxLength = 50;
 
   return (
     <>
