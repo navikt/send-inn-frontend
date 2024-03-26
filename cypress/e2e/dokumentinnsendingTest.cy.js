@@ -9,6 +9,8 @@ describe('Tester dokumentinnsendingsløpet', () => {
 
     // Bekrefter at siden er rendret
     cy.get('[data-cy="nesteStegKnapp"]').should('be.visible').click();
+    cy.injectAxe();
+    cy.checkA11y('#__next');
 
     // Laster opp fil på hoveddokument
     cy.get('[data-cy="filvelgerKnapp"]').click();
@@ -19,6 +21,7 @@ describe('Tester dokumentinnsendingsløpet', () => {
     cy.get('[data-cy="nesteStegKnapp"]').click();
 
     cy.get('[data-cy="filvelgerKnapp"]').should('have.length', 3);
+    cy.checkA11y('#__next');
 
     // Laster opp fil på første vedlegg
     cy.get('[data-cy="VedleggContainer"]')
@@ -51,6 +54,7 @@ describe('Tester dokumentinnsendingsløpet', () => {
     cy.get('[data-cy="opprettAnnetVedleggPanel"]')
       .should('be.visible')
       .within(() => {
+        cy.checkA11y('#__next');
         cy.get('input').type('Ekstra vedlegg #1');
         cy.contains(translations.soknad.vedlegg.annet.bekreft).click();
       });
@@ -85,11 +89,14 @@ describe('Tester dokumentinnsendingsløpet', () => {
       });
     cy.get('[data-cy="VedleggContainer"]').should('have.length', 4);
 
+    cy.checkA11y('#__next');
+
     // Sender inn
     cy.get('[data-cy="sendTilNAVKnapp"]').click();
 
     cy.get('[data-cy="jaFellesModalKnapp"]').should('be.visible').click();
 
     cy.get('[data-cy="kvitteringOverskrift"]').should('be.visible');
+    cy.checkA11y('#__next');
   });
 });
