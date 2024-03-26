@@ -160,7 +160,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
             }}
             variant="secondary"
             data-cy="forrigeStegKnapp"
-            icon={<ArrowLeftIcon />}
+            icon={<ArrowLeftIcon aria-hidden />}
           >
             {t('soknad.knapper.forrige')}
           </Button>
@@ -173,7 +173,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
             }}
             variant="secondary"
             data-cy="forrigeStegKnapp"
-            icon={<ArrowLeftIcon />}
+            icon={<ArrowLeftIcon aria-hidden />}
           >
             {t('soknad.knapper.forrige')}
           </Button>
