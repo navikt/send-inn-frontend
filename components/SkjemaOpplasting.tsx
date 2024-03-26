@@ -61,7 +61,7 @@ function SkjemaOpplasting(props: SkjemaOpplastingdProps) {
               oppdaterVisningsSteg(1);
             }}
             data-cy="nesteStegKnapp"
-            icon={<ArrowRightIcon />}
+            icon={<ArrowRightIcon aria-hidden />}
             iconPosition="right"
           >
             {t('soknad.knapper.neste')}
@@ -72,7 +72,7 @@ function SkjemaOpplasting(props: SkjemaOpplastingdProps) {
             }}
             variant="secondary"
             data-cy="forrigeStegKnapp"
-            icon={<ArrowLeftIcon />}
+            icon={<ArrowLeftIcon aria-hidden />}
           >
             {t('soknad.knapper.forrige')}
           </Button>
