@@ -3,13 +3,13 @@ import translations from '../../assets/locales/nb/translation.json';
 
 describe('Tester validering', () => {
   it('Legger til valideringsfeil, og fikser dem', () => {
-    cy.get;
     cy.visit(
       '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2',
     );
 
     // sjekker at valideringsfeil stopper neste steg, og at valideringsfeil-boksen får fokus
     cy.get('[data-cy="nesteStegKnapp"]').should('be.visible').click();
+    cy.injectAxe();
     cy.get('[data-cy="nesteStegKnapp"]').click();
 
     cy.focused()
@@ -17,6 +17,8 @@ describe('Tester validering', () => {
       .within(() => {
         cy.get('li').should('have.length', 1);
       });
+
+    cy.checkA11y('#__next');
 
     // fikser feil, og går til neste steg
     cy.get('[data-cy="filvelgerKnapp"]').click();
@@ -44,6 +46,8 @@ describe('Tester validering', () => {
       .within(() => {
         cy.get('li').should('have.length', 4);
       });
+
+    cy.checkA11y('#__next');
 
     // fikser alle valideringsfeil, og sender inn
     cy.get('[data-cy="VedleggContainer"]')
