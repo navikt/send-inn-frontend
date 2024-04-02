@@ -73,7 +73,7 @@ export function EndreVedlegg({ tittel, setEndrer, vedlegg, innsendingsId, setTit
         setEndrer(false);
       });
   };
-  const maxLength = 250;
+  const maxLength = 50;
 
   return (
     <ValideringsRamme id={feilId} visFeil={visFeil} melding={valideringsMelding}>
