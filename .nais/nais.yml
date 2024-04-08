@@ -11,6 +11,10 @@ metadata:
 spec:
   image: '{{ image }}'
   port: 3100
+  observability:
+    autoInstrumentation:
+      enabled: true
+      runtime: nodejs
   liveness:
     path: /sendinn/api/isAlive
     initialDelay: 20
