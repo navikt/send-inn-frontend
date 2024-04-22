@@ -1,6 +1,6 @@
 {
   "illegalAction.applicationSentInOrDeleted": {
-    "message": "Søknaden kan ikke vises eller endres fordi den er slettet eller sendt inn til NA."
+    "message": "Søknaden kan ikke vises eller endres fordi den er slettet eller sendt inn til NAV."
   },
   "illegalAction.fileCannotBeRead": {
     "message": "Opplasting av fil feilet fordi den ikke kan leses. Sjekk at den ikke er kryptert eller passordbeskyttet og prøv igjen."
