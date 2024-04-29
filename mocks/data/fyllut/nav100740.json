@@ -1,0 +1,81 @@
+{
+  "_id": "60b5fb360a92c5000371307b",
+  "title": "Søknad om stønad til anskaffelse av motorkjøretøy og / eller spesialutstyr og tilpassing til bil",
+  "path": "nav100740",
+  "modified": "2024-02-12T14:16:32.040Z",
+  "properties": {
+    "skjemanummer": "NAV 10-07.40",
+    "tema": "BIL",
+    "innsending": "PAPIR_OG_DIGITAL",
+    "ettersending": "PAPIR_OG_DIGITAL",
+    "uxSignalsId": "panel-uzn9037kdp"
+  },
+  "attachments": [
+    {
+      "label": "Legeerklæring for motorkjøretøy, NAV 10-07.42",
+      "key": "legeerklaering",
+      "description": "\n  <a href=\"https://www.nav.no/fyllut/nav100742\" target=\"_blank\">Legeerklæring for motorkjøretøy (åpnes i ny fane)</a>\n\n",
+      "attachmentTitle": "Legeerklæring for motorkjøretøy",
+      "attachmentCode": "L9",
+      "attachmentForm": "nav100742"
+    },
+    {
+      "label": "Erklæring fra ergo- eller fysioterapeut i forbindelse med søknad om motorkjøretøy og spesialutstyr / tilpasning, NAV 10-07.43",
+      "key": "bekreftelseAvFunksjonsnedsettelse",
+      "description": "\n  <a href=\"https://www.nav.no/fyllut/nav100743\" target=\"_blank\">\n  Tilleggsskjema fra ergo- eller fysioterapeut i forbindelse med søknad om motorkjøretøy og spesialutstyr / tilpasning (åpnes i ny fane)\n  </a> \n",
+      "attachmentTitle": "Tilleggskjema for bil",
+      "attachmentCode": "H9",
+      "attachmentForm": "nav100743"
+    },
+    {
+      "label": "Bekreftelse fra bileier om at utstyret kan monteres i bilen",
+      "key": "bekreftelseFraBileierOmAtUtstyretKanMonteresIBilen",
+      "description": "",
+      "attachmentTitle": "Bekreftelse fra bileier om at utstyret kan monteres i bilen",
+      "attachmentCode": "CG"
+    },
+    {
+      "label": "Dokumentasjon av veiforhold",
+      "key": "dokumentasjonAvVeiforhold",
+      "description": "Dette vedlegget trengs for å dokumentere at du har behov for firehjulstrekk.",
+      "attachmentTitle": "Dokumentasjon av veiforhold",
+      "attachmentCode": "Y9"
+    },
+    {
+      "label": "Kopi av førerkortet ditt",
+      "key": "kopiAvForerkort",
+      "description": "",
+      "attachmentTitle": "Kopi av førerkort",
+      "attachmentCode": "Z4"
+    },
+    {
+      "label": "Kopi av førerkortet til sjåføren(e), med sjåføren(e)s samtykke til å være sjåfør for deg",
+      "key": "kopiAvForerkortetTilSjaforenMedSjaforensSamtykkeTilAVaereSjaforForDeg",
+      "description": "Dersom du har helsepersonell som kjører deg, så er det tilstrekkelig med en erklæring om at personalansvarlig dekker ditt transportbehov med sine til enhver tid ansatte.\n",
+      "attachmentTitle": "Kopi av førerkort",
+      "attachmentCode": "Z4"
+    },
+    {
+      "label": "Arbeidskontrakt eller bekreftelse på studieplass",
+      "key": "arbeidskontraktEllerBekreftelsePaStudieplass",
+      "description": "Om du skal benytte bil til og fra arbeid må du legge ved en arbeidskontrakt som bekrefter arbeidsforholdet.\nSkal du benytte bil til og fra studiested må du legge ved bekreftelse på at du har studieplass.\nSkal du benytte bil til både arbeid og studiested må du legge ved arbeidskontrakt og bekreftelse på studieplass.",
+      "attachmentTitle": "Arbeidskontrakt eller bekreftelse på studieplass",
+      "attachmentCode": "CF"
+    },
+    {
+      "label": "Siste tilgjengelige skatteoppgjør fra Skatteetaten",
+      "key": "sisteTilgjengeligeSkatteoppgjorFraSkatteetaten",
+      "description": "",
+      "attachmentTitle": "Kopi av likningsattest eller selvangivelse",
+      "attachmentCode": "X3"
+    },
+    {
+      "label": "Annen dokumentasjon",
+      "key": "annenDokumentasjon",
+      "description": "Har du noen annen dokumentasjon du ønsker å legge ved?",
+      "otherDocumentation": true,
+      "attachmentTitle": "Annet",
+      "attachmentCode": "N6"
+    }
+  ]
+}
