@@ -12,6 +12,5 @@ export const KvitteringsTillegg = ({ uxSignalsId, uxSignalsInnsending }: Kvitter
 
   const shouldRenderDemo = process.env.NEXT_PUBLIC_NAIS_CLUSTER_NAME !== 'prod-gcp';
 
-  // FIXME: Add demo mode prop
   return <UXSignals id={uxSignalsId} demo={shouldRenderDemo} />;
 };
