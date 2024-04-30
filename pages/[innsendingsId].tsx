@@ -16,6 +16,8 @@ const { publicRuntimeConfig } = getConfig();
 const erEttersending = true;
 
 const InnsendingsSide: NextPage = () => {
+  console.log('NAIS CLUSTER NAME', process.env.NAIS_CLUSTER_NAME);
+
   const router = useRouter();
   const { query } = router;
   const [soknad, setSoknad] = useState<SoknadType | null>(null);

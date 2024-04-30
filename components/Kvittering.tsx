@@ -181,7 +181,11 @@ export default function Kvittering({ kvprops }: KvitteringsProps) {
       >
         {t('kvittering.minSideKnapp')}
       </Button>
-      <KvitteringsTillegg uxSignalsId={fyllutForm.properties?.uxSignalsId} />
+
+      <KvitteringsTillegg
+        uxSignalsId={fyllutForm.properties?.uxSignalsId}
+        uxSignalsInnsending={fyllutForm.properties?.uxSignalsInnsending}
+      />
     </div>
   );
 }

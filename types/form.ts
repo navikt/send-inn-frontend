@@ -15,6 +15,7 @@ export interface FyllytFormProperties {
   enhetstyper?: string[];
   enhetMaVelgesVedPapirInnsending?: boolean;
   uxSignalsId?: string;
+  uxSignalsInnsending?: AllowedSubmissionType;
 }
 
 export interface FyllutForm extends BasicForm {
