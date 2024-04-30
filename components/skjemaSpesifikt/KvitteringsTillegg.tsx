@@ -10,8 +10,7 @@ export const KvitteringsTillegg = ({ uxSignalsId, uxSignalsInnsending }: Kvitter
   if (!uxSignalsId) return null;
   if (uxSignalsInnsending === 'INGEN' || uxSignalsInnsending === 'KUN_PAPIR') return null;
 
-  console.log('NAIS CLUSTER NAME', process.env.NAIS_CLUSTER_NAME);
-  const shouldRenderDemo = process.env.NAIS_CLUSTER_NAME !== 'prod-gcp';
+  const shouldRenderDemo = process.env.NEXT_PUBLIC_NAIS_CLUSTER_NAME !== 'prod-gcp';
 
   // FIXME: Add demo mode prop
   return <UXSignals id={uxSignalsId} demo={shouldRenderDemo} />;
