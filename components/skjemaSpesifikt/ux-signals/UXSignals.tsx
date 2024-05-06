@@ -19,7 +19,7 @@ const UXSignals = ({ id, demo = false }: Props) => {
 
   return (
     <section>
-      <div data-uxsignals-embed={id} data-uxsignals-mode={demo ? 'demo' : ''} style={{ maxWidth: '620px' }} />
+      <div data-uxsignals-embed={id} data-uxsignals-mode={demo === true ? 'demo' : ''} style={{ maxWidth: '620px' }} />
     </section>
   );
 };
