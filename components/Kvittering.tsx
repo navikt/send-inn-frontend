@@ -57,6 +57,10 @@ const StyledAlert = styled(Alert)`
   margin-bottom: var(--a-spacing-11);
 `;
 
+const StyledButtonContainer = styled.div`
+  margin-bottom: var(--a-spacing-11);
+`;
+
 function ettersendingsTekst({ kvprops, t }: { kvprops: KvitteringsDto; t: TFunction }) {
   if (kvprops.skalEttersendes.length && kvprops.skalEttersendes.length > 0 && !kvprops.skalSendesAvAndre.length)
     return t('kvittering.ettersendingsInfo');
@@ -172,15 +176,12 @@ export default function Kvittering({ kvprops }: KvitteringsProps) {
       {!kvprops.skalEttersendes.length && !kvprops.skalSendesAvAndre.length && (
         <StyledAlert variant="info">{t('kvittering.altMottatInfo')}</StyledAlert>
       )}
-      <Button
-        as="a"
-        href={process.env.NEXT_PUBLIC_MIN_SIDE_URL}
-        variant="secondary"
-        size="medium"
-        style={{ marginBottom: 'var(--a-spacing-11' }}
-      >
-        {t('kvittering.minSideKnapp')}
-      </Button>
+
+      <StyledButtonContainer>
+        <Button as="a" href={process.env.NEXT_PUBLIC_MIN_SIDE_URL} variant="secondary" size="medium">
+          {t('kvittering.minSideKnapp')}
+        </Button>
+      </StyledButtonContainer>
 
       <KvitteringsTillegg
         uxSignalsId={fyllutForm.properties?.uxSignalsId}
