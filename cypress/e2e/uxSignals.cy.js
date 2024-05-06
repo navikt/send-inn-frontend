@@ -3,10 +3,6 @@ describe('uxSignals', () => {
     cy.defaultIntercepts();
     cy.visit('/fyll-ut-default');
 
-    cy.wait('@getForm');
-    cy.wait('@getUser');
-    cy.wait('@getFile');
-
     cy.findAllByRole('radio', { name: 'Jeg laster opp dette senere' }).eq(0).click();
     cy.findAllByRole('radio', { name: 'Jeg laster opp dette senere' }).eq(1).click();
     cy.findAllByRole('radio', { name: 'Jeg laster opp dette senere' }).eq(2).click();
