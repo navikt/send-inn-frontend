@@ -7,7 +7,7 @@ import Kvittering, { KvitteringsDto } from '../components/Kvittering';
 import SkjemaNedlasting from '../components/SkjemaNedlasting';
 import { ExtendedVedleggType } from '../components/Vedlegg';
 import { useErrorMessage } from '../hooks/useErrorMessage';
-import { FyllutForm } from '../types/form';
+import { FyllutForm } from '../types/fyllutForm';
 import { OpplastingsStatus, SoknadType, VedleggType } from '../types/types';
 import { navigerTilMinSide } from '../utils/navigerTilMinSide';
 import { AutomatiskInnsending } from './AutomatiskInnsending';

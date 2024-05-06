@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { FyllutForm } from '../../../../types/form';
+import { FyllutForm } from '../../../../types/fyllutForm';
 import { logger } from '../../../../utils/backendLogger';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

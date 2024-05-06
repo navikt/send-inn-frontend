@@ -1,4 +1,4 @@
-import { AllowedSubmissionType } from '../../types/form';
+import { AllowedSubmissionType } from '../../types/fyllutForm';
 import UXSignals from './ux-signals/UXSignals';
 
 interface KvitteringsTilleggProps {
