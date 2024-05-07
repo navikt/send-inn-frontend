@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const response = await axios.get<FyllutForm>(
-      `${process.env.NEXT_PUBLIC_FYLLUT_URL}/api/forms/${form}?${queryParams.toString()}`,
+      `${process.env.FYLLUT_API_URL}/api/forms/${form}?${queryParams.toString()}`,
     );
     return res.status(200).json(response.data);
   } catch (error) {

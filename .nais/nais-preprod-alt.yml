@@ -48,6 +48,8 @@ spec:
     outbound:
       rules:
         - application: innsending-api
+        - application: skjemautfylling-preprod-alt
+          namespace: skjemadigitalisering
         - application: nav-dekoratoren
           namespace: personbruker
   ingresses:
@@ -59,5 +61,7 @@ spec:
       value: 'dev-gcp:team-soknad:innsending-api'
     - name: REMOTE_API_URL
       value: 'http://innsending-api'
+    - name: FYLLUT_API_URL
+      value: http://skjemautfylling-preprod-alt/fyllut
     - name: LOG_LINK
       value: https://logs.adeo.no/app/discover#/view/b80c8870-6da3-11ee-b740-7d0ae42f37a4
