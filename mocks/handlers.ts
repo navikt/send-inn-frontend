@@ -1,6 +1,5 @@
 import { endreSoknad } from './handlers/endreSoknad';
 import { endreVedlegg } from './handlers/endreVedlegg';
-import { getFyllutForm } from './handlers/fyllutForm';
 import { hentFiler } from './handlers/hentFiler';
 import { hentSoknad } from './handlers/hentSoknad';
 import { opprettEttersending } from './handlers/opprettEttersending';
@@ -23,5 +22,4 @@ export const handlers = [
   hentFiler,
   opprettFil,
   slettFil,
-  getFyllutForm,
 ];
