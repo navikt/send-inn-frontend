@@ -42,7 +42,6 @@
   },
   "devDependencies": {
     "@sentry/cli": "^2.31.0",
-    "@testing-library/cypress": "^10.0.1",
     "@types/node": "^20.12.2",
     "@types/react": "^18.2.73",
     "@types/sanitize-html": "^2.11.0",

@@ -40,7 +40,7 @@ export function SoknadHeader({ soknadoverskrift, skjemanr }: SoknadHeaderProps) 
           <Heading level="1" size="xlarge">
             {soknadoverskrift}
           </Heading>
-          <StyledDetail>{skjemanr}</StyledDetail>
+          <StyledDetail uppercase>{skjemanr}</StyledDetail>
         </div>
       </Style>
       <Line />

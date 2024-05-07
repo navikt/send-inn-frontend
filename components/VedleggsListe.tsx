@@ -2,12 +2,10 @@ import axios from 'axios';
 import getConfig from 'next/config';
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
-import useSWR from 'swr';
 import Kvittering, { KvitteringsDto } from '../components/Kvittering';
 import SkjemaNedlasting from '../components/SkjemaNedlasting';
 import { ExtendedVedleggType } from '../components/Vedlegg';
 import { useErrorMessage } from '../hooks/useErrorMessage';
-import { FyllutForm } from '../types/fyllutForm';
 import { OpplastingsStatus, SoknadType, VedleggType } from '../types/types';
 import { navigerTilMinSide } from '../utils/navigerTilMinSide';
 import { AutomatiskInnsending } from './AutomatiskInnsending';
@@ -60,7 +58,6 @@ interface VedleggslisteContextType {
   oppdaterLokalOpplastingStatus: (id: number, opplastingsStatus: OpplastingsStatus) => void;
   leggTilVedlegg: (vedlegg: ExtendedVedleggType) => void;
   slettAnnetVedlegg: (vedleggId: number) => void;
-  fyllutForm: FyllutForm;
 }
 
 export const VedleggslisteContext = createContext<VedleggslisteContextType | null>(null);
@@ -74,12 +71,6 @@ export const useVedleggslisteContext = () => {
 };
 
 function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
-  const { data: fyllutForm } = useSWR(
-    soknad
-      ? `${publicRuntimeConfig.basePath}/api/fyllut/forms/${soknad.skjemaPath}?type=limited&lang=${soknad.spraak}`
-      : null,
-  );
-
   const { showError } = useErrorMessage();
   const { lagrerNaa, nyLagringsProsess } = useLagringsProsessContext();
 
@@ -211,7 +202,6 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
         oppdaterLokalOpplastingStatus,
         leggTilVedlegg,
         slettAnnetVedlegg,
-        fyllutForm,
       }}
     >
       <SoknadModalProvider>

@@ -1,5 +1,4 @@
 import { Alert, BodyLong, BodyShort, Button, Heading } from '@navikt/ds-react';
-import { TFunction } from 'i18next';
 import getConfig from 'next/config';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -57,29 +56,18 @@ const StyledAlert = styled(Alert)`
   margin-bottom: var(--a-spacing-11);
 `;
 
-const StyledButtonContainer = styled.div`
-  margin-bottom: var(--a-spacing-11);
-`;
-
-function ettersendingsTekst({ kvprops, t }: { kvprops: KvitteringsDto; t: TFunction }) {
-  if (kvprops.skalEttersendes.length && kvprops.skalEttersendes.length > 0 && !kvprops.skalSendesAvAndre.length)
-    return t('kvittering.ettersendingsInfo');
-  else if (kvprops.skalSendesAvAndre.length && kvprops.skalSendesAvAndre.length > 0 && !kvprops.skalEttersendes.length)
-    return t('kvittering.manglerInnsendtAvAndre');
-  else if (
-    kvprops.skalEttersendes.length &&
-    kvprops.skalEttersendes.length > 0 &&
-    kvprops.skalSendesAvAndre.length &&
-    kvprops.skalSendesAvAndre.length > 0
-  )
-    return t('kvittering.manglerInnsendingAvSelvOgAndre');
-  else return '';
+function ettersendingsTekst({ kvprops }: KvitteringsProps) {
+  const { t } = useTranslation();
+  if ((kvprops.skalEttersendes.length && kvprops.skalEttersendes.length > 0) && !kvprops.skalSendesAvAndre.length) return t('kvittering.ettersendingsInfo')
+  else if ((kvprops.skalSendesAvAndre.length && kvprops.skalSendesAvAndre.length > 0) && !kvprops.skalEttersendes.length)  return t('kvittering.manglerInnsendtAvAndre')
+  else if ((kvprops.skalEttersendes.length &&  kvprops.skalEttersendes.length > 0) && (kvprops.skalSendesAvAndre.length && kvprops.skalSendesAvAndre.length > 0)) return t('kvittering.manglerInnsendingAvSelvOgAndre')
+  else return ""
 }
 
 export default function Kvittering({ kvprops }: KvitteringsProps) {
   const { t } = useTranslation();
 
-  const { fyllutForm } = useVedleggslisteContext();
+  const { soknad } = useVedleggslisteContext();
 
   return (
     <div>
@@ -160,8 +148,7 @@ export default function Kvittering({ kvprops }: KvitteringsProps) {
         </StyledSection>
       )}
 
-      {((kvprops.skalEttersendes && kvprops.skalEttersendes.length > 0) ||
-        (kvprops.skalSendesAvAndre && kvprops.skalSendesAvAndre.length > 0)) && (
+      {((kvprops.skalEttersendes && kvprops.skalEttersendes.length > 0) || (kvprops.skalSendesAvAndre && kvprops.skalSendesAvAndre.length > 0)) && (
         <>
           <StyledAlert variant="info">
             <Heading level={'3'} spacing size="small">
@@ -169,24 +156,16 @@ export default function Kvittering({ kvprops }: KvitteringsProps) {
                 dato: formatertDato(new Date(kvprops.ettersendingsfrist)),
               })}
             </Heading>
-            <BodyLong>{ettersendingsTekst({ kvprops, t })}</BodyLong>
+            <BodyLong>{ettersendingsTekst({kvprops})}</BodyLong>
           </StyledAlert>
         </>
       )}
-      {!kvprops.skalEttersendes.length && !kvprops.skalSendesAvAndre.length && (
-        <StyledAlert variant="info">{t('kvittering.altMottatInfo')}</StyledAlert>
-      )}
-
-      <StyledButtonContainer>
-        <Button as="a" href={process.env.NEXT_PUBLIC_MIN_SIDE_URL} variant="secondary" size="medium">
-          {t('kvittering.minSideKnapp')}
-        </Button>
-      </StyledButtonContainer>
-
-      <KvitteringsTillegg
-        uxSignalsId={fyllutForm.properties?.uxSignalsId}
-        uxSignalsInnsending={fyllutForm.properties?.uxSignalsInnsending}
-      />
+      {!kvprops.skalEttersendes.length && !kvprops.skalSendesAvAndre.length && <StyledAlert variant="info">{t('kvittering.altMottatInfo')}</StyledAlert>}
+      <Button as="a" href={process.env.NEXT_PUBLIC_MIN_SIDE_URL} variant="secondary" size="medium">
+        {t('kvittering.minSideKnapp')}
+      </Button>
+      <KvitteringsTillegg skjemanr={soknad.skjemanr} />
     </div>
   );
 }
+
