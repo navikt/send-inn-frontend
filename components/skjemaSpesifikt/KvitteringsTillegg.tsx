@@ -1,24 +1,16 @@
-import Script from 'next/script';
-import { ReactNode } from 'react';
-
-const Skjemaer: Record<string, ReactNode> = {
-  'NAV 08-09.06': (
-    <>
-      <Script type="module" strategy="lazyOnload" src="https://uxsignals-frontend.uxsignals.app.iterate.no/embed.js" />
-      <div data-uxsignals-embed="study-dont9j6txe" style={{ maxWidth: '620px' }} />
-    </>
-  ),
-};
+import { AllowedSubmissionType } from '../../types/fyllutForm';
+import UXSignals from './ux-signals/UXSignals';
 
 interface KvitteringsTilleggProps {
-  skjemanr: string;
+  uxSignalsId?: string;
+  uxSignalsInnsending?: AllowedSubmissionType;
 }
 
-export const KvitteringsTillegg = ({ skjemanr }: KvitteringsTilleggProps) => {
-  const Tillegg = Skjemaer[skjemanr];
-  if (Tillegg) {
-    return Tillegg;
-  } else {
-    return null;
-  }
+export const KvitteringsTillegg = ({ uxSignalsId, uxSignalsInnsending }: KvitteringsTilleggProps) => {
+  if (!uxSignalsId) return null;
+  if (uxSignalsInnsending === 'INGEN' || uxSignalsInnsending === 'KUN_PAPIR') return null;
+
+  const shouldRenderDemo = process.env.NEXT_PUBLIC_NAIS_CLUSTER_NAME !== 'prod-gcp';
+
+  return <UXSignals id={uxSignalsId} demo={shouldRenderDemo} />;
 };
