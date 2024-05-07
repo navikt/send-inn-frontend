@@ -184,8 +184,8 @@ export default function Kvittering({ kvprops }: KvitteringsProps) {
       </StyledButtonContainer>
 
       <KvitteringsTillegg
-        uxSignalsId={fyllutForm.properties?.uxSignalsId}
-        uxSignalsInnsending={fyllutForm.properties?.uxSignalsInnsending}
+        uxSignalsId={fyllutForm?.properties?.uxSignalsId}
+        uxSignalsInnsending={fyllutForm?.properties?.uxSignalsInnsending}
       />
     </div>
   );

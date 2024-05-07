@@ -60,7 +60,7 @@ interface VedleggslisteContextType {
   oppdaterLokalOpplastingStatus: (id: number, opplastingsStatus: OpplastingsStatus) => void;
   leggTilVedlegg: (vedlegg: ExtendedVedleggType) => void;
   slettAnnetVedlegg: (vedleggId: number) => void;
-  fyllutForm: FyllutForm;
+  fyllutForm?: FyllutForm;
 }
 
 export const VedleggslisteContext = createContext<VedleggslisteContextType | null>(null);
