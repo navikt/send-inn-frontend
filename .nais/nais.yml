@@ -66,6 +66,6 @@ spec:
     - name: REMOTE_API_URL
       value: 'http://innsending-api'
     - name: FYLLUT_API_URL
-      value: http://skjemautfylling/fyllut
+      value: http://skjemautfylling.skjemadigitalisering/fyllut
     - name: LOG_LINK
       value: https://logs.adeo.no/app/discover#/view/332450f0-0e73-11ee-b29f-0f158c56b75a
