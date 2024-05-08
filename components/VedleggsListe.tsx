@@ -75,16 +75,9 @@ export const useVedleggslisteContext = () => {
 
 function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
   const { data: fyllutForm } = useSWR(
-    soknad
+    soknad?.visningsType === 'fyllUt'
       ? `${publicRuntimeConfig.basePath}/api/fyllut/forms/${soknad.skjemaPath}?type=limited&lang=${soknad.spraak}`
       : null,
-    null,
-    {
-      onErrorRetry: (error) => {
-        // Some forms are not in fyllut and will return 404 (from soknadsveiviser)
-        if (error.status === 404) return;
-      },
-    },
   );
 
   const { showError } = useErrorMessage();
