@@ -4,9 +4,9 @@ import getConfig from 'next/config';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { formatertDato } from '../utils/dato';
+import { KvitteringsTillegg } from './KvitteringsTillegg';
 import { useVedleggslisteContext } from './VedleggsListe';
 import { LastNedKnapp } from './common/LastNedKnapp';
-import { KvitteringsTillegg } from './skjemaSpesifikt/KvitteringsTillegg';
 import { Bold } from './textStyle';
 
 const { publicRuntimeConfig } = getConfig();
