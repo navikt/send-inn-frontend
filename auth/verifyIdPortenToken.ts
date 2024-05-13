@@ -35,7 +35,10 @@ export const isExpired = (payload: JWTPayload) => {
   return false;
 };
 
-export async function verifyIdportenAccessToken(token: string) {
+export async function verifyIdportenAccessToken(token?: string) {
+  if (!token) {
+    throw new Error('IdPortenToken is undefined');
+  }
   const verified = await validerToken(token);
   if (isExpired(verified.payload)) {
     throw new Error('IdPortenToken is expired');
