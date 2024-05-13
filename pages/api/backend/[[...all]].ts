@@ -15,9 +15,9 @@ export const config = {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   let tokenxToken = '';
   if (process.env.APP_ENV !== 'development' && process.env.APP_ENV !== 'test') {
-    let idportenToken: string;
+    let idportenToken: string | undefined;
     try {
-      idportenToken = req.headers.authorization?.split(' ')[1] || '';
+      idportenToken = req.headers.authorization?.split(' ')[1];
       await verifyIdportenAccessToken(idportenToken);
     } catch (e) {
       logger.warn('kunne ikke validere idportentoken i beskyttetApi', e);
