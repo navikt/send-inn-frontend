@@ -51,6 +51,7 @@
       "mottatt": "Recieved",
       "lastetOpp": "Uploaded",
       "ettersendingFilvelgerKnapp": "Upload new files",
+      "paakrevd": "TODO: Dette vedlegget må sendes inn sammen med søknaden / skjemaet.",
       "feilmelding": {
         "manglerFil": "Upload {{label}}"
       },
@@ -75,7 +76,10 @@
         "tittel": "Select submission",
         "lasterOppNaa": "I will upload this now",
         "sendSenere": "I will upload this later",
-        "sendesAvAndre": "Will be submitted by others (e.g. doctor, employer)"
+        "sendesAvAndre": "Will be submitted by others (e.g. doctor, employer)",
+        "levertDokumentasjonTidligere": "I have provided this documentation previously",
+        "harIkkeDokumentasjonen": "I do not have this documentation",
+        "navKanHenteDokumentasjon": "I would like NAV to obtain this documentation"
       },
       "fil": {
         "provIgjen": "Try again",
@@ -153,6 +157,9 @@
     "skjemaLenke": "Download a copy",
     "maaEttersendes": "Documents that must be sent later:",
     "sendesAvAndre": "Documents to be sent by others:",
+    "levertTidligere": "Documentation you have previously submitted",
+    "sendesIkkeInn": "Documentation you do not have",
+    "navKanInnhente": "Documentation NAV can collect for me",
     "fristEttersending": "Deadline for forwarding documents: {{dato}}",
     "ettersendingsInfo": "You have to submit the attachments that are missing in order to complete the application. Go to My page to see the submitted documents.",
     "altMottatInfo": "Go to My page to see the submitted documents.",
@@ -170,7 +177,9 @@
     "filForStor": "The size of the selected file exceeds the maximum size limit. The maximum size allowed is 50MB.",
     "filIkkeValgt": "An error occurred during file selection, please retry",
     "filUtenInnhold": "Selected file has no content, choose a file larger than 0 kB",
-    "ugyldigFilformat": "Feil filformat, det er kun lov å laste opp filer av type PDF, JPEG/JPG og PNG"
+    "ugyldigFilformat": "Feil filformat, det er kun lov å laste opp filer av type PDF, JPEG/JPG og PNG",
+    "paakrevd": "You must fill in: {{felt}}",
+    "maksLengde": "{{felt}} cannot be longer than {{maksLengde}} characters"
   },
   "feilside": {
     "404": {
@@ -204,5 +213,9 @@
     }
   },
   "statuskode": "Status code",
-  "for": "for"
+  "for": "for",
+  "textarea": {
+    "counterLeft": "remaining characters",
+    "counterTooMuch": "characters above limit"
+  }
 }

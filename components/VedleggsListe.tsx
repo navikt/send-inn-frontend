@@ -42,7 +42,10 @@ const soknadErKomplett = (vedleggsliste: VedleggType[]): boolean =>
       return (
         element.opplastingsStatus === 'LastetOpp' ||
         element.opplastingsStatus === 'SendesAvAndre' ||
-        element.opplastingsStatus === 'Innsendt'
+        element.opplastingsStatus === 'Innsendt' ||
+        element.opplastingsStatus === 'LevertDokumentasjonTidligere' ||
+        element.opplastingsStatus === 'HarIkkeDokumentasjonen' ||
+        element.opplastingsStatus === 'NavKanHenteDokumentasjon'
       );
     });
 

@@ -27,7 +27,19 @@ export interface KvitteringsDto {
     vedleggsnr: string;
     tittel: string;
   }[];
+  levertTidligere: {
+    vedleggsnr: string;
+    tittel: string;
+  }[];
+  sendesIkkeInn: {
+    vedleggsnr: string;
+    tittel: string;
+  }[];
   skalSendesAvAndre: {
+    vedleggsnr: string;
+    tittel: string;
+  }[];
+  navKanInnhente: {
     vedleggsnr: string;
     tittel: string;
   }[];
@@ -146,6 +158,34 @@ export default function Kvittering({ kvprops }: KvitteringsProps) {
         </StyledSection>
       )}
 
+      {kvprops.levertTidligere && kvprops.levertTidligere.length > 0 && (
+        <StyledSection aria-labelledby="levertTidligereHeading">
+          <Heading id={'levertTidligereHeading'} spacing size="medium" level="2">
+            {t('kvittering.levertTidligere')}
+          </Heading>
+
+          <BodyShort as="ul" size="medium" spacing>
+            {kvprops.levertTidligere.map((vedlegg) => {
+              return <li key={vedlegg.vedleggsnr}> {vedlegg.tittel}</li>;
+            })}
+          </BodyShort>
+        </StyledSection>
+      )}
+
+      {kvprops.sendesIkkeInn && kvprops.sendesIkkeInn.length > 0 && (
+        <StyledSection aria-labelledby="sendesIkkeInnHeading">
+          <Heading id={'sendesIkkeInnHeading'} spacing size="medium" level="2">
+            {t('kvittering.sendesIkkeInn')}
+          </Heading>
+
+          <BodyShort as="ul" size="medium" spacing>
+            {kvprops.sendesIkkeInn.map((vedlegg) => {
+              return <li key={vedlegg.vedleggsnr}> {vedlegg.tittel}</li>;
+            })}
+          </BodyShort>
+        </StyledSection>
+      )}
+
       {kvprops.skalSendesAvAndre && kvprops.skalSendesAvAndre.length > 0 && (
         <StyledSection aria-labelledby="sendesAvAndreHeading">
           <Heading id={'sendesAvAndreHeading'} spacing size="medium" level="2">
@@ -154,6 +194,20 @@ export default function Kvittering({ kvprops }: KvitteringsProps) {
 
           <BodyShort as="ul" size="medium" spacing>
             {kvprops.skalSendesAvAndre.map((vedlegg) => {
+              return <li key={vedlegg.vedleggsnr}> {vedlegg.tittel}</li>;
+            })}
+          </BodyShort>
+        </StyledSection>
+      )}
+
+      {kvprops.navKanInnhente && kvprops.navKanInnhente.length > 0 && (
+        <StyledSection aria-labelledby="navKanInnhenteHeading">
+          <Heading id={'navKanInnhenteHeading'} spacing size="medium" level="2">
+            {t('kvittering.navKanInnhente')}
+          </Heading>
+
+          <BodyShort as="ul" size="medium" spacing>
+            {kvprops.navKanInnhente.map((vedlegg) => {
               return <li key={vedlegg.vedleggsnr}> {vedlegg.tittel}</li>;
             })}
           </BodyShort>

@@ -18,7 +18,20 @@
       "description": "\n  <a href=\"https://www.nav.no/fyllut/nav100742\" target=\"_blank\">Legeerklæring for motorkjøretøy (åpnes i ny fane)</a>\n\n",
       "attachmentTitle": "Legeerklæring for motorkjøretøy",
       "attachmentCode": "L9",
-      "attachmentForm": "nav100742"
+      "attachmentForm": "nav100742",
+      "attachmentValues": [
+        {
+          "key": "leggerVedNaa",
+          "description": "",
+          "additionalDocumentationLabel": "Ledetekst for tilleggsinformasjon",
+          "additionalDocumentationDescription": "Beskrivelse av krav"
+        },
+        {
+          "key": "ettersender",
+          "description": "",
+          "deadlineWarning": "Hvis vi ikke har mottatt dette vedlegget innen 13 dager blir saken behandlet med de opplysningene som foreligger."
+        }
+      ]
     },
     {
       "label": "Erklæring fra ergo- eller fysioterapeut i forbindelse med søknad om motorkjøretøy og spesialutstyr / tilpasning, NAV 10-07.43",
@@ -26,7 +39,20 @@
       "description": "\n  <a href=\"https://www.nav.no/fyllut/nav100743\" target=\"_blank\">\n  Tilleggsskjema fra ergo- eller fysioterapeut i forbindelse med søknad om motorkjøretøy og spesialutstyr / tilpasning (åpnes i ny fane)\n  </a> \n",
       "attachmentTitle": "Tilleggskjema for bil",
       "attachmentCode": "H9",
-      "attachmentForm": "nav100743"
+      "attachmentForm": "nav100743",
+      "attachmentValues": [
+        {
+          "key": "leggerVedNaa",
+          "description": "",
+          "additionalDocumentationLabel": "Ledetekst for tilleggsinformasjon",
+          "additionalDocumentationDescription": "Beskrivelse av krav"
+        },
+        {
+          "key": "ettersender",
+          "description": "",
+          "deadlineWarning": "Hvis vi ikke har mottatt dette vedlegget innen 13 dager blir saken behandlet med de opplysningene som foreligger."
+        }
+      ]
     },
     {
       "label": "Bekreftelse fra bileier om at utstyret kan monteres i bilen",
@@ -47,7 +73,43 @@
       "key": "kopiAvForerkort",
       "description": "",
       "attachmentTitle": "Kopi av førerkort",
-      "attachmentCode": "Z4"
+      "attachmentCode": "Z4",
+      "attachmentValues": [
+        {
+          "key": "leggerVedNaa",
+          "description": "",
+          "additionalDocumentationLabel": "Ledetekst for tilleggsinformasjon",
+          "additionalDocumentationDescription": "Beskrivelse av krav"
+        },
+        {
+          "key": "ettersender",
+          "description": "",
+          "deadlineWarning": "Hvis vi ikke har mottatt dette vedlegget innen 13 dager blir saken behandlet med de opplysningene som foreligger."
+        },
+        {
+          "key": "levertTidligere",
+          "description": "",
+          "additionalDocumentationLabel": "Ledetekst for tilleggsinformasjon",
+          "additionalDocumentationDescription": "Beskrivelse av krav"
+        },
+        {
+          "key": "harIkke",
+          "description": "",
+          "additionalDocumentationLabel": "Ledetekst for tilleggsinformasjon",
+          "additionalDocumentationDescription": "Beskrivelse av krav"
+        },
+        {
+          "key": "andre",
+          "description": "",
+          "additionalDocumentationLabel": "Ledetekst for tilleggsinformasjon",
+          "additionalDocumentationDescription": "Beskrivelse av krav",
+          "deadlineWarning": "Hvis vi ikke har mottatt dette vedlegget innen 13 dager blir saken behandlet med de opplysningene som foreligger."
+        },
+        {
+          "key": "nav",
+          "description": ""
+        }
+      ]
     },
     {
       "label": "Kopi av førerkortet til sjåføren(e), med sjåføren(e)s samtykke til å være sjåfør for deg",
