@@ -102,9 +102,20 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
 
         <PaddedVedlegg>
           {vedleggsliste
-            .filter((x) => !x.erHoveddokument && x.opplastingsStatus !== 'LastetOppIkkeRelevantLenger')
+            .filter(
+              (x) =>
+                (!x.erHoveddokument || soknad.visningsType === 'lospost') &&
+                x.opplastingsStatus !== 'LastetOppIkkeRelevantLenger',
+            )
             .map((vedlegg) => {
-              return <Vedlegg key={vedlegg.id} innsendingsId={soknad.innsendingsId} vedlegg={vedlegg} />;
+              return (
+                <Vedlegg
+                  key={vedlegg.id}
+                  innsendingsId={soknad.innsendingsId}
+                  vedlegg={vedlegg}
+                  soknadVisningstype={soknad.visningsType}
+                />
+              );
             })}
 
           {soknad.kanLasteOppAnnet && <OpprettAnnetVedlegg innsendingsId={soknad.innsendingsId} />}

@@ -57,7 +57,11 @@ const InnsendingsSide: NextPage = () => {
       {soknad && (
         <>
           <div className="layout-header">
-            <SoknadHeader soknadoverskrift={soknad.tittel} skjemanr={soknad.skjemanr} />
+            <SoknadHeader
+              soknadoverskrift={soknad.tittel}
+              skjemanr={soknad.skjemanr}
+              hideSkjemanr={soknad.visningsType === 'lospost'}
+            />
           </div>
 
           <div className="side-column"></div>
