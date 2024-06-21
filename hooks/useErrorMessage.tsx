@@ -2,6 +2,7 @@ import { AxiosError } from 'axios';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ErrorMessageType, useErrorMessageContext } from '../components/ErrorMessageProvider';
+import { TranslationKey } from '../i18next';
 import { ErrorResponsDto } from '../types/types';
 
 export const useErrorMessage = () => {
@@ -15,11 +16,8 @@ export const useErrorMessage = () => {
         // Feil fra server (4xx eller 5xx)
         const errorCode = error.response.data?.errorCode;
 
-        // i18next godtar any, men ikke en generell verdi
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const messageKey = `${errorCode}.message` as any;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const titleKey = `${errorCode}.title` as any;
+        const messageKey: TranslationKey<'backend'> = `${errorCode}.message`;
+        const titleKey = `${errorCode}.title`;
 
         if (
           i18n.exists(messageKey, {
@@ -31,7 +29,7 @@ export const useErrorMessage = () => {
             title: i18n.exists(titleKey, {
               ns: 'backend',
             })
-              ? tB(titleKey)
+              ? tB(titleKey as TranslationKey<'backend'>)
               : undefined,
           };
         }

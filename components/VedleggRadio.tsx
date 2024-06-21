@@ -1,148 +1,72 @@
 import { Radio, RadioGroup } from '@navikt/ds-react';
-import axios, { AxiosResponse } from 'axios';
-import getConfig from 'next/config';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 import { useDebouncedCallback } from 'use-debounce';
-import { useErrorMessage } from '../hooks/useErrorMessage';
-import { OpplastingsStatus, VedleggType } from '../types/types';
-import { useLagringsProsessContext } from './LagringsProsessProvider';
-import { useVedleggslisteContext } from './VedleggsListe';
+import { OpplastingsStatus, VedleggsValgAlternativ, VedleggsvalgType } from '../types/types';
+import { mapVedleggsvalgToOpplastingStatus } from '../utils/vedleggsValgUtils';
 import { ScreenReaderOnly } from './textStyle';
 
-const { publicRuntimeConfig } = getConfig();
 interface VedleggRadioProp {
-  id: number;
-  vedlegg: VedleggType;
+  label: string;
   harOpplastetFil: boolean;
-  valgtOpplastingStatus: OpplastingsStatus;
-  setValgtOpplastingStatus: React.Dispatch<React.SetStateAction<OpplastingsStatus>>;
+  vedleggsvalg: VedleggsvalgType;
+  valgAlternativer: VedleggsValgAlternativ[];
+  oppdaterOpplastingStatus: (status: OpplastingsStatus) => void;
+  setValgtOpplastingStatus: (status: OpplastingsStatus) => void;
+  avbrytOppdatering: () => void;
 }
 
-const StyledRadioGroup = styled(RadioGroup)`
-  &:not(:last-child) {
-    padding-bottom: 24px;
-  }
-`;
-
 function VedleggRadio({
-  id,
-  vedlegg,
+  label,
   harOpplastetFil,
-  valgtOpplastingStatus,
+  valgAlternativer,
+  vedleggsvalg,
+  oppdaterOpplastingStatus,
+  avbrytOppdatering,
   setValgtOpplastingStatus,
 }: VedleggRadioProp) {
   const { t } = useTranslation();
-  const { showError } = useErrorMessage();
-  const controller = useRef(new AbortController());
-
-  const [harKjortFix, setHarKjortFix] = useState(false);
-
-  const { soknad, oppdaterLokalOpplastingStatus } = useVedleggslisteContext();
-  const { nyLagringsProsess } = useLagringsProsessContext();
-
-  const oppdaterOpplastingStatus = useCallback(
-    (nyOpplastingsStatus: OpplastingsStatus) => {
-      nyLagringsProsess(
-        axios.patch(
-          `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${id}`,
-          {
-            opplastingsStatus: nyOpplastingsStatus,
-          },
-          {
-            timeout: 10000,
-            signal: controller.current.signal,
-          },
-        ),
-      )
-        .then((response: AxiosResponse<VedleggType>) => {
-          oppdaterLokalOpplastingStatus(id, response.data.opplastingsStatus);
-        })
-        .catch((error) => {
-          if (axios.isCancel(error)) {
-            // avbrutt
-            return;
-          }
-          setValgtOpplastingStatus(vedlegg.opplastingsStatus);
-          showError(error);
-        });
-    },
-    [
-      soknad.innsendingsId,
-      id,
-      vedlegg.opplastingsStatus,
-      setValgtOpplastingStatus,
-      nyLagringsProsess,
-      oppdaterLokalOpplastingStatus,
-      showError,
-    ],
-  );
 
   const debounced = useDebouncedCallback(
-    (debouncedLokalOpplastingsStatus) => {
-      if (debouncedLokalOpplastingsStatus === vedlegg.opplastingsStatus) return;
-
+    (debouncedLokalOpplastingsStatus: OpplastingsStatus) => {
       oppdaterOpplastingStatus(debouncedLokalOpplastingsStatus);
     },
     500,
     { leading: true },
   );
 
-  // TODO: useEffect kan fjernes etter 4. april
-  // Fikser opp i problem som satt opplastingsStatus til IkkeValgt, etter opplasting av fil
-  useEffect(() => {
-    if (!harKjortFix && vedlegg.opplastingsStatus === 'IkkeValgt' && harOpplastetFil) {
-      oppdaterOpplastingStatus('LastetOpp');
-      setHarKjortFix(true);
-    }
-  }, [harKjortFix, harOpplastetFil, vedlegg.opplastingsStatus, oppdaterOpplastingStatus]);
-
-  const handleChange = (val: OpplastingsStatus) => {
-    controller.current.abort();
-    const newController = new AbortController();
-    controller.current = newController;
-    debounced(val);
-    setValgtOpplastingStatus(val);
+  const handleChange = (val: VedleggsvalgType) => {
+    avbrytOppdatering();
+    const nyOpplastingStatus = mapVedleggsvalgToOpplastingStatus(val, harOpplastetFil);
+    debounced(nyOpplastingStatus);
+    setValgtOpplastingStatus(nyOpplastingStatus);
   };
 
   return (
-    <StyledRadioGroup
+    <RadioGroup
       legend={
         <>
           {t('soknad.vedlegg.radio.tittel')}
           <ScreenReaderOnly>
-            {t('for')} {vedlegg.label}
+            {t('for')} {label}
           </ScreenReaderOnly>
         </>
       }
       size="medium"
-      onChange={(val: OpplastingsStatus) => handleChange(val)}
+      onChange={(val: VedleggsvalgType) => handleChange(val)}
       onBlur={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget)) {
           // Trigger når radioGroup mister fokus
           debounced.flush();
         }
       }}
-      value={valgtOpplastingStatus}
+      value={vedleggsvalg}
     >
-      {!harOpplastetFil && (
-        <Radio value="IkkeValgt" data-cy="lasterOppNaaRadio">
-          {t('soknad.vedlegg.radio.lasterOppNaa')}
+      {valgAlternativer.map(({ key, dataCy, translationKey }) => (
+        <Radio value={key} data-cy={dataCy} key={key}>
+          {t(translationKey)}
         </Radio>
-      )}
-      {harOpplastetFil && (
-        <Radio value="LastetOpp" data-cy="lasterOppNaaRadio">
-          {t('soknad.vedlegg.radio.lasterOppNaa')}
-        </Radio>
-      )}
-      <Radio value="SendSenere" data-cy="sendSenereRadio">
-        {t('soknad.vedlegg.radio.sendSenere')}
-      </Radio>
-      <Radio value="SendesAvAndre" data-cy="sendesAvAndreRadio">
-        {t('soknad.vedlegg.radio.sendesAvAndre')}
-      </Radio>
-    </StyledRadioGroup>
+      ))}
+    </RadioGroup>
   );
 }
 

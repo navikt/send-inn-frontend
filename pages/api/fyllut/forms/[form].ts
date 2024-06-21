@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
     return res.status(200).json(response.data);
   } catch (error) {
-    logger.warn('Failed to fetch form from fyllut', error);
+    logger.error('Failed to fetch form from fyllut', error);
 
     const axiosError = error as AxiosError;
     const status = axiosError?.response?.status;

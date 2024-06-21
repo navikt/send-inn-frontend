@@ -27,7 +27,7 @@ describe('Tester dokumentinnsendingsløpet', () => {
     cy.get('[data-cy="VedleggContainer"]')
       .eq(0)
       .within(() => {
-        cy.get('[data-cy="lasterOppNaaRadio"]').should('be.checked').should('have.value', 'IkkeValgt');
+        cy.get('[data-cy="lasterOppNaaRadio"]').should('be.checked').should('have.value', 'LasterOpp');
         cy.get('[data-cy="filvelgerKnapp"]').click();
         cy.get('[data-cy="filvelgerKnapp"]').selectFile('cypress/fixtures/MarcusAurelius.jpeg');
         cy.get('[data-cy="fileUploadSuccessIkon"]').should('be.visible');
