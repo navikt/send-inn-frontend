@@ -72,6 +72,28 @@ export type SoknadType = {
   kanLasteOppAnnet: boolean;
 };
 
+export type InnsendtVedleggDto = {
+  vedleggsnr: string;
+  tittel: string;
+  url: string;
+  opplastingsValgKommentarLedetekst: string;
+  opplastingsValgKommentar: string;
+};
+
+export type KvitteringsDto = {
+  innsendingsId: string;
+  label: string;
+  mottattdato: string;
+  hoveddokumentRef: string;
+  innsendteVedlegg: InnsendtVedleggDto[];
+  skalEttersendes: InnsendtVedleggDto[];
+  levertTidligere: InnsendtVedleggDto[];
+  sendesIkkeInn: InnsendtVedleggDto[];
+  skalSendesAvAndre: InnsendtVedleggDto[];
+  navKanInnhente: InnsendtVedleggDto[];
+  ettersendingsfrist: string;
+};
+
 type errorCodesWithHandling =
   | 'illegalAction.applicationSentInOrDeleted'
   | 'illegalAction.fileCannotBeRead'

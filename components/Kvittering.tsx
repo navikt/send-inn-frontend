@@ -1,8 +1,10 @@
 import { Alert, BodyLong, BodyShort, Button, Heading } from '@navikt/ds-react';
 import { TFunction } from 'i18next';
 import getConfig from 'next/config';
+import { useId } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { InnsendtVedleggDto, KvitteringsDto } from '../types/types';
 import { formatertDato } from '../utils/dato';
 import { KvitteringsTillegg } from './KvitteringsTillegg';
 import { useVedleggslisteContext } from './VedleggsListe';
@@ -12,38 +14,6 @@ import { Bold } from './textStyle';
 const { publicRuntimeConfig } = getConfig();
 export interface KvitteringsProps {
   kvprops: KvitteringsDto;
-}
-
-export interface KvitteringsDto {
-  innsendingsId: string;
-  label: string;
-  mottattdato: string;
-  hoveddokumentRef: string;
-  innsendteVedlegg: {
-    vedleggsnr: string;
-    tittel: string;
-  }[];
-  skalEttersendes: {
-    vedleggsnr: string;
-    tittel: string;
-  }[];
-  levertTidligere: {
-    vedleggsnr: string;
-    tittel: string;
-  }[];
-  sendesIkkeInn: {
-    vedleggsnr: string;
-    tittel: string;
-  }[];
-  skalSendesAvAndre: {
-    vedleggsnr: string;
-    tittel: string;
-  }[];
-  navKanInnhente: {
-    vedleggsnr: string;
-    tittel: string;
-  }[];
-  ettersendingsfrist: string;
 }
 
 const SjekkBoksListe = styled.ul`
@@ -87,6 +57,27 @@ function ettersendingsTekst({ kvprops, t }: { kvprops: KvitteringsDto; t: TFunct
     return t('kvittering.manglerInnsendingAvSelvOgAndre');
   else return '';
 }
+
+const VedleggsGruppe = ({ vedleggsGruppe, tittel }: { vedleggsGruppe: InnsendtVedleggDto[]; tittel: string }) => {
+  const id = useId();
+  return (
+    <>
+      {vedleggsGruppe && vedleggsGruppe.length > 0 && (
+        <StyledSection aria-labelledby={id}>
+          <Heading id={id} spacing size="medium" level="2">
+            {tittel}
+          </Heading>
+
+          <BodyShort as="ul" size="medium" spacing>
+            {vedleggsGruppe.map((vedlegg) => {
+              return <li key={vedlegg.vedleggsnr}> {vedlegg.tittel}</li>;
+            })}
+          </BodyShort>
+        </StyledSection>
+      )}
+    </>
+  );
+};
 
 export default function Kvittering({ kvprops }: KvitteringsProps) {
   const { t } = useTranslation();
@@ -144,75 +135,11 @@ export default function Kvittering({ kvprops }: KvitteringsProps) {
         </SjekkBoksListe>
       </StyledSection>
 
-      {kvprops.skalEttersendes && kvprops.skalEttersendes.length > 0 && (
-        <StyledSection aria-labelledby="maaEttersendesHeading">
-          <Heading id={'maaEttersendesHeading'} spacing size="medium" level="2">
-            {t('kvittering.maaEttersendes')}
-          </Heading>
-
-          <BodyShort as="ul" size="medium" spacing>
-            {kvprops.skalEttersendes.map((vedlegg) => {
-              return <li key={vedlegg.vedleggsnr}> {vedlegg.tittel}</li>;
-            })}
-          </BodyShort>
-        </StyledSection>
-      )}
-
-      {kvprops.levertTidligere && kvprops.levertTidligere.length > 0 && (
-        <StyledSection aria-labelledby="levertTidligereHeading">
-          <Heading id={'levertTidligereHeading'} spacing size="medium" level="2">
-            {t('kvittering.levertTidligere')}
-          </Heading>
-
-          <BodyShort as="ul" size="medium" spacing>
-            {kvprops.levertTidligere.map((vedlegg) => {
-              return <li key={vedlegg.vedleggsnr}> {vedlegg.tittel}</li>;
-            })}
-          </BodyShort>
-        </StyledSection>
-      )}
-
-      {kvprops.sendesIkkeInn && kvprops.sendesIkkeInn.length > 0 && (
-        <StyledSection aria-labelledby="sendesIkkeInnHeading">
-          <Heading id={'sendesIkkeInnHeading'} spacing size="medium" level="2">
-            {t('kvittering.sendesIkkeInn')}
-          </Heading>
-
-          <BodyShort as="ul" size="medium" spacing>
-            {kvprops.sendesIkkeInn.map((vedlegg) => {
-              return <li key={vedlegg.vedleggsnr}> {vedlegg.tittel}</li>;
-            })}
-          </BodyShort>
-        </StyledSection>
-      )}
-
-      {kvprops.skalSendesAvAndre && kvprops.skalSendesAvAndre.length > 0 && (
-        <StyledSection aria-labelledby="sendesAvAndreHeading">
-          <Heading id={'sendesAvAndreHeading'} spacing size="medium" level="2">
-            {t('kvittering.sendesAvAndre')}
-          </Heading>
-
-          <BodyShort as="ul" size="medium" spacing>
-            {kvprops.skalSendesAvAndre.map((vedlegg) => {
-              return <li key={vedlegg.vedleggsnr}> {vedlegg.tittel}</li>;
-            })}
-          </BodyShort>
-        </StyledSection>
-      )}
-
-      {kvprops.navKanInnhente && kvprops.navKanInnhente.length > 0 && (
-        <StyledSection aria-labelledby="navKanInnhenteHeading">
-          <Heading id={'navKanInnhenteHeading'} spacing size="medium" level="2">
-            {t('kvittering.navKanInnhente')}
-          </Heading>
-
-          <BodyShort as="ul" size="medium" spacing>
-            {kvprops.navKanInnhente.map((vedlegg) => {
-              return <li key={vedlegg.vedleggsnr}> {vedlegg.tittel}</li>;
-            })}
-          </BodyShort>
-        </StyledSection>
-      )}
+      <VedleggsGruppe vedleggsGruppe={kvprops.skalEttersendes} tittel={t('kvittering.maaEttersendes')} />
+      <VedleggsGruppe vedleggsGruppe={kvprops.levertTidligere} tittel={t('kvittering.levertTidligere')} />
+      <VedleggsGruppe vedleggsGruppe={kvprops.sendesIkkeInn} tittel={t('kvittering.sendesIkkeInn')} />
+      <VedleggsGruppe vedleggsGruppe={kvprops.skalSendesAvAndre} tittel={t('kvittering.sendesAvAndre')} />
+      <VedleggsGruppe vedleggsGruppe={kvprops.navKanInnhente} tittel={t('kvittering.navKanInnhente')} />
 
       {((kvprops.skalEttersendes && kvprops.skalEttersendes.length > 0) ||
         (kvprops.skalSendesAvAndre && kvprops.skalSendesAvAndre.length > 0)) && (
