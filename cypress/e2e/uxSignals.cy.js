@@ -1,6 +1,7 @@
 describe('uxSignals', () => {
   beforeEach(() => {
     cy.intercept('GET', '/sendinn/api/fyllut/forms/*', cy.spy().as('getFormSpy'));
+    cy.intercept('GET', '/v2/study/id/*', { fixture: 'uxSignalsStudy.json' }).as('getUxSignalsStudy');
   });
   it('Should show uxSignals', () => {
     cy.defaultIntercepts();
