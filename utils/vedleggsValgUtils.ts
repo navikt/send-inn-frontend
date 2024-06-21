@@ -20,11 +20,13 @@ const vedleggsValgAlternativer: VedleggsValgAlternativ[] = [
     key: 'LevertDokumentasjonTidligere',
     fyllutKey: 'levertTidligere',
     translationKey: 'soknad.vedlegg.radio.levertDokumentasjonTidligere',
+    dataCy: 'levertTidligereRadio',
   },
   {
     key: 'HarIkkeDokumentasjonen',
     fyllutKey: 'harIkke',
     translationKey: 'soknad.vedlegg.radio.harIkkeDokumentasjonen',
+    dataCy: 'harIkkeDokumentasjonenRadio',
   },
   {
     key: 'SendesAvAndre',

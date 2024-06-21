@@ -35,13 +35,12 @@ export function VedleggsKommentar({
     if (!text) {
       return t('feil.paakrevd', { felt: label });
     }
-
     if (text.length > MAKS_LENGDE) {
       return t('feil.maksLengde', { felt: label, maksLengde: MAKS_LENGDE });
     }
   };
 
-  const valideringsFeil = harValideringsFeil(kommentar);
+  const valideringsFeil = harValideringsFeil(lokalKommentar);
 
   const [visFeil] = useValidation({
     komponentId,
@@ -86,6 +85,7 @@ export function VedleggsKommentar({
         debounced.flush();
       }}
       error={visFeil && valideringsFeil}
+      data-cy="VedleggsKommentar"
     />
   );
 }

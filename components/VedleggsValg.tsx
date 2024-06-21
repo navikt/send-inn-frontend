@@ -144,7 +144,7 @@ function VedleggsValg({
   return (
     <StyledVedleggsValg>
       {valgAlternativer.length === 1 && valgAlternativer[0].key === 'LasterOpp' ? (
-        <Alert variant="info" inline>
+        <Alert variant="info" inline data-cy="paakrevdAlert">
           {t('soknad.vedlegg.paakrevd')}
         </Alert>
       ) : (
@@ -171,7 +171,7 @@ function VedleggsValg({
         />
       )}
       {currentAlternativ?.deadlineWarning && (
-        <Alert variant="warning" inline>
+        <Alert variant="warning" inline data-cy="ettersendingAlert">
           {currentAlternativ?.deadlineWarning}
         </Alert>
       )}
