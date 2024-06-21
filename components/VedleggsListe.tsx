@@ -1,5 +1,6 @@
 import axios from 'axios';
 import getConfig from 'next/config';
+import { useRouter } from 'next/router';
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import useSWR from 'swr';
@@ -64,6 +65,7 @@ interface VedleggslisteContextType {
   leggTilVedlegg: (vedlegg: ExtendedVedleggType) => void;
   slettAnnetVedlegg: (vedleggId: number) => void;
   fyllutForm?: FyllutForm;
+  fyllutIsLoading: boolean;
 }
 
 export const VedleggslisteContext = createContext<VedleggslisteContextType | null>(null);
@@ -77,12 +79,26 @@ export const useVedleggslisteContext = () => {
 };
 
 function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
-  const { data: fyllutForm } = useSWR(
+  const [fyllutHasError, setFyllutHasError] = useState(false);
+  const { data: fyllutForm, isLoading: fyllutIsLoading } = useSWR(
     soknad?.visningsType === 'fyllUt'
       ? `${publicRuntimeConfig.basePath}/api/fyllut/forms/${soknad.skjemaPath}?type=limited&lang=${soknad.spraak}`
       : null,
+    {
+      onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+        if (retryCount >= 3) {
+          setFyllutHasError(true);
+          return;
+        }
+
+        // Retry after 2 seconds.
+        setTimeout(() => revalidate({ retryCount }), 2000);
+      },
+      onSuccess: () => setFyllutHasError(true),
+    },
   );
 
+  const router = useRouter();
   const { showError } = useErrorMessage();
   const { lagrerNaa, nyLagringsProsess } = useLagringsProsessContext();
 
@@ -203,6 +219,14 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
     setVedleggsListe(initialVedleggsliste);
     setSoknad(null);
   };
+
+  if (visningsType === 'fyllUt' && !fyllutForm) {
+    if (fyllutHasError) {
+      router.push('/500');
+    }
+    return null;
+  }
+
   return (
     <VedleggslisteContext.Provider
       value={{
@@ -215,6 +239,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
         leggTilVedlegg,
         slettAnnetVedlegg,
         fyllutForm,
+        fyllutIsLoading,
       }}
     >
       <SoknadModalProvider>
