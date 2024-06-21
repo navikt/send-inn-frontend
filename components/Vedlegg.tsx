@@ -168,10 +168,10 @@ function Vedlegg(props: VedleggProps) {
 
   const erAnnetVedlegg = vedlegg.vedleggsnr?.toUpperCase() === 'N6' && !vedlegg.erPakrevd;
   const erSendtInnTidligere = !!vedlegg.innsendtdato;
-  const skjulFiler =
-    valgtOpplastingStatus !== 'IkkeValgt' &&
-    valgtOpplastingStatus !== 'LastetOpp' &&
-    valgtOpplastingStatus !== 'Innsendt';
+  const visFiler =
+    valgtOpplastingStatus === 'IkkeValgt' ||
+    valgtOpplastingStatus === 'LastetOpp' ||
+    valgtOpplastingStatus === 'Innsendt';
 
   const manglerFilTekst = () => {
     if (vedlegg.erHoveddokument)
@@ -332,7 +332,7 @@ function Vedlegg(props: VedleggProps) {
               </SendtInnTidligereGruppe>
             )}
 
-            {!skjulFiler && (
+            {visFiler && (
               <VedleggButtons>
                 <Filvelger
                   autoFocus={autoFocus}
@@ -367,7 +367,7 @@ function Vedlegg(props: VedleggProps) {
               </VedleggButtons>
             )}
 
-            {!skjulFiler && filListe.length > 0 && (
+            {visFiler && filListe.length > 0 && (
               <FilListeGruppe>
                 <Heading id={`sendtInnNaa-${vedlegg.id}`} level={'4'} size="xsmall" spacing>
                   {t('soknad.vedlegg.sendtInnNaa')}
