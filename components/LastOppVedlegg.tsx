@@ -1,4 +1,4 @@
-import { Alert, BodyShort, Button, Heading, Ingress } from '@navikt/ds-react';
+import { Alert, BodyLong, BodyShort, Button, Heading } from '@navikt/ds-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -72,7 +72,9 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
       <Heading level={'2'} size="large" spacing>
         {t('soknad.visningsSteg.lastOppVedlegg.tittel')}
       </Heading>
-      <Ingress spacing>{t('soknad.visningsSteg.lastOppVedlegg.ingress')}</Ingress>
+      <BodyLong size="large">
+        {t(`soknad.visningsSteg.lastOppVedlegg.ingress${soknad.visningsType === 'lospost' ? '-lospost' : ''}`)}
+      </BodyLong>
 
       {soknad.visningsType === 'ettersending' ? (
         <FristForOpplastingInfo variant="info" inline={true} size="small">

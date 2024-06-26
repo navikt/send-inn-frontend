@@ -1,6 +1,7 @@
 {
   "test": "det er nynorsk",
   "soknad": {
+    "soknadoverskrift-lospost": "Send dokument til NAV",
     "visningsSteg": {
       "fraFyllutUtenVedlegg": {
         "laster": "Lastar... Ver venleg og vent"
@@ -14,6 +15,7 @@
       "lastOppVedlegg": {
         "tittel": "Last opp vedlegg",
         "ingress": "Her kan du lasta opp vedlegg til saka di. Du må lasta opp alle vedlegga før NAV kan behandla saka.",
+        "ingress-lospost": "Her kan du lasta opp dokument.",
         "infoFrist": "Frist for opplasting av vedlegg: {{dato}}",
         "advarselHovedskjema": "UTGÅR!! Du får ikkje sendt inn før du har lasta opp ferdig utfylt skjema på førre side.",
         "andreVedleggTittel": "Andre vedlegg",
@@ -142,6 +144,12 @@
       "tittel": "Søknaden er klar til å sendast inn. Vil du senda han no?",
       "liste": ["Dagens dato vil bli satt som mottaksdato."],
       "accept": "Ja, send søknaden",
+      "cancel": "Avbryt"
+    },
+    "sendInnKomplett-lospost": {
+      "tittel": "Dokumenta er klare til å sendast inn. Vil du senda inn no?",
+      "liste": ["Dagens dato vil bli satt som mottaksdato."],
+      "accept": "Ja, send inn",
       "cancel": "Avbryt"
     }
   },

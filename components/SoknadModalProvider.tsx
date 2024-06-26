@@ -147,20 +147,20 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
       </FellesModal>
 
       <FellesModal
-        heading={t('modal.sendInnKomplett.tittel')}
+        heading={t(`modal.sendInnKomplett${soknad.visningsType === 'lospost' ? '-lospost' : ''}.tittel`)}
         open={sendInnKomplettSoknadModal}
         setOpen={setSendInnKomplettSoknadModal}
         onAccept={async () => {
           await onSendInn();
           setSendInnKomplettSoknadModal(false);
         }}
-        acceptButtonText={t('modal.sendInnKomplett.accept')}
-        cancelButtonText={t('modal.sendInnKomplett.cancel')}
+        acceptButtonText={t(`modal.sendInnKomplett${soknad.visningsType === 'lospost' ? '-lospost' : ''}.accept`)}
+        cancelButtonText={t(`modal.sendInnKomplett${soknad.visningsType === 'lospost' ? '-lospost' : ''}.cancel`)}
         isLoading={lagrer}
       >
         <BodyLong as="ul">
           {(
-            t('modal.sendInnKomplett.liste', {
+            t(`modal.sendInnKomplett${soknad.visningsType === 'lospost' ? '-lospost' : ''}.liste`, {
               returnObjects: true,
             }) as string[]
           ).map((element, key) => (

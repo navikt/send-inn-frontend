@@ -8,15 +8,25 @@ import VedleggsListe from '../components/VedleggsListe';
 
 import { SoknadType } from '../types/types';
 
+import { TFunction } from 'i18next';
 import getConfig from 'next/config';
+import { useTranslation } from 'react-i18next';
 import { useSoknadLanguage } from '../hooks/useSoknadLanguage';
 import { navigerTilFyllut } from '../utils/navigerTilFyllut';
 
 const { publicRuntimeConfig } = getConfig();
 const erEttersending = true;
 
+const getSoknadoverskrift = (soknad: SoknadType, t: TFunction) => {
+  if (soknad.visningsType === 'lospost') {
+    return t('soknad.soknadoverskrift-lospost');
+  }
+  return soknad.tittel;
+};
+
 const InnsendingsSide: NextPage = () => {
   const router = useRouter();
+  const { t } = useTranslation();
   const { query } = router;
   const [soknad, setSoknad] = useState<SoknadType | null>(null);
   const { changeLang } = useSoknadLanguage();
@@ -58,7 +68,7 @@ const InnsendingsSide: NextPage = () => {
         <>
           <div className="layout-header">
             <SoknadHeader
-              soknadoverskrift={soknad.tittel}
+              soknadoverskrift={getSoknadoverskrift(soknad, t)}
               skjemanr={soknad.skjemanr}
               hideSkjemanr={soknad.visningsType === 'lospost'}
             />
