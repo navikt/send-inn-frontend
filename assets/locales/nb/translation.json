@@ -14,7 +14,6 @@
       },
       "lastOppVedlegg": {
         "tittel": "Last opp vedlegg",
-        "tittel-lospost": "Send dokumenter til NAV",
         "ingress": "Her kan du laste opp vedlegg til saken din. Du må laste opp alle vedleggene før NAV kan behandle saken.",
         "ingress-lospost": "Her kan du laste opp dokumentasjon.",
         "infoFrist": "Frist for opplasting av vedlegg: {{dato}}",
