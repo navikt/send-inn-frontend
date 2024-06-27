@@ -3,6 +3,7 @@ import { TFunction } from 'i18next';
 import getConfig from 'next/config';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { VisningsType } from '../types/types';
 import { formatertDato } from '../utils/dato';
 import { KvitteringsTillegg } from './KvitteringsTillegg';
 import { useVedleggslisteContext } from './VedleggsListe';
@@ -12,6 +13,7 @@ import { Bold } from './textStyle';
 const { publicRuntimeConfig } = getConfig();
 export interface KvitteringsProps {
   kvprops: KvitteringsDto;
+  visningstype: VisningsType;
 }
 
 export interface KvitteringsDto {
@@ -76,7 +78,7 @@ function ettersendingsTekst({ kvprops, t }: { kvprops: KvitteringsDto; t: TFunct
   else return '';
 }
 
-export default function Kvittering({ kvprops }: KvitteringsProps) {
+export default function Kvittering({ kvprops, visningstype }: KvitteringsProps) {
   const { t } = useTranslation();
 
   const { fyllutForm } = useVedleggslisteContext();
@@ -97,38 +99,41 @@ export default function Kvittering({ kvprops }: KvitteringsProps) {
           )}
         </Heading>
         <SjekkBoksListe>
-          {kvprops && kvprops.hoveddokumentRef && (
+          {kvprops?.hoveddokumentRef && (
             <li>
               <Alert variant="success" size="medium" inline>
-                <Bold>
-                  {t('kvittering.skjema')}
-                  {': '}
-                </Bold>
+                {visningstype !== 'lospost' && (
+                  <Bold>
+                    {t('kvittering.skjema')}
+                    {': '}
+                  </Bold>
+                )}
                 {kvprops.label}
               </Alert>
-              <BoksMedMargin>
-                <LastNedKnapp url={`${publicRuntimeConfig.apiUrl}/${kvprops.hoveddokumentRef}`} variant="primary">
-                  {t('kvittering.skjemaLenke')}
-                </LastNedKnapp>
-              </BoksMedMargin>
+              {visningstype !== 'lospost' && (
+                <BoksMedMargin>
+                  <LastNedKnapp url={`${publicRuntimeConfig.apiUrl}/${kvprops.hoveddokumentRef}`} variant="primary">
+                    {t('kvittering.skjemaLenke')}
+                  </LastNedKnapp>
+                </BoksMedMargin>
+              )}
             </li>
           )}
-          {kvprops &&
-            kvprops.innsendteVedlegg &&
-            kvprops.innsendteVedlegg.length > 0 &&
-            kvprops.innsendteVedlegg.map((vedlegg) => {
-              return (
-                <li key={vedlegg.vedleggsnr}>
-                  <Alert variant="success" size="medium" inline>
+          {kvprops?.innsendteVedlegg?.map((vedlegg) => {
+            return (
+              <li key={vedlegg.vedleggsnr}>
+                <Alert variant="success" size="medium" inline>
+                  {visningstype !== 'lospost' && (
                     <Bold>
                       {t('kvittering.vedlegg')}
                       {': '}
                     </Bold>
-                    {vedlegg.tittel}
-                  </Alert>
-                </li>
-              );
-            })}
+                  )}
+                  {vedlegg.tittel}
+                </Alert>
+              </li>
+            );
+          })}
         </SjekkBoksListe>
       </StyledSection>
 

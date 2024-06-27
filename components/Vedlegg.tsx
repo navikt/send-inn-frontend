@@ -172,7 +172,7 @@ function Vedlegg(props: VedleggProps) {
   const skjulFiler = valgtOpplastingStatus === 'SendSenere' || valgtOpplastingStatus === 'SendesAvAndre';
 
   const manglerFilTekst = () => {
-    if (vedlegg.erHoveddokument)
+    if (vedlegg.erHoveddokument && soknadVisningstype !== 'lospost')
       return t('soknad.hovedSkjema.feilmelding.manglerFil', {
         label: vedlegg.label,
       });

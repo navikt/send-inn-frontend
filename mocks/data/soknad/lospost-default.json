@@ -1,10 +1,10 @@
 {
   "brukerId": "19876898104",
   "skjemanr": "NAV 00-03.00",
-  "tittel": "Send dokument til NAV",
+  "tittel": "Bil - Førarkort",
   "tema": "AAR",
   "status": "Opprettet",
-  "opprettetDato": "2024-06-19T13:34:54.607607+02:00",
+  "opprettetDato": "2024-06-27T09:18:32.130115+02:00",
   "vedleggsListe": [
     {
       "tittel": "Førarkort",
@@ -14,24 +14,25 @@
       "erPdfa": false,
       "erPakrevd": true,
       "opplastingsStatus": "IkkeValgt",
-      "opprettetdato": "2024-06-19T13:34:54.607607+02:00",
-      "id": 13,
+      "opprettetdato": "2024-06-27T09:18:32.130115+02:00",
+      "id": 22271,
       "vedleggsnr": "N6",
       "uuid": "a6f219e2-c55b-415d-9ffe-ea4f2deb683c"
     }
   ],
-  "id": 16,
+  "id": 6001,
   "innsendingsId": "lospost-default",
   "spraak": "nn",
-  "endretDato": "2024-06-19T13:34:54.607607+02:00",
+  "endretDato": "2024-06-27T09:18:32.130115+02:00",
   "visningsSteg": 0,
   "visningsType": "lospost",
   "kanLasteOppAnnet": true,
-  "innsendingsFristDato": "2024-08-14T13:34:54.607607+02:00",
+  "innsendingsFristDato": "2024-06-28T07:18:32.130182Z",
   "fristForEttersendelse": 14,
   "arkiveringsStatus": "IkkeSatt",
   "erSystemGenerert": false,
   "soknadstype": "soknad",
   "skjemaPath": "nav000300",
-  "applikasjon": "ettersending"
+  "applikasjon": "dev-gcp:skjemadigitalisering:fyllut-ettersending",
+  "skalSlettesDato": "2024-06-28T07:18:32.130182Z"
 }
