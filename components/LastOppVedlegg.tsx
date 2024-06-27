@@ -12,6 +12,7 @@ import { ArrowLeftIcon } from '@navikt/aksel-icons';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { formatertDato } from '../utils/dato';
 import { navigerTilFyllut } from '../utils/navigerTilFyllut';
+import { isLospost } from '../utils/soknad';
 import AndreVedlegg from './AndreVedlegg';
 import { useAxiosInterceptorContext } from './AxiosInterceptor';
 import { useLagringsProsessContext } from './LagringsProsessProvider';
@@ -73,7 +74,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
         {t('soknad.visningsSteg.lastOppVedlegg.tittel')}
       </Heading>
       <BodyLong size="large">
-        {t(`soknad.visningsSteg.lastOppVedlegg.ingress${soknad.visningsType === 'lospost' ? '-lospost' : ''}`)}
+        {t(`soknad.visningsSteg.lastOppVedlegg.ingress${isLospost(soknad) ? '-lospost' : ''}`)}
       </BodyLong>
 
       {soknad.visningsType === 'ettersending' ? (

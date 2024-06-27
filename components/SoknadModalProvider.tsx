@@ -3,6 +3,7 @@ import { createContext, useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { datoOmXDager, formatertDato } from '../utils/dato';
 import { navigerTilMinSide } from '../utils/navigerTilMinSide';
+import { isLospost } from '../utils/soknad';
 import { useErrorMessageContext } from './ErrorMessageProvider';
 import { FellesModal } from './FellesModal';
 import { useLagringsProsessContext } from './LagringsProsessProvider';
@@ -147,20 +148,20 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
       </FellesModal>
 
       <FellesModal
-        heading={t(`modal.sendInnKomplett${soknad.visningsType === 'lospost' ? '-lospost' : ''}.tittel`)}
+        heading={t(`modal.sendInnKomplett${isLospost(soknad) ? '-lospost' : ''}.tittel`)}
         open={sendInnKomplettSoknadModal}
         setOpen={setSendInnKomplettSoknadModal}
         onAccept={async () => {
           await onSendInn();
           setSendInnKomplettSoknadModal(false);
         }}
-        acceptButtonText={t(`modal.sendInnKomplett${soknad.visningsType === 'lospost' ? '-lospost' : ''}.accept`)}
-        cancelButtonText={t(`modal.sendInnKomplett${soknad.visningsType === 'lospost' ? '-lospost' : ''}.cancel`)}
+        acceptButtonText={t(`modal.sendInnKomplett${isLospost(soknad) ? '-lospost' : ''}.accept`)}
+        cancelButtonText={t(`modal.sendInnKomplett${isLospost(soknad) ? '-lospost' : ''}.cancel`)}
         isLoading={lagrer}
       >
         <BodyLong as="ul">
           {(
-            t(`modal.sendInnKomplett${soknad.visningsType === 'lospost' ? '-lospost' : ''}.liste`, {
+            t(`modal.sendInnKomplett${isLospost(soknad) ? '-lospost' : ''}.liste`, {
               returnObjects: true,
             }) as string[]
           ).map((element, key) => (
