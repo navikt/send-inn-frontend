@@ -13,13 +13,12 @@
         "tittel": "Upload the completed form"
       },
       "lastOppVedlegg": {
-        "tittel": "Upload attachments",
-        "ingress": "You can upload attachments to your case here. You must upload all the attachments before NAV can process the case.",
-        "ingress-lospost": "You can upload documentation here.",
-        "infoFrist": "Deadline for uploading attachments: {{dato}}",
+        "tittel": "Upload documents",
+        "ingress": "You can upload documentation to your case here. You must upload all the documentation before NAV can process the case.",
+        "infoFrist": "Deadline for uploading documents: {{dato}}",
         "advarselHovedskjema": "UTGÅR!! Du får ikke sendt inn før du har lastet opp ferdig utfylt skjema på forrige side.",
-        "andreVedleggTittel": "Other attachments",
-        "andreVedleggIngress": "Below you will find attachments that you have already uploaded, but which are no longer necessary for the application. They will be deleted when you submit the application. If you still want to submit the documents, you can upload them as 'Other documentation' above.",
+        "andreVedleggTittel": "Other documentation",
+        "andreVedleggIngress": "Below you will find documentation that you have already uploaded, but which are no longer necessary for the application. They will be deleted when you submit the application. If you still want to submit the documents, you can upload them as 'Other documentation' above.",
         "sistLagret": "Saved at"
       }
     },
@@ -39,7 +38,7 @@
         "Click “Upload completed form”.",
         "Find and upload the completed form.",
         "Click “Next step”.",
-        "You can upload any attachments in the next step."
+        "You can upload any documentation in the next step."
       ],
       "filvelgerKnapp": "Upload completed form",
       "feilmelding": {
@@ -62,15 +61,15 @@
         "tittel": "Describe the document",
         "beskrivelse": "Give a descriptive name to the document you wish to upload.",
         "rediger": "Edit",
-        "slett": "Delete attachment",
+        "slett": "Delete document",
         "bekreft": "Confirm",
         "avbryt": "Cancel",
         "feilmelding": {
-          "fullforOpprettelse": "Complete or cancel attachment description",
-          "fullforRedigering": "Complete and confirm the attachment description",
-          "manglerFil": "Upload or delete attachment: {{label}}",
-          "manglerNavn": "Describe the attachment",
-          "navnForLangt": "The attachment description is too long. Max {{maxLength}} characters."
+          "fullforOpprettelse": "Complete or cancel document description",
+          "fullforRedigering": "Complete and confirm the document description",
+          "manglerFil": "Upload or delete document: {{label}}",
+          "manglerNavn": "Describe the document",
+          "navnForLangt": "The document description is too long. Max {{maxLength}} characters."
         }
       },
       "radio": {
@@ -105,7 +104,7 @@
       "avbryt": "Cancel",
       "slett": "Delete form"
     },
-    "beskjedOmAvvik": "Have you experienced problems submitting attachments? Please upload the attachment again and press Submit."
+    "beskjedOmAvvik": "Have you experienced problems submitting documentation? Please upload the documentation again and press Submit."
   },
   "filvelger": {
     "defaultText": "Select your files"
@@ -157,15 +156,15 @@
     "tittel": "Thank you!",
     "mottattDokumenter": "We received the following documents on {{dato}}:",
     "skjema": "Form",
-    "vedlegg": "Attachments",
+    "vedlegg": "Documentation",
     "skjemaLenke": "Download a copy",
     "maaEttersendes": "Documents that must be sent later:",
     "sendesAvAndre": "Documents to be sent by others:",
     "fristEttersending": "Deadline for forwarding documents: {{dato}}",
-    "ettersendingsInfo": "You have to submit the attachments that are missing in order to complete the application. Go to My page to see the submitted documents.",
+    "ettersendingsInfo": "You have to submit the documentation that are missing in order to complete the application. Go to My page to see the submitted documents.",
     "altMottatInfo": "Go to My page to see the submitted documents.",
     "manglerInnsendtAvAndre": "Ensure that the documents to be submitted by others are submitted. Go to My page to see the submitted documents.",
-    "manglerInnsendingAvSelvOgAndre": "You have to submit the attachments that are missing in order to complete the application.\n\nAlso ensure that the documents to be submitted by others are submitted.\n\nGo to My page to see the submitted documents.",
+    "manglerInnsendingAvSelvOgAndre": "You have to submit the documentation that are missing in order to complete the application.\n\nAlso ensure that the documents to be submitted by others are submitted.\n\nGo to My page to see the submitted documents.",
     "minSideKnapp": "Go to My page"
   },
   "feil": {
