@@ -12,12 +12,12 @@
         "tittel": "Last opp ferdig utfylt skjema"
       },
       "lastOppVedlegg": {
-        "tittel": "Last opp vedlegg",
-        "ingress": "Her kan du laste opp vedlegg til saken din. Du må laste opp alle vedleggene før NAV kan behandle saken.",
-        "infoFrist": "Frist for opplasting av vedlegg: {{dato}}",
+        "tittel": "Last opp dokumentasjon",
+        "ingress": "Her kan du laste opp dokumentasjon til saken din. Du må laste opp all dokumentasjonen før NAV kan behandle saken.",
+        "infoFrist": "Frist for opplasting av dokumentasjon: {{dato}}",
         "advarselHovedskjema": "Du får ikke sendt inn før du har lastet opp ferdig utfylt skjema på forrige side.",
-        "andreVedleggTittel": "Andre vedlegg",
-        "andreVedleggIngress": "Nedenfor finner du vedlegg som du allerede har lastet opp, men som ikke er nødvendig for søknaden lenger. De blir slettet når du sender inn søknaden. Hvis du likevel vil sende inn dokumentene kan du laste dem opp som 'Annen dokumentasjon' ovenfor.",
+        "andreVedleggTittel": "Annen dokumentasjon",
+        "andreVedleggIngress": "Nedenfor finner du dokumentasjon som du allerede har lastet opp, men som ikke er nødvendig for søknaden lenger. De blir slettet når du sender inn søknaden. Hvis du likevel vil sende inn dokumentene kan du laste dem opp som 'Annen dokumentasjon' ovenfor.",
         "sistLagret": "Sist lagret"
       }
     },
@@ -37,7 +37,7 @@
         "Klikk på “Last opp utfylt skjema”.",
         "Finn og last opp det ferdig utfylte skjemaet.",
         "Klikk på “Neste steg”.",
-        "Hvis du skal sende inn vedlegg gjør du det i neste steg."
+        "Hvis du skal sende inn dokumentasjon gjør du det i neste steg."
       ],
       "filvelgerKnapp": "Last opp utfylt skjema",
       "feilmelding": {
@@ -57,18 +57,18 @@
       "lastNedFiler": "Filene kan lastes ned fra",
       "dokumentarkivet": "dokumentarkivet",
       "annet": {
-        "tittel": "Beskriv vedlegget",
+        "tittel": "Beskriv dokumentasjonen",
         "beskrivelse": "Gi et beskrivende navn på dokumentet du ønsker å laste opp.",
         "rediger": "Rediger",
-        "slett": "Slett vedlegg",
+        "slett": "Slett dokumentasjon",
         "bekreft": "Bekreft",
         "avbryt": "Avbryt",
         "feilmelding": {
-          "fullforOpprettelse": "Fullfør eller avbryt vedleggsbeskrivelse",
-          "fullforRedigering": "Fullfør og bekreft redigering av vedleggsbeskrivelse",
-          "manglerFil": "Last opp eller slett vedlegget: {{label}}",
-          "manglerNavn": "Gi en vedleggsbeskrivelse",
-          "navnForLangt": "Vedleggsbeskrivelsen er for lang. Maks {{maxLength}} tegn"
+          "fullforOpprettelse": "Fullfør eller avbryt beskrivelse av dokumentasjonen",
+          "fullforRedigering": "Fullfør og bekreft redigering av beskrivelse av dokumentasjonen",
+          "manglerFil": "Last opp eller slett dokumentasjonen: {{label}}",
+          "manglerNavn": "Gi en beskrivelse av dokumentasjonen",
+          "navnForLangt": "Beskrivelsen er for lang. Maks {{maxLength}} tegn"
         }
       },
       "radio": {
@@ -103,7 +103,7 @@
       "avbryt": "Avbryt",
       "slett": "Slett søknad"
     },
-    "beskjedOmAvvik": "Får du ikke ettersendt vedlegg? Da må du laste opp vedlegget på nytt og trykke Send inn."
+    "beskjedOmAvvik": "Får du ikke ettersendt dokumentasjon? Da må du laste opp dokumentasjonen på nytt og trykke Send inn."
   },
   "filvelger": {
     "defaultText": "Velg dine filer"
@@ -149,15 +149,15 @@
     "tittel": "Takk!",
     "mottattDokumenter": "Vi mottok disse dokumentene {{dato}}:",
     "skjema": "Skjema",
-    "vedlegg": "Vedlegg",
+    "vedlegg": "Dokumentasjon",
     "skjemaLenke": "Last ned kopi",
     "maaEttersendes": "Dokumenter som må ettersendes:",
     "sendesAvAndre": "Dokumenter som skal sendes av andre:",
     "fristEttersending": "Frist for å ettersende dokumentene: {{dato}}",
-    "ettersendingsInfo": "For at søknaden skal bli komplett må du sende inn vedleggene som mangler. På Min side kan du se hvilke dokumenter som er sendt inn.",
+    "ettersendingsInfo": "For at søknaden skal bli komplett må du sende inn dokumentasjonen som mangler. På Min side kan du se hvilke dokumenter som er sendt inn.",
     "altMottatInfo": "På Min side kan du se dokumentene som er sendt inn.",
     "manglerInnsendtAvAndre": "Sørg for at dokumentene som skal sendes inn av andre blir sendt inn. På Min side kan du se hvilke dokumenter som er sendt inn.",
-    "manglerInnsendingAvSelvOgAndre": "For at søknaden skal bli komplett må du sende inn vedleggene som mangler.\n\nSørg også for at dokumentene som skal sendes inn av andre blir sendt inn.\n\nPå Min side kan du se hvilke dokumenter som er sendt inn.",
+    "manglerInnsendingAvSelvOgAndre": "For at søknaden skal bli komplett må du sende inn dokumentasjonen som mangler.\n\nSørg også for at dokumentene som skal sendes inn av andre blir sendt inn.\n\nPå Min side kan du se hvilke dokumenter som er sendt inn.",
 
     "minSideKnapp": "Gå til Min side"
   },
