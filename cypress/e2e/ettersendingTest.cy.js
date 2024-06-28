@@ -51,7 +51,7 @@ describe('Tester ettersendingsløpet', () => {
           .should('have.length', 1)
           .should(
             'contain.text',
-            'Vedlegg: Arbeidslogg for utprøving av Innowalk som grunnlag for helhetsvurdering og vedlegg til søknad',
+            'Dokumentasjon: Arbeidslogg for utprøving av Innowalk som grunnlag for helhetsvurdering og vedlegg til søknad',
           );
       });
     cy.findByRole('heading', { name: 'Dokumenter som må ettersendes:' })
