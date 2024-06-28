@@ -12,7 +12,7 @@
         "tittel": "Upload the completed form"
       },
       "lastOppVedlegg": {
-        "tittel": "Upload documents",
+        "tittel": "Upload documentation",
         "ingress": "You can upload documentation to your case here. You must upload all the documentation before NAV can process the case.",
         "infoFrist": "Deadline for uploading documents: {{dato}}",
         "advarselHovedskjema": "UTGÅR!! Du får ikke sendt inn før du har lastet opp ferdig utfylt skjema på forrige side.",

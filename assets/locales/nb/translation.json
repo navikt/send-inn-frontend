@@ -13,7 +13,7 @@
       },
       "lastOppVedlegg": {
         "tittel": "Last opp dokumentasjon",
-        "ingress": "Her kan du laste opp dokumentasjon til saken din. Du må laste opp all dokumentasjonen før NAV kan behandle saken.",
+        "ingress": "Her kan du laste opp dokumentasjon til saken din. Du må laste opp all dokumentasjon før NAV kan behandle saken.",
         "infoFrist": "Frist for opplasting av dokumentasjon: {{dato}}",
         "advarselHovedskjema": "Du får ikke sendt inn før du har lastet opp ferdig utfylt skjema på forrige side.",
         "andreVedleggTittel": "Annen dokumentasjon",
