@@ -53,6 +53,7 @@
       "mottatt": "Mottatt",
       "lastetOpp": "Lastet opp",
       "ettersendingFilvelgerKnapp": "Last opp nye filer",
+      "paakrevd": "Dette dokumentet må sendes inn sammen med søknaden / skjemaet.",
       "feilmelding": {
         "manglerFil": "Last opp {{label}}"
       },
@@ -77,7 +78,10 @@
         "tittel": "Velg innsending",
         "lasterOppNaa": "Jeg laster opp dette nå",
         "sendSenere": "Jeg laster opp dette senere",
-        "sendesAvAndre": "Sendes inn av andre (for eksempel lege eller arbeidsgiver)"
+        "sendesAvAndre": "Sendes inn av andre (for eksempel lege eller arbeidsgiver)",
+        "levertDokumentasjonTidligere": "Jeg har levert denne dokumentasjonen tidligere",
+        "harIkkeDokumentasjonen": "Jeg har ikke denne dokumentasjonen",
+        "navKanHenteDokumentasjon": "Jeg ønsker at NAV innhenter denne dokumentasjonen"
       },
       "fil": {
         "provIgjen": "Prøv igjen",
@@ -161,6 +165,9 @@
     "skjemaLenke": "Last ned kopi",
     "maaEttersendes": "Dokumenter som må ettersendes:",
     "sendesAvAndre": "Dokumenter som skal sendes av andre:",
+    "levertTidligere": "Dokumentasjon du har levert tidligere",
+    "sendesIkkeInn": "Dokumentasjon du ikke har",
+    "navKanInnhente": "Dokumentasjon NAV kan hente inn for meg",
     "fristEttersending": "Frist for å ettersende dokumentene: {{dato}}",
     "ettersendingsInfo": "For at søknaden skal bli komplett må du sende inn dokumentasjonen som mangler. På Min side kan du se hvilke dokumenter som er sendt inn.",
     "altMottatInfo": "På Min side kan du se dokumentene som er sendt inn.",
@@ -179,7 +186,9 @@
     "filForStor": "Størrelsen på filen overskrider maksimal tillatt størrelse. Den maksimale størrelsen er 50MB.",
     "filIkkeValgt": "En feil oppsto under valg av fil. Prøv på nytt",
     "filUtenInnhold": "Valgt fil mangler innhold, velg en fil som er større en 0 kB",
-    "ugyldigFilformat": "Invalid file format. It is only allowed to upload files of type PDF, JPEG/JPG and PNG"
+    "ugyldigFilformat": "Invalid file format. It is only allowed to upload files of type PDF, JPEG/JPG and PNG",
+    "paakrevd": "Du må fylle ut: {{felt}}",
+    "maksLengde": "{{felt}} kan ikke være mer enn {{maksLengde}} tegn"
   },
   "feilside": {
     "404": {
@@ -213,5 +222,9 @@
     },
     "statuskode": "Statuskode"
   },
-  "for": "for"
+  "for": "for",
+  "textarea": {
+    "counterLeft": "tegn igjen",
+    "counterTooMuch": "tegn for mye"
+  }
 }

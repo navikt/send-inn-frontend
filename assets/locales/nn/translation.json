@@ -53,6 +53,7 @@
       "mottatt": "Tatt imot",
       "lastetOpp": "Lastet opp",
       "ettersendingFilvelgerKnapp": "Last opp nye filer",
+      "paakrevd": "TODO: Dette vedlegget må sendes inn sammen med søknaden / skjemaet.",
       "feilmelding": {
         "manglerFil": "Last opp {{label}}"
       },
@@ -77,7 +78,10 @@
         "tittel": "Velg innsending",
         "lasterOppNaa": "Eg lastar opp dette nå",
         "sendSenere": "Eg lastar opp dette seinare",
-        "sendesAvAndre": "Sendes inn av andre (til dømes lege eller arbeidsgjevar)"
+        "sendesAvAndre": "Sendes inn av andre (til dømes lege eller arbeidsgjevar)",
+        "levertDokumentasjonTidligere": "Eg har levert denne dokumentasjonen tidlegare",
+        "harIkkeDokumentasjonen": "Eg har ikkje denne dokumentasjonen",
+        "navKanHenteDokumentasjon": "Eg ønskjer at NAV innhentar denne dokumentasjonen"
       },
       "fil": {
         "provIgjen": "Prøv igjen",
@@ -161,12 +165,14 @@
     "skjemaLenke": "Last ned kopi",
     "maaEttersendes": " Dokument som må ettersendast:",
     "sendesAvAndre": " Dokument som skal sendast av andre:",
+    "levertTidligere": "Dokumentasjon du har levert tidlegare",
+    "sendesIkkeInn": "Dokumentasjon du ikkje har",
+    "navKanInnhente": "Dokumentasjon NAV kan hente inn for meg",
     "fristEttersending": "Frist for å ettersenda dokumenta: {{dato}}",
     "ettersendingsInfo": "For at søknaden skal bli komplett må du sende inn dokumentasjonen som manglar. På Mi side kan du sjå kva dokument som er sendt inn.",
     "altMottatInfo": "På Mi side kan du sjå dokumenta som er sendt inn.",
     "manglerInnsendtAvAndre": "Sørg for at dokumenta som skal sendast inn av andre blir sende inn. På Mi side kan du sjå kva dokument som er sendt inn.",
     "manglerInnsendingAvSelvOgAndre": "For at søknaden skal bli komplett må du sende inn dokumentasjonen som manglar.\n\nSørg også for at dokumenta som skal sendast inn av andre blir sende inn.\n\nPå Mi side kan du sjå kva dokument som er sendt inn.",
-
 
     "minSideKnapp": "Gå til Min side"
   },
@@ -180,7 +186,9 @@
     "filForStor": "Storleiken på fila overskrid maksimal tillaten storleik. Den maksimale storleiken er 50MB.",
     "filIkkeValgt": "Ein feil oppstod under val av fil. Prøv på nytt",
     "filUtenInnhold": "Vald fil manglar innhald, vel ei fil som er større ein 0 kB",
-    "ugyldigFilformat": "Feil filformat, det er berre lov å laste opp filer av typen PDF, JPEG/JPG og PNG"
+    "ugyldigFilformat": "Feil filformat, det er berre lov å laste opp filer av typen PDF, JPEG/JPG og PNG",
+    "paakrevd": "Du må fylle ut: {{felt}}",
+    "maksLengde": "{{felt}} kan ikkje vera meir enn {{maksLengde}} teikn"
   },
   "feilside": {
     "404": {
@@ -214,5 +222,9 @@
     },
     "statuskode": "Statuskode"
   },
-  "for": "for"
+  "for": "for",
+  "textarea": {
+    "counterLeft": "teikn igjen",
+    "counterTooMuch": "teikn for mykje"
+  }
 }
