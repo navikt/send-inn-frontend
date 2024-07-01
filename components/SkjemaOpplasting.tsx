@@ -48,7 +48,7 @@ function SkjemaOpplasting(props: SkjemaOpplastingdProps) {
         setFokus={setSide1Valideringfokus}
       >
         <PaddedVedlegg>
-          <Vedlegg innsendingsId={soknad.innsendingsId} vedlegg={vedlegg} />
+          <Vedlegg innsendingsId={soknad.innsendingsId} vedlegg={vedlegg} soknadVisningstype={soknad.visningsType} />
         </PaddedVedlegg>
         <ButtonContainer $reverse>
           <Button

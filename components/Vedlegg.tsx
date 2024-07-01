@@ -11,7 +11,7 @@ import { Filvelger } from './Filvelger';
 import getConfig from 'next/config';
 import { useValidation } from '../hooks/useValidation';
 import { FIL_STATUS } from '../types/enums';
-import { OpplastetFil, VedleggType } from '../types/types';
+import { OpplastetFil, VedleggType, VisningsType } from '../types/types';
 import { EndreVedlegg } from './EndreVedlegg';
 import { Fil, FilePanel } from './Fil';
 import { FilUploadIcon } from './FilUploadIcon';
@@ -32,6 +32,7 @@ export interface VedleggProps {
   vedlegg: ExtendedVedleggType;
   innsendingsId: string;
   erAnnetVedlegg?: boolean;
+  soknadVisningstype: VisningsType;
 }
 
 export interface FilData {
@@ -141,7 +142,7 @@ const List = styled.ul`
 `;
 
 function Vedlegg(props: VedleggProps) {
-  const { innsendingsId, vedlegg } = props;
+  const { innsendingsId, vedlegg, soknadVisningstype } = props;
   const { opplastingsStatus } = vedlegg;
 
   const { slettAnnetVedlegg } = useVedleggslisteContext();
@@ -174,7 +175,7 @@ function Vedlegg(props: VedleggProps) {
     valgtOpplastingStatus === 'Innsendt';
 
   const manglerFilTekst = () => {
-    if (vedlegg.erHoveddokument)
+    if (vedlegg.erHoveddokument && soknadVisningstype !== 'lospost')
       return t('soknad.hovedSkjema.feilmelding.manglerFil', {
         label: vedlegg.label,
       });
@@ -228,7 +229,7 @@ function Vedlegg(props: VedleggProps) {
   }, [innsendingsId, vedlegg.id, showError, hasFetched]);
 
   const getFilvelgerButtonText = () => {
-    if (vedlegg.erHoveddokument) {
+    if (vedlegg.erHoveddokument && soknadVisningstype !== 'lospost') {
       return t('soknad.hovedSkjema.filvelgerKnapp');
     }
     if (erSendtInnTidligere) {
@@ -270,7 +271,7 @@ function Vedlegg(props: VedleggProps) {
                 </Heading>
               )}
 
-              {vedlegg.erHoveddokument && (
+              {vedlegg.erHoveddokument && soknadVisningstype !== 'lospost' && (
                 <ListeGruppe>
                   <BodyShort>{t('soknad.hovedSkjema.listeTittel')}</BodyShort>
                   <BodyShort as="ol">

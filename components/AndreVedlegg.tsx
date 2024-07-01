@@ -1,4 +1,4 @@
-import { BodyShort, Heading, Ingress } from '@navikt/ds-react';
+import { BodyLong, BodyShort, Heading } from '@navikt/ds-react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { FIL_STATUS } from '../types/enums';
@@ -24,7 +24,7 @@ const AndreVedlegg = (props: AndreVedleggProps) => {
       <Heading level={'3'} size="large" spacing>
         {t('soknad.visningsSteg.lastOppVedlegg.andreVedleggTittel')}
       </Heading>
-      <Ingress spacing>{t('soknad.visningsSteg.lastOppVedlegg.andreVedleggIngress')}</Ingress>
+      <BodyLong size="large">{t('soknad.visningsSteg.lastOppVedlegg.andreVedleggIngress')}</BodyLong>
       <Linje />
 
       <VedleggPanel>

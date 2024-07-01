@@ -1,4 +1,4 @@
-import { Alert, BodyShort, Button, Heading, Ingress } from '@navikt/ds-react';
+import { Alert, BodyLong, BodyShort, Button, Heading } from '@navikt/ds-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -12,6 +12,7 @@ import { ArrowLeftIcon } from '@navikt/aksel-icons';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { formatertDato } from '../utils/dato';
 import { navigerTilFyllut } from '../utils/navigerTilFyllut';
+import { isLospost } from '../utils/soknad';
 import AndreVedlegg from './AndreVedlegg';
 import { useAxiosInterceptorContext } from './AxiosInterceptor';
 import { useLagringsProsessContext } from './LagringsProsessProvider';
@@ -72,7 +73,9 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
       <Heading level={'2'} size="large" spacing>
         {t('soknad.visningsSteg.lastOppVedlegg.tittel')}
       </Heading>
-      <Ingress spacing>{t('soknad.visningsSteg.lastOppVedlegg.ingress')}</Ingress>
+      <BodyLong size="large">
+        {t(`soknad.visningsSteg.lastOppVedlegg.ingress${isLospost(soknad) ? '-lospost' : ''}`)}
+      </BodyLong>
 
       {soknad.visningsType === 'ettersending' ? (
         <FristForOpplastingInfo variant="info" inline={true} size="small">
@@ -102,9 +105,20 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
 
         <PaddedVedlegg>
           {vedleggsliste
-            .filter((x) => !x.erHoveddokument && x.opplastingsStatus !== 'LastetOppIkkeRelevantLenger')
+            .filter(
+              (x) =>
+                (!x.erHoveddokument || soknad.visningsType === 'lospost') &&
+                x.opplastingsStatus !== 'LastetOppIkkeRelevantLenger',
+            )
             .map((vedlegg) => {
-              return <Vedlegg key={vedlegg.id} innsendingsId={soknad.innsendingsId} vedlegg={vedlegg} />;
+              return (
+                <Vedlegg
+                  key={vedlegg.id}
+                  innsendingsId={soknad.innsendingsId}
+                  vedlegg={vedlegg}
+                  soknadVisningstype={soknad.visningsType}
+                />
+              );
             })}
 
           {soknad.kanLasteOppAnnet && <OpprettAnnetVedlegg innsendingsId={soknad.innsendingsId} />}
