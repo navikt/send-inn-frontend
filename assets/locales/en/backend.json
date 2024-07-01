@@ -9,8 +9,8 @@
     "message": "Submission failed because no application document has been uploaded."
   },
   "illegalAction.sendInErrorNoChange": {
-    "message": "You must upload at least one new attachment that you want to send to NAV.",
-    "title": "You have not uploaded any new attachments"
+    "message": "You must upload at least one new document that you want to send to NAV.",
+    "title": "You have not uploaded any new documents"
   },
   "illegalAction.notSupportedFileFormat": {
     "message": "Wrong file format. It is only allowed to upload files of type PDF, JPEG/JPG and PNG."
@@ -19,7 +19,7 @@
     "message": "The sum of the size of uploaded files for the entire application exceeds the maximum allowed size. The maximum size allowed is 150MB in total."
   },
   "illegalAction.vedleggFileSizeSumTooLarge": {
-    "message": "The sum of the size of uploaded files for this attachment exceeds the maximum allowed size. The maximum size allowed is 50MB in total."
+    "message": "The sum of the size of uploaded files for this document exceeds the maximum allowed size. The maximum size allowed is 50MB in total."
   },
   "illegalAction.virusScanFailed": {
     "message": "The uploaded file contains a virus. Try again with another file."
