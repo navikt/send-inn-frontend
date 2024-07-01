@@ -37,7 +37,7 @@
     "styled-components": "^6.1.11",
     "swr": "^2.2.5",
     "use-debounce": "^10.0.1",
-    "uuid": "^9.0.1",
+    "uuid": "^10.0.0",
     "winston": "^3.13.0"
   },
   "devDependencies": {
@@ -46,7 +46,7 @@
     "@types/node": "^20.14.2",
     "@types/react": "^18.3.3",
     "@types/sanitize-html": "^2.11.0",
-    "@types/uuid": "^9.0.8",
+    "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^7.13.0",
     "@typescript-eslint/parser": "^7.13.0",
     "cypress": "^13.11.0",
