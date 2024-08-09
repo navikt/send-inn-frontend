@@ -23,6 +23,14 @@ export interface FyllutForm extends BasicForm {
   attachments: Attachment[];
 }
 
+export type AttachmentValueKeys = 'leggerVedNaa' | 'ettersender' | 'levertTidligere' | 'harIkke' | 'andre' | 'nav';
+
+export interface AttachmentValue {
+  key: AttachmentValueKeys;
+  additionalDocumentationLabel?: string;
+  additionalDocumentationDescription?: string;
+  deadlineWarning?: string;
+}
 export interface Attachment {
   label: string;
   key: string;
@@ -31,4 +39,5 @@ export interface Attachment {
   attachmentTitle: string;
   attachmentCode: string;
   attachmentForm?: string;
+  attachmentValues?: AttachmentValue[];
 }

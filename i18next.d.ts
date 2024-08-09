@@ -1,3 +1,4 @@
+import type { DefaultNamespace, Namespace, ParseKeys } from 'i18next';
 import { defaultNS, resources } from './i18n';
 
 declare module 'i18next' {
@@ -6,3 +7,5 @@ declare module 'i18next' {
     resources: (typeof resources)['nb'];
   }
 }
+
+export type TranslationKey<NS extends Namespace = DefaultNamespace> = ParseKeys<NS>;
