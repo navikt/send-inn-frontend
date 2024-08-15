@@ -50,10 +50,5 @@ export const AxiosInterceptor = ({ children }: PropsAxiosInterceptor) => {
     return () => axios.interceptors.response.eject(interceptor);
   }, [router]);
 
-  return (
-    <AxiosInterceptorContext.Provider value={{ savedAt }}>
-      {savedAt}
-      {isSet && children}
-    </AxiosInterceptorContext.Provider>
-  );
+  return <AxiosInterceptorContext.Provider value={{ savedAt }}>{isSet && children}</AxiosInterceptorContext.Provider>;
 };
