@@ -6,7 +6,6 @@ import { BodyShort, Button, Heading, Link as NavLink, Panel } from '@navikt/ds-r
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
-import VedleggRadio from '../components/VedleggRadio';
 import { Filvelger } from './Filvelger';
 
 import getConfig from 'next/config';
@@ -21,6 +20,7 @@ import { ValideringsRamme } from './ValideringsRamme';
 import parse from 'html-react-parser';
 import sanitizeHtml from 'sanitize-html';
 import { useVedleggslisteContext } from './VedleggsListe';
+import VedleggsValg from './VedleggsValg';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -168,7 +168,10 @@ function Vedlegg(props: VedleggProps) {
 
   const erAnnetVedlegg = vedlegg.vedleggsnr?.toUpperCase() === 'N6' && !vedlegg.erPakrevd;
   const erSendtInnTidligere = !!vedlegg.innsendtdato;
-  const skjulFiler = valgtOpplastingStatus === 'SendSenere' || valgtOpplastingStatus === 'SendesAvAndre';
+  const visFiler =
+    valgtOpplastingStatus === 'IkkeValgt' ||
+    valgtOpplastingStatus === 'LastetOpp' ||
+    valgtOpplastingStatus === 'Innsendt';
 
   const manglerFilTekst = () => {
     if (vedlegg.erHoveddokument)
@@ -288,7 +291,7 @@ function Vedlegg(props: VedleggProps) {
             </div>
 
             {vedlegg.erPakrevd && !vedlegg.erHoveddokument && !erSendtInnTidligere && (
-              <VedleggRadio
+              <VedleggsValg
                 id={vedlegg.id}
                 vedlegg={vedlegg}
                 harOpplastetFil={harOpplastetFil}
@@ -329,7 +332,7 @@ function Vedlegg(props: VedleggProps) {
               </SendtInnTidligereGruppe>
             )}
 
-            {!skjulFiler && (
+            {visFiler && (
               <VedleggButtons>
                 <Filvelger
                   autoFocus={autoFocus}
@@ -364,7 +367,7 @@ function Vedlegg(props: VedleggProps) {
               </VedleggButtons>
             )}
 
-            {!skjulFiler && filListe.length > 0 && (
+            {visFiler && filListe.length > 0 && (
               <FilListeGruppe>
                 <Heading id={`sendtInnNaa-${vedlegg.id}`} level={'4'} size="xsmall" spacing>
                   {t('soknad.vedlegg.sendtInnNaa')}

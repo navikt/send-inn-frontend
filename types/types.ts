@@ -1,3 +1,6 @@
+import { TranslationKey } from '../i18next';
+import { AttachmentValueKeys } from './fyllutForm';
+
 // API
 export type OpplastingsStatus =
   | 'IkkeValgt'
@@ -6,7 +9,10 @@ export type OpplastingsStatus =
   | 'SendSenere'
   | 'SendesAvAndre'
   | 'SendesIkke'
-  | 'LastetOppIkkeRelevantLenger';
+  | 'LastetOppIkkeRelevantLenger'
+  | 'LevertDokumentasjonTidligere'
+  | 'HarIkkeDokumentasjonen'
+  | 'NavKanHenteDokumentasjon';
 
 export type VedleggType = {
   id: number;
@@ -25,6 +31,15 @@ export type VedleggType = {
   beskrivelse: string;
   erPakrevd: boolean;
   innsendtdato: string | null;
+  opplastingsValgKommentar: string | null;
+  opplastingsValgKommentarLedetekst: string | null;
+};
+
+export type PatchVedleggDto = {
+  tittel?: string;
+  opplastingsStatus?: OpplastingsStatus;
+  opplastingsValgKommentarLedetekst?: string | null;
+  opplastingsValgKommentar?: string | null;
 };
 
 export type OpplastetFil = {
@@ -57,6 +72,28 @@ export type SoknadType = {
   kanLasteOppAnnet: boolean;
 };
 
+export type InnsendtVedleggDto = {
+  vedleggsnr: string;
+  tittel: string;
+  url: string;
+  opplastingsValgKommentarLedetekst: string;
+  opplastingsValgKommentar: string;
+};
+
+export type KvitteringsDto = {
+  innsendingsId: string;
+  label: string;
+  mottattdato: string;
+  hoveddokumentRef: string;
+  innsendteVedlegg: InnsendtVedleggDto[];
+  skalEttersendes: InnsendtVedleggDto[];
+  levertTidligere: InnsendtVedleggDto[];
+  sendesIkkeInn: InnsendtVedleggDto[];
+  skalSendesAvAndre: InnsendtVedleggDto[];
+  navKanInnhente: InnsendtVedleggDto[];
+  ettersendingsfrist: string;
+};
+
 type errorCodesWithHandling =
   | 'illegalAction.applicationSentInOrDeleted'
   | 'illegalAction.fileCannotBeRead'
@@ -76,3 +113,15 @@ export type ErrorResponsDto = {
 };
 
 // APP
+
+export type VedleggsvalgType = 'LasterOpp' | Exclude<OpplastingsStatus, 'IkkeValgt' | 'LastetOpp'>;
+export type VedleggsValgAlternativ = {
+  key: VedleggsvalgType;
+  fyllutKey: AttachmentValueKeys;
+  translationKey: TranslationKey;
+  dataCy?: string;
+  additionalDocumentationLabel?: string;
+  additionalDocumentationDescription?: string;
+  deadlineWarning?: string;
+  default?: boolean;
+};
