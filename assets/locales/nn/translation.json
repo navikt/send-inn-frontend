@@ -149,12 +149,6 @@
       "liste": ["Dagens dato vil bli satt som mottaksdato."],
       "accept": "Ja, send til NAV",
       "cancel": "Avbryt"
-    },
-    "sendInnKomplett-lospost": {
-      "tittel": "Dokumenta er klare til å sendast inn. Vil du senda inn no?",
-      "liste": ["Dagens dato vil bli satt som mottaksdato."],
-      "accept": "Ja, send inn",
-      "cancel": "Avbryt"
     }
   },
   "kvittering": {
