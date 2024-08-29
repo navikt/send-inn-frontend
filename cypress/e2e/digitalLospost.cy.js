@@ -38,7 +38,7 @@ describe('Digital løspost', () => {
     cy.findByRole('button', { name: 'Send til NAV' }).should('exist').click();
 
     // Modal
-    cy.findByRole('heading', { name: 'Dokumenta er klare til å sendast inn. Vil du senda inn no?' }).should('exist');
+    cy.findByRole('heading', { name: 'Dokumenta er klare til å sendast inn. Vil du senda dem no?' }).should('exist');
     cy.findByRole('button', { name: 'Ja, send inn' }).should('exist').click();
 
     // Kvittering
