@@ -48,7 +48,7 @@ export type OpplastetFil = {
   storrelse: number;
 };
 
-export type VisningsType = 'fyllUt' | 'dokumentinnsending' | 'ettersending';
+export type VisningsType = 'fyllUt' | 'dokumentinnsending' | 'ettersending' | 'lospost';
 
 export type SoknadType = {
   id: number;

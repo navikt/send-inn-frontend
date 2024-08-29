@@ -268,7 +268,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
           )}
 
           {/* steg 4 kvitteringsside  */}
-          {visKvittering && <Kvittering kvprops={soknadsInnsendingsRespons!} />}
+          {visKvittering && <Kvittering kvprops={soknadsInnsendingsRespons!} visningstype={soknad.visningsType} />}
         </Style>
       </SoknadModalProvider>
     </VedleggslisteContext.Provider>

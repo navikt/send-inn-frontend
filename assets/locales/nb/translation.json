@@ -1,6 +1,7 @@
 {
   "test": "det er bokmål",
   "soknad": {
+    "soknadoverskrift-lospost": "Send dokumenter til NAV",
     "visningsSteg": {
       "fraFyllutUtenVedlegg": {
         "laster": "Laster... Vennligst vent"
@@ -14,6 +15,7 @@
       "lastOppVedlegg": {
         "tittel": "Last opp dokumentasjon",
         "ingress": "Her kan du laste opp dokumentasjon til saken din. Du må laste opp all dokumentasjon før NAV kan behandle saken.",
+        "ingress-lospost": "Her kan du laste opp dokumentasjon.",
         "infoFrist": "Frist for opplasting av dokumentasjon: {{dato}}",
         "advarselHovedskjema": "Du får ikke sendt inn før du har lastet opp ferdig utfylt skjema på forrige side.",
         "andreVedleggTittel": "Annen dokumentasjon",
@@ -146,6 +148,12 @@
       "tittel": "Dokumentene er klar til å sendes. Vil du sende dem nå?",
       "liste": ["Dagens dato vil bli satt som mottaksdato."],
       "accept": "Ja, send til NAV",
+      "cancel": "Avbryt"
+    },
+    "sendInnKomplett-lospost": {
+      "tittel": "Dokumentene er klare til å sendes inn. Vil du sende inn nå?",
+      "liste": ["Dagens dato vil bli satt som mottaksdato."],
+      "accept": "Ja, send inn",
       "cancel": "Avbryt"
     }
   },
