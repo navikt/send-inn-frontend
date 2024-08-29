@@ -145,7 +145,7 @@
       "cancel": "Avbryt"
     },
     "sendInnKomplett": {
-      "tittel": "Dokumenta er klar til å sendast inn. Vil du senda dem no?",
+      "tittel": "Dokumenta er klare til å sendast inn. Vil du senda dem no?",
       "liste": ["Dagens dato vil bli satt som mottaksdato."],
       "accept": "Ja, send til NAV",
       "cancel": "Avbryt"
