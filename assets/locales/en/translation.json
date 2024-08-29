@@ -61,7 +61,7 @@
         "tittel": "Describe the document",
         "beskrivelse": "Give a descriptive name to the document you wish to upload.",
         "rediger": "Edit",
-        "slett": "Delete document",
+        "slett": "Cancel and delete",
         "bekreft": "Confirm",
         "avbryt": "Cancel",
         "feilmelding": {
@@ -143,9 +143,9 @@
       "cancel": "Cancel"
     },
     "sendInnKomplett": {
-      "tittel": "The application is ready for submission. Do you want to send it now?",
+      "tittel": "The documents is ready for submission. Do you want to send them now?",
       "liste": ["Today's date will be set as the date of receipt of the application."],
-      "accept": "Yes, send the application",
+      "accept": "Yes, send to NAV",
       "cancel": "Cancel"
     }
   },
