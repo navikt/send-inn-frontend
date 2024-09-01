@@ -11,6 +11,7 @@ import { useValidation } from '../hooks/useValidation';
 import { ValideringsRamme } from './ValideringsRamme';
 import { VedleggPanel } from './Vedlegg';
 import { useVedleggslisteContext } from './VedleggsListe';
+import { slettVedlegg } from '../mocks/handlers/slettVedlegg';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -58,6 +59,7 @@ export function OpprettAnnetVedlegg({ innsendingsId }: EndreVedleggProps) {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     setIsLoading(true);
+    slettVedlegg(false);
 
     axios
       .post(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg`, {
@@ -73,6 +75,7 @@ export function OpprettAnnetVedlegg({ innsendingsId }: EndreVedleggProps) {
         setIsLoading(false);
         setGiFokusPaaLeggTil(false);
         setVisOpprett(false);
+        slettVedlegg(true);
         reset();
       });
   };
