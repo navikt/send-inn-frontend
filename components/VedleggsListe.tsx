@@ -205,6 +205,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
     setVedleggsListe((forrigeVedleggsliste) => [...forrigeVedleggsliste, vedlegg]);
   };
   const slettAnnetVedlegg = (vedleggsId: number) => {
+    if (lagrerNaa()) return;
     axios
       .delete(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${vedleggsId}`)
       .then(() => {
