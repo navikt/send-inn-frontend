@@ -204,10 +204,13 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
   const leggTilVedlegg = (vedlegg: ExtendedVedleggType) => {
     setVedleggsListe((forrigeVedleggsliste) => [...forrigeVedleggsliste, vedlegg]);
   };
+
   const slettAnnetVedlegg = (vedleggsId: number) => {
     if (lagrerNaa()) return;
-    axios
-      .delete(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${vedleggsId}`)
+
+    nyLagringsProsess(
+      axios.delete(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${vedleggsId}`),
+    )
       .then(() => {
         setVedleggsListe((forrigeVedleggsliste) => forrigeVedleggsliste.filter((el) => el.id !== vedleggsId));
       })
