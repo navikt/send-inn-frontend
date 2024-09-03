@@ -2,10 +2,15 @@
 import translations from '../../assets/locales/nb/translation.json';
 
 describe('Tester dokumentinnsendingsløpet', () => {
+  beforeEach(() => {
+    cy.intercept('GET', '*/opprettSoknadResource*').as('getSoknad');
+  });
+
   it('Går igjennom fra åpning av url som oppretter søknad til kvitteringssiden', () => {
     cy.visit(
       '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2',
     );
+    cy.wait('@getSoknad');
 
     // Bekrefter at siden er rendret
     cy.get('[data-cy="nesteStegKnapp"]').should('be.visible').click();
