@@ -107,7 +107,7 @@
       "neste": "Neste steg",
       "forrige": "Forrige steg",
       "avbryt": "Avbryt",
-      "slett": "Slett søknad"
+      "slett": "Avbryt og slett"
     },
     "beskjedOmAvvik": "Får du ikkje ettersendt dokumentasjon? Då må du lasta opp dokumentasjonen på nytt og trykkja Send inn."
   },
@@ -145,15 +145,9 @@
       "cancel": "Avbryt"
     },
     "sendInnKomplett": {
-      "tittel": "Søknaden er klar til å sendast inn. Vil du senda han no?",
+      "tittel": "Dokumenta er klare til å sendast inn. Vil du senda dem no?",
       "liste": ["Dagens dato vil bli satt som mottaksdato."],
-      "accept": "Ja, send søknaden",
-      "cancel": "Avbryt"
-    },
-    "sendInnKomplett-lospost": {
-      "tittel": "Dokumenta er klare til å sendast inn. Vil du senda inn no?",
-      "liste": ["Dagens dato vil bli satt som mottaksdato."],
-      "accept": "Ja, send inn",
+      "accept": "Ja, send til NAV",
       "cancel": "Avbryt"
     }
   },
