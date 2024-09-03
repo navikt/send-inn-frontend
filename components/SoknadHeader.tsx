@@ -5,6 +5,7 @@ import styled from 'styled-components';
 export interface SoknadHeaderProps {
   soknadoverskrift: string;
   skjemanr: string;
+  hideSkjemanr?: boolean;
 }
 
 export const StyledDetail = styled(BodyShort)`
@@ -32,7 +33,7 @@ export const Line = styled.div`
   margin-left: calc(50% - 50vw);
 `;
 
-export function SoknadHeader({ soknadoverskrift, skjemanr }: SoknadHeaderProps) {
+export function SoknadHeader({ soknadoverskrift, skjemanr, hideSkjemanr = false }: SoknadHeaderProps) {
   return (
     <>
       <Style>
@@ -40,7 +41,7 @@ export function SoknadHeader({ soknadoverskrift, skjemanr }: SoknadHeaderProps) 
           <Heading level="1" size="xlarge">
             {soknadoverskrift}
           </Heading>
-          <StyledDetail>{skjemanr}</StyledDetail>
+          {!hideSkjemanr && <StyledDetail>{skjemanr}</StyledDetail>}
         </div>
       </Style>
       <Line />
