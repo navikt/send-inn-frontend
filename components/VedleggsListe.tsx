@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import useSWR from 'swr';
 import Kvittering from '../components/Kvittering';
 import SkjemaNedlasting from '../components/SkjemaNedlasting';
-import { ExtendedVedleggType } from '../components/Vedlegg';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { FyllutForm } from '../types/fyllutForm';
 import { KvitteringsDto, OpplastingsStatus, SoknadType, VedleggType } from '../types/types';
@@ -16,6 +15,7 @@ import { useLagringsProsessContext } from './LagringsProsessProvider';
 import LastOppVedlegg from './LastOppVedlegg';
 import SkjemaOpplasting from './SkjemaOpplasting';
 import { SoknadModalProvider } from './SoknadModalProvider';
+import { ExtendedVedleggType } from './Vedlegg';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -205,10 +205,10 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
     setVedleggsListe((forrigeVedleggsliste) => [...forrigeVedleggsliste, vedlegg]);
   };
 
-  const slettAnnetVedlegg = (vedleggsId: number) => {
+  const slettAnnetVedlegg = async (vedleggsId: number) => {
     if (lagrerNaa()) return;
 
-    nyLagringsProsess(
+    await nyLagringsProsess(
       axios.delete(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${vedleggsId}`),
     )
       .then(() => {
