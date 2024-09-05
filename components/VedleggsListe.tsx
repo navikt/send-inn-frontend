@@ -100,6 +100,8 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
 
   const router = useRouter();
   const { showError } = useErrorMessage();
+  const { lagrerNaa, nyLagringsProsess } = useLagringsProsessContext();
+  const { lagrer } = useLagringsProsessContext();
 
   const [vedleggsliste, setVedleggsListe] = useState<VedleggType[]>(soknad.vedleggsListe);
 
@@ -114,7 +116,6 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
   const { visningsType, kanLasteOppAnnet } = soknad;
 
   const vedleggsListeContainer = useRef<HTMLDivElement>(null);
-  const { lagrerNaa } = useLagringsProsessContext();
 
   const erFraFyllutUtenVedlegg =
     !visKvittering &&
@@ -207,6 +208,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
 
   const slettAnnetVedlegg = async (vedleggsId: number) => {
     if (lagrerNaa()) return;
+    if (lagrer) return;
 
     await nyLagringsProsess(
       axios.delete(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${vedleggsId}`),
