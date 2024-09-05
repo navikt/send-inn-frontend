@@ -100,7 +100,6 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
 
   const router = useRouter();
   const { showError } = useErrorMessage();
-  const { lagrerNaa, nyLagringsProsess } = useLagringsProsessContext();
 
   const [vedleggsliste, setVedleggsListe] = useState<VedleggType[]>(soknad.vedleggsListe);
 
@@ -115,6 +114,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
   const { visningsType, kanLasteOppAnnet } = soknad;
 
   const vedleggsListeContainer = useRef<HTMLDivElement>(null);
+  const { lagrerNaa } = useLagringsProsessContext();
 
   const erFraFyllutUtenVedlegg =
     !visKvittering &&
