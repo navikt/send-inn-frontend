@@ -63,7 +63,7 @@ interface VedleggslisteContextType {
   slettSoknad: () => void;
   oppdaterLokalOpplastingStatus: (id: number, opplastingsStatus: OpplastingsStatus) => void;
   leggTilVedlegg: (vedlegg: ExtendedVedleggType) => void;
-  slettAnnetVedlegg: (vedleggId: number) => void;
+  slettAnnetVedlegg: (vedleggId: number) => Promise<void>;
   fyllutForm?: FyllutForm;
   fyllutIsLoading: boolean;
 }
