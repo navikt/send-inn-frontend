@@ -354,7 +354,13 @@ export function Fil({
       type: FIL_ACTIONS.SETT_STATUS,
       filState: { status: FIL_STATUS.LASTER_OPP },
     });
-
+    filListeDispatch({
+      type: ACTIONS.IN_PROGRESS,
+      filData: {
+        komponentID,
+        underEndring: true,
+      },
+    });
     axios
       .post(`${API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil`, formData, config)
       .then((response: AxiosResponse<OpplastetFil>) => {
@@ -376,6 +382,7 @@ export function Fil({
           filData: {
             ...filData,
             komponentID,
+            underEndring: false,
           },
         });
         oppdaterLokalOpplastingStatus(vedlegg.id, 'LastetOpp');
@@ -410,6 +417,13 @@ export function Fil({
           type: FIL_ACTIONS.OPPDATER_PROGRESS,
           filState: {
             progress: 0,
+          },
+        });
+        filListeDispatch({
+          type: ACTIONS.IN_PROGRESS,
+          filData: {
+            komponentID,
+            underEndring: false,
           },
         });
       });

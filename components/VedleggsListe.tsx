@@ -63,7 +63,7 @@ interface VedleggslisteContextType {
   slettSoknad: () => void;
   oppdaterLokalOpplastingStatus: (id: number, opplastingsStatus: OpplastingsStatus) => void;
   leggTilVedlegg: (vedlegg: ExtendedVedleggType) => void;
-  slettAnnetVedlegg: (vedleggId: number) => Promise<void>;
+  slettAnnetVedlegg: (harAktiveEndringer: boolean, vedleggId: number) => Promise<void>;
   fyllutForm?: FyllutForm;
   fyllutIsLoading: boolean;
 }
@@ -206,9 +206,8 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
     setVedleggsListe((forrigeVedleggsliste) => [...forrigeVedleggsliste, vedlegg]);
   };
 
-  const slettAnnetVedlegg = async (vedleggsId: number) => {
-    if (lagrerNaa()) return;
-    if (lagrer) return;
+  const slettAnnetVedlegg = async (harAktiveEndringer: boolean, vedleggsId: number) => {
+    if (harAktiveEndringer) return;
 
     await nyLagringsProsess(
       axios.delete(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${vedleggsId}`),

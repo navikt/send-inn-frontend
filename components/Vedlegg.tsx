@@ -39,6 +39,7 @@ export interface FilData {
   komponentID?: string;
   lokalFil?: File;
   opplastetFil?: OpplastetFil;
+  underEndring?: boolean | undefined;
 }
 
 export const ACTIONS = {
@@ -46,6 +47,7 @@ export const ACTIONS = {
   SLETT_FIL: 'SLETT_FIL',
   ENDRE_FIL: 'ENDRE_FIL',
   RESET_LISTE: 'RESET_LISTE',
+  IN_PROGRESS: 'FIL_ENDRES',
 } as const;
 
 export type ActionType =
@@ -64,6 +66,9 @@ const filListeReducer = (filListe: FilData[], action: ActionType) => {
       return filListe.filter((fil) => fil.komponentID !== action.filData.komponentID);
     }
     case ACTIONS.ENDRE_FIL: {
+      return filListe.map((fil) => (fil.komponentID === action.filData.komponentID ? action.filData : fil));
+    }
+    case ACTIONS.IN_PROGRESS: {
       return filListe.map((fil) => (fil.komponentID === action.filData.komponentID ? action.filData : fil));
     }
     case ACTIONS.RESET_LISTE: {
@@ -210,6 +215,7 @@ function Vedlegg(props: VedleggProps) {
                 filnavn: item.filnavn,
                 storrelse: item.storrelse,
               },
+              underEndring: false,
             };
             dispatch({
               type: ACTIONS.NY_FIL,
@@ -237,6 +243,8 @@ function Vedlegg(props: VedleggProps) {
     }
     return null; // default text
   };
+
+  const harAktiveFilEndringer = harOpplastetFil && erAnnetVedlegg && filListe.some((fil) => fil.underEndring);
 
   return (
     <VedleggContainer
@@ -343,6 +351,7 @@ function Vedlegg(props: VedleggProps) {
                       type: ACTIONS.NY_FIL,
                       filData: {
                         lokalFil: fil,
+                        underEndring: false,
                       },
                     })
                   }
@@ -360,7 +369,7 @@ function Vedlegg(props: VedleggProps) {
                       {t('soknad.vedlegg.annet.rediger')}
                     </Button>
 
-                    <Button onClick={() => slettAnnetVedlegg(vedlegg.id)} variant="secondary">
+                    <Button onClick={() => slettAnnetVedlegg(harAktiveFilEndringer, vedlegg.id)} variant="secondary">
                       {t('soknad.vedlegg.annet.slett')}
                     </Button>
                   </>
