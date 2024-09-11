@@ -207,7 +207,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
   };
 
   const slettAnnetVedlegg = async (harAktiveEndringer: boolean, vedleggsId: number) => {
-    if (harAktiveEndringer) return;
+    if (harAktiveEndringer || lagrer) return;
 
     await nyLagringsProsess(
       axios.delete(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${vedleggsId}`),

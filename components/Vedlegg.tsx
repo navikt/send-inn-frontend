@@ -58,6 +58,7 @@ export type ActionType =
   | { type: typeof ACTIONS.RESET_LISTE };
 
 const filListeReducer = (filListe: FilData[], action: ActionType) => {
+  console.debug('Dispatcher:', action.type);
   switch (action.type) {
     case ACTIONS.NY_FIL: {
       return [...filListe, { komponentID: uuidv4(), ...action.filData }];
@@ -357,7 +358,7 @@ function Vedlegg(props: VedleggProps) {
                   }
                 />
 
-                {erAnnetVedlegg && !erSendtInnTidligere && (
+                {erAnnetVedlegg && !erSendtInnTidligere && !harAktiveFilEndringer && (
                   <>
                     <Button
                       onClick={() => {
