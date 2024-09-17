@@ -127,6 +127,7 @@ export interface FilProps {
   lokalFil?: File;
   opplastetFil?: OpplastetFil;
   filListeDispatch: React.Dispatch<ActionType>;
+  lasterOppStateDispoatch: React.Dispatch<number>;
 }
 
 export interface FilData {
@@ -251,6 +252,7 @@ export function Fil({
   innsendingsId,
   vedlegg,
   filListeDispatch,
+  lasterOppStateDispoatch,
 }: FilProps) {
   const [filState, dispatch] = useReducer(filReducer, initialState);
   const { status } = filState;
@@ -321,6 +323,7 @@ export function Fil({
       });
     }
     if (status !== FIL_STATUS.STARTER_OPPLASTNING) return;
+    lasterOppStateDispoatch(1);
 
     const lokalFil = filState.filData?.lokalFil;
     const { harFeil, melding } = filValidering(lokalFil);
@@ -426,6 +429,7 @@ export function Fil({
             underEndring: false,
           },
         });
+        lasterOppStateDispoatch(-1);
       });
   }, [
     filState,

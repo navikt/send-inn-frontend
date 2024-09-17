@@ -78,6 +78,10 @@ const filListeReducer = (filListe: FilData[], action: ActionType) => {
   }
 };
 
+const lasterOppStateReducer = (value: number, change: number) => {
+  return value + change;
+};
+
 const initialState: FilData[] = [];
 
 export const VedleggContainer = styled.section<{
@@ -156,6 +160,8 @@ function Vedlegg(props: VedleggProps) {
   const { t } = useTranslation();
 
   const [filListe, dispatch] = useReducer(filListeReducer, initialState);
+  const [lasterOppState, dispatchLasterOppState] = useReducer(lasterOppStateReducer, 0);
+
   const [hasFetched, setHasFetched] = useState(false);
   const [endrer, setEndrer] = useState(false);
   const [tittel, setTittel] = useState(vedlegg.label);
@@ -370,7 +376,7 @@ function Vedlegg(props: VedleggProps) {
                       {t('soknad.vedlegg.annet.rediger')}
                     </Button>
 
-                    <Button onClick={() => slettAnnetVedlegg(harAktiveFilEndringer, vedlegg.id)} variant="secondary">
+                    <Button onClick={() => slettAnnetVedlegg(lasterOppState != 0, vedlegg.id)} variant="secondary">
                       {t('soknad.vedlegg.annet.slett')}
                     </Button>
                   </>
@@ -394,6 +400,7 @@ function Vedlegg(props: VedleggProps) {
                         lokalFil={fil.lokalFil}
                         opplastetFil={fil.opplastetFil}
                         filListeDispatch={dispatch}
+                        lasterOppStateDispoatch={dispatchLasterOppState}
                       />
                     );
                   })}
