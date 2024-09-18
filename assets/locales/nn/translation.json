@@ -71,7 +71,8 @@
           "fullforRedigering": "Fullfør og bekreft redigering av namngiving av dokumentasjon",
           "manglerFil": "Last opp eller slett dokumentasjon: {{label}}",
           "manglerNavn": "Gje eit namn til dokumentasjonen",
-          "navnForLangt": "Namnet på dokumentasjonen er for langt. Maks {{maxLength}} tegn"
+          "navnForLangt": "Namnet på dokumentasjonen er for langt. Maks {{maxLength}} tegn",
+          "lasterOppFil" : "Vent til fil er lasta opp"
         }
       },
       "radio": {

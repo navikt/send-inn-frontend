@@ -39,7 +39,6 @@ export interface FilData {
   komponentID?: string;
   lokalFil?: File;
   opplastetFil?: OpplastetFil;
-  underEndring?: boolean | undefined;
 }
 
 export const ACTIONS = {
@@ -47,7 +46,6 @@ export const ACTIONS = {
   SLETT_FIL: 'SLETT_FIL',
   ENDRE_FIL: 'ENDRE_FIL',
   RESET_LISTE: 'RESET_LISTE',
-  IN_PROGRESS: 'FIL_ENDRES',
 } as const;
 
 export type ActionType =
@@ -58,7 +56,6 @@ export type ActionType =
   | { type: typeof ACTIONS.RESET_LISTE };
 
 const filListeReducer = (filListe: FilData[], action: ActionType) => {
-  console.debug('Dispatcher:', action.type);
   switch (action.type) {
     case ACTIONS.NY_FIL: {
       return [...filListe, { komponentID: uuidv4(), ...action.filData }];
@@ -69,17 +66,14 @@ const filListeReducer = (filListe: FilData[], action: ActionType) => {
     case ACTIONS.ENDRE_FIL: {
       return filListe.map((fil) => (fil.komponentID === action.filData.komponentID ? action.filData : fil));
     }
-    case ACTIONS.IN_PROGRESS: {
-      return filListe.map((fil) => (fil.komponentID === action.filData.komponentID ? action.filData : fil));
-    }
     case ACTIONS.RESET_LISTE: {
       return initialState;
     }
   }
 };
 
-const lasterOppStateReducer = (value: number, change: number) => {
-  return value + change;
+const lasterOppStateReducer = (currentValue: number, change: number) => {
+  return currentValue + change;
 };
 
 const initialState: FilData[] = [];
@@ -200,12 +194,22 @@ function Vedlegg(props: VedleggProps) {
     });
   };
 
+  const filLastesOppTekst = () => {
+    return t('soknad.vedlegg.annet.feilmelding.lasterOppFil', { label: vedlegg.label });
+  };
+
   const feilId = `vedlegg-feil-${vedlegg.id}`;
 
   const [visFeil, valideringsMelding] = useValidation({
     komponentId: feilId,
     melding: manglerFilTekst(),
     harFeil: !filListe.length && valgtOpplastingStatus === 'IkkeValgt' && !endrer,
+  });
+
+  useValidation({
+    komponentId: feilId,
+    melding: filLastesOppTekst(),
+    harFeil: erAnnetVedlegg && lasterOppState > 0,
   });
 
   useEffect(() => {
@@ -222,7 +226,6 @@ function Vedlegg(props: VedleggProps) {
                 filnavn: item.filnavn,
                 storrelse: item.storrelse,
               },
-              underEndring: false,
             };
             dispatch({
               type: ACTIONS.NY_FIL,
@@ -250,8 +253,6 @@ function Vedlegg(props: VedleggProps) {
     }
     return null; // default text
   };
-
-  const harAktiveFilEndringer = harOpplastetFil && erAnnetVedlegg && filListe.some((fil) => fil.underEndring);
 
   return (
     <VedleggContainer
@@ -358,13 +359,12 @@ function Vedlegg(props: VedleggProps) {
                       type: ACTIONS.NY_FIL,
                       filData: {
                         lokalFil: fil,
-                        underEndring: false,
                       },
                     })
                   }
                 />
 
-                {erAnnetVedlegg && !erSendtInnTidligere && !harAktiveFilEndringer && (
+                {erAnnetVedlegg && !erSendtInnTidligere && (
                   <>
                     <Button
                       onClick={() => {

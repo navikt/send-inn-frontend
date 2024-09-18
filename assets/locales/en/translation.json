@@ -71,7 +71,8 @@
           "fullforRedigering": "Complete and confirm the document description",
           "manglerFil": "Upload or delete document: {{label}}",
           "manglerNavn": "Describe the document",
-          "navnForLangt": "The document description is too long. Max {{maxLength}} characters."
+          "navnForLangt": "The document description is too long. Max {{maxLength}} characters.",
+          "lasterOppFil" : "Wait until file upload is completed"
         }
       },
       "radio": {
