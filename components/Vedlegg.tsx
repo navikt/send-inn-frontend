@@ -185,6 +185,10 @@ function Vedlegg(props: VedleggProps) {
       return t('soknad.hovedSkjema.feilmelding.manglerFil', {
         label: vedlegg.label,
       });
+    if (erAnnetVedlegg && lasterOppState > 0)
+      return t('soknad.vedlegg.annet.feilmelding.manglerFil', {
+        label: vedlegg.label,
+      });
     if (erAnnetVedlegg)
       return t('soknad.vedlegg.annet.feilmelding.manglerFil', {
         label: vedlegg.label,
@@ -203,13 +207,8 @@ function Vedlegg(props: VedleggProps) {
   const [visFeil, valideringsMelding] = useValidation({
     komponentId: feilId,
     melding: manglerFilTekst(),
-    harFeil: !filListe.length && valgtOpplastingStatus === 'IkkeValgt' && !endrer,
-  });
-
-  useValidation({
-    komponentId: feilId,
-    melding: filLastesOppTekst(),
-    harFeil: erAnnetVedlegg && lasterOppState > 0,
+    harFeil:
+      (!filListe.length && valgtOpplastingStatus === 'IkkeValgt' && !endrer) || (erAnnetVedlegg && lasterOppState > 0),
   });
 
   useEffect(() => {
