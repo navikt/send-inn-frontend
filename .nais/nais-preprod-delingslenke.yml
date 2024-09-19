@@ -1,7 +1,7 @@
 apiVersion: 'nais.io/v1alpha1'
 kind: 'Application'
 metadata:
-  name: send-inn-frontend
+  name: send-inn-frontend-delingslenke
   namespace: team-soknad
   labels:
     team: team-soknad
@@ -11,27 +11,23 @@ metadata:
 spec:
   image: '{{ image }}'
   port: 3100
-  observability:
-    autoInstrumentation:
-      enabled: true
-      runtime: nodejs
   liveness:
-    path: /sendinn/api/isAlive
+    path: /sendinn-delingslenke/api/isAlive
     initialDelay: 20
     timeout: 10
     periodSeconds: 5
     failureThreshold: 10
   readiness:
-    path: /sendinn/api/isReady
+    path: /sendinn-delingslenke/api/isReady
     initialDelay: 20
     timeout: 10
   replicas:
-    min: 2
-    max: 6
+    min: 1
+    max: 2
     cpuThresholdPercentage: 50
   prometheus:
     enabled: true
-    path: /sendinn/api/internal/prometheus
+    path: /sendinn-delingslenke/api/internal/prometheus
   resources:
     limits:
       memory: 786Mi
@@ -48,20 +44,21 @@ spec:
     outbound:
       rules:
         - application: innsending-api
-        - application: skjemautfylling
+        - application: skjemautfylling-delingslenke
           namespace: skjemadigitalisering
         - application: nav-dekoratoren
           namespace: personbruker
   ingresses:
-    - 'https://www.nav.no/sendinn'
+    - 'https://www.intern.dev.nav.no/sendinn-delingslenke'
+    - 'https://www.ansatt.dev.nav.no/sendinn-delingslenke'
   env:
     - name: APP_VERSION
       value: {{ app_version }}
     - name: INNSENDING_API_AUDIENCE
-      value: 'prod-gcp:team-soknad:innsending-api'
+      value: 'dev-gcp:team-soknad:innsending-api'
     - name: REMOTE_API_URL
       value: 'http://innsending-api'
     - name: FYLLUT_API_URL
-      value: http://skjemautfylling.skjemadigitalisering/fyllut
+      value: http://skjemautfylling-delingslenke.skjemadigitalisering/fyllut
     - name: LOG_LINK
-      value: https://logs.adeo.no/app/discover#/view/332450f0-0e73-11ee-b29f-0f158c56b75a
+      value: https://logs.adeo.no/app/discover#/view/b80c8870-6da3-11ee-b740-7d0ae42f37a4
