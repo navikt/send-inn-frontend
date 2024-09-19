@@ -373,7 +373,7 @@ function Vedlegg(props: VedleggProps) {
 
                     <Button
                       onClick={() => {
-                        setEndrer(true);
+                        setAutoFocus(true);
                         slettAnnetVedlegg(lasterOppState != 0, vedlegg.id);
                       }}
                       variant="secondary"
