@@ -185,10 +185,6 @@ function Vedlegg(props: VedleggProps) {
       return t('soknad.hovedSkjema.feilmelding.manglerFil', {
         label: vedlegg.label,
       });
-    if (erAnnetVedlegg && lasterOppState > 0)
-      return t('soknad.vedlegg.annet.feilmelding.lasterOppFil', {
-        label: vedlegg.label,
-      });
     if (erAnnetVedlegg)
       return t('soknad.vedlegg.annet.feilmelding.manglerFil', {
         label: vedlegg.label,

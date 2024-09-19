@@ -323,7 +323,6 @@ export function Fil({
       });
     }
     if (status !== FIL_STATUS.STARTER_OPPLASTNING) return;
-    lasterOppStateDispoatch(1);
 
     const lokalFil = filState.filData?.lokalFil;
     const { harFeil, melding } = filValidering(lokalFil);
@@ -357,6 +356,7 @@ export function Fil({
       type: FIL_ACTIONS.SETT_STATUS,
       filState: { status: FIL_STATUS.LASTER_OPP },
     });
+    lasterOppStateDispoatch(1);
 
     axios
       .post(`${API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil`, formData, config)
