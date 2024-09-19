@@ -186,7 +186,7 @@ function Vedlegg(props: VedleggProps) {
         label: vedlegg.label,
       });
     if (erAnnetVedlegg && lasterOppState > 0)
-      return t('soknad.vedlegg.annet.feilmelding.manglerFil', {
+      return t('soknad.vedlegg.annet.feilmelding.lasterOppFil', {
         label: vedlegg.label,
       });
     if (erAnnetVedlegg)
@@ -196,10 +196,6 @@ function Vedlegg(props: VedleggProps) {
     return t('soknad.vedlegg.feilmelding.manglerFil', {
       label: vedlegg.label,
     });
-  };
-
-  const filLastesOppTekst = () => {
-    return t('soknad.vedlegg.annet.feilmelding.lasterOppFil', { label: vedlegg.label });
   };
 
   const feilId = `vedlegg-feil-${vedlegg.id}`;
@@ -375,7 +371,13 @@ function Vedlegg(props: VedleggProps) {
                       {t('soknad.vedlegg.annet.rediger')}
                     </Button>
 
-                    <Button onClick={() => slettAnnetVedlegg(lasterOppState != 0, vedlegg.id)} variant="secondary">
+                    <Button
+                      onClick={() => {
+                        setEndrer(true);
+                        slettAnnetVedlegg(lasterOppState != 0, vedlegg.id);
+                      }}
+                      variant="secondary"
+                    >
                       {t('soknad.vedlegg.annet.slett')}
                     </Button>
                   </>
