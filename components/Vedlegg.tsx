@@ -203,8 +203,7 @@ function Vedlegg(props: VedleggProps) {
   const [visFeil, valideringsMelding] = useValidation({
     komponentId: feilId,
     melding: manglerFilTekst(),
-    harFeil:
-      (!filListe.length && valgtOpplastingStatus === 'IkkeValgt' && !endrer) || (erAnnetVedlegg && lasterOppState > 0),
+    harFeil: !filListe.length && valgtOpplastingStatus === 'IkkeValgt' && !endrer,
   });
 
   useEffect(() => {
