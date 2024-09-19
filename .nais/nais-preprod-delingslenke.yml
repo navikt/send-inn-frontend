@@ -49,7 +49,6 @@ spec:
         - application: nav-dekoratoren
           namespace: personbruker
   ingresses:
-    - 'https://www.intern.dev.nav.no/sendinn-delingslenke'
     - 'https://www.ansatt.dev.nav.no/sendinn-delingslenke'
   env:
     - name: APP_VERSION
