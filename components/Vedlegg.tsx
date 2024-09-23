@@ -395,7 +395,7 @@ function Vedlegg(props: VedleggProps) {
                         lokalFil={fil.lokalFil}
                         opplastetFil={fil.opplastetFil}
                         filListeDispatch={dispatch}
-                        lasterOppStateDispoatch={dispatchLasterOppState}
+                        lasterOppStateDispatch={dispatchLasterOppState}
                       />
                     );
                   })}

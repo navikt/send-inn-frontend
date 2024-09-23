@@ -127,7 +127,7 @@ export interface FilProps {
   lokalFil?: File;
   opplastetFil?: OpplastetFil;
   filListeDispatch: React.Dispatch<ActionType>;
-  lasterOppStateDispoatch: React.Dispatch<number>;
+  lasterOppStateDispatch: React.Dispatch<number>;
 }
 
 export interface FilData {
@@ -252,7 +252,7 @@ export function Fil({
   innsendingsId,
   vedlegg,
   filListeDispatch,
-  lasterOppStateDispoatch,
+  lasterOppStateDispatch,
 }: FilProps) {
   const [filState, dispatch] = useReducer(filReducer, initialState);
   const { status } = filState;
@@ -356,7 +356,7 @@ export function Fil({
       type: FIL_ACTIONS.SETT_STATUS,
       filState: { status: FIL_STATUS.LASTER_OPP },
     });
-    lasterOppStateDispoatch(1);
+    lasterOppStateDispatch(1);
 
     axios
       .post(`${API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil`, formData, config)
@@ -415,7 +415,7 @@ export function Fil({
             progress: 0,
           },
         });
-        lasterOppStateDispoatch(-1);
+        lasterOppStateDispatch(-1);
       });
   }, [
     filState,
