@@ -71,7 +71,8 @@
           "fullforRedigering": "Fullfør og bekreft redigering av beskrivelse av dokumentasjonen",
           "manglerFil": "Last opp eller slett dokumentasjonen: {{label}}",
           "manglerNavn": "Gi en beskrivelse av dokumentasjonen",
-          "navnForLangt": "Beskrivelsen er for lang. Maks {{maxLength}} tegn"
+          "navnForLangt": "Beskrivelsen er for lang. Maks {{maxLength}} tegn",
+          "lasterOppFil" : "Vent til fil er blitt lastet opp"
         }
       },
       "radio": {

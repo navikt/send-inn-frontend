@@ -84,6 +84,16 @@ describe('Tester validering', () => {
       cy.get('li').should('have.length', 1);
     });
 
+    // Laster opp fil og forsøker å slette mens
+    cy.get('[data-cy="VedleggContainer"]')
+      .eq(3)
+      .within(() => {
+        cy.get('[data-cy="filvelgerKnapp"]').click();
+        cy.get('[data-cy="filvelgerKnapp"]').selectFile('cypress/fixtures/MarcusAurelius.jpeg');
+        cy.contains(translations.soknad.vedlegg.annet.slett).click();
+        cy.get('[data-cy="fileUploadSuccessIkon"]').should('be.visible');
+      });
+
     cy.get('[data-cy="VedleggContainer"]')
       .eq(3)
       .within(() => {

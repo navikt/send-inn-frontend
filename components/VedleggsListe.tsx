@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import useSWR from 'swr';
 import Kvittering from '../components/Kvittering';
 import SkjemaNedlasting from '../components/SkjemaNedlasting';
-import { ExtendedVedleggType } from '../components/Vedlegg';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { FyllutForm } from '../types/fyllutForm';
 import { KvitteringsDto, OpplastingsStatus, SoknadType, VedleggType } from '../types/types';
@@ -16,6 +15,7 @@ import { useLagringsProsessContext } from './LagringsProsessProvider';
 import LastOppVedlegg from './LastOppVedlegg';
 import SkjemaOpplasting from './SkjemaOpplasting';
 import { SoknadModalProvider } from './SoknadModalProvider';
+import { ExtendedVedleggType } from './Vedlegg';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -63,7 +63,7 @@ interface VedleggslisteContextType {
   slettSoknad: () => void;
   oppdaterLokalOpplastingStatus: (id: number, opplastingsStatus: OpplastingsStatus) => void;
   leggTilVedlegg: (vedlegg: ExtendedVedleggType) => void;
-  slettAnnetVedlegg: (vedleggId: number) => void;
+  slettAnnetVedlegg: (harAktiveEndringer: boolean, vedleggId: number) => Promise<void>;
   fyllutForm?: FyllutForm;
   fyllutIsLoading: boolean;
 }
@@ -204,9 +204,13 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
   const leggTilVedlegg = (vedlegg: ExtendedVedleggType) => {
     setVedleggsListe((forrigeVedleggsliste) => [...forrigeVedleggsliste, vedlegg]);
   };
-  const slettAnnetVedlegg = (vedleggsId: number) => {
-    axios
-      .delete(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${vedleggsId}`)
+
+  const slettAnnetVedlegg = async (harAktiveEndringer: boolean, vedleggsId: number) => {
+    if (harAktiveEndringer) return;
+
+    await nyLagringsProsess(
+      axios.delete(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${vedleggsId}`),
+    )
       .then(() => {
         setVedleggsListe((forrigeVedleggsliste) => forrigeVedleggsliste.filter((el) => el.id !== vedleggsId));
       })
