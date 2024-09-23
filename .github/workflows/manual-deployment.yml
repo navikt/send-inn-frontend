@@ -11,6 +11,7 @@ on:
         options:
           - preprod
           - preprod-alt
+          - preprod-delingslenke
           - prod
 permissions:
   contents: 'read'
@@ -26,6 +27,11 @@ jobs:
   preprod-alt:
     if: inputs.environment == 'preprod-alt'
     uses: ./.github/workflows/preprod-alt.yml
+    secrets: inherit
+
+  preprod-delingslenke:
+    if: inputs.environment == 'preprod-delingslenke'
+    uses: ./.github/workflows/preprod-delingslenke.yml
     secrets: inherit
 
   prod:
