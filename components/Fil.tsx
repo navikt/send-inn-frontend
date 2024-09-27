@@ -171,7 +171,7 @@ const filValidering = (fil?: File) => {
     return { harFeil: true, melding: 'filForStor' } as const;
   }
   if (!GYLDIGE_FILFORMATER.includes(fil.type)) {
-    sendLog({ message: `UgyldigFilformat: type: ${fil.type}`, level: 'warn' });
+    sendLog({ message: `UgyldigFilformat size - ${fil.size}, type: ${fil.type}`, level: 'warn' });
     return { harFeil: true, melding: 'ugyldigFilformat' } as const;
   }
 
