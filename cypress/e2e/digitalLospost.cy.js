@@ -20,7 +20,7 @@ describe('Digital løspost', () => {
   it('validates and submits løspost application', () => {
     cy.visit('/lospost-default');
     cy.findByRole('button', { name: 'Send til NAV' }).should('exist').click();
-    cy.findByRole('region', { name: 'Du må fikse disse feilene før du kan sende inn søknad.' })
+    cy.get('[data-cy=valideringsfeil]')
       .should('exist')
       .within(() => {
         cy.findByRole('link', { name: `Last opp ${vedlegg.label}` })
