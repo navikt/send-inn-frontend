@@ -21,7 +21,7 @@
     "@navikt/aksel-icons": "^7.1.2",
     "@navikt/ds-css": "^7.1.2",
     "@navikt/ds-react": "^7.1.2",
-    "@navikt/nav-dekoratoren-moduler": "^2.1.6",
+    "@navikt/nav-dekoratoren-moduler": "^3.1.0",
     "@sentry/nextjs": "^8.33.1",
     "axios": "^1.7.7",
     "html-react-parser": "^5.1.17",
