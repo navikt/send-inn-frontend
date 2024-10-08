@@ -1,4 +1,4 @@
-import { DecoratorComponents, fetchDecoratorReact } from '@navikt/nav-dekoratoren-moduler/ssr';
+import { DecoratorComponentsReact, fetchDecoratorReact } from '@navikt/nav-dekoratoren-moduler/ssr';
 import getConfig from 'next/config';
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
@@ -6,7 +6,7 @@ import { ServerStyleSheet } from 'styled-components';
 const { publicRuntimeConfig } = getConfig();
 
 interface Props {
-  Decorator: DecoratorComponents;
+  Decorator: DecoratorComponentsReact;
 }
 export default class MyDocument extends Document<Props> {
   static async getInitialProps(ctx: DocumentContext) {
@@ -45,12 +45,12 @@ export default class MyDocument extends Document<Props> {
     }
   }
   render() {
-    const { Styles, Scripts, Header, Footer } = this.props.Decorator;
+    const { HeadAssets, Scripts, Header, Footer } = this.props.Decorator;
 
     const disableDecorator = process.env.DECORATOR_DISABLED !== 'true';
     return (
       <Html style={{ scrollBehavior: 'smooth' }}>
-        <Head>{disableDecorator && <Styles />}</Head>
+        <Head>{disableDecorator && <HeadAssets />}</Head>
         <body>
           {disableDecorator && <Header />}
           <Main />
