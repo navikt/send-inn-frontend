@@ -12,11 +12,10 @@ describe('Tester validering', () => {
     cy.injectAxe();
     cy.get('[data-cy="nesteStegKnapp"]').click();
 
-    cy.focused()
-      .should('have.attr', 'data-cy', 'valideringsfeil')
-      .within(() => {
-        cy.get('li').should('have.length', 1);
-      });
+    cy.get('[data-cy=valideringsfeil]').within(() => {
+      cy.get('h2').should('have.focus');
+      cy.get('li').should('have.length', 1);
+    });
 
     cy.checkA11y('#__next');
 
@@ -41,11 +40,10 @@ describe('Tester validering', () => {
 
     cy.get('[data-cy="sendTilNAVKnapp"]').click();
 
-    cy.focused()
-      .should('have.attr', 'data-cy', 'valideringsfeil')
-      .within(() => {
-        cy.get('li').should('have.length', 4);
-      });
+    cy.get('[data-cy=valideringsfeil]').within(() => {
+      cy.get('h2').should('have.focus');
+      cy.get('li').should('have.length', 4);
+    });
 
     cy.checkA11y('#__next');
 

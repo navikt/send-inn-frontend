@@ -23,11 +23,10 @@ describe('Tester validering', () => {
 
     cy.get('[data-cy="sendTilNAVKnapp"]').click();
 
-    cy.focused()
-      .should('have.attr', 'data-cy', 'valideringsfeil')
-      .within(() => {
-        cy.get('li').should('have.length', 5);
-      });
+    cy.get('[data-cy=valideringsfeil]').within(() => {
+      cy.get('h2').should('have.focus');
+      cy.get('li').should('have.length', 5);
+    });
 
     cy.checkA11y('#__next');
 
