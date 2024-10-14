@@ -157,7 +157,13 @@ export interface FilActionType {
   filState?: FilState;
 }
 
-const GYLDIGE_FILFORMATER = ['application/pdf', 'image/jpeg', 'image/png'];
+const GYLDIGE_FILFORMATER = [
+  'application/pdf',
+  'image/jpeg',
+  'image/png',
+  ' text/plain',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+];
 
 const filValidering = (fil?: File) => {
   if (!fil) {
