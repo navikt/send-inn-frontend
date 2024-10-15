@@ -161,7 +161,7 @@ const GYLDIGE_FILFORMATER = [
   'application/pdf',
   'image/jpeg',
   'image/png',
-  ' text/plain',
+  'text/plain',
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 ];
 

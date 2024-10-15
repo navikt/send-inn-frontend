@@ -13,7 +13,7 @@
     "title": "You have not uploaded any new documents"
   },
   "illegalAction.notSupportedFileFormat": {
-    "message": "Wrong file format. It is only allowed to upload files of type PDF, JPEG/JPG and PNG."
+    "message": "Wrong file format. It is only allowed to upload files of type TXT, DOCX, PDF, JPEG/JPG and PNG."
   },
   "illegalAction.fileSizeSumTooLarge": {
     "message": "The sum of the size of uploaded files for the entire application exceeds the maximum allowed size. The maximum size allowed is 150MB in total."
