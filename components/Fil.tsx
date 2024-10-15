@@ -165,6 +165,8 @@ const GYLDIGE_FILFORMATER = [
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 ];
 
+const legal_filforats = GYLDIGE_FILFORMATER.join(', ');
+
 const filValidering = (fil?: File) => {
   if (!fil) {
     return { harFeil: true, melding: 'filIkkeValgt' } as const;
@@ -177,7 +179,10 @@ const filValidering = (fil?: File) => {
     return { harFeil: true, melding: 'filForStor' } as const;
   }
   if (!GYLDIGE_FILFORMATER.includes(fil.type)) {
-    sendLog({ message: `UgyldigFilformat size - ${fil.size}, type: ${fil.type}`, level: 'warn' });
+    sendLog({
+      message: `UgyldigFilformat size - ${fil.size}, type: ${fil.type}, gyldige formater er ${legal_filforats}`,
+      level: 'warn',
+    });
     return { harFeil: true, melding: 'ugyldigFilformat' } as const;
   }
 
