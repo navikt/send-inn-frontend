@@ -103,7 +103,7 @@ export function Filvelger(props: FilvelgerProps) {
         autoFocus={autoFocus}
         id={inputId}
         {...rest}
-        accept="image/png, image/jpeg, .pdf, .docx, .txt"
+        accept="image/png, image/jpeg, .pdf, .docx, .txt, text/plain"
         multiple={allowMultiple}
         type="file"
         // TODO?: Støtte for drag&drop. Kan ikke bruke display: none. Eksempel på løsning: https://stackoverflow.com/a/44277812/15886307
