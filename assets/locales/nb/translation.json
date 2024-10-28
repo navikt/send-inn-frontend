@@ -181,7 +181,7 @@
     "filForStor": "Størrelsen på filen overskrider maksimal tillatt størrelse. Den maksimale størrelsen er 50MB.",
     "filIkkeValgt": "En feil oppsto under valg av fil. Prøv på nytt",
     "filUtenInnhold": "Valgt fil mangler innhold, velg en fil som er større en 0 kB",
-    "ugyldigFilformat": "Invalid file format. It is only allowed to upload files of type TXT, DOCX, PDF, JPEG/JPG and PNG",
+    "ugyldigFilformat": "Feil filformat, det er bare lov å laste opp filer av typen TXT, DOCX, PDF, JPEG/JPG og PNG",
     "paakrevd": "Du må fylle ut: {{felt}}",
     "maksLengde": "{{felt}} kan ikke være mer enn {{maksLengde}} tegn"
   },
