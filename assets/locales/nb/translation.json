@@ -96,7 +96,7 @@
           "feil": "Feil ved opplasting av “{{filnavn}}”"
         },
         "feilmelding": {
-          "provIgjenEllerFjern": "Fullfør opplasting av “{{filnavn}}”, eller fjern feil",
+          "provIgjenEllerFjern": "Fullfør opplasting av “{{filnavn}}”, eller fjern fil",
           "ikkeFerdigOpplastet": "Vent til fil er ferdig opplastet"
         }
       }
