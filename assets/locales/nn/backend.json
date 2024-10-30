@@ -25,6 +25,6 @@
     "message": "Fila du har lasta opp inneheld virus. Prøv igjen med ei anna fil."
   },
   "illegalAction.fileWithTooManyPages": {
-    "message": "Fila du lasta opp har for mange sider. Det kan vere maksimalt 200 sider."
+    "message": "Fila du lasta opp har for mange sider. Det kan vere maksimalt 1000 sider."
   }
 }

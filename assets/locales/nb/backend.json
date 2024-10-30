@@ -25,7 +25,7 @@
     "message": "Filen du har lastet opp inneholder virus. Prøv igjen med en annen fil."
   },
   "illegalAction.fileWithTooManyPages": {
-    "message": "Filen du lastet opp har for mange sider. Det kan være maksimalt 200 sider."
+    "message": "Filen du lastet opp har for mange sider. Det kan være maksimalt 1000 sider."
   }
    
 }

@@ -25,6 +25,6 @@
     "message": "The uploaded file contains a virus. Try again with another file."
   },
   "illegalAction.fileWithTooManyPages": {
-    "message": "Uploaded file contains too many pages. Maximum number of pages is 200."
+    "message": "Uploaded file contains too many pages. Maximum number of pages is 1000."
   }
 }
