@@ -96,7 +96,7 @@
           "feil": "Feil ved opplasting av “{{filnavn}}”"
         },
         "feilmelding": {
-          "provIgjenEllerFjern": "Fullfør opplasting av “{{filnavn}}”, eller fjern feil",
+          "provIgjenEllerFjern": "Fullfør opplasting av “{{filnavn}}”, eller fjern fil",
           "ikkeFerdigOpplastet": "Vent til fil er ferdig opplastet"
         }
       }
@@ -181,7 +181,7 @@
     "filForStor": "Størrelsen på filen overskrider maksimal tillatt størrelse. Den maksimale størrelsen er 50MB.",
     "filIkkeValgt": "En feil oppsto under valg av fil. Prøv på nytt",
     "filUtenInnhold": "Valgt fil mangler innhold, velg en fil som er større en 0 kB",
-    "ugyldigFilformat": "Invalid file format. It is only allowed to upload files of type PDF, JPEG/JPG and PNG",
+    "ugyldigFilformat": "Feil filformat, det er bare lov å laste opp filer av typen TXT, DOCX, PDF, JPEG/JPG og PNG",
     "paakrevd": "Du må fylle ut: {{felt}}",
     "maksLengde": "{{felt}} kan ikke være mer enn {{maksLengde}} tegn"
   },
