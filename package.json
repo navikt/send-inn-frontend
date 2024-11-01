@@ -26,7 +26,7 @@
     "axios": "^1.7.7",
     "html-react-parser": "^5.1.17",
     "jose": "^5.9.3",
-    "next": "^14.2.14",
+    "next": "^15.0.2",
     "openid-client": "^5.7.0",
     "prom-client": "^15.1.3",
     "react": "^18.3.1",
