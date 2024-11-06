@@ -26,5 +26,8 @@
   },
   "illegalAction.fileWithTooManyPages": {
     "message": "Fila du lasta opp har for mange sider. Det kan vere maksimalt 1000 sider."
+  },
+  "illegalAction.typeDetectionOrConversionError": {
+    "message": "Det er noko gale med fila du prøver å laste opp. Me klarer ikkje konvertere fila til PDF. Me tilrår at du lagrar fila som PDF sjølv før du lastar den opp."
   }
 }

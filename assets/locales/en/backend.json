@@ -26,5 +26,9 @@
   },
   "illegalAction.fileWithTooManyPages": {
     "message": "Uploaded file contains too many pages. Maximum number of pages is 1000."
+  },
+  "illegalAction.typeDetectionOrConversionError": {
+    "message": "There is something wrong with the file you are trying to upload. We are unable to convert the file to PDF. We recommend that you save the file as a PDF before uploading it."
   }
+
 }
