@@ -168,6 +168,7 @@ const GYLDIGE_FILFORMATER = [
   'application/msword',
   'application/vnd.oasis.opendocument.text',
   'application/rtf',
+  'text/rtf',
   'text/plain',
 ];
 
