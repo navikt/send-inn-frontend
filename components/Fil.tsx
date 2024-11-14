@@ -161,8 +161,14 @@ const GYLDIGE_FILFORMATER = [
   'application/pdf',
   'image/jpeg',
   'image/png',
+  'image/bmp',
+  'image/tiff',
+  'image/gif',
   'text/plain',
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/msword',
+  'application/vnd.oasis.opendocument.text',
+  'application/rtf',
 ];
 
 const legal_filforats = GYLDIGE_FILFORMATER.join(', ');
