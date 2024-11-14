@@ -180,7 +180,7 @@ const filValidering = (fil?: File) => {
   }
   if (!GYLDIGE_FILFORMATER.includes(fil.type)) {
     sendLog({
-      message: `UgyldigFilformat size - ${fil.size}, type: ${fil.type}, gyldige formater er ${legal_filforats}`,
+      message: `UgyldigFilformat size - ${fil.size}, type: ${fil.type || fil.name}, gyldige formater er ${legal_filforats}`,
       level: 'warn',
     });
     return { harFeil: true, melding: 'ugyldigFilformat' } as const;
