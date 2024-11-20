@@ -181,7 +181,7 @@
     "filForStor": "Storleiken på fila overskrid maksimal tillaten storleik. Den maksimale storleiken er 50MB.",
     "filIkkeValgt": "Ein feil oppstod under val av fil. Prøv på nytt",
     "filUtenInnhold": "Vald fil manglar innhald, vel ei fil som er større ein 0 kB",
-    "ugyldigFilformat": "Feil filformat, det er berre lov å laste opp filer av typen TXT, DOCX, PDF, JPEG/JPG og PNG",
+    "ugyldigFilformat": "Feil filformat, det er berre lov å laste opp filer av typen PDF, JPEG/JPG, PNG, TIFF/TIF, BMP, GIF, DOCX/DOC, ODT, RTF og TXT",
     "paakrevd": "Du må fylle ut: {{felt}}",
     "maksLengde": "{{felt}} kan ikkje vera meir enn {{maksLengde}} teikn"
   },
