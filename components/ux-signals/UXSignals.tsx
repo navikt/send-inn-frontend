@@ -8,7 +8,7 @@ interface Props {
 const UXSignals = ({ id, demo = false }: Props) => {
   return (
     <section>
-      <Script type="module" strategy="lazyOnload" src="https://uxsignals-frontend.uxsignals.app.iterate.no/embed.js" />
+      <Script type="module" strategy="lazyOnload" src="https://widget.uxsignals.com/embed.js" />
       <div data-uxsignals-embed={id} data-uxsignals-mode={demo === true ? 'demo' : ''} style={{ maxWidth: '620px' }} />
     </section>
   );
