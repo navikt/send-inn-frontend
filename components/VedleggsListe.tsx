@@ -100,7 +100,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
 
   const router = useRouter();
   const { showError } = useErrorMessage();
-  const { lagrerNaa, nyLagringsProsess } = useLagringsProsessContext();
+  const { lagrer, lagrerNaa, nyLagringsProsess } = useLagringsProsessContext();
 
   const [vedleggsliste, setVedleggsListe] = useState<VedleggType[]>(soknad.vedleggsListe);
 
@@ -264,6 +264,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
               vedlegg={vedleggsliste.find((x) => x.erHoveddokument)!}
               soknad={soknad}
               oppdaterVisningsSteg={oppdaterVisningsSteg}
+              laster={lagrer}
             />
           )}
           {/* vedleggssiden, steg 3 (eller 1) */}
