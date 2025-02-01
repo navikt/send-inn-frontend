@@ -49,8 +49,6 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
     setSlettSoknadModal(false);
     setSendInnUferdigSoknadModal(false);
     setSendInnKomplettSoknadModal(false);
-  } else if (lagrer) {
-    setSlettSoknadModal(false);
   }
 
   const openForstettSenereSoknadModal = useCallback(() => {
