@@ -156,7 +156,11 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
   };
 
   const slettSoknad = () => {
-    logger.info('Laster= ${laster}');
+    if (lagrer) {
+      logger.info('Laster en eller flere filer');
+    } else {
+      logger.info('Laster ikke filer');
+    }
     if (lagrerNaa()) return;
 
     nyLagringsProsess(axios.delete(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad?.innsendingsId}`))
