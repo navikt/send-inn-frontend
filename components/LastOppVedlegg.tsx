@@ -206,7 +206,15 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
 
         <Button
           onClick={() => {
-            openSlettSoknadModal();
+            setIsLoading(true);
+            ventPaaLagring()
+              .then(() => {
+                openSlettSoknadModal();
+              })
+              .catch(() => console.error('Feil oppsto ved lagring, så kan ikke starte innsending'))
+              .finally(() => {
+                setIsLoading(false);
+              });
           }}
           variant="tertiary"
           data-cy="slettSoknadKnapp"
