@@ -82,7 +82,9 @@ export const SideValideringProvider = ({
 
   useEffect(() => {
     if (fokus) {
-      errorRef?.current && errorRef.current.focus();
+      if (errorRef.current) {
+        errorRef.current.focus();
+      }
       setFokus(false);
     }
   }, [fokus, setFokus]);
@@ -111,7 +113,7 @@ export const SideValideringProvider = ({
       {harFeil && visValideringsfeil && (
         <ErrorSummary
           data-cy="valideringsfeil"
-          heading="Du må fikse disse feilene før du kan sende inn søknad."
+          heading="Du må fikse disse feilene før du kan sende inn søknad eller slette søknad."
           ref={errorRef}
         >
           {valideringsFeil.map((validering) => (

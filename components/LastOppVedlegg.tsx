@@ -205,13 +205,19 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
         </Button>
 
         <Button
+          loading={isLoading}
           onClick={() => {
+            if (lastOppVedleggHarFeil) {
+              setLastOppVedleggValideringfokus(true);
+              setVisLastOppVedleggFeil(true);
+              return;
+            }
             setIsLoading(true);
             ventPaaLagring()
               .then(() => {
                 openSlettSoknadModal();
               })
-              .catch(() => console.error('Feil oppsto ved lagring, så kan ikke starte innsending'))
+              .catch(() => console.error('Feil oppsto ved lagring, så kan ikke slette søknad'))
               .finally(() => {
                 setIsLoading(false);
               });
