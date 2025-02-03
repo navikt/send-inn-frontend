@@ -141,6 +141,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
     (visningsType !== 'dokumentinnsending' || (visningsType === 'dokumentinnsending' && visningsSteg === 2));
 
   const onSendInn = async () => {
+    sendLog({ message: `In onSendInn: Laster = ${lagrer}, lagrerNaa()=${lagrerNaa()}`, level: 'info' });
     if (lagrerNaa()) return;
 
     await nyLagringsProsess(axios.post(`${publicRuntimeConfig.apiUrl}/frontend/v1/sendInn/${soknad?.innsendingsId}`))
@@ -156,7 +157,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
   };
 
   const slettSoknad = () => {
-    sendLog({ message: `Laster = ${lagrer}, lagrerNaa()=${lagrerNaa()}`, level: 'info' });
+    sendLog({ message: `In slettSoknad: Laster = ${lagrer}, lagrerNaa()=${lagrerNaa()}`, level: 'info' });
     if (lagrerNaa()) return;
 
     nyLagringsProsess(axios.delete(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad?.innsendingsId}`))
