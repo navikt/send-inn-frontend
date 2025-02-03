@@ -101,7 +101,10 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
         heading={t('modal.slett.tittel')}
         open={slettSoknadModal}
         setOpen={setSlettSoknadModal}
-        onAccept={slettSoknad}
+        onAccept={async () => {
+          await slettSoknad();
+          setSlettSoknadModal(false);
+        }}
         acceptButtonText={t('modal.slett.accept')}
         cancelButtonText={t('modal.slett.cancel')}
         isLoading={lagrer}

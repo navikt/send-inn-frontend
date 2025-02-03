@@ -156,11 +156,11 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
       });
   };
 
-  const slettSoknad = () => {
+  const slettSoknad = async () => {
     sendLog({ message: `In slettSoknad: Laster = ${lagrer}, lagrerNaa()=${lagrerNaa()}`, level: 'info' });
     if (lagrerNaa()) return;
 
-    nyLagringsProsess(axios.delete(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad?.innsendingsId}`))
+    await nyLagringsProsess(axios.delete(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad?.innsendingsId}`))
       .then(() => {
         resetState();
         navigerTilMinSide();
