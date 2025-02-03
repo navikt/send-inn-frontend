@@ -208,6 +208,11 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
   };
 
   const slettAnnetVedlegg = async (harAktiveEndringer: boolean, vedleggsId: number) => {
+    sendLog({
+      message: `slettAnnetVedlegg: Laster = ${lagrer}, lagrerNaa()=${lagrerNaa()}, harAktiveEndringer=${harAktiveEndringer}`,
+      level: 'info',
+    });
+
     if (harAktiveEndringer) return;
 
     await nyLagringsProsess(
