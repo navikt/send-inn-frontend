@@ -110,6 +110,7 @@
       "avbryt": "Cancel",
       "slett": "Delete form"
     },
+    "opptatt": "You can not send in or remove application until the problems below are solved.",
     "beskjedOmAvvik": "Have you experienced problems submitting documentation? Please upload the documentation again and press Submit."
   },
   "filvelger": {
