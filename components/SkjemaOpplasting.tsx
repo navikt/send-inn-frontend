@@ -20,7 +20,6 @@ export interface SkjemaOpplastingdProps {
   vedlegg: VedleggType;
   soknad: SoknadType;
   oppdaterVisningsSteg: (nr: number) => void;
-  laster: boolean;
 }
 
 function SkjemaOpplasting(props: SkjemaOpplastingdProps) {
@@ -78,20 +77,17 @@ function SkjemaOpplasting(props: SkjemaOpplastingdProps) {
             {t('soknad.knapper.forrige')}
           </Button>
         </ButtonContainer>
-        if (!laster){' '}
-        {
-          <ButtonContainer>
-            <Button
-              onClick={() => {
-                openSlettSoknadModal();
-              }}
-              variant="tertiary"
-              data-cy="slettSoknadKnapp"
-            >
-              {t('soknad.knapper.avbryt')}
-            </Button>
-          </ButtonContainer>
-        }
+        <ButtonContainer>
+          <Button
+            onClick={() => {
+              openSlettSoknadModal();
+            }}
+            variant="tertiary"
+            data-cy="slettSoknadKnapp"
+          >
+            {t('soknad.knapper.avbryt')}
+          </Button>
+        </ButtonContainer>
       </SideValideringProvider>
     </>
   );

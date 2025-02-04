@@ -9,7 +9,6 @@ import SkjemaNedlasting from '../components/SkjemaNedlasting';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { FyllutForm } from '../types/fyllutForm';
 import { KvitteringsDto, OpplastingsStatus, SoknadType, VedleggType } from '../types/types';
-import { sendLog } from '../utils/frontendLogger';
 import { navigerTilMinSide } from '../utils/navigerTilMinSide';
 import { AutomatiskInnsending } from './AutomatiskInnsending';
 import { useLagringsProsessContext } from './LagringsProsessProvider';
@@ -101,7 +100,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
 
   const router = useRouter();
   const { showError } = useErrorMessage();
-  const { lagrer, lagrerNaa, nyLagringsProsess } = useLagringsProsessContext();
+  const { lagrerNaa, nyLagringsProsess } = useLagringsProsessContext();
 
   const [vedleggsliste, setVedleggsListe] = useState<VedleggType[]>(soknad.vedleggsListe);
 
@@ -141,7 +140,6 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
     (visningsType !== 'dokumentinnsending' || (visningsType === 'dokumentinnsending' && visningsSteg === 2));
 
   const onSendInn = async () => {
-    sendLog({ message: `In onSendInn: Laster = ${lagrer}, lagrerNaa()=${lagrerNaa()}`, level: 'info' });
     if (lagrerNaa()) return;
 
     await nyLagringsProsess(axios.post(`${publicRuntimeConfig.apiUrl}/frontend/v1/sendInn/${soknad?.innsendingsId}`))
@@ -157,7 +155,6 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
   };
 
   const slettSoknad = async () => {
-    sendLog({ message: `In slettSoknad: Laster = ${lagrer}, lagrerNaa()=${lagrerNaa()}`, level: 'info' });
     if (lagrerNaa()) return;
 
     await nyLagringsProsess(axios.delete(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad?.innsendingsId}`))
@@ -209,11 +206,6 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
   };
 
   const slettAnnetVedlegg = async (harAktiveEndringer: boolean, vedleggsId: number) => {
-    sendLog({
-      message: `slettAnnetVedlegg: Laster = ${lagrer}, lagrerNaa()=${lagrerNaa()}, harAktiveEndringer=${harAktiveEndringer}`,
-      level: 'info',
-    });
-
     if (harAktiveEndringer) return;
 
     await nyLagringsProsess(
@@ -272,7 +264,6 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
               vedlegg={vedleggsliste.find((x) => x.erHoveddokument)!}
               soknad={soknad}
               oppdaterVisningsSteg={oppdaterVisningsSteg}
-              laster={lagrer}
             />
           )}
           {/* vedleggssiden, steg 3 (eller 1) */}
