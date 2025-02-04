@@ -111,7 +111,7 @@
       "slett": "Avbryt og slett"
     },
     "beskjedOmAvvik": "Får du ikkje ettersendt dokumentasjon? Då må du lasta opp dokumentasjonen på nytt og trykkja Send inn.",
-    "opptatt": "Du kan ikkje sende inn søknad eller slette søknad medan problema under eksisterer."
+    "opptatt": "Du kan ikkje senda inn søknad eller sletta søknad før problema under er løyste"
   },
   "filvelger": {
     "defaultText": "Velg dine filer"
