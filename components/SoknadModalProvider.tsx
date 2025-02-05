@@ -3,7 +3,6 @@ import { createContext, useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { datoOmXDager, formatertDato } from '../utils/dato';
 import { navigerTilMinSide } from '../utils/navigerTilMinSide';
-import { isLospost } from '../utils/soknad';
 import { useErrorMessageContext } from './ErrorMessageProvider';
 import { FellesModal } from './FellesModal';
 import { useLagringsProsessContext } from './LagringsProsessProvider';
@@ -102,7 +101,10 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
         heading={t('modal.slett.tittel')}
         open={slettSoknadModal}
         setOpen={setSlettSoknadModal}
-        onAccept={slettSoknad}
+        onAccept={async () => {
+          await slettSoknad();
+          setSlettSoknadModal(false);
+        }}
         acceptButtonText={t('modal.slett.accept')}
         cancelButtonText={t('modal.slett.cancel')}
         isLoading={lagrer}

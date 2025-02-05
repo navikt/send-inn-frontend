@@ -1,4 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useReducer, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { ErrorSummary } from '@navikt/ds-react';
 
@@ -82,7 +83,9 @@ export const SideValideringProvider = ({
 
   useEffect(() => {
     if (fokus) {
-      errorRef?.current && errorRef.current.focus();
+      if (errorRef.current) {
+        errorRef.current.focus();
+      }
       setFokus(false);
     }
   }, [fokus, setFokus]);
@@ -100,6 +103,9 @@ export const SideValideringProvider = ({
   const slettValidering = useCallback((validering: ValideringsType) => {
     dispatch({ type: ACTIONS.SLETT, validering });
   }, []);
+
+  const { t } = useTranslation();
+
   return (
     <ValideringsContext.Provider
       value={{
@@ -109,11 +115,7 @@ export const SideValideringProvider = ({
       }}
     >
       {harFeil && visValideringsfeil && (
-        <ErrorSummary
-          data-cy="valideringsfeil"
-          heading="Du må fikse disse feilene før du kan sende inn søknad."
-          ref={errorRef}
-        >
+        <ErrorSummary data-cy="valideringsfeil" heading={t('soknad.opptatt')} ref={errorRef}>
           {valideringsFeil.map((validering) => (
             <ErrorSummary.Item key={validering.valideringsId} href={'#' + validering.komponentId}>
               {validering.melding}

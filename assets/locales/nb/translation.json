@@ -110,7 +110,8 @@
       "avbryt": "Avbryt",
       "slett": "Avbryt og slett"
     },
-    "beskjedOmAvvik": "Får du ikke ettersendt dokumentasjon? Da må du laste opp dokumentasjonen på nytt og trykke Send inn."
+    "beskjedOmAvvik": "Får du ikke ettersendt dokumentasjon? Da må du laste opp dokumentasjonen på nytt og trykke Send inn.",
+    "opptatt": "Du kan ikke sende inn søknad eller slette søknad før problemene under er løst"
   },
   "filvelger": {
     "defaultText": "Velg dine filer"
