@@ -9,6 +9,7 @@ import SkjemaNedlasting from '../components/SkjemaNedlasting';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { FyllutForm } from '../types/fyllutForm';
 import { KvitteringsDto, OpplastingsStatus, SoknadType, VedleggType } from '../types/types';
+import { sendLog } from '../utils/frontendLogger';
 import { navigerTilMinSide } from '../utils/navigerTilMinSide';
 import { AutomatiskInnsending } from './AutomatiskInnsending';
 import { useLagringsProsessContext } from './LagringsProsessProvider';
@@ -155,7 +156,10 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
   };
 
   const slettSoknad = async () => {
-    if (lagrerNaa()) return;
+    if (lagrerNaa()) {
+      sendLog({ message: 'In slettSoknad lagrer() == true', level: 'warn' });
+      return;
+    }
 
     await nyLagringsProsess(axios.delete(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad?.innsendingsId}`))
       .then(() => {

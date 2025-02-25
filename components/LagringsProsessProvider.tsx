@@ -1,4 +1,5 @@
 import React, { createContext, useCallback, useContext, useRef, useState } from 'react';
+import { sendLog } from '../utils/frontendLogger';
 
 interface LagringsProsessProviderProps {
   children?: React.ReactNode;
@@ -33,9 +34,17 @@ export const LagringsProsessProvider = ({ children }: LagringsProsessProviderPro
     });
   }, []);
   const fjernLagringsProsess = useCallback(<T,>(promise: Promise<T>) => {
+    sendLog({
+      message: `In fjernLagringsProsess - start, aktiveLagringsProsesserRef= ${aktiveLagringsProsesserRef.current.length}`,
+      level: 'warn',
+    });
     setAktiveLagringsProsesser((a) => {
       const nyListe = a.filter((p) => p !== promise);
       aktiveLagringsProsesserRef.current = nyListe;
+      sendLog({
+        message: `In fjernLagringsProsess - retur, aktiveLagringsProsesserRef= ${aktiveLagringsProsesserRef.current.length}`,
+        level: 'warn',
+      });
       return nyListe;
     });
   }, []);
@@ -52,6 +61,11 @@ export const LagringsProsessProvider = ({ children }: LagringsProsessProviderPro
   );
 
   const ventPaaLagring = useCallback(async () => {
+    sendLog({
+      message: `In ventPaaLagring, aktiveLagringsProsesserRef= ${aktiveLagringsProsesserRef.current.length}`,
+      level: 'warn',
+    });
+
     while (aktiveLagringsProsesserRef.current.length) {
       await Promise.all(aktiveLagringsProsesserRef.current);
     }
@@ -59,6 +73,10 @@ export const LagringsProsessProvider = ({ children }: LagringsProsessProviderPro
   }, []);
 
   const lagrerNaa = useCallback(() => {
+    sendLog({
+      message: `In lagrerNaa, aktiveLagringsProsesserRef= ${aktiveLagringsProsesserRef.current.length}`,
+      level: 'warn',
+    });
     return aktiveLagringsProsesserRef.current.length !== 0;
   }, []);
 
