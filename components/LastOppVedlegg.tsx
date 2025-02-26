@@ -218,27 +218,14 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
         <Button
           loading={isLoading}
           onClick={() => {
-            /*
-            if (lastOppVedleggHarFeil) {
-              setLastOppVedleggValideringfokus(true);
-              setVisLastOppVedleggFeil(true);
-              return;
-            }
-*/
             setIsLoading(true);
-            ventPaaLagring()
-              .then(() => {
-                if (antallUnderOpplasting != 0) {
-                  customErrorMessage({
-                    message: t('feil.manglerHovedskjema'),
-                  });
-                }
-                openSlettSoknadModal();
-              })
-              .catch(() => console.error('Feil oppsto ved lagring, så kan ikke slette søknad'))
-              .finally(() => {
-                setIsLoading(false);
+            if (antallUnderOpplasting !== 0) {
+              customErrorMessage({
+                message: t('feil.manglerHovedskjema'),
               });
+            }
+            openSlettSoknadModal();
+            setIsLoading(false);
           }}
           variant="tertiary"
           data-cy="slettSoknadKnapp"
