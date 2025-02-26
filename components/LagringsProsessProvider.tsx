@@ -61,11 +61,6 @@ export const LagringsProsessProvider = ({ children }: LagringsProsessProviderPro
   );
 
   const ventPaaLagring = useCallback(async () => {
-    sendLog({
-      message: `In ventPaaLagring, aktiveLagringsProsesserRef= ${aktiveLagringsProsesserRef.current.length}`,
-      level: 'warn',
-    });
-
     while (aktiveLagringsProsesserRef.current.length) {
       await Promise.all(aktiveLagringsProsesserRef.current);
     }
@@ -73,11 +68,7 @@ export const LagringsProsessProvider = ({ children }: LagringsProsessProviderPro
   }, []);
 
   const lagrerNaa = useCallback(() => {
-    sendLog({
-      message: `In lagrerNaa, aktiveLagringsProsesserRef= ${aktiveLagringsProsesserRef.current.length}`,
-      level: 'warn',
-    });
-    return aktiveLagringsProsesserRef.current.length !== 0;
+    return aktiveLagringsProsesserRef.current.length == 0;
   }, []);
 
   const lagrer = aktiveLagringsProsesser.length !== 0;

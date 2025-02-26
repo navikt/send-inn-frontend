@@ -1,5 +1,5 @@
 import { Alert, BodyLong, BodyShort, Button, Heading } from '@navikt/ds-react';
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { VedleggType } from '../types/types';
@@ -47,6 +47,10 @@ export interface LastOppVedleggdProps {
   oppdaterVisningsSteg: (nr: number) => void;
 }
 
+const lasterOppVedleggStateReducer = (currentValue: number, change: number) => {
+  return currentValue + change;
+};
+
 function LastOppVedlegg(props: LastOppVedleggdProps) {
   const { vedleggsliste, oppdaterVisningsSteg } = props;
 
@@ -60,6 +64,8 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
     openSlettSoknadModal,
   } = useModalContext();
   const { ventPaaLagring } = useLagringsProsessContext();
+  const [antallUnderOpplasting, dispatchLasterOppVedleggState] = useReducer(lasterOppVedleggStateReducer, 0);
+
   const { savedAt } = useAxiosInterceptorContext();
 
   const [lastOppVedleggHarFeil, setLastOppVedleggHarFeil] = useState(false);
@@ -117,6 +123,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
                   innsendingsId={soknad.innsendingsId}
                   vedlegg={vedlegg}
                   soknadVisningstype={soknad.visningsType}
+                  lastoppDispatch={dispatchLasterOppVedleggState}
                 />
               );
             })}
@@ -145,7 +152,11 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
             setIsLoading(true);
             ventPaaLagring()
               .then(() => {
-                if (soknadKlar) {
+                if (antallUnderOpplasting != 0) {
+                  customErrorMessage({
+                    message: t('feil.manglerHovedskjema'),
+                  });
+                } else if (soknadKlar) {
                   openSendInnKomplettSoknadModal();
                 } else if (soknadDelvisKlar) {
                   openSendInnUferdigSoknadModal();
@@ -207,14 +218,21 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
         <Button
           loading={isLoading}
           onClick={() => {
+            /*
             if (lastOppVedleggHarFeil) {
               setLastOppVedleggValideringfokus(true);
               setVisLastOppVedleggFeil(true);
               return;
             }
+*/
             setIsLoading(true);
             ventPaaLagring()
               .then(() => {
+                if (antallUnderOpplasting != 0) {
+                  customErrorMessage({
+                    message: t('feil.manglerHovedskjema'),
+                  });
+                }
                 openSlettSoknadModal();
               })
               .catch(() => console.error('Feil oppsto ved lagring, så kan ikke slette søknad'))
