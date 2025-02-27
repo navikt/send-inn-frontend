@@ -184,7 +184,8 @@
     "filUtenInnhold": "Valgt fil mangler innhold, velg en fil som er større en 0 kB",
     "ugyldigFilformat": "Feil filformat, det er bare lov å laste opp filer av typen PDF, JPEG/JPG, PNG, TIFF/TIF, BMP, GIF, DOCX/DOC, ODT, RTF og TXT.",
     "paakrevd": "Du må fylle ut: {{felt}}",
-    "maksLengde": "{{felt}} kan ikke være mer enn {{maksLengde}} tegn"
+    "maksLengde": "{{felt}} kan ikke være mer enn {{maksLengde}} tegn",
+    "ventTilOpplastingErFerdig": "Vent til filopplastingen er ferdig"
   },
   "feilside": {
     "404": {

@@ -221,7 +221,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
             setIsLoading(true);
             if (antallUnderOpplasting !== undefined && antallUnderOpplasting > 0) {
               customErrorMessage({
-                message: t('feil.manglerHovedskjema'),
+                message: t('feil.ventTilOpplastingErFerdig'),
               });
             }
             openSlettSoknadModal();

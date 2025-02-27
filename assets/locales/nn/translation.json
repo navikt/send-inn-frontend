@@ -184,7 +184,8 @@
     "filUtenInnhold": "Vald fil manglar innhald, vel ei fil som er større ein 0 kB",
     "ugyldigFilformat": "Feil filformat, det er berre lov å laste opp filer av typen PDF, JPEG/JPG, PNG, TIFF/TIF, BMP, GIF, DOCX/DOC, ODT, RTF og TXT",
     "paakrevd": "Du må fylle ut: {{felt}}",
-    "maksLengde": "{{felt}} kan ikkje vera meir enn {{maksLengde}} teikn"
+    "maksLengde": "{{felt}} kan ikkje vera meir enn {{maksLengde}} teikn",
+    "ventTilOpplastingErFerdig": "Vent til filopplastinga er ferdig"
   },
   "feilside": {
     "404": {
