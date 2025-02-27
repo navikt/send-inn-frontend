@@ -127,8 +127,8 @@ export interface FilProps {
   lokalFil?: File;
   opplastetFil?: OpplastetFil;
   filListeDispatch: React.Dispatch<ActionType>;
-  lasterOppStateDispatch: React.Dispatch<number>;
-  lastoppDispatch?: React.Dispatch<number>;
+  vedlegglastOppDispatch: React.Dispatch<number>;
+  sumLastoppDispatch?: React.Dispatch<number>;
 }
 
 export interface FilData {
@@ -272,8 +272,8 @@ export function Fil({
   innsendingsId,
   vedlegg,
   filListeDispatch,
-  lasterOppStateDispatch,
-  lastoppDispatch,
+  vedlegglastOppDispatch,
+  sumLastoppDispatch,
 }: FilProps) {
   const [filState, dispatch] = useReducer(filReducer, initialState);
   const { status } = filState;
@@ -377,9 +377,9 @@ export function Fil({
       type: FIL_ACTIONS.SETT_STATUS,
       filState: { status: FIL_STATUS.LASTER_OPP },
     });
-    lasterOppStateDispatch(1);
-    if (lastoppDispatch != undefined) {
-      lastoppDispatch(1);
+    vedlegglastOppDispatch(1);
+    if (sumLastoppDispatch != undefined) {
+      sumLastoppDispatch(1);
     }
 
     axios
@@ -439,10 +439,10 @@ export function Fil({
             progress: 0,
           },
         });
-        if (lastoppDispatch != undefined) {
-          lastoppDispatch(-1);
+        if (sumLastoppDispatch != undefined) {
+          sumLastoppDispatch(-1);
         }
-        lasterOppStateDispatch(-1);
+        vedlegglastOppDispatch(-1);
       });
   }, [
     filState,

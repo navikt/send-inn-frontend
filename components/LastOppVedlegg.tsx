@@ -219,7 +219,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
           loading={isLoading}
           onClick={() => {
             setIsLoading(true);
-            if (antallUnderOpplasting !== 0) {
+            if (antallUnderOpplasting !== undefined && antallUnderOpplasting > 0) {
               customErrorMessage({
                 message: t('feil.manglerHovedskjema'),
               });
