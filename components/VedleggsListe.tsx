@@ -155,7 +155,9 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
   };
 
   const slettSoknad = async () => {
-    if (lagrerNaa()) return;
+    if (lagrerNaa()) {
+      return;
+    }
 
     await nyLagringsProsess(axios.delete(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad?.innsendingsId}`))
       .then(() => {
