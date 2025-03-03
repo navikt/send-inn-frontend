@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 
 import { BodyShort, Button, Heading, Link as NavLink, Panel } from '@navikt/ds-react';
@@ -33,6 +33,7 @@ export interface VedleggProps {
   innsendingsId: string;
   erAnnetVedlegg?: boolean;
   soknadVisningstype: VisningsType;
+  lastoppDispatch?: React.Dispatch<number>;
 }
 
 export interface FilData {
@@ -395,7 +396,8 @@ function Vedlegg(props: VedleggProps) {
                         lokalFil={fil.lokalFil}
                         opplastetFil={fil.opplastetFil}
                         filListeDispatch={dispatch}
-                        lasterOppStateDispatch={dispatchLasterOppState}
+                        vedlegglastOppDispatch={dispatchLasterOppState}
+                        sumLastoppDispatch={props.lastoppDispatch}
                       />
                     );
                   })}

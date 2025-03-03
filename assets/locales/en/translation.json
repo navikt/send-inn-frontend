@@ -183,7 +183,8 @@
     "filUtenInnhold": "Selected file has no content, choose a file larger than 0 kB",
     "ugyldigFilformat": "It is only allowed to upload files of type PDF, JPEG/JPG, PNG, TIFF/TIF, BMP, GIF, DOCX/DOC, ODT, RTF and TXT.",
     "paakrevd": "You must fill in: {{felt}}",
-    "maksLengde": "{{felt}} cannot be longer than {{maksLengde}} characters"
+    "maksLengde": "{{felt}} cannot be longer than {{maksLengde}} characters",
+    "ventTilOpplastingErFerdig": "Wait until ongoing file upload has finished"
   },
   "feilside": {
     "404": {
