@@ -152,9 +152,9 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
             setIsLoading(true);
             ventPaaLagring()
               .then(() => {
-                if (antallUnderOpplasting != 0) {
+                if (antallUnderOpplasting !== undefined && antallUnderOpplasting > 0) {
                   customErrorMessage({
-                    message: t('feil.manglerHovedskjema'),
+                    message: t('feil.ventTilOpplastingErFerdig'),
                   });
                 } else if (soknadKlar) {
                   openSendInnKomplettSoknadModal();

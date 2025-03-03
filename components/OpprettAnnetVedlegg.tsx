@@ -40,7 +40,7 @@ export function OpprettAnnetVedlegg({ innsendingsId }: EndreVedleggProps) {
   const { showError } = useErrorMessage();
 
   const feilId = 'opprett-vedlegg-feil';
-  const harVailderingfeil = errors.tittel?.message != undefined;
+  const harVailderingfeil = errors.tittel?.message !== undefined;
 
   const [visFeil, valideringsMelding] = useValidation({
     komponentId: feilId,

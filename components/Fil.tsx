@@ -378,7 +378,7 @@ export function Fil({
       filState: { status: FIL_STATUS.LASTER_OPP },
     });
     vedlegglastOppDispatch(1);
-    if (sumLastoppDispatch != undefined) {
+    if (sumLastoppDispatch !== undefined) {
       sumLastoppDispatch(1);
     }
 
@@ -439,7 +439,7 @@ export function Fil({
             progress: 0,
           },
         });
-        if (sumLastoppDispatch != undefined) {
+        if (sumLastoppDispatch !== undefined) {
           sumLastoppDispatch(-1);
         }
         vedlegglastOppDispatch(-1);

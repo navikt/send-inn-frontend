@@ -41,7 +41,7 @@ export function EndreVedlegg({ tittel, setEndrer, vedlegg, innsendingsId, setTit
 
   const feilId = `vedlegg-endrer-feil-${vedlegg.id}`;
 
-  const harVailderingfeil = errors.tittel?.message != undefined;
+  const harVailderingfeil = errors.tittel?.message !== undefined;
 
   const [visFeil, valideringsMelding] = useValidation({
     komponentId: feilId,
