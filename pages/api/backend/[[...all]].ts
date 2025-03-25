@@ -4,6 +4,7 @@ import { Stream } from 'stream';
 import { getTokenxToken } from '../../../auth/getTokenXToken';
 import { verifyIdportenAccessToken } from '../../../auth/verifyIdPortenToken';
 import { logger, rawLogger } from '../../../utils/backendLogger';
+import { getEnvQualifier } from '../../../utils/envQualifier';
 
 export const config = {
   api: {
@@ -40,6 +41,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const method = req.method as Method;
+  const isProduction = process.env.NAIS_CLUSTER_NAME === 'prod-gcp';
+  const envQualifier = !isProduction ? getEnvQualifier(req, process.env.NAIS_APP_NAME) : undefined;
 
   // Removed host-header because of certification issues with node
   const { host, ...headers } = req.headers as AxiosRequestHeaders;
@@ -52,6 +55,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     headers: {
       ...headers,
       authorization: `Bearer ${tokenxToken}`,
+      ...(envQualifier && { 'Nav-Env-Qualifier': envQualifier }),
     },
     responseType: 'stream',
     timeout: 180000,
