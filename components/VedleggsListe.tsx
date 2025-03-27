@@ -12,6 +12,7 @@ import { useErrorMessage } from '../hooks/useErrorMessage';
 import { FyllutForm } from '../types/fyllutForm';
 import { KvitteringsDto, OpplastingsStatus, SoknadType, VedleggType } from '../types/types';
 import { navigerTil } from '../utils/navigerTil';
+import { useAppConfig } from './AppConfigContext';
 import { AutomatiskInnsending } from './AutomatiskInnsending';
 import { KvitteringsTillegg } from './KvitteringsTillegg';
 import { useLagringsProsessContext } from './LagringsProsessProvider';
@@ -19,8 +20,6 @@ import LastOppVedlegg from './LastOppVedlegg';
 import SkjemaOpplasting from './SkjemaOpplasting';
 import { SoknadModalProvider } from './SoknadModalProvider';
 import { ExtendedVedleggType } from './Vedlegg';
-// import { EnvQualifierType } from '../utils/envQualifier';
-import { useAppConfig } from './AppConfigContext';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -36,14 +35,6 @@ const Style = styled.div`
 const StyledButtonContainer = styled.div`
   margin-bottom: var(--a-spacing-11);
 `;
-
-// const getMinSideUrl = (envQualifier?: EnvQualifierType): string => {
-//   const defaultUrl = publicRuntimeConfig.minSide.urls.default
-//   if (!envQualifier) {
-//     return defaultUrl;
-//   }
-//   return publicRuntimeConfig.minSide.urls[envQualifier] || defaultUrl;
-// }
 
 export interface VedleggsListeProps {
   soknad: SoknadType;
