@@ -4,6 +4,15 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 /* eslint @typescript-eslint/no-var-requires: "off" */
 import { withSentryConfig } from '@sentry/nextjs';
 
+const minSidePreprodUrls = {
+  preprodIntern: 'https://www.intern.dev.nav.no/minside/',
+  preprodAltIntern: 'https://www.intern.dev.nav.no/minside/',
+  preprodAnsatt: 'https://www.ansatt.dev.nav.no/minside/',
+  preprodAltAnsatt: 'https://www.ansatt.dev.nav.no/minside/',
+  delingslenke: 'https://www.ansatt.dev.nav.no/minside/',
+  local: 'https://www.intern.dev.nav.no/minside/',
+};
+
 const nextConfig = {
   experimental: {
     optimizePackageImports: ['@navikt/ds-react', '@navikt/aksel-icons'],
@@ -26,6 +35,12 @@ const nextConfig = {
   publicRuntimeConfig: {
     // Will be available on both server and client
     apiUrl: basePath + (process.env.NEXT_PUBLIC_API_URL || '/api/backend'),
+    minSide: {
+      urls: {
+        ...(process.env.NEXT_PUBLIC_APP_ENV !== 'production' && minSidePreprodUrls),
+        default: process.env.NEXT_PUBLIC_MIN_SIDE_URL,
+      },
+    },
     basePath,
   },
   async redirects() {
