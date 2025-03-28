@@ -11,8 +11,10 @@ import { SoknadType } from '../types/types';
 import { TFunction } from 'i18next';
 import getConfig from 'next/config';
 import { useTranslation } from 'react-i18next';
+import { useAppConfig } from '../components/AppConfigContext';
 import { useSoknadLanguage } from '../hooks/useSoknadLanguage';
-import { navigerTilFyllut } from '../utils/navigerTilFyllut';
+import { navigerTil } from '../utils/navigerTil';
+import { getPathForFyllutUrl } from '../utils/soknad';
 
 const { publicRuntimeConfig } = getConfig();
 const erEttersending = true;
@@ -27,6 +29,7 @@ const getSoknadoverskrift = (soknad: SoknadType, t: TFunction) => {
 const InnsendingsSide: NextPage = () => {
   const router = useRouter();
   const { t } = useTranslation();
+  const { fyllutUrl } = useAppConfig();
   const { query } = router;
   const [soknad, setSoknad] = useState<SoknadType | null>(null);
   const { changeLang } = useSoknadLanguage();
@@ -38,7 +41,7 @@ const InnsendingsSide: NextPage = () => {
         .then((response: AxiosResponse<SoknadType>) => {
           const { data } = response;
           if (data.visningsType === 'fyllUt' && data.status === 'Opprettet' && data.skjemaPath) {
-            navigerTilFyllut(data);
+            navigerTil(`${fyllutUrl}/${getPathForFyllutUrl(data)}`);
             return;
           }
           changeLang(data.spraak);

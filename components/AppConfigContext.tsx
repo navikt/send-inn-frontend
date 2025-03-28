@@ -7,6 +7,7 @@ const { publicRuntimeConfig } = getConfig();
 interface AppConfigContextType {
   envQualifier: EnvQualifierType | undefined;
   minSideUrl: string;
+  fyllutUrl: string;
 }
 
 const AppConfigContext = createContext<AppConfigContextType | null>(null);
@@ -25,7 +26,10 @@ type ProviderProps = {
 };
 export const AppConfigProvider = ({ children, envQualifier }: ProviderProps) => {
   const minSideUrl = getMinSideUrl(envQualifier);
-  return <AppConfigContext.Provider value={{ envQualifier, minSideUrl }}>{children}</AppConfigContext.Provider>;
+  const fyllutUrl = getFyllutUrl(envQualifier);
+  return (
+    <AppConfigContext.Provider value={{ envQualifier, minSideUrl, fyllutUrl }}>{children}</AppConfigContext.Provider>
+  );
 };
 
 const getMinSideUrl = (envQualifier?: EnvQualifierType): string => {
@@ -34,4 +38,12 @@ const getMinSideUrl = (envQualifier?: EnvQualifierType): string => {
     return defaultUrl;
   }
   return publicRuntimeConfig.minSide.urls[envQualifier] || defaultUrl;
+};
+
+const getFyllutUrl = (envQualifier?: EnvQualifierType): string => {
+  const defaultUrl = publicRuntimeConfig.fyllut.urls.default;
+  if (!envQualifier) {
+    return defaultUrl;
+  }
+  return publicRuntimeConfig.fyllut.urls[envQualifier] || defaultUrl;
 };

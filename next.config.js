@@ -12,6 +12,11 @@ const minSideAnsattUrlMappings = {
   delingslenke: minSideAnsattUrl,
 };
 
+const fyllutAnsattUrlMappings = {
+  preprodAnsatt: 'https://fyllut-preprod.ansatt.dev.nav.no/fyllut',
+  preprodAltAnsatt: 'https://fyllut-preprod-alt.ansatt.dev.nav.no/fyllut',
+};
+
 const nextConfig = {
   experimental: {
     optimizePackageImports: ['@navikt/ds-react', '@navikt/aksel-icons'],
@@ -38,6 +43,12 @@ const nextConfig = {
       urls: {
         ...(process.env.NEXT_PUBLIC_APP_ENV !== 'production' && minSideAnsattUrlMappings),
         default: process.env.NEXT_PUBLIC_MIN_SIDE_URL,
+      },
+    },
+    fyllut: {
+      urls: {
+        ...(process.env.NEXT_PUBLIC_APP_ENV !== 'production' && fyllutAnsattUrlMappings),
+        default: process.env.NEXT_PUBLIC_FYLLUT_URL,
       },
     },
     basePath,

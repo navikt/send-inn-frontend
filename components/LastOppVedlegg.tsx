@@ -11,9 +11,10 @@ import { ButtonContainer } from './common/ButtonContainer';
 import { ArrowLeftIcon } from '@navikt/aksel-icons';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { formatertDato } from '../utils/dato';
-import { navigerTilFyllut } from '../utils/navigerTilFyllut';
-import { isLospost } from '../utils/soknad';
+import { navigerTil } from '../utils/navigerTil';
+import { getPathForFyllutUrl, isLospost } from '../utils/soknad';
 import AndreVedlegg from './AndreVedlegg';
+import { useAppConfig } from './AppConfigContext';
 import { useAxiosInterceptorContext } from './AxiosInterceptor';
 import { useLagringsProsessContext } from './LagringsProsessProvider';
 import { OpprettAnnetVedlegg } from './OpprettAnnetVedlegg';
@@ -55,6 +56,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
   const { vedleggsliste, oppdaterVisningsSteg } = props;
 
   const { t } = useTranslation();
+  const { fyllutUrl } = useAppConfig();
 
   const { soknad, soknadKlar, soknadDelvisKlar } = useVedleggslisteContext();
   const {
@@ -194,7 +196,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
         {soknad.visningsType === 'fyllUt' && soknad.skjemaPath && (
           <Button
             onClick={() => {
-              navigerTilFyllut(soknad);
+              navigerTil(`${fyllutUrl}/${getPathForFyllutUrl(soknad)}`);
             }}
             variant="secondary"
             data-cy="forrigeStegKnapp"
