@@ -41,8 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const method = req.method as Method;
-  const isProduction = process.env.NAIS_CLUSTER_NAME === 'prod-gcp';
-  const envQualifier = !isProduction ? getEnvQualifier(req, process.env.NAIS_APP_NAME) : undefined;
+  const envQualifier = getEnvQualifier(req);
 
   // Removed host-header because of certification issues with node
   const { host, ...headers } = req.headers as AxiosRequestHeaders;

@@ -2,7 +2,8 @@ import { BodyLong } from '@navikt/ds-react';
 import { createContext, useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { datoOmXDager, formatertDato } from '../utils/dato';
-import { navigerTilMinSide } from '../utils/navigerTilMinSide';
+import { navigerTil } from '../utils/navigerTil';
+import { useAppConfig } from './AppConfigContext';
 import { useErrorMessageContext } from './ErrorMessageProvider';
 import { FellesModal } from './FellesModal';
 import { useLagringsProsessContext } from './LagringsProsessProvider';
@@ -32,6 +33,7 @@ export const useModalContext = () => {
 export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
   const { t } = useTranslation();
 
+  const { minSideUrl } = useAppConfig();
   const { soknad, onSendInn, slettSoknad } = useVedleggslisteContext();
   const { lagrer } = useLagringsProsessContext();
   const { open: hasError } = useErrorMessageContext();
@@ -66,6 +68,10 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
   const openSendInnKomplettSoknadModal = useCallback(() => {
     setSendInnKomplettSoknadModal(true);
   }, [setSendInnKomplettSoknadModal]);
+
+  const navigerTilMinSide = useCallback(() => {
+    navigerTil(minSideUrl);
+  }, [minSideUrl]);
 
   return (
     <ModalContext.Provider

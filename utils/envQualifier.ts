@@ -1,4 +1,4 @@
-import { NextApiRequest } from 'next';
+import { IncomingMessage } from 'node:http';
 
 export const EnvQualifier = {
   preprodIntern: 'preprodIntern',
@@ -11,7 +11,11 @@ export const EnvQualifier = {
 
 export type EnvQualifierType = (typeof EnvQualifier)[keyof typeof EnvQualifier];
 
-export const getEnvQualifier = (req: NextApiRequest, appName: string = ''): EnvQualifierType | undefined => {
+export const getEnvQualifier = (req?: IncomingMessage): EnvQualifierType | undefined => {
+  if (process.env.NAIS_CLUSTER_NAME === 'prod-gcp' || !req) {
+    return undefined;
+  }
+  const appName = process.env.NAIS_APP_NAME;
   const host = req.headers['host'];
   if (host?.includes('local')) {
     return 'local';

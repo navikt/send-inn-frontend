@@ -1,7 +1,9 @@
+import { Button } from '@navikt/ds-react';
 import axios from 'axios';
 import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import useSWR from 'swr';
 import Kvittering from '../components/Kvittering';
@@ -9,8 +11,10 @@ import SkjemaNedlasting from '../components/SkjemaNedlasting';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { FyllutForm } from '../types/fyllutForm';
 import { KvitteringsDto, OpplastingsStatus, SoknadType, VedleggType } from '../types/types';
-import { navigerTilMinSide } from '../utils/navigerTilMinSide';
+import { navigerTil } from '../utils/navigerTil';
+import { useAppConfig } from './AppConfigContext';
 import { AutomatiskInnsending } from './AutomatiskInnsending';
+import { KvitteringsTillegg } from './KvitteringsTillegg';
 import { useLagringsProsessContext } from './LagringsProsessProvider';
 import LastOppVedlegg from './LastOppVedlegg';
 import SkjemaOpplasting from './SkjemaOpplasting';
@@ -26,6 +30,10 @@ const Style = styled.div`
   margin-bottom: 44px;
   outline: none;
   max-width: 50rem;
+`;
+
+const StyledButtonContainer = styled.div`
+  margin-bottom: var(--a-spacing-11);
 `;
 
 export interface VedleggsListeProps {
@@ -80,6 +88,7 @@ export const useVedleggslisteContext = () => {
 
 function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
   const [fyllutHasError, setFyllutHasError] = useState(false);
+  const { t } = useTranslation();
   const { data: fyllutForm, isLoading: fyllutIsLoading } = useSWR(
     soknad?.visningsType === 'fyllUt'
       ? `${publicRuntimeConfig.basePath}/api/fyllut/forms/${soknad.skjemaPath}?type=limited&lang=${soknad.spraak}`
@@ -101,6 +110,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
   const router = useRouter();
   const { showError } = useErrorMessage();
   const { lagrerNaa, nyLagringsProsess } = useLagringsProsessContext();
+  const { minSideUrl } = useAppConfig();
 
   const [vedleggsliste, setVedleggsListe] = useState<VedleggType[]>(soknad.vedleggsListe);
 
@@ -162,7 +172,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
     await nyLagringsProsess(axios.delete(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad?.innsendingsId}`))
       .then(() => {
         resetState();
-        navigerTilMinSide();
+        navigerTil(minSideUrl);
       })
       .catch((error) => {
         showError(error);
@@ -274,7 +284,20 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
           )}
 
           {/* steg 4 kvitteringsside  */}
-          {visKvittering && <Kvittering kvprops={soknadsInnsendingsRespons!} visningstype={soknad.visningsType} />}
+          {visKvittering && (
+            <>
+              <Kvittering kvprops={soknadsInnsendingsRespons!} visningstype={soknad.visningsType} />
+              <StyledButtonContainer>
+                <Button as="a" href={minSideUrl} variant="secondary" size="medium">
+                  {t('kvittering.minSideKnapp')}
+                </Button>
+              </StyledButtonContainer>
+              <KvitteringsTillegg
+                uxSignalsId={fyllutForm?.properties?.uxSignalsId}
+                uxSignalsInnsending={fyllutForm?.properties?.uxSignalsInnsending}
+              />
+            </>
+          )}
         </Style>
       </SoknadModalProvider>
     </VedleggslisteContext.Provider>
