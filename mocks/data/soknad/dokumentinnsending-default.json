@@ -5,6 +5,7 @@
   "tema": "BID",
   "status": "Opprettet",
   "opprettetDato": "2023-03-01T08:34:44.899026+01:00",
+  "applikasjon": "dev-gcp:team-soknad:send-inn-frontend",
   "vedleggsListe": [
     {
       "tittel": "Svar på forhåndsvarsel i sak om barnebidrag (bidragsmottaker)",
