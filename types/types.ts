@@ -70,6 +70,7 @@ export type SoknadType = {
   visningsType: VisningsType;
   visningsSteg: number;
   kanLasteOppAnnet: boolean;
+  applikasjon: string;
 };
 
 export type InnsendtVedleggDto = {
