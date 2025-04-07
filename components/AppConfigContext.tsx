@@ -9,7 +9,7 @@ interface AppConfigContextType {
   minSideUrl: string;
 }
 
-const AppConfigContext = createContext<AppConfigContextType | null>(null);
+const AppConfigContext = createContext<AppConfigContextType | undefined>(undefined);
 
 export const useAppConfig = () => {
   const appConfigContext = useContext(AppConfigContext);
