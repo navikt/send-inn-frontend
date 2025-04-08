@@ -65,7 +65,7 @@ export const hentVedleggsValgAlternativer = (
   }
 
   // Conditionally add "HarIkkeDokumentasjonen" if not in environment and 'ettersending'
-  if (soknad && !soknad.applikasjon.startsWith(environment) && soknad.visningsType === 'ettersending') {
+  if (soknad && soknad.erNavOpprettet && soknad.visningsType === 'ettersending') {
     const harIkkeDokumentasjonen = vedleggsValgAlternativer.find((valg) => valg.key === 'HarIkkeDokumentasjonen');
     if (harIkkeDokumentasjonen && !result.some((valg) => valg.key === 'HarIkkeDokumentasjonen')) {
       result = [...result, harIkkeDokumentasjonen];

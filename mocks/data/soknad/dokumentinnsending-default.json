@@ -91,5 +91,6 @@
   "kanLasteOppAnnet": true,
   "innsendingsFristDato": "2023-04-26T08:34:44.899026+01:00",
   "forsteInnsendingsDato": null,
-  "fristForEttersendelse": 14
+  "fristForEttersendelse": 14,
+  "erNavOpprettet": false
 }

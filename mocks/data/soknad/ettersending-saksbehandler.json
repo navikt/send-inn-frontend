@@ -5,7 +5,7 @@
   "tema": "BID",
   "status": "Opprettet",
   "opprettetDato": "2023-02-24T09:22:48.446904359+01:00",
-  "applikasjon": "dev-gcp:team-soknad:send-inn-frontend",
+  "applikasjon": "953868a0-1767-4569-ab69-86b03ec81ec2",
   "vedleggsListe": [
     {
       "tittel": "Arbeidslogg for utprøving av Innowalk som grunnlag for helhetsvurdering og vedlegg til søknad",
@@ -63,7 +63,7 @@
     }
   ],
   "id": 3474,
-  "innsendingsId": "ettersending-default",
+  "innsendingsId": "ettersending-saksbehandler",
   "ettersendingsId": "4b9cec74-c773-4a41-b9be-3d139553a5ce",
   "spraak": "no",
   "endretDato": "2023-02-24T09:22:48.446935096+01:00",
@@ -74,5 +74,5 @@
   "innsendingsFristDato": "2023-03-09T13:14:16.368795+01:00",
   "forsteInnsendingsDato": "2023-02-23T13:14:16.368795+01:00",
   "fristForEttersendelse": 14,
-  "erNavOpprettet": false
+  "erNavOpprettet": true
 }
