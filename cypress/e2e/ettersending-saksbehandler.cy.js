@@ -5,7 +5,7 @@ const vedlegg = saksbehandlerEttersending.vedleggsListe[0];
 describe('Tester ettersending opprettet av saksbehandler', () => {
   it('renders page for saksbehandleropprettet ettersending', () => {
     cy.visit('/ettersending-saksbehandler');
-    cy.findByText(saksbehandlerEttersending.skjemanr).should('NAV 54-00.04');
+    cy.findByText(saksbehandlerEttersending.skjemanr).should('exist');
     cy.findByRole('heading', { name: vedlegg.label, level: 3 }).should('exist');
     cy.findByRole('region', { name: vedlegg.label })
       .should('exist')
