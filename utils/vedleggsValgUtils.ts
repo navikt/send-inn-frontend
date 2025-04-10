@@ -1,8 +1,6 @@
 import { AttachmentValue } from '../types/fyllutForm';
 import { OpplastingsStatus, SoknadType, VedleggsValgAlternativ, VedleggsvalgType } from '../types/types';
 
-const environment = process.env.NEXT_PUBLIC_NAIS_CLUSTER_NAME || ' ';
-
 const vedleggsValgAlternativer: VedleggsValgAlternativ[] = [
   {
     key: 'LasterOpp',
