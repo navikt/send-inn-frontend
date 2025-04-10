@@ -4,8 +4,9 @@
   "skjemaPath": "nav100740",
   "tittel": "Søknad om stønad til anskaffelse av motorkjøretøy og / eller spesialutstyr og tilpassing til bil",
   "tema": "BIL",
-  "status": "Utfylt",
+  "status": "fyllut",
   "opprettetDato": "2023-03-01T09:22:17.882817+01:00",
+  "applikasjon": "dev-gcp:team-soknad:send-inn-frontend",
   "vedleggsListe": [
     {
       "tittel": "Urelevant vedlegg",
@@ -73,5 +74,6 @@
   "kanLasteOppAnnet": true,
   "innsendingsFristDato": "2023-04-26T09:22:17.882817+01:00",
   "forsteInnsendingsDato": null,
-  "fristForEttersendelse": 14
+  "fristForEttersendelse": 14,
+  "erNavOpprettet": false
 }

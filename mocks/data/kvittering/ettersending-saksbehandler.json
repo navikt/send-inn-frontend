@@ -1,0 +1,28 @@
+{
+  "innsendingsId": "ettersending-saksbehandler",
+  "label": "(mock) Svar på forhåndsvarsel i sak om barnebidrag (bidragsmottaker)",
+  "mottattdato": "2024-06-27T10:36:03.381452083+02:00",
+  "innsendteVedlegg": [
+    {
+      "vedleggsnr": "C1",
+      "tittel": "Arbeidslogg for utprøving av Innowalk som grunnlag for helhetsvurdering og vedlegg til søknad"
+    }
+  ],
+  "skalEttersendes": [
+    {
+      "vedleggsnr": "W1",
+      "tittel": "Dokumentasjon på mottatt bidrag"
+    }
+  ],
+  "HarIkkeDokumentasjonen": [
+    {
+      "vedleggsnr": "G2",
+      "tittel": "Bekreftelse på arbeidsforhold og permittering"
+    }
+  ],
+  "levertTidligere": [],
+  "skalSendesAvAndre": [],
+  "sendesIkkeInn": [],
+  "navKanInnhente": [],
+  "ettersendingsfrist": "2024-07-11T10:09:20.51316+02:00"
+}

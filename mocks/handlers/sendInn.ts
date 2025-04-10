@@ -7,6 +7,7 @@ export const sendInn = http.post(REMOTE_API_URL + '/frontend/v1/sendInn/:innsend
   let file;
   switch (innsendingsId) {
     case 'lospost-default':
+    case 'ettersending-saksbehandler':
     case 'ettersending-default':
       file = innsendingsId;
       break;
