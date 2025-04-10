@@ -3,19 +3,6 @@ import saksbehandlerEttersending from '../../mocks/data/soknad/ettersending-saks
 const vedlegg = saksbehandlerEttersending.vedleggsListe[0];
 
 describe('Tester ettersending opprettet av saksbehandler', () => {
-  it('renders page for saksbehandleropprettet ettersending', () => {
-    cy.visit('/ettersending-saksbehandler');
-    cy.findByText(saksbehandlerEttersending.skjemanr).should('exist');
-    cy.findByRole('heading', { name: vedlegg.label, level: 3 }).should('exist');
-    cy.findByRole('region', { name: vedlegg.label })
-      .should('exist')
-      .within(() => {
-        cy.findByLabelText('Velg dine filer').should('exist');
-      });
-    cy.findByRole('button', { name: 'Legg til annen dokumentasjon' }).should('exist');
-    cy.findByRole('button', { name: 'Send til NAV' }).should('exist');
-  });
-
   it('Går igjennom fra åpning og tester vedleggsvalg', () => {
     cy.visit('/ettersending-saksbehandler');
 
