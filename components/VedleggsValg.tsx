@@ -49,7 +49,7 @@ function VedleggsValg({
   const { nyLagringsProsess } = useLagringsProsessContext();
 
   const fyllutAttachment = fyllutForm?.attachments.find((attachment) => attachment.label === vedlegg.label);
-  const valgAlternativer = hentVedleggsValgAlternativer(fyllutAttachment?.attachmentValues);
+  const valgAlternativer = hentVedleggsValgAlternativer(fyllutAttachment?.attachmentValues, soknad);
 
   const vedleggsvalg = mapOpplastingStatusToVedleggsvalg(valgtOpplastingStatus);
   const currentAlternativ = valgAlternativer.find(({ key }) => key === vedleggsvalg);
