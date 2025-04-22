@@ -1,5 +1,5 @@
 import { AttachmentValue } from '../types/fyllutForm';
-import { OpplastingsStatus, VedleggsValgAlternativ, VedleggsvalgType } from '../types/types';
+import { OpplastingsStatus, SoknadType, VedleggsValgAlternativ, VedleggsvalgType } from '../types/types';
 
 const vedleggsValgAlternativer: VedleggsValgAlternativ[] = [
   {
@@ -42,19 +42,35 @@ const vedleggsValgAlternativer: VedleggsValgAlternativ[] = [
   },
 ];
 
-export const hentVedleggsValgAlternativer = (attachmentValues?: AttachmentValue[]): VedleggsValgAlternativ[] => {
+export const hentVedleggsValgAlternativer = (
+  attachmentValues?: AttachmentValue[],
+  soknad?: SoknadType,
+): VedleggsValgAlternativ[] => {
+  let result: VedleggsValgAlternativ[];
+
   if (!attachmentValues || !attachmentValues.length) {
-    return vedleggsValgAlternativer.filter((valg) => !!valg.default);
+    result = vedleggsValgAlternativer.filter((valg) => !!valg.default);
+  } else {
+    result = vedleggsValgAlternativer
+      .filter((valg) => !!attachmentValues.find((value) => value.key === valg.fyllutKey))
+      .map((valg) => {
+        const attachmentValue = attachmentValues.find((value) => value.key === valg.fyllutKey);
+        return {
+          ...attachmentValue,
+          ...valg,
+        };
+      });
   }
-  return vedleggsValgAlternativer
-    .filter((valg) => !!attachmentValues.find((value) => value.key === valg.fyllutKey))
-    .map((valg) => {
-      const attachmentValue = attachmentValues.find((value) => value.key === valg.fyllutKey);
-      return {
-        ...attachmentValue,
-        ...valg,
-      };
-    });
+
+  // Conditionally add "HarIkkeDokumentasjonen" if not in environment and 'ettersending'
+  if (soknad && soknad.erNavOpprettet && soknad.visningsType === 'ettersending') {
+    const harIkkeDokumentasjonen = vedleggsValgAlternativer.find((valg) => valg.key === 'HarIkkeDokumentasjonen');
+    if (harIkkeDokumentasjonen && !result.some((valg) => valg.key === 'HarIkkeDokumentasjonen')) {
+      result = [...result, harIkkeDokumentasjonen];
+    }
+  }
+
+  return result;
 };
 
 export const mapOpplastingStatusToVedleggsvalg = (status: OpplastingsStatus): VedleggsvalgType => {

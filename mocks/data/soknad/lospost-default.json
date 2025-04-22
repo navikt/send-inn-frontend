@@ -34,5 +34,6 @@
   "soknadstype": "soknad",
   "skjemaPath": "nav000300",
   "applikasjon": "dev-gcp:skjemadigitalisering:fyllut-ettersending",
-  "skalSlettesDato": "2024-06-28T07:18:32.130182Z"
+  "skalSlettesDato": "2024-06-28T07:18:32.130182Z",
+  "erNavOpprettet": false
 }
