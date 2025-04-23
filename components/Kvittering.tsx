@@ -1,4 +1,4 @@
-import { Alert, BodyLong, BodyShort, Button, Heading } from '@navikt/ds-react';
+import { Alert, BodyLong, BodyShort, Heading } from '@navikt/ds-react';
 import { TFunction } from 'i18next';
 import getConfig from 'next/config';
 import { useId } from 'react';
@@ -6,8 +6,6 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { InnsendtVedleggDto, KvitteringsDto, VisningsType } from '../types/types';
 import { formatertDato } from '../utils/dato';
-import { KvitteringsTillegg } from './KvitteringsTillegg';
-import { useVedleggslisteContext } from './VedleggsListe';
 import { LastNedKnapp } from './common/LastNedKnapp';
 import { Bold } from './textStyle';
 
@@ -37,10 +35,6 @@ const BoksMedMargin = styled.div`
 `;
 
 const StyledAlert = styled(Alert)`
-  margin-bottom: var(--a-spacing-11);
-`;
-
-const StyledButtonContainer = styled.div`
   margin-bottom: var(--a-spacing-11);
 `;
 
@@ -82,8 +76,6 @@ const VedleggsGruppe = ({ vedleggsGruppe, tittel }: { vedleggsGruppe: InnsendtVe
 
 export default function Kvittering({ kvprops, visningstype }: KvitteringsProps) {
   const { t } = useTranslation();
-
-  const { fyllutForm } = useVedleggslisteContext();
 
   return (
     <div>
@@ -161,17 +153,6 @@ export default function Kvittering({ kvprops, visningstype }: KvitteringsProps) 
       {!kvprops.skalEttersendes.length && !kvprops.skalSendesAvAndre.length && (
         <StyledAlert variant="info">{t('kvittering.altMottatInfo')}</StyledAlert>
       )}
-
-      <StyledButtonContainer>
-        <Button as="a" href={process.env.NEXT_PUBLIC_MIN_SIDE_URL} variant="secondary" size="medium">
-          {t('kvittering.minSideKnapp')}
-        </Button>
-      </StyledButtonContainer>
-
-      <KvitteringsTillegg
-        uxSignalsId={fyllutForm?.properties?.uxSignalsId}
-        uxSignalsInnsending={fyllutForm?.properties?.uxSignalsInnsending}
-      />
     </div>
   );
 }
