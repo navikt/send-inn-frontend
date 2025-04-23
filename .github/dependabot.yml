@@ -45,3 +45,6 @@ updates:
     directory: '/'
     schedule:
       interval: 'monthly'
+    ignore:
+      - dependency-name: 'node'
+        versions: '/^\d+[13579]-alpine$/'
