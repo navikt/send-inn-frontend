@@ -8,6 +8,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: '50M'
     nginx.ingress.kubernetes.io/proxy-read-timeout: '300'
+    texas.nais.io/enabled: "true"
 spec:
   image: '{{ image }}'
   port: 3100
