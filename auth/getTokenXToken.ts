@@ -1,75 +1,22 @@
-import { Client, errors, GrantBody, Issuer } from 'openid-client';
-import { rawLogger } from '../utils/backendLogger';
+import axios from 'axios';
+import { envVar } from '../utils/backend/env';
 
-const OPError = errors.OPError;
+const texasConfig = {
+  exchange_endpoint: envVar('NAIS_TOKEN_EXCHANGE_ENDPOINT'),
+};
 
-let _issuer: Issuer<Client>;
-let _client: Client;
+type TexasExchangeResponse = {
+  access_token: string;
+  expires_in: number;
+  token_type: string;
+};
 
-async function issuer() {
-  if (typeof _issuer === 'undefined') {
-    if (!process.env.TOKEN_X_WELL_KNOWN_URL)
-      throw new TypeError('Miljøvariabelen "TOKEN_X_WELL_KNOWN_URL må være satt');
-    _issuer = await Issuer.discover(process.env.TOKEN_X_WELL_KNOWN_URL);
-  }
-  return _issuer;
-}
+export const getTokenxToken = async (subject_token: string, audience: string) => {
+  const response = await axios.post<TexasExchangeResponse>(texasConfig.exchange_endpoint, {
+    identity_provider: 'tokenx',
+    target: audience,
+    user_token: subject_token,
+  });
 
-function jwk() {
-  if (!process.env.TOKEN_X_PRIVATE_JWK) throw new TypeError('Miljøvariabelen "TOKEN_X_PRIVATE_JWK må være satt');
-  return JSON.parse(process.env.TOKEN_X_PRIVATE_JWK);
-}
-
-async function client() {
-  if (typeof _client === 'undefined') {
-    if (!process.env.TOKEN_X_CLIENT_ID) throw new TypeError('Miljøvariabelen "TOKEN_X_CLIENT_ID må være satt');
-
-    const _jwk = jwk();
-    const _issuer = await issuer();
-    _client = new _issuer.Client(
-      {
-        client_id: process.env.TOKEN_X_CLIENT_ID,
-        token_endpoint_auth_method: 'private_key_jwt',
-      },
-      { keys: [_jwk] },
-    );
-  }
-  return _client;
-}
-
-export async function getTokenxToken(subject_token: string, audience: string) {
-  const _client = await client();
-
-  const now = Math.floor(Date.now() / 1000);
-  const additionalClaims = {
-    clientAssertionPayload: {
-      nbf: now,
-      aud: _client.issuer.metadata.token_endpoint,
-    },
-  };
-
-  const grantBody: GrantBody = {
-    grant_type: 'urn:ietf:params:oauth:grant-type:token-exchange',
-    client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-    subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
-    audience,
-    subject_token,
-  };
-
-  try {
-    const grant = await _client.grant(grantBody, additionalClaims);
-    if (!grant.access_token) {
-      throw new Error('TokenX: Mangler accessToken etter token exchange');
-    }
-    return grant.access_token;
-  } catch (err) {
-    if (err instanceof OPError) {
-      rawLogger.error({
-        statusCode: err.response?.statusCode,
-        statusMessage: err.response?.statusMessage,
-        message: `Noe gikk galt med token exchange mot TokenX: ${err.error}`,
-      });
-    }
-    throw err;
-  }
-}
+  return response.data.access_token;
+};
