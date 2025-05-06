@@ -22,7 +22,7 @@
     "@navikt/ds-css": "^7.20.0",
     "@navikt/ds-react": "^7.20.0",
     "@navikt/nav-dekoratoren-moduler": "^3.2.2",
-    "@sentry/nextjs": "^8.55.0",
+    "@sentry/nextjs": "^9.15.0",
     "axios": "^1.8.4",
     "html-react-parser": "^5.2.3",
     "next": "^14.2.28",
