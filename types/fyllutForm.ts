@@ -1,4 +1,5 @@
-export type AllowedSubmissionType = 'PAPIR_OG_DIGITAL' | 'KUN_PAPIR' | 'KUN_DIGITAL' | 'INGEN';
+export type DeprecatedSubmissionType = 'PAPIR_OG_DIGITAL' | 'KUN_PAPIR' | 'KUN_DIGITAL' | 'INGEN';
+export type AllowedSubmissionType = 'PAPER' | 'DIGITAL';
 
 export interface BasicForm {
   _id: string;
@@ -10,12 +11,14 @@ export interface BasicForm {
 export interface FyllytFormProperties {
   skjemanummer?: string;
   tema: string;
-  innsending?: AllowedSubmissionType;
-  ettersending?: AllowedSubmissionType;
+  submissionTypes: AllowedSubmissionType[];
+  subsequentSubmissionTypes: AllowedSubmissionType[];
+  ettersending?: DeprecatedSubmissionType;
   enhetstyper?: string[];
   enhetMaVelgesVedPapirInnsending?: boolean;
   uxSignalsId?: string;
-  uxSignalsInnsending?: AllowedSubmissionType;
+  uxSignalsInnsending?: DeprecatedSubmissionType;
+  uxSignalsSubmissionTypes?: AllowedSubmissionType[];
 }
 
 export interface FyllutForm extends BasicForm {
