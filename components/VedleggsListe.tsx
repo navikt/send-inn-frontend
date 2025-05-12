@@ -294,6 +294,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
               </StyledButtonContainer>
               <KvitteringsTillegg
                 uxSignalsId={fyllutForm?.properties?.uxSignalsId}
+                uxSignalsSubmissionTypes={fyllutForm?.properties?.uxSignalsSubmissionTypes}
                 uxSignalsInnsending={fyllutForm?.properties?.uxSignalsInnsending}
               />
             </>
