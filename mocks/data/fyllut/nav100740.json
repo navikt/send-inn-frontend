@@ -6,8 +6,6 @@
   "properties": {
     "skjemanummer": "NAV 10-07.40",
     "tema": "BIL",
-    "innsending": "PAPIR_OG_DIGITAL",
-    "ettersending": "PAPIR_OG_DIGITAL",
     "uxSignalsId": "panel-uzn9037kdp",
     "uxSignalsSubmissionTypes": ["PAPER", "DIGITAL"]
   },
