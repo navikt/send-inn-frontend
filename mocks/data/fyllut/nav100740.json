@@ -9,7 +9,7 @@
     "innsending": "PAPIR_OG_DIGITAL",
     "ettersending": "PAPIR_OG_DIGITAL",
     "uxSignalsId": "panel-uzn9037kdp",
-    "uxSignalsInnsending": "PAPIR_OG_DIGITAL"
+    "uxSignalsSubmissionTypes": ["PAPER", "DIGITAL"]
   },
   "attachments": [
     {
