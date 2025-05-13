@@ -1,21 +1,13 @@
-import { AllowedSubmissionType, DeprecatedSubmissionType } from '../types/fyllutForm';
+import { AllowedSubmissionType } from '../types/fyllutForm';
 import UXSignals from './ux-signals/UXSignals';
 
 interface KvitteringsTilleggProps {
   uxSignalsId?: string;
-  uxSignalsInnsending?: DeprecatedSubmissionType;
   uxSignalsSubmissionTypes?: AllowedSubmissionType[];
 }
 
-export const KvitteringsTillegg = ({
-  uxSignalsId,
-  uxSignalsInnsending,
-  uxSignalsSubmissionTypes,
-}: KvitteringsTilleggProps) => {
+export const KvitteringsTillegg = ({ uxSignalsId, uxSignalsSubmissionTypes }: KvitteringsTilleggProps) => {
   if (!uxSignalsId) return null;
-
-  // TODO: uxSignalsInnsending erstattes av uxSignalsSubmissionTypes og skal fjernes
-  if ((uxSignalsInnsending && uxSignalsInnsending === 'INGEN') || uxSignalsInnsending === 'KUN_PAPIR') return null;
 
   if (uxSignalsSubmissionTypes && !uxSignalsSubmissionTypes?.includes('DIGITAL')) return null;
 
