@@ -208,12 +208,15 @@
       }
     },
     "soknadSendtInn": {
-      "tittel": "Error page: Application already submitted",
-      "overskrift": "You have tried to reopen an application that has already been sent to NAV",
-      "melding": "If you want to submit additional documentation to this application, it must be submitted on paper.",
+      "tittel": "Error Page: Invalid Link",
+      "overskrift": "The link you used is not valid",
+      "innhold": "This may be because you have already submitted the documentation, or the deadline for submitting additional documents has passed.",
+      "ettersendingMelding": "If you still want to submit additional documentation, you can go to ",
+      "ettersendingMelding2": " and choose the form you want to submit documentation for.",
+      "dokumentArkivMelding": "You can see what you have previously submitted in the ",
       "lenkeTekst": {
-        "minSide": "You will find the application you previously submitted on my page on nav.no (Norwegian)",
-        "ettersende": "Forward documentation"
+        "ettersende": "nav.no/ettersende/en",
+        "dokumentArkiv": "document archive."
       }
     }
   },
