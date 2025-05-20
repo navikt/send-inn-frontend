@@ -16,6 +16,10 @@ spec:
     autoInstrumentation:
       enabled: true
       runtime: nodejs
+    logging:
+      destinations:
+        - id: loki
+        - id: elastic
   liveness:
     path: /sendinn/api/isAlive
     initialDelay: 20
