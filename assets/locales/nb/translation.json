@@ -209,12 +209,15 @@
       }
     },
     "soknadSendtInn": {
-      "tittel": "Feilside: Søknad er sendt inn",
-      "overskrift": "Du har forsøkt å gå tilbake til en søknad som allerede er sendt til NAV",
-      "melding": "Hvis du skal ettersende dokumentasjon til denne søknaden må det sendes inn på papir.",
+      "tittel": "Feilside: Ugyldig lenke",
+      "overskrift": "Lenken du brukte er ikke gyldig ",
+      "innhold": "Det kan skyldes at du allerede har sendt inn dokumentasjonen, eller at fristen for å ettersende har gått ut.",
+      "ettersendingMelding": "Ønsker du likevel å ettersende dokumentasjon, kan du gå til ",
+      "ettersendingMelding2": " og velge skjemaet du ønsker å ettersende dokumentasjon til.",
+      "dokumentArkivMelding": "Du kan se hva du har sendt inn tidligere i ",
       "lenkeTekst": {
-        "minSide": "Du finner søknaden du sendte inn på Min side på nav.no",
-        "ettersende": "Gå til ettersendelse"
+        "ettersende": "nav.no/ettersende",
+        "dokumentArkiv": "dokumentarkivet."
       }
     },
     "statuskode": "Statuskode"
