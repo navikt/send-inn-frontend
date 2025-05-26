@@ -49,12 +49,11 @@ const InnsendingsSide: NextPage = () => {
         })
         .catch((error: AxiosError) => {
           const statusCode = error.response?.status;
-          if (statusCode && statusCode === 404) {
-            return router.push('/404');
-          }
-          if (statusCode && statusCode === 405) {
-            // Allerede sendt inn
+
+          if (statusCode === 400 || statusCode === 405) {
             return router.push('/feilside/soknad-sendt-inn');
+          } else if (statusCode === 404) {
+            return router.push('/404');
           }
           return router.push('/500');
         });
