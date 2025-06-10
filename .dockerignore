@@ -1,0 +1,9 @@
+# Ignore everything
+*
+
+# Allow files and directories
+!/next.config.js
+!/package.json
+!/package-lock.json
+!/public
+!/.next
