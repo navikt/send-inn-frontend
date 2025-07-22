@@ -1,7 +1,7 @@
 {
   "test": "det er nynorsk",
   "soknad": {
-    "soknadoverskrift-lospost": "Send dokument til NAV",
+    "soknadoverskrift-lospost": "Send dokument til Nav",
     "visningsSteg": {
       "fraFyllutUtenVedlegg": {
         "laster": "Lastar... Ver venleg og vent"
@@ -14,7 +14,7 @@
       },
       "lastOppVedlegg": {
         "tittel": "Last opp dokumentasjon",
-        "ingress": "Her kan du lasta opp dokumentasjon til saka di. Du må lasta opp all dokumentasjon før NAV kan behandla saka.",
+        "ingress": "Her kan du lasta opp dokumentasjon til saka di. Du må lasta opp all dokumentasjon før Nav kan behandla saka.",
         "ingress-lospost": "Her kan du lasta opp dokument.",
         "infoFrist": "Frist for opplasting av dokumentasjon: {{dato}}",
         "advarselHovedskjema": "UTGÅR!! Du får ikkje sendt inn før du har lasta opp ferdig utfylt skjema på førre side.",
@@ -82,7 +82,7 @@
         "sendesAvAndre": "Sendes inn av andre (til dømes lege eller arbeidsgjevar)",
         "levertDokumentasjonTidligere": "Eg har levert denne dokumentasjonen tidlegare",
         "harIkkeDokumentasjonen": "Eg har ikkje denne dokumentasjonen",
-        "navKanHenteDokumentasjon": "Eg ønskjer at NAV innhentar denne dokumentasjonen"
+        "navKanHenteDokumentasjon": "Eg ønskjer at Nav innhentar denne dokumentasjonen"
       },
       "fil": {
         "provIgjen": "Prøv igjen",
@@ -103,7 +103,7 @@
     },
     "knapper": {
       "annenVedleggKnapp": "Legg til anna dokumentasjon",
-      "sendInn": "Send til NAV",
+      "sendInn": "Send til Nav",
       "fortsettSenere": "Lagre og fortsett seinare",
       "neste": "Neste steg",
       "forrige": "Forrige steg",
@@ -123,8 +123,8 @@
     "fortsettSenere": {
       "tittel": "Er du sikker på at du vil lagre søknaden og fortsette seinare?",
       "liste": [
-        "Søknaden blir IKKJE send til saksbehandlar i NAV no, men berre lagra slik at du kan fortsetja seinare.",
-        "Viss du ønsker å setja dagens dato som startdato for søknaden må du klikke “Avbryt” og velja “Send til NAV”.",
+        "Søknaden blir IKKJE send til saksbehandlar i Nav no, men berre lagra slik at du kan fortsetja seinare.",
+        "Viss du ønsker å setja dagens dato som startdato for søknaden må du klikke “Avbryt” og velja “Send til Nav”.",
         "Vi har oppretta eit utkast på nav.no/minside med ei lenke til søknaden."
       ],
       "accept": "Ja, lagre og fortsett seinare",
@@ -149,7 +149,7 @@
     "sendInnKomplett": {
       "tittel": "Dokumenta er klare til å sendast inn. Vil du senda dem no?",
       "liste": ["Dagens dato vil bli satt som mottaksdato."],
-      "accept": "Ja, send til NAV",
+      "accept": "Ja, send til Nav",
       "cancel": "Avbryt"
     }
   },
@@ -163,7 +163,7 @@
     "sendesAvAndre": " Dokument som skal sendast av andre:",
     "levertTidligere": "Dokumentasjon du har levert tidlegare",
     "sendesIkkeInn": "Dokumentasjon du ikkje har",
-    "navKanInnhente": "Dokumentasjon NAV kan hente inn for meg",
+    "navKanInnhente": "Dokumentasjon Nav kan hente inn for meg",
     "fristEttersending": "Frist for å ettersenda dokumenta: {{dato}}",
     "ettersendingsInfo": "For at søknaden skal bli komplett må du sende inn dokumentasjonen som manglar. På Mi side kan du sjå kva dokument som er sendt inn.",
     "altMottatInfo": "På Mi side kan du sjå dokumenta som er sendt inn.",
@@ -173,9 +173,9 @@
     "minSideKnapp": "Gå til Min side"
   },
   "feil": {
-    "fraBackend": "Beklagar, vi har tekniske problem. Prøv igjen seinare. Om problemet held fram ta kontakt med NAV for å få hjelp på telefon (+47) 55 55 33 33 eller på ditt lokale NAV kontor.",
+    "fraBackend": "Beklagar, vi har tekniske problem. Prøv igjen seinare. Om problemet held fram ta kontakt med Nav for å få hjelp på telefon (+47) 55 55 33 33 eller på ditt lokale Nav kontor.",
     "medTilkobling": "Sjekk nettverkstilkoplinga di og prøv igjen.",
-    "ukjent": "Beklagar, vi har tekniske problem. Prøv igjen seinare. Om problemet held fram ta kontakt med NAV for å få hjelp på telefon (+47) 55 55 33 33 eller på ditt lokale NAV kontor.",
+    "ukjent": "Beklagar, vi har tekniske problem. Prøv igjen seinare. Om problemet held fram ta kontakt med Nav for å få hjelp på telefon (+47) 55 55 33 33 eller på ditt lokale Nav kontor.",
     "advarselOverskrift": "Det har skjedd ein feil",
     "advarselBrukerBekreftelse": "OK",
     "manglerHovedskjema": "Du må lasta opp ferdig utfylt skjema. Gå tilbake til forrige steg",

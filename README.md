@@ -1,6 +1,6 @@
 # Send inn frontend
 
-Send Inn er en tjeneste lar en innlogget bruker(ID Porten) opprette eller åpne søknader, laste opp dokumenter/vedlegg, og deretter sende inn søknaden til NAV, ved å bruke [innsending-api](https://github.com/navikt/innsending-api/).
+Send Inn er en tjeneste lar en innlogget bruker(ID Porten) opprette eller åpne søknader, laste opp dokumenter/vedlegg, og deretter sende inn søknaden til Nav, ved å bruke [innsending-api](https://github.com/navikt/innsending-api/).
 
 Send Inn brukes ved digital innsening for [Fyll Ut](https://github.com/navikt/skjemabygging-formio).
 
@@ -68,7 +68,7 @@ Trykk testid og bruk syntetisk fødselsnummer tilknyttet testbrukern
 
 ## Sentry
 
-### Self hosted av NAV
+### Self hosted av Nav
 
 Vi bruker: https://sentry.gc.nav.no/
 
@@ -95,6 +95,6 @@ https://sentry.gc.nav.no/organizations/nav/projects/send-inn-frontend/
 
 Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på GitHub
 
-## For NAV-ansatte
+## For Nav-ansatte
 
 Interne henvendelser kan sendes via Slack i kanalen #team-fyllut-sendinn

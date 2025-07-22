@@ -4,7 +4,7 @@ const vedlegg = lospostSoknad.vedleggsListe[0];
 describe('Digital løspost', () => {
   it('renders page for løspost', () => {
     cy.visit('/lospost-default');
-    cy.findByRole('heading', { name: 'Send dokument til NAV', level: 1 }).should('exist');
+    cy.findByRole('heading', { name: 'Send dokument til Nav', level: 1 }).should('exist');
     cy.findByText(lospostSoknad.skjemanr).should('not.exist');
     cy.findByRole('heading', { name: vedlegg.label, level: 3 }).should('exist');
     cy.findByRole('region', { name: vedlegg.label })
@@ -14,12 +14,12 @@ describe('Digital løspost', () => {
         cy.findByLabelText('Velg dine filer').should('exist');
       });
     cy.findByRole('button', { name: 'Legg til anna dokumentasjon' }).should('exist');
-    cy.findByRole('button', { name: 'Send til NAV' }).should('exist');
+    cy.findByRole('button', { name: 'Send til Nav' }).should('exist');
   });
 
   it('validates and submits løspost application', () => {
     cy.visit('/lospost-default');
-    cy.findByRole('button', { name: 'Send til NAV' }).should('exist').click();
+    cy.findByRole('button', { name: 'Send til Nav' }).should('exist').click();
     cy.get('[data-cy=valideringsfeil]')
       .should('exist')
       .within(() => {
@@ -35,11 +35,11 @@ describe('Digital løspost', () => {
         cy.get('[data-cy="fileUploadSuccessIkon"]').should('be.visible');
         cy.get('[data-cy="filvelgerKnapp"]').should('be.visible');
       });
-    cy.findByRole('button', { name: 'Send til NAV' }).should('exist').click();
+    cy.findByRole('button', { name: 'Send til Nav' }).should('exist').click();
 
     // Modal
     cy.findByRole('heading', { name: 'Dokumenta er klare til å sendast inn. Vil du senda dem no?' }).should('exist');
-    cy.findByRole('button', { name: 'Ja, send til NAV' }).should('exist').click();
+    cy.findByRole('button', { name: 'Ja, send til Nav' }).should('exist').click();
 
     // Kvittering
     cy.findByRole('heading', { name: /Vi mottok desse dokumenta/ }).should('exist');

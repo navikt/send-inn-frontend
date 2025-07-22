@@ -33,7 +33,7 @@ describe('Tester ettersending opprettet av saksbehandler', () => {
       });
 
     // Sender inn
-    cy.findByRole('button', { name: 'Send til NAV' }).should('exist').click();
+    cy.findByRole('button', { name: 'Send til Nav' }).should('exist').click();
 
     // Modal
     cy.findByRole('heading', {
