@@ -1,6 +1,6 @@
 # Send inn frontend
 
-Send Inn er en tjeneste lar en innlogget bruker(ID Porten) opprette eller åpne søknader, laste opp dokumenter/vedlegg, og deretter sende inn søknaden til Nav, ved å bruke [innsending-api](https://github.com/navikt/innsending-api/).
+Send Inn er en tjeneste som lar en innlogget bruker(ID Porten) opprette eller åpne søknader, laste opp dokumenter/vedlegg, og deretter sende inn søknaden til Nav, ved å bruke [innsending-api](https://github.com/navikt/innsending-api/).
 
 Send Inn brukes ved digital innsening for [Fyll Ut](https://github.com/navikt/skjemabygging-formio).
 
