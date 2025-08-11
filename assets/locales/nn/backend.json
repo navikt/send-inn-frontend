@@ -1,6 +1,6 @@
 {
   "illegalAction.applicationSentInOrDeleted": {
-    "message": "Søknaden kan ikkje visast eller bli endra fordi han er sletta eller sendt inn til NAV."
+    "message": "Søknaden kan ikkje visast eller bli endra fordi han er sletta eller sendt inn til Nav."
   },
   "illegalAction.fileCannotBeRead": {
     "message": "Opplastinga av fil feila fordi ho ikkje kan lesast. Sjekk at ho ikkje er kryptert eller verna med passord og prøv igjen."
@@ -9,7 +9,7 @@
     "message": "Innsendinga feila fordi det ikkje er lasta opp søknad."
   },
   "illegalAction.sendInErrorNoChange": {
-    "message": "Du må lasta opp minst eitt nytt dokument som du vil senda til NAV.",
+    "message": "Du må lasta opp minst eitt nytt dokument som du vil senda til Nav.",
     "title": "Du har ikkje lasta opp nokon nye dokument"
   },
   "illegalAction.notSupportedFileFormat": {

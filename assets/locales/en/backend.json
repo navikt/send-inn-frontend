@@ -1,6 +1,6 @@
 {
   "illegalAction.applicationSentInOrDeleted": {
-    "message": "The application cannot be displayed or changed because it has been deleted or submitted to NAV."
+    "message": "The application cannot be displayed or changed because it has been deleted or submitted to Nav."
   },
   "illegalAction.fileCannotBeRead": {
     "message": "File upload failed because the file cannot be read. Check that it is not encrypted or password protected and try again."
@@ -9,7 +9,7 @@
     "message": "Submission failed because no application document has been uploaded."
   },
   "illegalAction.sendInErrorNoChange": {
-    "message": "You must upload at least one new document that you want to send to NAV.",
+    "message": "You must upload at least one new document that you want to send to Nav.",
     "title": "You have not uploaded any new documents"
   },
   "illegalAction.notSupportedFileFormat": {

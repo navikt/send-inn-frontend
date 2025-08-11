@@ -3,7 +3,7 @@
   "name": "Kurs test",
   "id": "panel-uzn9037kdp",
   "sizeLimit": 0,
-  "senderName": "Rune Rosseland fra NAV",
+  "senderName": "Rune Rosseland fra Nav",
   "language": "no",
   "status": "active",
   "steps": [
@@ -120,8 +120,8 @@
   ],
   "legal": {
     "id": "terms-77pwtbt6g2",
-    "legalName": "Arbeids- og velferdsdirektoratet (NAV)",
-    "shortText": "Vi i Arbeids- og velferdsdirektoratet (NAV) bruker UX Signals til å lagre opplysningene du deler for å kontakte deg for brukerundersøkelser de neste 12 månedene. Opplysningene vil ikke påvirke eventuelle tjenester du har hos Arbeids- og velferdsdirektoratet (NAV). Det er frivillig å registrere seg og å delta. Personopplysningene dine slettes etter 12 måneder. Om du ikke ønsker å bli kontaktet likevel, finner du lenke til å slette din informasjon i bekreftelsen du mottar på e-post."
+    "legalName": "Arbeids- og velferdsdirektoratet (Nav)",
+    "shortText": "Vi i Arbeids- og velferdsdirektoratet (Nav) bruker UX Signals til å lagre opplysningene du deler for å kontakte deg for brukerundersøkelser de neste 12 månedene. Opplysningene vil ikke påvirke eventuelle tjenester du har hos Arbeids- og velferdsdirektoratet (Nav). Det er frivillig å registrere seg og å delta. Personopplysningene dine slettes etter 12 måneder. Om du ikke ønsker å bli kontaktet likevel, finner du lenke til å slette din informasjon i bekreftelsen du mottar på e-post."
   },
   "active": true
 }

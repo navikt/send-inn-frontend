@@ -2,7 +2,6 @@
 
 describe('Tester ettersendingsløpet', () => {
   it('Går igjennom fra åpning av url som oppretter ettersending til kvitteringssiden', () => {
-    cy.get;
     cy.visit(
       '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2',
     );
@@ -33,7 +32,7 @@ describe('Tester ettersendingsløpet', () => {
       });
 
     // Sender inn
-    cy.findByRole('button', { name: 'Send til NAV' }).should('exist').click();
+    cy.findByRole('button', { name: 'Send til Nav' }).should('exist').click();
 
     // Modal
     cy.findByRole('heading', {
