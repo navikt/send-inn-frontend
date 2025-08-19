@@ -114,7 +114,17 @@
     "beskjedOmAvvik": "Have you experienced problems submitting documentation? Please upload the documentation again and press Submit."
   },
   "filvelger": {
-    "defaultText": "Select your files"
+    "defaultText": "Select your files",
+    "readMore": {
+      "header": "Valid file types and file sizes",
+      "extensions": {
+        "prefix": "Valid file types:"
+      },
+      "size": {
+        "prefix": "Maximum file size:",
+        "content": "You can upload multiple files, but the total upload size cannot exceed 50 MB."
+      }
+    }
   },
   "link": {
     "nyFane": "{{tekst}} (opens in a new tab)"
@@ -178,7 +188,7 @@
     "advarselOverskrift": "An error has occurred",
     "advarselBrukerBekreftelse": "OK",
     "manglerHovedskjema": "You must upload the completed form. Go back to the previous step",
-    "filForStor": "The size of the selected file exceeds the maximum size limit. The maximum size allowed is 50MB.",
+    "filForStor": "The size of the selected file exceeds the maximum size limit. The maximum size allowed is 50 MB.",
     "filIkkeValgt": "An error occurred during file selection, please retry",
     "filUtenInnhold": "Selected file has no content, choose a file larger than 0 kB",
     "ugyldigFilformat": "It is only allowed to upload files of type PDF, JPEG/JPG, PNG, TIFF/TIF, BMP, GIF, DOCX/DOC, ODT, RTF and TXT.",
