@@ -131,7 +131,7 @@ export function Filvelger(props: FilvelgerProps) {
         <>
           <div className="mb">
             <span className="prefix">{t('filvelger.readMore.extensions.prefix')}</span>
-            <span className="content">{fileUtils.validExtensions.join(', ')}</span>
+            <span className="content">{fileUtils.validExtensions.join(', ')}.</span>
           </div>
           <div>
             <span className="prefix">{t('filvelger.readMore.size.prefix')}</span>
