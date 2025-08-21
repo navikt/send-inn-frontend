@@ -114,7 +114,17 @@
     "opptatt": "Du kan ikke sende inn søknad eller slette søknad før problemene under er løst"
   },
   "filvelger": {
-    "defaultText": "Velg dine filer"
+    "defaultText": "Velg dine filer",
+    "readMore": {
+      "header": "Gyldige filtyper og filstørrelser",
+      "extensions": {
+        "prefix": "Gyldige filtyper:"
+      },
+      "size": {
+        "prefix": "Maksimal filstørrelse:",
+        "content": "Du kan laste opp flere filer, men maksimalt kan ikke opplastingen være mer enn 50 MB."
+      }
+    }
   },
   "link": {
     "nyFane": "{{tekst}} (åpnes i ny fane)"
@@ -179,7 +189,7 @@
     "advarselOverskrift": "Det har skjedd en feil",
     "advarselBrukerBekreftelse": "OK",
     "manglerHovedskjema": "Du må laste opp ferdig utfylt skjema. Gå tilbake til forrige steg",
-    "filForStor": "Størrelsen på filen overskrider maksimal tillatt størrelse. Den maksimale størrelsen er 50MB.",
+    "filForStor": "Størrelsen på filen overskrider maksimal tillatt størrelse. Den maksimale størrelsen er 50 MB.",
     "filIkkeValgt": "En feil oppsto under valg av fil. Prøv på nytt",
     "filUtenInnhold": "Valgt fil mangler innhold, velg en fil som er større en 0 kB",
     "ugyldigFilformat": "Feil filformat, det er bare lov å laste opp filer av typen PDF, JPEG/JPG, PNG, TIFF/TIF, BMP, GIF, DOCX/DOC, ODT, RTF og TXT.",

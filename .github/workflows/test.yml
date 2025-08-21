@@ -27,10 +27,16 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build with mock
         run: npm run build:mock
-      - uses: cypress-io/github-action@v6.7.16
+      - uses: cypress-io/github-action@v6
         with:
           install: false
           start: npm run start:with:test
           wait-on: 'http://localhost:3100/sendinn/api/isAlive'
           config: video=false
           config-file: cypress.config.ts
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path:  ${{ github.workspace }}/cypress/screenshots/*

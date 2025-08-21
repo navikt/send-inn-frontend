@@ -8,6 +8,7 @@ import { useErrorMessage } from '../hooks/useErrorMessage';
 import { useValidation } from '../hooks/useValidation';
 import { FIL_STATUS } from '../types/enums';
 import { ErrorResponsDto, OpplastetFil, VedleggType } from '../types/types';
+import { fileUtils } from '../utils/file';
 import { sendLog } from '../utils/frontendLogger';
 import { FilUploadIcon } from './FilUploadIcon';
 import { Filvelger } from './Filvelger';
@@ -158,23 +159,6 @@ export interface FilActionType {
   filState?: FilState;
 }
 
-const GYLDIGE_FILFORMATER = [
-  'application/pdf',
-  'image/jpeg',
-  'image/png',
-  'image/bmp',
-  'image/tiff',
-  'image/gif',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  'application/msword',
-  'application/vnd.oasis.opendocument.text',
-  'application/rtf',
-  'text/rtf',
-  'text/plain',
-];
-
-const legal_filforats = GYLDIGE_FILFORMATER.join(', ');
-
 const filValidering = (fil?: File) => {
   if (!fil) {
     return { harFeil: true, melding: 'filIkkeValgt' } as const;
@@ -186,9 +170,9 @@ const filValidering = (fil?: File) => {
   if (fil.size > MAX_FILE_SIZE) {
     return { harFeil: true, melding: 'filForStor' } as const;
   }
-  if (!GYLDIGE_FILFORMATER.includes(fil.type)) {
+  if (!fileUtils.isValidMimeType(fil.type)) {
     sendLog({
-      message: `UgyldigFilformat size - ${fil.size}, type: ${fil.type || fil.name}, gyldige formater er ${legal_filforats}`,
+      message: `UgyldigFilformat size - ${fil.size}, type: ${fil.type || fil.name}, gyldige formater er ${fileUtils.validExtensions.join(', ')}`,
       level: 'warn',
     });
     return { harFeil: true, melding: 'ugyldigFilformat' } as const;
