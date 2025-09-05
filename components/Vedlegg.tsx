@@ -2,10 +2,11 @@ import axios from 'axios';
 import React, { useEffect, useReducer, useState } from 'react';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 
-import { BodyShort, Button, Heading, Link as NavLink, Panel } from '@navikt/ds-react';
+import { BodyShort, Button, Heading, Link as NavLink, Panel, ReadMore } from '@navikt/ds-react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+import { fileUtils } from '../utils/file';
 import { Filvelger } from './Filvelger';
 
 import getConfig from 'next/config';
@@ -144,6 +145,19 @@ const List = styled.ul`
   padding: 0;
   margin: 0;
   list-style: none;
+`;
+
+const ReadMoreStyled = styled(ReadMore)`
+  margin-top: var(--a-spacing-4);
+  .mb {
+    margin-bottom: var(--a-spacing-4);
+  }
+  .prefix {
+    font-weight: var(--a-font-weight-bold);
+  }
+  .content {
+    margin-left: var(--a-spacing-1);
+  }
 `;
 
 function Vedlegg(props: VedleggProps) {
@@ -341,43 +355,57 @@ function Vedlegg(props: VedleggProps) {
             )}
 
             {visFiler && (
-              <VedleggButtons>
-                <Filvelger
-                  autoFocus={autoFocus}
-                  buttonText={getFilvelgerButtonText()}
-                  onFileSelected={(fil: File) =>
-                    dispatch({
-                      type: ACTIONS.NY_FIL,
-                      filData: {
-                        lokalFil: fil,
-                      },
-                    })
-                  }
-                />
+              <>
+                <VedleggButtons>
+                  <Filvelger
+                    autoFocus={autoFocus}
+                    buttonText={getFilvelgerButtonText()}
+                    onFileSelected={(fil: File) =>
+                      dispatch({
+                        type: ACTIONS.NY_FIL,
+                        filData: {
+                          lokalFil: fil,
+                        },
+                      })
+                    }
+                  />
 
-                {erAnnetVedlegg && !erSendtInnTidligere && (
+                  {erAnnetVedlegg && !erSendtInnTidligere && (
+                    <>
+                      <Button
+                        onClick={() => {
+                          setEndrer(true);
+                          setAutoFocus(true);
+                        }}
+                        variant="secondary"
+                      >
+                        {t('soknad.vedlegg.annet.rediger')}
+                      </Button>
+
+                      <Button
+                        onClick={() => {
+                          slettAnnetVedlegg(lasterOppState != 0, vedlegg.id);
+                        }}
+                        variant="secondary"
+                      >
+                        {t('soknad.vedlegg.annet.slett')}
+                      </Button>
+                    </>
+                  )}
+                </VedleggButtons>
+                <ReadMoreStyled header={t('filvelger.readMore.header')}>
                   <>
-                    <Button
-                      onClick={() => {
-                        setEndrer(true);
-                        setAutoFocus(true);
-                      }}
-                      variant="secondary"
-                    >
-                      {t('soknad.vedlegg.annet.rediger')}
-                    </Button>
-
-                    <Button
-                      onClick={() => {
-                        slettAnnetVedlegg(lasterOppState != 0, vedlegg.id);
-                      }}
-                      variant="secondary"
-                    >
-                      {t('soknad.vedlegg.annet.slett')}
-                    </Button>
+                    <div className="mb">
+                      <span className="prefix">{t('filvelger.readMore.extensions.prefix')}</span>
+                      <span className="content">{fileUtils.validExtensions.join(', ')}.</span>
+                    </div>
+                    <div>
+                      <span className="prefix">{t('filvelger.readMore.size.prefix')}</span>
+                      <span className="content">{t('filvelger.readMore.size.content')}</span>
+                    </div>
                   </>
-                )}
-              </VedleggButtons>
+                </ReadMoreStyled>
+              </>
             )}
 
             {visFiler && filListe.length > 0 && (

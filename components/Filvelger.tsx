@@ -1,11 +1,10 @@
 import { UploadIcon } from '@navikt/aksel-icons';
-import { Button, ReadMore } from '@navikt/ds-react';
+import { Button } from '@navikt/ds-react';
 import { cloneElement, useCallback, useEffect, useMemo, useRef } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
-import { fileUtils } from '../utils/file';
 
 type FormValues = {
   file: FileList | null;
@@ -26,19 +25,6 @@ const FilvelgerForm = styled.form`
     box-shadow:
       inset 0 0 0 2px var(--a-border-action),
       var(--a-shadow-focus);
-  }
-`;
-
-const ReadMoreStyled = styled(ReadMore)`
-  margin-top: var(--a-spacing-4);
-  .mb {
-    margin-bottom: var(--a-spacing-4);
-  }
-  .prefix {
-    font-weight: var(--a-font-weight-bold);
-  }
-  .content {
-    margin-left: var(--a-spacing-1);
   }
 `;
 
@@ -127,18 +113,6 @@ export function Filvelger(props: FilvelgerProps) {
         }}
       />
       <CurrentButton />
-      <ReadMoreStyled header={t('filvelger.readMore.header')}>
-        <>
-          <div className="mb">
-            <span className="prefix">{t('filvelger.readMore.extensions.prefix')}</span>
-            <span className="content">{fileUtils.validExtensions.join(', ')}.</span>
-          </div>
-          <div>
-            <span className="prefix">{t('filvelger.readMore.size.prefix')}</span>
-            <span className="content">{t('filvelger.readMore.size.content')}</span>
-          </div>
-        </>
-      </ReadMoreStyled>
     </FilvelgerForm>
   );
 }
