@@ -18,7 +18,7 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
-    "@navikt/aksel-icons": "^7.22.0",
+    "@navikt/aksel-icons": "^7.31.0",
     "@navikt/ds-css": "^7.22.0",
     "@navikt/ds-react": "^7.22.0",
     "@navikt/nav-dekoratoren-moduler": "^3.4.0",
