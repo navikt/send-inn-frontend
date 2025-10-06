@@ -19,11 +19,25 @@ updates:
         update-types:
           - 'minor'
           - 'patch'
-      navikt-aksel:
+      navikt-aksel-minor-patch:
         patterns:
           - '@navikt/*'
         exclude-patterns:
           - '@navikt/nav-dekoratoren-moduler'
+        update-types:
+          - 'minor'
+          - 'patch'
+      navikt-aksel-major:
+        patterns:
+          - '@navikt/*'
+        exclude-patterns:
+          - '@navikt/nav-dekoratoren-moduler'
+        update-types:
+          - 'major'
+      react-and-next:
+        patterns:
+          - 'react*'
+          - 'next*'
         update-types:
           - 'major'
       typescript-eslint:
