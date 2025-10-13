@@ -40,9 +40,19 @@ updates:
           - 'next*'
         update-types:
           - 'major'
-      typescript-eslint:
-        patterns: 
-          - '@typescript-eslint/*'
+      eslint-typescript-cypress-minor-patch:
+        patterns:
+          - '*eslint*'
+          - '*typescript*'
+          - '*cypress*'
+        update-types:
+          - 'minor'
+          - 'patch'
+      eslint-typescript-cypress-major:
+        patterns:
+          - '*eslint*'
+          - '*typescript*'
+          - '*cypress*'
         update-types:
           - 'major'
 
