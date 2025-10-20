@@ -16,10 +16,10 @@
     "message": "Wrong file format. It is only allowed to upload files of type PDF, JPEG/JPG, PNG, TIFF/TIF, BMP, GIF, DOCX/DOC, ODT, RTF and TXT."
   },
   "illegalAction.fileSizeSumTooLarge": {
-    "message": "The sum of the size of uploaded files for the entire application exceeds the maximum allowed size. The maximum size allowed is 150MB in total."
+    "message": "The sum of the size of uploaded files for the entire application exceeds the maximum allowed size. The maximum size allowed is 300MB in total."
   },
   "illegalAction.vedleggFileSizeSumTooLarge": {
-    "message": "The sum of the size of uploaded files for this document exceeds the maximum allowed size. The maximum size allowed is 50MB in total."
+    "message": "The sum of the size of uploaded files for this document exceeds the maximum allowed size. The maximum size allowed is 150MB in total."
   },
   "illegalAction.virusScanFailed": {
     "message": "The uploaded file contains a virus. Try again with another file."

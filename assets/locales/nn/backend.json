@@ -16,10 +16,10 @@
     "message": "Feil filformat, det er berre lov å laste opp filer av typen PDF, JPEG/JPG, PNG, TIFF/TIF, BMP, GIF, DOCX/DOC, ODT, RTF og TXT."
   },
   "illegalAction.fileSizeSumTooLarge": {
-    "message": "Summen av storleiken på opplasta filer for heile søknaden overskrid maksimal tillaten storleik. Den maksimale storleiken er 150MB totalt."
+    "message": "Summen av storleiken på opplasta filer for heile søknaden overskrid maksimal tillaten storleik. Den maksimale storleiken er 300MB totalt."
   },
   "illegalAction.vedleggFileSizeSumTooLarge": {
-    "message": "Summen av storleiken på opplasta filer for denne dokumentasjonen overskrid maksimal tillaten storleik. Den maksimale storleiken er 50MB totalt."
+    "message": "Summen av storleiken på opplasta filer for denne dokumentasjonen overskrid maksimal tillaten storleik. Den maksimale storleiken er 150MB totalt."
   },
   "illegalAction.virusScanFailed": {
     "message": "Fila du har lasta opp inneheld virus. Prøv igjen med ei anna fil."
