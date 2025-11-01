@@ -15,7 +15,7 @@ jobs:
       packages: 'read'
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: 24
           cache: 'npm'
@@ -35,7 +35,7 @@ jobs:
           config: video=false
           config-file: cypress.config.ts
       - name: Upload screenshots
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: cypress-screenshots
