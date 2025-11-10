@@ -91,6 +91,7 @@ const getUmamiAttributes = (soknad: SoknadType) => ({
   skjemaId: soknad.skjemanr,
   skjemanavn: soknad.tittel,
   tema: soknad.tema,
+  visningstype: soknad.visningsType,
   language: soknad.spraak,
 });
 
