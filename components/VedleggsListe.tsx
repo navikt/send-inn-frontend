@@ -12,6 +12,7 @@ import { useErrorMessage } from '../hooks/useErrorMessage';
 import { FyllutForm } from '../types/fyllutForm';
 import { KvitteringsDto, OpplastingsStatus, SoknadType, VedleggType } from '../types/types';
 import { navigerTil } from '../utils/navigerTil';
+import { logUmamiEvent } from '../utils/tracking/umami';
 import { useAppConfig } from './AppConfigContext';
 import { AutomatiskInnsending } from './AutomatiskInnsending';
 import { KvitteringsTillegg } from './KvitteringsTillegg';
@@ -86,6 +87,13 @@ export const useVedleggslisteContext = () => {
   return vedleggslisteContext;
 };
 
+const getUmamiAttributes = (soknad: SoknadType) => ({
+  skjemaId: soknad.skjemanr,
+  skjemanavn: soknad.tittel,
+  tema: soknad.tema,
+  language: soknad.spraak,
+});
+
 function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
   const [fyllutHasError, setFyllutHasError] = useState(false);
   const { t } = useTranslation();
@@ -153,13 +161,15 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
     if (lagrerNaa()) return;
 
     await nyLagringsProsess(axios.post(`${publicRuntimeConfig.apiUrl}/frontend/v1/sendInn/${soknad?.innsendingsId}`))
-      .then((response) => {
+      .then(async (response) => {
+        logUmamiEvent('skjema fullført', getUmamiAttributes(soknad));
         const kv: KvitteringsDto = response.data;
         setSoknadsInnsendingsRespons(kv);
         setVisKvittering(true);
         resettFokus();
       })
-      .catch((error) => {
+      .catch(async (error) => {
+        logUmamiEvent('skjemainnsending feilet', getUmamiAttributes(soknad));
         showError(error);
       });
   };
