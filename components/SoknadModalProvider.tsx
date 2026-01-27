@@ -95,6 +95,7 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
         <BodyLong as="ul">
           {(
             t('modal.fortsettSenere.liste', {
+              dato: formatertDato(new Date(soknad.skalSlettesDato)),
               returnObjects: true,
             }) as string[]
           ).map((element, key) => (
