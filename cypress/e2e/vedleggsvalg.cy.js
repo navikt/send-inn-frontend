@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
-describe('Tester validering', () => {
-  it('Legger til valideringsfeil, og fikser dem', () => {
+describe.only('Tester validering', () => {
+  it.only('Legger til valideringsfeil, og fikser dem', () => {
     cy.visit('http://localhost:3100/sendinn/fyll-ut-med-vedleggsvalg');
 
     cy.injectAxe();
