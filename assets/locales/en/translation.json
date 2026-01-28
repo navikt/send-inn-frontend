@@ -136,7 +136,7 @@
         "The form will NOT be sent to the case manager in Nav now, but only saved so that you can continue later.",
         "If you want to set today's date as the start date for the application, you must click “Cancel” and select “Send to Nav”.",
         "We have created a draft at nav.no/minside (my page) with a link to the application.",
-        "Notice that the application will be removed if not sent in before {{dato}}."
+        "The application will be available until {{dato}}."
       ],
       "accept": "Yes, save and continue later",
       "cancel": "Cancel"

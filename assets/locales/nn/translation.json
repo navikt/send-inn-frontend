@@ -136,7 +136,7 @@
         "Søknaden blir IKKJE send til saksbehandlar i Nav no, men berre lagra slik at du kan fortsetja seinare.",
         "Viss du ønsker å setja dagens dato som startdato for søknaden må du klikke “Avbryt” og velja “Send til Nav”.",
         "Vi har oppretta eit utkast på nav.no/minside med ei lenke til søknaden.",
-        "Merk at søknaden vil bli sletta om den ikkje er sendt inn innan {{dato}}."
+        "Søknaden vil vere tilgjengeleg til {{dato}}."
       ],
       "accept": "Ja, lagre og fortsett seinare",
       "cancel": "Avbryt"
