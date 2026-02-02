@@ -72,6 +72,7 @@ export type SoknadType = {
   kanLasteOppAnnet: boolean;
   applikasjon: string;
   erNavOpprettet: boolean;
+  skalSlettesDato: string;
 };
 
 export type InnsendtVedleggDto = {

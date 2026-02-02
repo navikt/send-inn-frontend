@@ -122,7 +122,7 @@
       },
       "size": {
         "prefix": "Maksimal filstørrelse:",
-        "content": "Du kan laste opp flere filer, men maksimalt kan ikke opplastingen være mer enn 50 MB."
+        "content": "Du kan laste opp flere filer, men maksimalt kan ikke opplastingen være mer enn 150 MB."
       }
     }
   },
@@ -135,7 +135,8 @@
       "liste": [
         "Søknaden blir IKKE sendt til saksbehandler i Nav nå, men bare lagret slik at du kan fortsette senere.",
         "Hvis du ønsker å sette dagens dato som startdato for søknaden må du klikke “Avbryt” og velge “Send til Nav”.",
-        "Vi har opprettet et utkast på nav.no/minside med en lenke til søknaden."
+        "Vi har opprettet et utkast på nav.no/minside med en lenke til søknaden.",
+        "Søknaden vil være tilgjengelig til {{dato}}."
       ],
       "accept": "Ja, lagre og fortsett senere",
       "cancel": "Avbryt"
