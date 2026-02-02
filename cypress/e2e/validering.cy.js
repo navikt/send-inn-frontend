@@ -2,7 +2,7 @@
 import translations from '../../assets/locales/nb/translation.json';
 
 describe('Tester validering', () => {
-  it.only('Legger til valideringsfeil, og fikser dem', () => {
+  it('Legger til valideringsfeil, og fikser dem', () => {
     cy.visit(
       '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2',
     );
