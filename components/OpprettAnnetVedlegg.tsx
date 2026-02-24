@@ -92,7 +92,7 @@ export function OpprettAnnetVedlegg({ innsendingsId }: EndreVedleggProps) {
 
     axios
       .post(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg`, {
-        tittel: data.tittel,
+        tittel: filtrertTittel,
       })
       .then((response) => {
         leggTilVedlegg({ ...response.data, autoFocus: true });
