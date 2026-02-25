@@ -25,6 +25,26 @@ export interface EndreVedleggProps {
   setTittel: (arg: string) => void;
 }
 
+/**
+ * Hjelpefunksjon for å rense input (fjerner ulovlige tegn og trimmer whitespace).
+ * Tilsvarer logikken brukt i validator.tsx for å være kompatibel med foerstesidegenerator.
+ */
+const inputFilter = (input: string | undefined): string => {
+  if (!input) return '';
+
+  /**
+   * Bruker RegExp-konstruktøren for å unngå problemer med eldre ES-targets
+   * når man bruker Unicode property escapes.
+   */
+  try {
+    const invalidCharactersRegex = new RegExp('[^\\p{L}\\p{N}\\p{Zs}\\n\\t\\-./;()":,–_!\'?&+’%#•@»«§]', 'gu');
+    return input.replace(invalidCharactersRegex, '').trim();
+  } catch (e) {
+    // Fallback dersom miljøet ikke støtter Unicode property escapes i det hele tatt
+    return input.trim();
+  }
+};
+
 type FormValues = {
   tittel: string;
 };
@@ -35,6 +55,7 @@ export function EndreVedlegg({ tittel, setEndrer, vedlegg, innsendingsId, setTit
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<FormValues>();
   const { showError } = useErrorMessage();
@@ -56,6 +77,16 @@ export function EndreVedlegg({ tittel, setEndrer, vedlegg, innsendingsId, setTit
   });
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
+    const filtrertTittel = inputFilter(data.tittel);
+
+    // Validerer at tittelen ikke er tom etter filtrering
+    if (!filtrertTittel) {
+      setError('tittel', {
+        type: 'manual',
+        message: t('soknad.vedlegg.annet.feilmelding.manglerNavn'),
+      });
+      return;
+    }
     setIsLoading(true);
 
     axios
@@ -63,7 +94,7 @@ export function EndreVedlegg({ tittel, setEndrer, vedlegg, innsendingsId, setTit
         tittel: data.tittel,
       })
       .then(() => {
-        setTittel(data.tittel);
+        setTittel(filtrertTittel);
       })
       .catch((error) => {
         showError(error);

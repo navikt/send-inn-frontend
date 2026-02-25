@@ -38,7 +38,7 @@ const inputFilter = (input: string | undefined): string => {
    * når man bruker Unicode property escapes.
    */
   try {
-    const invalidCharactersRegex = new RegExp('[^\\p{L}\\p{N}\\p{Zs}\\n\\t\\-./;()":,–_\'?&+’%#•@»«§]', 'gu');
+    const invalidCharactersRegex = new RegExp('[^\\p{L}\\p{N}\\p{Zs}\\n\\t\\-./;()":,–_!\'?&+’%#•@»«§]', 'gu');
     return input.replace(invalidCharactersRegex, '').trim();
   } catch (e) {
     // Fallback dersom miljøet ikke støtter Unicode property escapes i det hele tatt
