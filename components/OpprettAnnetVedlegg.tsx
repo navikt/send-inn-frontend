@@ -54,7 +54,6 @@ export function OpprettAnnetVedlegg({ innsendingsId }: EndreVedleggProps) {
   const {
     register,
     handleSubmit,
-    setError,
     reset,
     formState: { errors },
   } = useForm<FormValues>();
@@ -78,21 +77,11 @@ export function OpprettAnnetVedlegg({ innsendingsId }: EndreVedleggProps) {
   });
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    const filtrertTittel = inputFilter(data.tittel);
-
-    // Validerer at tittelen ikke er tom etter filtrering
-    if (!filtrertTittel) {
-      setError('tittel', {
-        type: 'manual',
-        message: t('soknad.vedlegg.annet.feilmelding.manglerNavn'),
-      });
-      return;
-    }
     setIsLoading(true);
 
     axios
       .post(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg`, {
-        tittel: filtrertTittel,
+        tittel: data.tittel,
       })
       .then((response) => {
         leggTilVedlegg({ ...response.data, autoFocus: true });
@@ -121,6 +110,7 @@ export function OpprettAnnetVedlegg({ innsendingsId }: EndreVedleggProps) {
                 label={t('soknad.vedlegg.annet.tittel')}
                 description={t('soknad.vedlegg.annet.beskrivelse')}
                 {...register('tittel', {
+                  setValueAs: (value: string) => inputFilter(value),
                   required: {
                     value: true,
                     message: t('soknad.vedlegg.annet.feilmelding.manglerNavn'),

@@ -55,7 +55,6 @@ export function EndreVedlegg({ tittel, setEndrer, vedlegg, innsendingsId, setTit
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors },
   } = useForm<FormValues>();
   const { showError } = useErrorMessage();
@@ -77,16 +76,6 @@ export function EndreVedlegg({ tittel, setEndrer, vedlegg, innsendingsId, setTit
   });
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    const filtrertTittel = inputFilter(data.tittel);
-
-    // Validerer at tittelen ikke er tom etter filtrering
-    if (!filtrertTittel) {
-      setError('tittel', {
-        type: 'manual',
-        message: t('soknad.vedlegg.annet.feilmelding.manglerNavn'),
-      });
-      return;
-    }
     setIsLoading(true);
 
     axios
@@ -94,7 +83,7 @@ export function EndreVedlegg({ tittel, setEndrer, vedlegg, innsendingsId, setTit
         tittel: data.tittel,
       })
       .then(() => {
-        setTittel(filtrertTittel);
+        setTittel(data.tittel);
       })
       .catch((error) => {
         showError(error);
@@ -117,6 +106,7 @@ export function EndreVedlegg({ tittel, setEndrer, vedlegg, innsendingsId, setTit
             label={t('soknad.vedlegg.annet.tittel')}
             description={t('soknad.vedlegg.annet.beskrivelse')}
             {...register('tittel', {
+              setValueAs: (value: string) => inputFilter(value),
               required: {
                 value: true,
                 message: t('soknad.vedlegg.annet.feilmelding.manglerNavn'),
