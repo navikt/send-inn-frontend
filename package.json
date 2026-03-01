@@ -41,7 +41,7 @@
     "winston": "^3.18.3"
   },
   "devDependencies": {
-    "@sentry/cli": "^2.56.0",
+    "@sentry/cli": "^3.2.2",
     "@testing-library/cypress": "^10.1.0",
     "@types/node": "^24.7.0",
     "@types/react": "^18.3.11",
