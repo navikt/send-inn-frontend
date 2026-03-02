@@ -11,6 +11,7 @@ import { useValidation } from '../hooks/useValidation';
 import { ValideringsRamme } from './ValideringsRamme';
 import { VedleggPanel } from './Vedlegg';
 import { useVedleggslisteContext } from './VedleggsListe';
+import inputFilter from './common/Util';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -90,6 +91,7 @@ export function OpprettAnnetVedlegg({ innsendingsId }: EndreVedleggProps) {
                 label={t('soknad.vedlegg.annet.tittel')}
                 description={t('soknad.vedlegg.annet.beskrivelse')}
                 {...register('tittel', {
+                  setValueAs: (value: string) => inputFilter(value),
                   required: {
                     value: true,
                     message: t('soknad.vedlegg.annet.feilmelding.manglerNavn'),

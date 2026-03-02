@@ -15,6 +15,7 @@ jobs:
 
   build-and-push:
     name: Build and push Docker container for preprod
+    needs: [build-and-test]
     uses: ./.github/workflows/build-push.yml
     with:
       environment: preprod

@@ -10,6 +10,7 @@ import { useValidation } from '../hooks/useValidation';
 import { VedleggType } from '../types/types';
 import { ValideringsRamme } from './ValideringsRamme';
 import { VedleggPanel } from './Vedlegg';
+import inputFilter from './common/Util';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -86,6 +87,7 @@ export function EndreVedlegg({ tittel, setEndrer, vedlegg, innsendingsId, setTit
             label={t('soknad.vedlegg.annet.tittel')}
             description={t('soknad.vedlegg.annet.beskrivelse')}
             {...register('tittel', {
+              setValueAs: (value: string) => inputFilter(value),
               required: {
                 value: true,
                 message: t('soknad.vedlegg.annet.feilmelding.manglerNavn'),
