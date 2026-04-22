@@ -163,14 +163,20 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
 
     await nyLagringsProsess(axios.post(`${publicRuntimeConfig.apiUrl}/frontend/v1/sendInn/${soknad?.innsendingsId}`))
       .then(async (response) => {
-        logUmamiEvent('skjema fullført', getUmamiAttributes(soknad));
+        // We cant log Umami unless visnignsType is fyllut since we dont have controll on the data from ettersending,
+        // fields might contain sensitive data.
+        if (soknad.visningsType === 'fyllUt') {
+          logUmamiEvent('skjema fullført', getUmamiAttributes(soknad));
+        }
         const kv: KvitteringsDto = response.data;
         setSoknadsInnsendingsRespons(kv);
         setVisKvittering(true);
         resettFokus();
       })
       .catch(async (error) => {
-        logUmamiEvent('skjemainnsending feilet', getUmamiAttributes(soknad));
+        if (soknad.visningsType === 'fyllUt') {
+          logUmamiEvent('skjemainnsending feilet', getUmamiAttributes(soknad));
+        }
         showError(error);
       });
   };
