@@ -1,8 +1,14 @@
 describe('uxSignals', () => {
+  const uxSignalsScriptUrl = 'https://widget.uxsignals.com/embed.js';
+
   beforeEach(() => {
     cy.intercept('GET', '/sendinn/api/fyllut/forms/*', cy.spy().as('getFormSpy'));
-    cy.intercept('GET', '/v2/study/id/*', { fixture: 'uxSignalsStudy.json' }).as('getUxSignalsStudy');
+    cy.intercept('GET', uxSignalsScriptUrl, {
+      body: '',
+      headers: { 'content-type': 'application/javascript' },
+    }).as('getUxSignalsScript');
   });
+
   it('Should show uxSignals', () => {
     cy.defaultIntercepts();
     cy.visit('/fyll-ut-default');
@@ -15,8 +21,9 @@ describe('uxSignals', () => {
     cy.findByRole('button', { name: 'Send til Nav' }).click();
     cy.findByRole('button', { name: 'Ja, send søknaden' }).click();
 
-    // The first question in the uxSignals form
-    cy.findByText('Hvor gammel er du?').should('exist');
+    cy.wait('@getUxSignalsScript');
+    cy.get(`script[src="${uxSignalsScriptUrl}"]`).should('exist');
+    cy.get('[data-uxsignals-embed="panel-uzn9037kdp"]').should('have.attr', 'data-uxsignals-mode', 'demo');
   });
 
   it('Should not make request to fyllut if visningsType is dokumentinnsending', () => {
