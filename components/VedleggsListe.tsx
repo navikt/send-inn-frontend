@@ -1,6 +1,5 @@
 import { Button } from '@navikt/ds-react';
 import axios from 'axios';
-import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +10,7 @@ import SkjemaNedlasting from '../components/SkjemaNedlasting';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { FyllutForm } from '../types/fyllutForm';
 import { KvitteringsDto, OpplastingsStatus, SoknadType, VedleggType } from '../types/types';
+import { appConfig } from '../utils/appConfig';
 import { navigerTil } from '../utils/navigerTil';
 import { logUmamiEvent } from '../utils/tracking/umami';
 import { useAppConfig } from './AppConfigContext';
@@ -21,8 +21,6 @@ import LastOppVedlegg from './LastOppVedlegg';
 import SkjemaOpplasting from './SkjemaOpplasting';
 import { SoknadModalProvider } from './SoknadModalProvider';
 import { ExtendedVedleggType } from './Vedlegg';
-
-const { publicRuntimeConfig } = getConfig();
 
 const initialVedleggsliste: VedleggType[] = [];
 
@@ -100,7 +98,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
   const { t } = useTranslation();
   const { data: fyllutForm, isLoading: fyllutIsLoading } = useSWR(
     soknad?.visningsType === 'fyllUt'
-      ? `${publicRuntimeConfig.basePath}/api/fyllut/forms/${soknad.skjemaPath}?type=limited&lang=${soknad.spraak}`
+      ? `${appConfig.basePath}/api/fyllut/forms/${soknad.skjemaPath}?type=limited&lang=${soknad.spraak}`
       : null,
     {
       onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
@@ -161,7 +159,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
   const onSendInn = async () => {
     if (lagrerNaa()) return;
 
-    await nyLagringsProsess(axios.post(`${publicRuntimeConfig.apiUrl}/frontend/v1/sendInn/${soknad?.innsendingsId}`))
+    await nyLagringsProsess(axios.post(`${appConfig.apiUrl}/frontend/v1/sendInn/${soknad?.innsendingsId}`))
       .then(async (response) => {
         // We cant log Umami unless visnignsType is fyllut since we dont have controll on the data from ettersending,
         // fields might contain sensitive data.
@@ -186,7 +184,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
       return;
     }
 
-    await nyLagringsProsess(axios.delete(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad?.innsendingsId}`))
+    await nyLagringsProsess(axios.delete(`${appConfig.apiUrl}/frontend/v1/soknad/${soknad?.innsendingsId}`))
       .then(() => {
         resetState();
         navigerTil(minSideUrl);
@@ -213,7 +211,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
     resettFokus();
 
     axios
-      .patch(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}`, {
+      .patch(`${appConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}`, {
         visningsSteg: nyttVisningsSteg,
       })
       .catch((error) => {
@@ -238,7 +236,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
     if (harAktiveEndringer) return;
 
     await nyLagringsProsess(
-      axios.delete(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${vedleggsId}`),
+      axios.delete(`${appConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${vedleggsId}`),
     )
       .then(() => {
         setVedleggsListe((forrigeVedleggsliste) => forrigeVedleggsliste.filter((el) => el.id !== vedleggsId));

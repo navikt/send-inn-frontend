@@ -1,32 +1,13 @@
 /** @type {import('next').NextConfig} */
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
-/* eslint @typescript-eslint/no-var-requires: "off" */
 import { withSentryConfig } from '@sentry/nextjs';
-
-const minSideAnsattUrl = process.env.NEXT_PUBLIC_MIN_SIDE_ANSATT_URL;
-
-const minSideAnsattUrlMappings = {
-  preprodAnsatt: minSideAnsattUrl,
-  preprodAltAnsatt: minSideAnsattUrl,
-  delingslenke: minSideAnsattUrl,
-};
-
-const fyllutAnsattUrlMappings = {
-  preprodAnsatt: 'https://fyllut-preprod.ansatt.dev.nav.no/fyllut',
-  preprodAltAnsatt: 'https://fyllut-preprod-alt.ansatt.dev.nav.no/fyllut',
-};
 
 const nextConfig = {
   experimental: {
     optimizePackageImports: ['@navikt/ds-react', '@navikt/aksel-icons'],
   },
   reactStrictMode: false,
-  eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: true,
-  },
   i18n: {
     locales: ['nb', 'en', 'nn'],
     defaultLocale: 'nb',
@@ -36,23 +17,6 @@ const nextConfig = {
   },
   output: 'standalone',
   basePath,
-  publicRuntimeConfig: {
-    // Will be available on both server and client
-    apiUrl: basePath + (process.env.NEXT_PUBLIC_API_URL || '/api/backend'),
-    minSide: {
-      urls: {
-        ...(process.env.NEXT_PUBLIC_APP_ENV !== 'production' && minSideAnsattUrlMappings),
-        default: process.env.NEXT_PUBLIC_MIN_SIDE_URL,
-      },
-    },
-    fyllut: {
-      urls: {
-        ...(process.env.NEXT_PUBLIC_APP_ENV !== 'production' && fyllutAnsattUrlMappings),
-        default: process.env.NEXT_PUBLIC_FYLLUT_URL,
-      },
-    },
-    basePath,
-  },
   async redirects() {
     return [
       {

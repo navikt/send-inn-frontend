@@ -1,19 +1,17 @@
 import { PlusIcon } from '@navikt/aksel-icons';
 import { Button, TextField } from '@navikt/ds-react';
 import axios from 'axios';
-import getConfig from 'next/config';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { useValidation } from '../hooks/useValidation';
+import { appConfig } from '../utils/appConfig';
 import { ValideringsRamme } from './ValideringsRamme';
 import { VedleggPanel } from './Vedlegg';
 import { useVedleggslisteContext } from './VedleggsListe';
 import inputFilter from './common/Util';
-
-const { publicRuntimeConfig } = getConfig();
 
 const ButtomRow = styled.div`
   margin-top: 24px;
@@ -61,7 +59,7 @@ export function OpprettAnnetVedlegg({ innsendingsId }: EndreVedleggProps) {
     setIsLoading(true);
 
     axios
-      .post(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg`, {
+      .post(`${appConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg`, {
         tittel: data.tittel,
       })
       .then((response) => {

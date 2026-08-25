@@ -1,6 +1,5 @@
 import { BodyShort, Button, Link as NavLink, Panel } from '@navikt/ds-react';
 import axios, { AxiosError, AxiosProgressEvent, AxiosRequestConfig, AxiosResponse } from 'axios';
-import getConfig from 'next/config';
 import React, { useEffect, useReducer, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -8,6 +7,7 @@ import { useErrorMessage } from '../hooks/useErrorMessage';
 import { useValidation } from '../hooks/useValidation';
 import { FIL_STATUS } from '../types/enums';
 import { ErrorResponsDto, OpplastetFil, VedleggType } from '../types/types';
+import { appConfig } from '../utils/appConfig';
 import { fileUtils } from '../utils/file';
 import { sendLog } from '../utils/frontendLogger';
 import { FilUploadIcon } from './FilUploadIcon';
@@ -16,9 +16,7 @@ import { ACTIONS, ActionType } from './Vedlegg';
 import { useVedleggslisteContext } from './VedleggsListe';
 import { ErrorMessageWithDot, ScreenReaderOnly } from './textStyle';
 
-const { publicRuntimeConfig } = getConfig();
-
-const API_URL = publicRuntimeConfig.apiUrl;
+const API_URL = appConfig.apiUrl;
 const MAX_FILE_SIZE_IN_MB = parseInt(process.env.NEXT_PUBLIC_MAX_FILE_SIZE_IN_MB!);
 const MAX_FILE_SIZE = MAX_FILE_SIZE_IN_MB * 1024 * 1024;
 
@@ -455,7 +453,7 @@ export function Fil({
           {status === FIL_STATUS.OPPLASTET ? (
             <NavLink
               target="_blank"
-              href={`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/${filState.filData?.opplastetFil?.id}`}
+              href={`${appConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/${filState.filData?.opplastetFil?.id}`}
               rel="noopener noreferrer"
             >
               {filnavn}

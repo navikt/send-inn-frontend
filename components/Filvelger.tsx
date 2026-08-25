@@ -1,6 +1,6 @@
 import { UploadIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
-import { cloneElement, useCallback, useEffect, useMemo, useRef } from 'react';
+import { cloneElement, ReactElement, useCallback, useEffect, useMemo, useRef } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -31,7 +31,7 @@ const FilvelgerForm = styled.form`
 interface FilvelgerProps {
   autoFocus?: boolean;
   onFileSelected: (fil: File) => void;
-  CustomButton?: JSX.Element;
+  CustomButton?: ReactElement;
   allowMultiple?: boolean;
   buttonText?: string | null;
 }

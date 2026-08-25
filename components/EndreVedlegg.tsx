@@ -1,6 +1,5 @@
 import { Button, TextField } from '@navikt/ds-react';
 import axios from 'axios';
-import getConfig from 'next/config';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -8,11 +7,10 @@ import styled from 'styled-components';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { useValidation } from '../hooks/useValidation';
 import { VedleggType } from '../types/types';
+import { appConfig } from '../utils/appConfig';
 import { ValideringsRamme } from './ValideringsRamme';
 import { VedleggPanel } from './Vedlegg';
 import inputFilter from './common/Util';
-
-const { publicRuntimeConfig } = getConfig();
 
 const ButtonRow = styled.div`
   margin-top: 24px;
@@ -60,7 +58,7 @@ export function EndreVedlegg({ tittel, setEndrer, vedlegg, innsendingsId, setTit
     setIsLoading(true);
 
     axios
-      .patch(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}`, {
+      .patch(`${appConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}`, {
         tittel: data.tittel,
       })
       .then(() => {

@@ -9,10 +9,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { fileUtils } from '../utils/file';
 import { Filvelger } from './Filvelger';
 
-import getConfig from 'next/config';
 import { useValidation } from '../hooks/useValidation';
 import { FIL_STATUS } from '../types/enums';
 import { OpplastetFil, VedleggType, VisningsType } from '../types/types';
+import { appConfig } from '../utils/appConfig';
 import { EndreVedlegg } from './EndreVedlegg';
 import { Fil, FilePanel } from './Fil';
 import { FilUploadIcon } from './FilUploadIcon';
@@ -22,8 +22,6 @@ import parse from 'html-react-parser';
 import sanitizeHtml from 'sanitize-html';
 import { useVedleggslisteContext } from './VedleggsListe';
 import VedleggsValg from './VedleggsValg';
-
-const { publicRuntimeConfig } = getConfig();
 
 export interface ExtendedVedleggType extends VedleggType {
   autoFocus?: boolean;
@@ -221,7 +219,7 @@ function Vedlegg(props: VedleggProps) {
     if (!hasFetched && innsendingsId && vedlegg.id) {
       setHasFetched(true);
       axios
-        .get(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil`)
+        .get(`${appConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil`)
         .then((response) => {
           const responseJSON = response.data;
           for (const item of responseJSON) {

@@ -1,8 +1,6 @@
-import getConfig from 'next/config';
 import React, { createContext, useContext } from 'react';
+import { appConfig } from '../utils/appConfig';
 import { EnvQualifierType } from '../utils/envQualifier';
-
-const { publicRuntimeConfig } = getConfig();
 
 interface AppConfigContextType {
   envQualifier: EnvQualifierType | undefined;
@@ -33,17 +31,17 @@ export const AppConfigProvider = ({ children, envQualifier }: ProviderProps) => 
 };
 
 const getMinSideUrl = (envQualifier?: EnvQualifierType): string => {
-  const defaultUrl = publicRuntimeConfig.minSide.urls.default;
+  const defaultUrl = appConfig.minSide.urls.default;
   if (!envQualifier) {
     return defaultUrl;
   }
-  return publicRuntimeConfig.minSide.urls[envQualifier] || defaultUrl;
+  return appConfig.minSide.urls[envQualifier] || defaultUrl;
 };
 
 const getFyllutUrl = (envQualifier?: EnvQualifierType): string => {
-  const defaultUrl = publicRuntimeConfig.fyllut.urls.default;
+  const defaultUrl = appConfig.fyllut.urls.default;
   if (!envQualifier) {
     return defaultUrl;
   }
-  return publicRuntimeConfig.fyllut.urls[envQualifier] || defaultUrl;
+  return appConfig.fyllut.urls[envQualifier] || defaultUrl;
 };

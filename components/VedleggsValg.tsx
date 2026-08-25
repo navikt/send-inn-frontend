@@ -1,18 +1,16 @@
 import { Alert } from '@navikt/ds-react';
 import axios from 'axios';
-import getConfig from 'next/config';
 import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { useErrorMessage } from '../hooks/useErrorMessage';
 import { OpplastingsStatus, PatchVedleggDto, VedleggType } from '../types/types';
+import { appConfig } from '../utils/appConfig';
 import { hentVedleggsValgAlternativer, mapOpplastingStatusToVedleggsvalg } from '../utils/vedleggsValgUtils';
 import { useLagringsProsessContext } from './LagringsProsessProvider';
 import VedleggRadio from './VedleggRadio';
 import { VedleggsKommentar } from './VedleggsKommentar';
 import { useVedleggslisteContext } from './VedleggsListe';
-
-const { publicRuntimeConfig } = getConfig();
 
 const StyledVedleggsValg = styled.div`
   display: flex;
@@ -69,14 +67,10 @@ function VedleggsValg({
   const PatchVedlegg = useCallback(
     (body: PatchVedleggDto, signal: AbortSignal) => {
       return nyLagringsProsess(
-        axios.patch<VedleggType>(
-          `${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${id}`,
-          body,
-          {
-            timeout: 10000,
-            signal,
-          },
-        ),
+        axios.patch<VedleggType>(`${appConfig.apiUrl}/frontend/v1/soknad/${soknad.innsendingsId}/vedlegg/${id}`, body, {
+          timeout: 10000,
+          signal,
+        }),
       );
     },
     [soknad.innsendingsId, id, nyLagringsProsess],

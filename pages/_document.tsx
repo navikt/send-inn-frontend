@@ -1,9 +1,7 @@
 import { DecoratorComponentsReact, fetchDecoratorReact } from '@navikt/nav-dekoratoren-moduler/ssr';
-import getConfig from 'next/config';
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
-
-const { publicRuntimeConfig } = getConfig();
+import { appConfig } from '../utils/appConfig';
 
 interface Props {
   Decorator: DecoratorComponentsReact;
@@ -26,7 +24,7 @@ export default class MyDocument extends Document<Props> {
         env: process.env.DECORATOR_ENV === 'dev' ? 'dev' : 'prod',
         params: {
           simple: true,
-          logoutUrl: publicRuntimeConfig.basePath + '/oauth2/logout',
+          logoutUrl: appConfig.basePath + '/oauth2/logout',
           logoutWarning: true,
         },
       });
@@ -49,7 +47,7 @@ export default class MyDocument extends Document<Props> {
 
     const disableDecorator = process.env.DECORATOR_DISABLED !== 'true';
     return (
-      <Html style={{ scrollBehavior: 'smooth' }}>
+      <Html style={{ scrollBehavior: 'smooth' }} data-scroll-behavior="smooth">
         <Head>{disableDecorator && <HeadAssets />}</Head>
         <body>
           {disableDecorator && <Header />}
