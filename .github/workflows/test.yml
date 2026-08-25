@@ -14,8 +14,8 @@ jobs:
       contents: 'read'
       packages: 'read'
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: 'npm'
@@ -27,7 +27,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build with mock
         run: npm run build:mock
-      - uses: cypress-io/github-action@v6
+      - uses: cypress-io/github-action@v7
         with:
           install: false
           start: npm run start:with:test
@@ -35,7 +35,7 @@ jobs:
           config: video=false
           config-file: cypress.config.ts
       - name: Upload screenshots
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: cypress-screenshots
