@@ -64,18 +64,6 @@ const nextConfig = {
   },
 };
 
-const sentryConfig = {
-  sentry: {
-    // Use `hidden-source-map` rather than `source-map` as the Webpack `devtool`
-    // for client-side builds. (This will be the default starting in
-    // `@sentry/nextjs` version 8.0.0.) See
-    // https://webpack.js.org/configuration/devtool/ and
-    // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#use-hidden-source-map
-    // for more information.
-    hideSourceMaps: true,
-  },
-};
-
 const sentryWebpackPluginOptions = {
   // Additional config options for the Sentry Webpack plugin. Keep in mind that
   // the following options are set automatically, and overriding them is not
@@ -92,7 +80,7 @@ const getConfig = () => {
   if (process.env.DISABLE_SENTRY === 'true') {
     return nextConfig;
   }
-  return withSentryConfig({ ...nextConfig, ...sentryConfig }, sentryWebpackPluginOptions);
+  return withSentryConfig(nextConfig, sentryWebpackPluginOptions);
 };
 
 export default getConfig;
