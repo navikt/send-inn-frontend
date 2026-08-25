@@ -32,9 +32,6 @@ const Style = styled.main`
   .side-column {
     grid-area: side-column;
   }
-
-  // Overskriver bakgrunnsfarge på secondary button i ds-css
-  --ac-button-secondary-bg: var(--a-surface-default);
 `;
 
 interface LayoutProps {

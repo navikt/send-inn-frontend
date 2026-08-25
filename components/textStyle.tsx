@@ -15,7 +15,7 @@ export const ErrorMessageWithDot = styled(ErrorMessage)`
 `;
 
 export const ScreenReaderOnly = ({ className = '', children, ...rest }: React.ComponentPropsWithoutRef<'span'>) => {
-  const mergedClassNames = (className ? className + ' ' : '') + 'navds-sr-only';
+  const mergedClassNames = (className ? className + ' ' : '') + 'aksel-sr-only';
   return (
     <span className={mergedClassNames} {...rest}>
       {children}
