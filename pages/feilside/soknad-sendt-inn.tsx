@@ -12,9 +12,9 @@ export default function SoknadSendtInn() {
   return (
     <Page>
       <Page.Block as="main" width="xl" gutters>
-        <Box paddingBlock="12">
-          <VStack gap="16">
-            <VStack gap="12" align="start">
+        <Box paddingBlock="space-48">
+          <VStack gap="space-64">
+            <VStack gap="space-48" align="start">
               {sprakListe.map((sprak) => (
                 <div key={sprak}>
                   <Head>
