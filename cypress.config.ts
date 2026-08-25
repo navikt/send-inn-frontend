@@ -6,6 +6,5 @@ export default defineConfig({
     viewportWidth: 2500,
     viewportHeight: 1200,
     chromeWebSecurity: false,
-    experimentalStudio: true,
   },
 });
