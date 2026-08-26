@@ -41,6 +41,7 @@ describe('Tester validering', () => {
         cy.get('[data-cy="filvelgerKnapp"]').selectFile('cypress/fixtures/MarcusAurelius.jpeg');
         cy.get('[data-cy="fileUploadSuccessIkon"]').should('be.visible');
         cy.get('[data-cy="VedleggsKommentar"]').type('Test beskrivelse');
+        cy.get('[data-cy="VedleggsKommentar"]').blur();
       });
 
     cy.get('[data-cy="valideringsfeil"]').within(() => {
@@ -55,10 +56,14 @@ describe('Tester validering', () => {
         cy.get('input').its('length').should('eq', 4);
 
         cy.get('[data-cy="harIkkeDokumentasjonenRadio"]').click();
+        cy.get('@patchVedlegg.all').should('have.length', 2);
         cy.get('[data-cy="harIkkeDokumentasjonenRadio"]').should('be.checked');
         cy.get('[data-cy="sendSenereRadio"]').click();
+        cy.get('@patchVedlegg.all').should('have.length', 3);
         cy.get('[data-cy="sendSenereRadio"]').should('be.checked');
         cy.get('[data-cy="VedleggsKommentar"]').type('Test beskrivelse');
+        cy.get('[data-cy="VedleggsKommentar"]').blur();
+        cy.get('@patchVedlegg.all').should('have.length', 4);
 
         cy.get('input').its('length').should('eq', 3);
         cy.get('[data-cy="paakrevdAlert"]').should('not.exist');
@@ -92,9 +97,13 @@ describe('Tester validering', () => {
       .within(() => {
         cy.get('input').its('length').should('eq', 7);
         cy.get('[data-cy="harIkkeDokumentasjonenRadio"]').click();
+        cy.get('@patchVedlegg.all').should('have.length', 5);
         cy.get('[data-cy="harIkkeDokumentasjonenRadio"]').should('be.checked');
         cy.get('[data-cy="VedleggsKommentar"]').type('Test beskrivelse');
+        cy.get('[data-cy="VedleggsKommentar"]').blur();
+        cy.get('@patchVedlegg.all').should('have.length', 6);
         cy.get('[data-cy="levertTidligereRadio"]').click();
+        cy.get('@patchVedlegg.all').should('have.length', 7);
         cy.get('[data-cy="levertTidligereRadio"]').should('be.checked');
         cy.get('input').its('length').should('eq', 6);
       });

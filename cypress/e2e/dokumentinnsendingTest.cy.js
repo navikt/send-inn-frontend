@@ -118,6 +118,7 @@ describe('Tester dokumentinnsendingsløpet', () => {
     cy.get('[data-cy="VedleggContainer"]').should('have.length', 4);
 
     cy.checkA11y('#__next');
+    cy.get('[data-cy="valideringsfeil"]').should('not.exist');
 
     // Sender inn
     cy.get('[data-cy="sendTilNAVKnapp"]').click();
