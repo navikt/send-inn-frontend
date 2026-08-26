@@ -22,9 +22,8 @@ const StyledUpload = styled.input`
 
 const FilvelgerForm = styled.form`
   input[type='file']:focus + label {
-    box-shadow:
-      inset 0 0 0 2px var(--a-border-action),
-      var(--a-shadow-focus);
+    outline: 3px solid var(--ax-border-focus);
+    outline-offset: 3px;
   }
 `;
 

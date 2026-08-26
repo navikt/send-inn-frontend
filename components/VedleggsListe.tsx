@@ -32,7 +32,7 @@ const Style = styled.div`
 `;
 
 const StyledButtonContainer = styled.div`
-  margin-bottom: var(--a-spacing-11);
+  margin-bottom: var(--ax-space-44);
 `;
 
 export interface VedleggsListeProps {

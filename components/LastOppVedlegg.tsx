@@ -23,7 +23,7 @@ import { Linje } from './common/Linje';
 
 const FristForOpplastingInfo = styled(Alert)`
   border: 0;
-  border-bottom: 1px solid var(--a-border-strong);
+  border-bottom: 1px solid var(--ax-border-neutral-strong);
   padding-bottom: 4px;
   border-radius: 0px;
   margin-bottom: 24px;
@@ -33,14 +33,14 @@ const PaddedVedlegg = styled.div`
   > * {
     margin-top: 16px;
   }
-  margin-bottom: var(--a-spacing-10);
+  margin-bottom: var(--ax-space-40);
 `;
 
 const SistLagret = styled(BodyShort)`
   display: flex;
   justify-content: center;
-  margin-top: var(--a-spacing-5);
-  margin-bottom: var(--a-spacing-5);
+  margin-top: var(--ax-space-20);
+  margin-bottom: var(--ax-space-20);
 `;
 
 export interface LastOppVedleggdProps {

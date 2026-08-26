@@ -32,7 +32,7 @@ export const FilePanel = styled(Panel)`
   }
   .filename {
     grid-area: filename;
-    color: var(--a-text-subtle);
+    color: var(--ax-text-neutral-subtle);
     justify-items: left;
     white-space: nowrap;
     overflow: hidden;
@@ -45,7 +45,7 @@ export const FilePanel = styled(Panel)`
     }
   }
   .documentarchive {
-    color: var(--a-text-subtle);
+    color: var(--ax-text-neutral-subtle);
     grid-area: fileinfo;
   }
   .fileinfo {
@@ -73,7 +73,7 @@ export const FilePanel = styled(Panel)`
 
   padding: 12px 8px;
 
-  ${(props) => props.type === FIL_STATUS.FEIL && 'border-color: var(--a-surface-danger)'};
+  ${(props) => props.type === FIL_STATUS.FEIL && 'border-color: var(--ax-border-danger)'};
 
   @media only screen and (max-width: 600px) {
     grid-template-areas:
@@ -100,18 +100,18 @@ const StyledButton = styled.div`
 
 const StyledProvIgjenButton = styled(StyledButton)`
   label {
-    background-color: var(--a-surface-action-subtle-hover);
+    background-color: var(--ax-bg-accent-moderate-hover);
   }
   label:hover {
-    background-color: var(--a-surface-action-hover);
-    color: var(--a-text-on-inverted);
+    background-color: var(--ax-bg-accent-strong-hover);
+    color: var(--ax-text-accent-contrast);
   }
 `;
 
 const StyledTertiaryButton = styled(StyledButton)`
   @media only screen and (max-width: 600px) {
     :first-child {
-      border-top: 1px solid var(--a-border-divider);
+      border-top: 1px solid var(--ax-border-neutral-subtle);
     }
     :first-child:last-child {
       margin-bottom: -0.75rem;

@@ -11,17 +11,16 @@ interface ValideringsRammeProps {
 
 const FeilRamme = styled.div`
   &.visFeil {
-    border: 1px solid var(--a-border-danger);
-    box-shadow: 0 0 0 1px var(--a-border-danger);
+    border: 1px solid var(--ax-border-danger);
+    box-shadow: 0 0 0 1px var(--ax-border-danger);
     border-radius: 8px;
 
     :hover {
-      border-color: var(--a-border-action);
+      border-color: var(--ax-border-accent);
     }
     :focus {
-      box-shadow:
-        0 0 0 1px var(--a-border-danger),
-        var(--a-shadow-focus);
+      outline: 3px solid var(--ax-border-focus);
+      outline-offset: 3px;
     }
     margin-bottom: 0.5rem;
   }

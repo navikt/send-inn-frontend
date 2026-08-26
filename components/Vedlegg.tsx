@@ -85,7 +85,7 @@ export const VedleggContainer = styled.section<{
 `;
 
 export const VedleggPanel = styled(Panel)`
-  background-color: var(--a-bg-subtle);
+  background-color: var(--ax-bg-neutral-soft);
   border-radius: 8px;
   padding: 24px;
   @media only screen and (max-width: 600px) {
@@ -146,15 +146,15 @@ const List = styled.ul`
 `;
 
 const ReadMoreStyled = styled(ReadMore)`
-  margin-top: var(--a-spacing-4);
+  margin-top: var(--ax-space-16);
   .mb {
-    margin-bottom: var(--a-spacing-4);
+    margin-bottom: var(--ax-space-16);
   }
   .prefix {
-    font-weight: var(--a-font-weight-bold);
+    font-weight: var(--ax-font-weight-bold);
   }
   .content {
-    margin-left: var(--a-spacing-1);
+    margin-left: var(--ax-space-4);
   }
 `;
 

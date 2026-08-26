@@ -23,10 +23,10 @@ const StyledDiv = styled.div`
 `;
 
 const ErrorStyled = styled(StyledDiv)`
-  background-color: var(--a-surface-danger-subtle);
+  background-color: var(--ax-bg-danger-soft);
 
   > * {
-    color: var(--a-surface-danger);
+    color: var(--ax-text-danger-decoration);
   }
 `;
 
@@ -46,10 +46,10 @@ function ErrorFileIcon({ filnavn }: { filnavn: string }) {
 }
 
 const AlreadyUploadedStyled = styled(StyledDiv)`
-  background-color: var(--a-bg-subtle);
+  background-color: var(--ax-bg-neutral-soft);
 
   > * {
-    color: var(--a-text-subtle);
+    color: var(--ax-text-neutral-subtle);
   }
 `;
 
@@ -69,10 +69,10 @@ function AlreadyUploadedFileIcon({ filnavn }: { filnavn: string }) {
 }
 
 const UploadingStyled = styled(StyledDiv)`
-  background-color: var(--a-surface-info-subtle);
+  background-color: var(--ax-bg-info-soft);
 
   > * {
-    color: var(--a-icon-info);
+    color: var(--ax-text-info-decoration);
   }
 `;
 
@@ -92,9 +92,9 @@ function UploadingFileIcon({ filnavn }: { filnavn: string }) {
 }
 
 const SuccessStyled = styled(StyledDiv)`
-  background-color: var(--a-surface-success-subtle);
+  background-color: var(--ax-bg-success-soft);
   > * {
-    color: var(--a-icon-success);
+    color: var(--ax-text-success-decoration);
   }
 `;
 

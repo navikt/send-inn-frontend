@@ -20,21 +20,21 @@ const SjekkBoksListe = styled.ul`
   padding-left: 0;
 
   li:not(:last-child) {
-    padding-bottom: var(--a-spacing-4);
+    padding-bottom: var(--ax-space-16);
   }
 `;
 
 const StyledSection = styled.section`
-  margin-bottom: var(--a-spacing-8);
+  margin-bottom: var(--ax-space-32);
 `;
 
 const BoksMedMargin = styled.div`
-  margin-top: var(--a-spacing-4);
-  margin-bottom: var(--a-spacing-4);
+  margin-top: var(--ax-space-16);
+  margin-bottom: var(--ax-space-16);
 `;
 
 const StyledAlert = styled(Alert)`
-  margin-bottom: var(--a-spacing-11);
+  margin-bottom: var(--ax-space-44);
 `;
 
 function ettersendingsTekst({ kvprops, t }: { kvprops: KvitteringsDto; t: TFunction }) {
