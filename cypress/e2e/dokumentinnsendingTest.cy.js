@@ -2,6 +2,22 @@
 import translations from '../../assets/locales/nb/translation.json';
 
 describe('Tester dokumentinnsendingsløpet', () => {
+  beforeEach(() => {
+    cy.intercept('PATCH', /\/sendinn\/api\/backend\/frontend\/v1\/soknad\/[^/]+$/).as('updateApplication');
+    cy.intercept('POST', /\/sendinn\/api\/backend\/frontend\/v1\/soknad\/[^/]+\/vedlegg\/[^/]+\/fil$/).as('uploadFile');
+    cy.intercept('PATCH', /\/sendinn\/api\/backend\/frontend\/v1\/soknad\/[^/]+\/vedlegg\/[^/]+$/).as(
+      'updateAttachment',
+    );
+    cy.intercept('POST', /\/sendinn\/api\/backend\/frontend\/v1\/soknad\/[^/]+\/vedlegg$/).as('createAttachment');
+    cy.intercept('DELETE', /\/sendinn\/api\/backend\/frontend\/v1\/soknad\/[^/]+\/vedlegg\/[^/]+\/fil\/[^/]+$/).as(
+      'deleteFile',
+    );
+    cy.intercept('DELETE', /\/sendinn\/api\/backend\/frontend\/v1\/soknad\/[^/]+\/vedlegg\/[^/]+$/).as(
+      'deleteAttachment',
+    );
+    cy.intercept('POST', /\/sendinn\/api\/backend\/frontend\/v1\/sendInn\/[^/]+$/).as('submitApplication');
+  });
+
   it('Går igjennom fra åpning av url som oppretter søknad til kvitteringssiden', () => {
     cy.visit(
       '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2',
@@ -9,16 +25,19 @@ describe('Tester dokumentinnsendingsløpet', () => {
 
     // Bekrefter at siden er rendret
     cy.get('[data-cy="nesteStegKnapp"]').should('be.visible').click();
+    cy.wait('@updateApplication');
     cy.injectAxe();
     cy.checkA11y('#__next');
 
     // Laster opp fil på hoveddokument
     cy.get('[data-cy="filvelgerKnapp"]').click();
     cy.get('[data-cy="filvelgerKnapp"]').selectFile('cypress/fixtures/MarcusAurelius.jpeg');
+    cy.wait('@uploadFile');
     cy.get('[data-cy="fileUploadSuccessIkon"]').should('be.visible');
 
     // Går til vedleggsiden
     cy.get('[data-cy="nesteStegKnapp"]').click();
+    cy.wait('@updateApplication');
 
     cy.get('[data-cy="filvelgerKnapp"]').should('have.length', 3);
     cy.checkA11y('#__next');
@@ -30,6 +49,7 @@ describe('Tester dokumentinnsendingsløpet', () => {
         cy.get('[data-cy="lasterOppNaaRadio"]').should('be.checked').should('have.value', 'LasterOpp');
         cy.get('[data-cy="filvelgerKnapp"]').click();
         cy.get('[data-cy="filvelgerKnapp"]').selectFile('cypress/fixtures/MarcusAurelius.jpeg');
+        cy.wait('@uploadFile');
         cy.get('[data-cy="fileUploadSuccessIkon"]').should('be.visible');
         cy.get('[data-cy="filvelgerKnapp"]').should('be.visible');
       });
@@ -39,6 +59,7 @@ describe('Tester dokumentinnsendingsløpet', () => {
       .eq(1)
       .within(() => {
         cy.get('[data-cy="sendSenereRadio"]').click();
+        cy.wait('@updateAttachment');
         cy.get('[data-cy="sendSenereRadio"]').should('be.checked');
       });
 
@@ -46,6 +67,7 @@ describe('Tester dokumentinnsendingsløpet', () => {
       .eq(2)
       .within(() => {
         cy.get('[data-cy="sendSenereRadio"]').click();
+        cy.wait('@updateAttachment');
         cy.get('[data-cy="sendSenereRadio"]').should('be.checked');
       });
 
@@ -58,6 +80,7 @@ describe('Tester dokumentinnsendingsløpet', () => {
         cy.get('input').type('Ekstra vedlegg #1');
         cy.contains(translations.soknad.vedlegg.annet.bekreft).click();
       });
+    cy.wait('@createAttachment');
     cy.get('[data-cy="VedleggContainer"]').should('have.length', 4);
 
     // Laster opp to filer, og sletter den ene
@@ -66,9 +89,12 @@ describe('Tester dokumentinnsendingsløpet', () => {
       .within(() => {
         cy.get('[data-cy="filvelgerKnapp"]').click();
         cy.get('[data-cy="filvelgerKnapp"]').should('be.visible').selectFile('cypress/fixtures/MarcusAurelius.jpeg');
+        cy.wait('@uploadFile');
         cy.get('[data-cy="filvelgerKnapp"]').should('be.visible').selectFile('cypress/fixtures/MarcusAurelius.jpeg');
+        cy.wait('@uploadFile');
         cy.get('[data-cy="fileUploadSuccessIkon"]').should('have.length', 2);
         cy.get('[data-cy="slettFilKnapp"]').eq(1).click();
+        cy.wait('@deleteFile');
         cy.get('[data-cy="fileUploadSuccessIkon"]').should('have.length', 1);
       });
 
@@ -80,6 +106,7 @@ describe('Tester dokumentinnsendingsløpet', () => {
         cy.get('input').type('Ekstra vedlegg #2');
         cy.contains(translations.soknad.vedlegg.annet.bekreft).click();
       });
+    cy.wait('@createAttachment');
 
     cy.get('[data-cy="VedleggContainer"]').should('have.length', 5);
     cy.get('[data-cy="VedleggContainer"]')
@@ -87,6 +114,7 @@ describe('Tester dokumentinnsendingsløpet', () => {
       .within(() => {
         cy.contains(translations.soknad.vedlegg.annet.slett).click();
       });
+    cy.wait('@deleteAttachment');
     cy.get('[data-cy="VedleggContainer"]').should('have.length', 4);
 
     cy.checkA11y('#__next');
@@ -95,6 +123,7 @@ describe('Tester dokumentinnsendingsløpet', () => {
     cy.get('[data-cy="sendTilNAVKnapp"]').click();
 
     cy.get('[data-cy="jaFellesModalKnapp"]').filter(':visible').should('be.visible').click();
+    cy.wait('@submitApplication');
 
     cy.get('[data-cy="kvitteringOverskrift"]').should('be.visible');
     cy.checkA11y('#__next');
