@@ -9,14 +9,13 @@ import VedleggsListe from '../components/VedleggsListe';
 import { SoknadType } from '../types/types';
 
 import { TFunction } from 'i18next';
-import getConfig from 'next/config';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../components/AppConfigContext';
 import { useSoknadLanguage } from '../hooks/useSoknadLanguage';
+import { appConfig } from '../utils/appConfig';
 import { navigerTil } from '../utils/navigerTil';
 import { getPathForFyllutUrl } from '../utils/soknad';
 
-const { publicRuntimeConfig } = getConfig();
 const erEttersending = true;
 
 const getSoknadoverskrift = (soknad: SoknadType, t: TFunction) => {
@@ -37,7 +36,7 @@ const InnsendingsSide: NextPage = () => {
   useEffect(() => {
     if (innsendingsId) {
       axios
-        .get(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}`)
+        .get(`${appConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}`)
         .then((response: AxiosResponse<SoknadType>) => {
           const { data } = response;
           if (data.visningsType === 'fyllUt' && data.status === 'Opprettet' && data.skjemaPath) {

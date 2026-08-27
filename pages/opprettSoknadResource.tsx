@@ -5,9 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 
-import getConfig from 'next/config';
-
-const { publicRuntimeConfig } = getConfig();
+import { appConfig } from '../utils/appConfig';
 
 const OpprettSoknadResource: NextPage = () => {
   const router = useRouter();
@@ -26,7 +24,7 @@ const OpprettSoknadResource: NextPage = () => {
     const endpoint = query.erEttersendelse === 'true' ? opprettEttersendingEndpoint : opprettSoknadEndpoint;
 
     axios
-      .post(publicRuntimeConfig.apiUrl + endpoint, {
+      .post(appConfig.apiUrl + endpoint, {
         skjemanr: query.skjemanummer,
         sprak: query.sprak || 'NB_NO', // set bokmål som default
         vedleggsListe: (vedleggsIder as string)?.split(','),

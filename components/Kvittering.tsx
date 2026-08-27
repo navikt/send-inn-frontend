@@ -1,15 +1,14 @@
 import { Alert, BodyLong, BodyShort, Heading } from '@navikt/ds-react';
 import { TFunction } from 'i18next';
-import getConfig from 'next/config';
 import { useId } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { InnsendtVedleggDto, KvitteringsDto, VisningsType } from '../types/types';
+import { appConfig } from '../utils/appConfig';
 import { formatertDato } from '../utils/dato';
 import { LastNedKnapp } from './common/LastNedKnapp';
 import { Bold } from './textStyle';
 
-const { publicRuntimeConfig } = getConfig();
 export interface KvitteringsProps {
   kvprops: KvitteringsDto;
   visningstype: VisningsType;
@@ -21,21 +20,21 @@ const SjekkBoksListe = styled.ul`
   padding-left: 0;
 
   li:not(:last-child) {
-    padding-bottom: var(--a-spacing-4);
+    padding-bottom: var(--ax-space-16);
   }
 `;
 
 const StyledSection = styled.section`
-  margin-bottom: var(--a-spacing-8);
+  margin-bottom: var(--ax-space-32);
 `;
 
 const BoksMedMargin = styled.div`
-  margin-top: var(--a-spacing-4);
-  margin-bottom: var(--a-spacing-4);
+  margin-top: var(--ax-space-16);
+  margin-bottom: var(--ax-space-16);
 `;
 
 const StyledAlert = styled(Alert)`
-  margin-bottom: var(--a-spacing-11);
+  margin-bottom: var(--ax-space-44);
 `;
 
 function ettersendingsTekst({ kvprops, t }: { kvprops: KvitteringsDto; t: TFunction }) {
@@ -106,7 +105,7 @@ export default function Kvittering({ kvprops, visningstype }: KvitteringsProps) 
               </Alert>
               {visningstype !== 'lospost' && (
                 <BoksMedMargin>
-                  <LastNedKnapp url={`${publicRuntimeConfig.apiUrl}/${kvprops.hoveddokumentRef}`} variant="primary">
+                  <LastNedKnapp url={`${appConfig.apiUrl}/${kvprops.hoveddokumentRef}`} variant="primary">
                     {t('kvittering.skjemaLenke')}
                   </LastNedKnapp>
                 </BoksMedMargin>

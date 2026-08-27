@@ -8,14 +8,14 @@ export const Bold = styled.span`
 
 export const ErrorMessageWithDot = styled(ErrorMessage)`
   display: flex;
-  gap: var(--a-spacing-2);
+  gap: var(--ax-space-8);
   &::before {
     content: '•';
   }
 `;
 
 export const ScreenReaderOnly = ({ className = '', children, ...rest }: React.ComponentPropsWithoutRef<'span'>) => {
-  const mergedClassNames = (className ? className + ' ' : '') + 'navds-sr-only';
+  const mergedClassNames = (className ? className + ' ' : '') + 'aksel-sr-only';
   return (
     <span className={mergedClassNames} {...rest}>
       {children}

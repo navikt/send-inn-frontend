@@ -9,10 +9,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { fileUtils } from '../utils/file';
 import { Filvelger } from './Filvelger';
 
-import getConfig from 'next/config';
 import { useValidation } from '../hooks/useValidation';
 import { FIL_STATUS } from '../types/enums';
 import { OpplastetFil, VedleggType, VisningsType } from '../types/types';
+import { appConfig } from '../utils/appConfig';
 import { EndreVedlegg } from './EndreVedlegg';
 import { Fil, FilePanel } from './Fil';
 import { FilUploadIcon } from './FilUploadIcon';
@@ -22,8 +22,6 @@ import parse from 'html-react-parser';
 import sanitizeHtml from 'sanitize-html';
 import { useVedleggslisteContext } from './VedleggsListe';
 import VedleggsValg from './VedleggsValg';
-
-const { publicRuntimeConfig } = getConfig();
 
 export interface ExtendedVedleggType extends VedleggType {
   autoFocus?: boolean;
@@ -87,7 +85,7 @@ export const VedleggContainer = styled.section<{
 `;
 
 export const VedleggPanel = styled(Panel)`
-  background-color: var(--a-bg-subtle);
+  background-color: var(--ax-bg-neutral-soft);
   border-radius: 8px;
   padding: 24px;
   @media only screen and (max-width: 600px) {
@@ -148,15 +146,15 @@ const List = styled.ul`
 `;
 
 const ReadMoreStyled = styled(ReadMore)`
-  margin-top: var(--a-spacing-4);
+  margin-top: var(--ax-space-16);
   .mb {
-    margin-bottom: var(--a-spacing-4);
+    margin-bottom: var(--ax-space-16);
   }
   .prefix {
-    font-weight: var(--a-font-weight-bold);
+    font-weight: var(--ax-font-weight-bold);
   }
   .content {
-    margin-left: var(--a-spacing-1);
+    margin-left: var(--ax-space-4);
   }
 `;
 
@@ -221,7 +219,7 @@ function Vedlegg(props: VedleggProps) {
     if (!hasFetched && innsendingsId && vedlegg.id) {
       setHasFetched(true);
       axios
-        .get(`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil`)
+        .get(`${appConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil`)
         .then((response) => {
           const responseJSON = response.data;
           for (const item of responseJSON) {

@@ -1,6 +1,5 @@
 import { BodyShort, Button, Link as NavLink, Panel } from '@navikt/ds-react';
 import axios, { AxiosError, AxiosProgressEvent, AxiosRequestConfig, AxiosResponse } from 'axios';
-import getConfig from 'next/config';
 import React, { useEffect, useReducer, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -8,6 +7,7 @@ import { useErrorMessage } from '../hooks/useErrorMessage';
 import { useValidation } from '../hooks/useValidation';
 import { FIL_STATUS } from '../types/enums';
 import { ErrorResponsDto, OpplastetFil, VedleggType } from '../types/types';
+import { appConfig } from '../utils/appConfig';
 import { fileUtils } from '../utils/file';
 import { sendLog } from '../utils/frontendLogger';
 import { FilUploadIcon } from './FilUploadIcon';
@@ -16,9 +16,7 @@ import { ACTIONS, ActionType } from './Vedlegg';
 import { useVedleggslisteContext } from './VedleggsListe';
 import { ErrorMessageWithDot, ScreenReaderOnly } from './textStyle';
 
-const { publicRuntimeConfig } = getConfig();
-
-const API_URL = publicRuntimeConfig.apiUrl;
+const API_URL = appConfig.apiUrl;
 const MAX_FILE_SIZE_IN_MB = parseInt(process.env.NEXT_PUBLIC_MAX_FILE_SIZE_IN_MB!);
 const MAX_FILE_SIZE = MAX_FILE_SIZE_IN_MB * 1024 * 1024;
 
@@ -34,7 +32,7 @@ export const FilePanel = styled(Panel)`
   }
   .filename {
     grid-area: filename;
-    color: var(--a-text-subtle);
+    color: var(--ax-text-neutral-subtle);
     justify-items: left;
     white-space: nowrap;
     overflow: hidden;
@@ -47,7 +45,7 @@ export const FilePanel = styled(Panel)`
     }
   }
   .documentarchive {
-    color: var(--a-text-subtle);
+    color: var(--ax-text-neutral-subtle);
     grid-area: fileinfo;
   }
   .fileinfo {
@@ -75,7 +73,7 @@ export const FilePanel = styled(Panel)`
 
   padding: 12px 8px;
 
-  ${(props) => props.type === FIL_STATUS.FEIL && 'border-color: var(--a-surface-danger)'};
+  ${(props) => props.type === FIL_STATUS.FEIL && 'border-color: var(--ax-border-danger)'};
 
   @media only screen and (max-width: 600px) {
     grid-template-areas:
@@ -102,18 +100,18 @@ const StyledButton = styled.div`
 
 const StyledProvIgjenButton = styled(StyledButton)`
   label {
-    background-color: var(--a-surface-action-subtle-hover);
+    background-color: var(--ax-bg-accent-moderate-hover);
   }
   label:hover {
-    background-color: var(--a-surface-action-hover);
-    color: var(--a-text-on-inverted);
+    background-color: var(--ax-bg-accent-strong-hover);
+    color: var(--ax-text-accent-contrast);
   }
 `;
 
 const StyledTertiaryButton = styled(StyledButton)`
   @media only screen and (max-width: 600px) {
     :first-child {
-      border-top: 1px solid var(--a-border-divider);
+      border-top: 1px solid var(--ax-border-neutral-subtle);
     }
     :first-child:last-child {
       margin-bottom: -0.75rem;
@@ -455,7 +453,7 @@ export function Fil({
           {status === FIL_STATUS.OPPLASTET ? (
             <NavLink
               target="_blank"
-              href={`${publicRuntimeConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/${filState.filData?.opplastetFil?.id}`}
+              href={`${appConfig.apiUrl}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil/${filState.filData?.opplastetFil?.id}`}
               rel="noopener noreferrer"
             >
               {filnavn}

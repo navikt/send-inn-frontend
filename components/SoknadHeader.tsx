@@ -9,7 +9,7 @@ export interface SoknadHeaderProps {
 }
 
 export const StyledDetail = styled(BodyShort)`
-  color: var(--a-gray-900);
+  color: var(--ax-text-neutral);
 `;
 
 export const Style = styled.div`
@@ -29,7 +29,7 @@ export const Style = styled.div`
 
 export const Line = styled.div`
   width: 100vw;
-  border-bottom: 0.3rem solid var(--a-deepblue-200);
+  border-bottom: 0.3rem solid var(--ax-bg-brand-blue-moderate);
   margin-left: calc(50% - 50vw);
 `;
 

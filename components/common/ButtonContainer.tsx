@@ -14,10 +14,10 @@ export const ButtonContainer = styled.div<ButtonContainerProps>`
       max-width: unset;
     }
   }
-  gap: var(--a-spacing-5);
+  gap: var(--ax-space-20);
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: var(--a-spacing-5);
+  margin-bottom: var(--ax-space-20);
   flex-direction: ${(props) => (props.$reverse ? 'row-reverse' : 'row')};
   justify-content: ${(props) => (props.$reverse ? 'flex-end' : 'flex-start')};
 

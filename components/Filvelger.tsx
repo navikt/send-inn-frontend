@@ -1,6 +1,6 @@
 import { UploadIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
-import { cloneElement, useCallback, useEffect, useMemo, useRef } from 'react';
+import { cloneElement, ReactElement, useCallback, useEffect, useMemo, useRef } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -22,16 +22,15 @@ const StyledUpload = styled.input`
 
 const FilvelgerForm = styled.form`
   input[type='file']:focus + label {
-    box-shadow:
-      inset 0 0 0 2px var(--a-border-action),
-      var(--a-shadow-focus);
+    outline: 3px solid var(--ax-border-focus);
+    outline-offset: 3px;
   }
 `;
 
 interface FilvelgerProps {
   autoFocus?: boolean;
   onFileSelected: (fil: File) => void;
-  CustomButton?: JSX.Element;
+  CustomButton?: ReactElement;
   allowMultiple?: boolean;
   buttonText?: string | null;
 }

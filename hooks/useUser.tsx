@@ -1,13 +1,11 @@
-import getConfig from 'next/config';
 import Router from 'next/router';
 import { useEffect } from 'react';
 import useSWR from 'swr';
 import { User } from '../pages/api/user';
-
-const { publicRuntimeConfig } = getConfig();
+import { appConfig } from '../utils/appConfig';
 
 export default function useUser({ redirectTo = '', redirectIfFound = false, redirectedFrom = '' } = {}) {
-  const { data: user, mutate: mutateUser } = useSWR<User>(publicRuntimeConfig.basePath + '/api/user');
+  const { data: user, mutate: mutateUser } = useSWR<User>(appConfig.basePath + '/api/user');
 
   useEffect(() => {
     // if no redirect needed, just return (example: already on /dashboard)
