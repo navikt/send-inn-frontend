@@ -142,7 +142,6 @@ export const FIL_ACTIONS = {
   SETT_STATUS: 'SETT_STATUS',
   OPPLASTET: 'OPPLASTET',
   LAST_OPP_NY_FIL: 'LAST_OPP_NY_FIL',
-  AVBRYT: 'AVBRYT',
   FEIL: 'FEIL',
 } as const;
 
@@ -219,12 +218,6 @@ const filReducer = (filState: FilState, action: FilActionType): FilState => {
         progress: action.filState?.progress,
       };
     }
-    case FIL_ACTIONS.AVBRYT: {
-      return {
-        ...filState,
-        status: FIL_STATUS.FEIL,
-      };
-    }
     case FIL_ACTIONS.FEIL: {
       return {
         ...filState,
@@ -259,7 +252,6 @@ export function Fil({
 }: FilProps) {
   const [filState, dispatch] = useReducer(filReducer, initialState);
   const { status } = filState;
-  const [controller] = useState(new AbortController());
   const { t } = useTranslation();
   const { t: tB } = useTranslation('backend');
   const [feilmelding, setFeilmelding] = useState<string | null>(null);
@@ -344,7 +336,6 @@ export function Fil({
         'Content-Type': 'multipart/form-data',
       },
       timeout: 0, // Proxy håndterer timeout
-      signal: controller.signal,
       onUploadProgress: (progressEvent: AxiosProgressEvent) => {
         const totalSize = progressEvent.total;
         const progress = totalSize ? Math.round((progressEvent.loaded * 100) / totalSize) : 0;
@@ -390,10 +381,6 @@ export function Fil({
         oppdaterLokalOpplastingStatus(vedlegg.id, 'LastetOpp');
       })
       .catch((error: AxiosError<ErrorResponsDto>) => {
-        if (axios.isCancel(error) as boolean) {
-          // avbrutt av bruker
-          return;
-        }
         dispatch({
           type: FIL_ACTIONS.FEIL,
         });
@@ -433,7 +420,6 @@ export function Fil({
     opplastetFilProp,
     oppdaterLokalOpplastingStatus,
     vedlegg,
-    controller.signal,
     status,
     filListeDispatch,
     komponentID,
@@ -497,26 +483,6 @@ export function Fil({
                 allowMultiple={false}
               />
             </StyledProvIgjenButton>
-          )}
-
-          {status === FIL_STATUS.LASTER_OPP && (
-            <StyledTertiaryButton>
-              <Button
-                onClick={() => {
-                  controller.abort();
-                  dispatch({
-                    type: FIL_ACTIONS.AVBRYT,
-                  });
-                  filListeDispatch({
-                    type: ACTIONS.SLETT_FIL,
-                    filData: { komponentID },
-                  });
-                }}
-                variant="tertiary"
-              >
-                {t('soknad.vedlegg.fil.avbryt')}
-              </Button>
-            </StyledTertiaryButton>
           )}
 
           {status !== FIL_STATUS.LASTER_OPP && (
