@@ -61,6 +61,7 @@ function SkjemaOpplasting(props: SkjemaOpplastingdProps) {
               oppdaterVisningsSteg(1);
             }}
             data-cy="nesteStegKnapp"
+            data-har-valideringsfeil={side1HarFeil}
             icon={<ArrowRightIcon aria-hidden />}
             iconPosition="right"
           >
