@@ -17,7 +17,7 @@ import { useVedleggslisteContext } from './VedleggsListe';
 import { ErrorMessageWithDot, ScreenReaderOnly } from './textStyle';
 
 const API_URL = appConfig.apiUrl;
-const MAX_FILE_SIZE_IN_MB = parseInt(process.env.NEXT_PUBLIC_MAX_FILE_SIZE_IN_MB!);
+const MAX_FILE_SIZE_IN_MB = appConfig.maxFileSizeInMb;
 const MAX_FILE_SIZE = MAX_FILE_SIZE_IN_MB * 1024 * 1024;
 
 export const FilePanel = styled(Panel)`
@@ -325,7 +325,7 @@ export function Fil({
       dispatch({
         type: FIL_ACTIONS.FEIL,
       });
-      setFeilmelding(t(`feil.${melding}`));
+      setFeilmelding(t(`feil.${melding}`, { maxFileSize: MAX_FILE_SIZE_IN_MB }));
       return;
     }
 
@@ -387,7 +387,7 @@ export function Fil({
 
         const { errorCode } = error?.response?.data || {};
         if (error.response?.status === 413) {
-          return setFeilmelding(t('feil.filForStor'));
+          return setFeilmelding(t('feil.filForStor', { maxFileSize: MAX_FILE_SIZE_IN_MB }));
         }
         if (
           errorCode === 'illegalAction.notSupportedFileFormat' ||

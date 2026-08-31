@@ -399,7 +399,9 @@ function Vedlegg(props: VedleggProps) {
                     </div>
                     <div>
                       <span className="prefix">{t('filvelger.readMore.size.prefix')}</span>
-                      <span className="content">{t('filvelger.readMore.size.content')}</span>
+                      <span className="content">
+                        {t('filvelger.readMore.size.content', { maxFileSize: appConfig.maxFileSizeInMb })}
+                      </span>
                     </div>
                   </>
                 </ReadMoreStyled>
