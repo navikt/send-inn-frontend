@@ -22,6 +22,7 @@ const fyllutUrls: Partial<Record<EnvQualifierType, string>> & { default: string 
 
 export const appConfig = {
   apiUrl: basePath + (process.env.NEXT_PUBLIC_API_URL || '/api/backend'),
+  maxFileSizeInMb: parseInt(process.env.NEXT_PUBLIC_MAX_FILE_SIZE_IN_MB!),
   minSide: {
     urls: minSideUrls,
   },

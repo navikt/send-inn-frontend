@@ -19,5 +19,6 @@ const validExtensions = FILE_FORMATS.map((format) => format.extension).filter((e
 
 export const fileUtils = {
   isValidMimeType: (mimeType: string) => validMimeTypes.includes(mimeType),
+  exceedsMaxSize: (sizeInBytes: number, maxSizeInMb: number) => sizeInBytes > maxSizeInMb * 1024 * 1024,
   validExtensions,
 };
