@@ -36,7 +36,7 @@ describe('Tester dokumentinnsendingsløpet', () => {
     cy.get('[data-cy="fileUploadSuccessIkon"]').should('be.visible');
 
     // Går til vedleggsiden
-    cy.get('[data-cy="nesteStegKnapp"]').click();
+    cy.get('[data-cy="nesteStegKnapp"]').should('be.enabled').click();
     cy.wait('@updateApplication');
 
     cy.get('[data-cy="filvelgerKnapp"]').should('have.length', 3);
