@@ -106,7 +106,8 @@ type errorCodesWithHandling =
   | 'illegalAction.fileSizeSumTooLarge'
   | 'illegalAction.vedleggFileSizeSumTooLarge'
   | 'illegalAction.virusScanFailed'
-  | 'illegalAction.fileWithTooManyPages';
+  | 'illegalAction.fileWithTooManyPages'
+  | 'invalidRequest.missingMultipartPart';
 
 export type ErrorResponsDto = {
   arsak: string;

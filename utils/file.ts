@@ -1,5 +1,3 @@
-import { sendLog } from './frontendLogger';
-
 // keep order so that most common file types are at the top
 const FILE_FORMATS = [
   { mimeType: 'application/pdf', extension: 'pdf' },
@@ -19,45 +17,8 @@ const FILE_FORMATS = [
 const validMimeTypes: string[] = FILE_FORMATS.map((format) => format.mimeType);
 const validExtensions = FILE_FORMATS.map((format) => format.extension).filter((ext) => ext !== undefined);
 
-const isVersionAtLeast265 = (match: RegExpMatchArray | null) => {
-  if (!match) {
-    return false;
-  }
-
-  const major = Number(match[1]);
-  const minor = Number(match[2]);
-  return major > 26 || (major === 26 && minor >= 5);
-};
-
-const isAffectedWebKitVersion = (userAgent: string) => {
-  if (!userAgent.includes('AppleWebKit')) {
-    return false;
-  }
-
-  // TODO: Narrow this range when https://bugs.webkit.org/show_bug.cgi?id=319985 has a confirmed fixed release.
-  const safariVersion = userAgent.match(/Version\/(\d+)\.(\d+).*Safari\//);
-  const iosVersion = userAgent.match(/(?:CPU(?: iPhone)? OS|iPhone OS) (\d+)_(\d+)/);
-  return isVersionAtLeast265(safariVersion) || isVersionAtLeast265(iosVersion);
-};
-
 export const fileUtils = {
   isValidMimeType: (mimeType: string) => validMimeTypes.includes(mimeType),
   exceedsMaxSize: (sizeInBytes: number, maxSizeInMb: number) => sizeInBytes > maxSizeInMb * 1024 * 1024,
-  prepareForUpload: async (file: File, userAgent: string): Promise<File> => {
-    if (!isAffectedWebKitVersion(userAgent)) {
-      return file;
-    }
-
-    try {
-      return new File([await file.arrayBuffer()], file.name, {
-        lastModified: file.lastModified,
-        type: file.type,
-      });
-    } catch (error) {
-      const errorName = error instanceof Error ? error.name : 'UnknownError';
-      sendLog({ message: `FilePreparationError - ${errorName}`, level: 'warn' });
-      return file;
-    }
-  },
   validExtensions,
 };
