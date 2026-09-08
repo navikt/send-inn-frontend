@@ -4,7 +4,7 @@ import { fileUtils } from '../../utils/file';
 const MB = 1024 * 1024;
 
 describe('File upload limit', () => {
-  it('creates a memory-backed copy for Safari 26.5', async () => {
+  it('creates a memory-backed copy for affected Safari versions', async () => {
     const file = new File(['file content'], 'attachment.txt', {
       lastModified: 123,
       type: 'text/plain',
@@ -21,14 +21,31 @@ describe('File upload limit', () => {
     expect(await preparedFile.text()).to.equal('file content');
   });
 
-  it('keeps the original file in unaffected browsers', async () => {
+  it('creates a memory-backed copy for Safari versions after 26.5', async () => {
+    const file = new File(['file content'], 'attachment.txt', { type: 'text/plain' });
+    const safari266UserAgent =
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15';
+
+    expect(await fileUtils.prepareForUpload(file, safari266UserAgent)).not.to.equal(file);
+  });
+
+  it('creates a memory-backed copy for affected iOS versions', async () => {
+    const file = new File(['file content'], 'attachment.txt', { type: 'text/plain' });
+    const iosUserAgent =
+      'Mozilla/5.0 (iPhone; CPU iPhone OS 27_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/140.0.0.0 Mobile/15E148 Safari/604.1';
+
+    expect(await fileUtils.prepareForUpload(file, iosUserAgent)).not.to.equal(file);
+  });
+
+  it('keeps the original file in unaffected browsers and Safari versions', async () => {
     const file = new File(['file content'], 'attachment.txt', { type: 'text/plain' });
     const chromeUserAgent =
       'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36';
+    const safari264UserAgent =
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.4 Safari/605.1.15';
 
-    const preparedFile = await fileUtils.prepareForUpload(file, chromeUserAgent);
-
-    expect(preparedFile).to.equal(file);
+    expect(await fileUtils.prepareForUpload(file, chromeUserAgent)).to.equal(file);
+    expect(await fileUtils.prepareForUpload(file, safari264UserAgent)).to.equal(file);
   });
 
   it('identifies files exceeding 150 MB', () => {

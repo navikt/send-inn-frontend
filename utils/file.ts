@@ -17,14 +17,25 @@ const FILE_FORMATS = [
 const validMimeTypes: string[] = FILE_FORMATS.map((format) => format.mimeType);
 const validExtensions = FILE_FORMATS.map((format) => format.extension).filter((ext) => ext !== undefined);
 
+const isVersionAtLeast265 = (match: RegExpMatchArray | null) => {
+  if (!match) {
+    return false;
+  }
+
+  const major = Number(match[1]);
+  const minor = Number(match[2]);
+  return major > 26 || (major === 26 && minor >= 5);
+};
+
 const isAffectedWebKitVersion = (userAgent: string) => {
   if (!userAgent.includes('AppleWebKit')) {
     return false;
   }
 
-  const isSafari265 = /Version\/26\.5(?:[.\s]|$).*Safari\//.test(userAgent);
-  const isIos265 = /(?:CPU(?: iPhone)? OS|iPhone OS) 26_5(?:_| like)/.test(userAgent);
-  return isSafari265 || isIos265;
+  // TODO: Narrow this range when https://bugs.webkit.org/show_bug.cgi?id=319985 has a confirmed fixed release.
+  const safariVersion = userAgent.match(/Version\/(\d+)\.(\d+).*Safari\//);
+  const iosVersion = userAgent.match(/(?:CPU(?: iPhone)? OS|iPhone OS) (\d+)_(\d+)/);
+  return isVersionAtLeast265(safariVersion) || isVersionAtLeast265(iosVersion);
 };
 
 export const fileUtils = {
