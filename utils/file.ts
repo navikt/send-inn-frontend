@@ -1,3 +1,5 @@
+import { sendLog } from './frontendLogger';
+
 // keep order so that most common file types are at the top
 const FILE_FORMATS = [
   { mimeType: 'application/pdf', extension: 'pdf' },
@@ -46,10 +48,16 @@ export const fileUtils = {
       return file;
     }
 
-    return new File([await file.arrayBuffer()], file.name, {
-      lastModified: file.lastModified,
-      type: file.type,
-    });
+    try {
+      return new File([await file.arrayBuffer()], file.name, {
+        lastModified: file.lastModified,
+        type: file.type,
+      });
+    } catch (error) {
+      const errorName = error instanceof Error ? error.name : 'UnknownError';
+      sendLog({ message: `FilePreparationError - ${errorName}`, level: 'warn' });
+      return file;
+    }
   },
   validExtensions,
 };

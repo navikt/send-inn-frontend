@@ -37,6 +37,15 @@ describe('File upload limit', () => {
     expect(await fileUtils.prepareForUpload(file, iosUserAgent)).not.to.equal(file);
   });
 
+  it('keeps the original file when the memory-backed copy fails', async () => {
+    const file = new File(['file content'], 'attachment.txt', { type: 'text/plain' });
+    const safariUserAgent =
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Safari/605.1.15';
+    file.arrayBuffer = () => Promise.reject(new DOMException('File cannot be read', 'NotReadableError'));
+
+    expect(await fileUtils.prepareForUpload(file, safariUserAgent)).to.equal(file);
+  });
+
   it('keeps the original file in unaffected browsers and Safari versions', async () => {
     const file = new File(['file content'], 'attachment.txt', { type: 'text/plain' });
     const chromeUserAgent =
