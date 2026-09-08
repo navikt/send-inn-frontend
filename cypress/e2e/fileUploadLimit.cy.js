@@ -4,6 +4,33 @@ import { fileUtils } from '../../utils/file';
 const MB = 1024 * 1024;
 
 describe('File upload limit', () => {
+  it('creates a memory-backed copy for Safari 26.5', async () => {
+    const file = new File(['file content'], 'attachment.txt', {
+      lastModified: 123,
+      type: 'text/plain',
+    });
+    const safari265UserAgent =
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5.2 Safari/605.1.15';
+
+    const preparedFile = await fileUtils.prepareForUpload(file, safari265UserAgent);
+
+    expect(preparedFile).not.to.equal(file);
+    expect(preparedFile.name).to.equal(file.name);
+    expect(preparedFile.type).to.equal(file.type);
+    expect(preparedFile.lastModified).to.equal(file.lastModified);
+    expect(await preparedFile.text()).to.equal('file content');
+  });
+
+  it('keeps the original file in unaffected browsers', async () => {
+    const file = new File(['file content'], 'attachment.txt', { type: 'text/plain' });
+    const chromeUserAgent =
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36';
+
+    const preparedFile = await fileUtils.prepareForUpload(file, chromeUserAgent);
+
+    expect(preparedFile).to.equal(file);
+  });
+
   it('identifies files exceeding 150 MB', () => {
     expect(fileUtils.exceedsMaxSize(100 * MB, 150)).to.equal(false);
     expect(fileUtils.exceedsMaxSize(150 * MB, 150)).to.equal(false);

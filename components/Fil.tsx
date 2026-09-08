@@ -328,12 +328,7 @@ export function Fil({
       return;
     }
 
-    const formData = new FormData();
-    formData.append('file', lokalFil!);
     const config: AxiosRequestConfig = {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
       timeout: 0, // Proxy håndterer timeout
       onUploadProgress: (progressEvent: AxiosProgressEvent) => {
         const totalSize = progressEvent.total;
@@ -354,8 +349,13 @@ export function Fil({
       sumLastoppDispatch(1);
     }
 
-    axios
-      .post(`${API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil`, formData, config)
+    fileUtils
+      .prepareForUpload(lokalFil!, navigator.userAgent)
+      .then((file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        return axios.post(`${API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil`, formData, config);
+      })
       .then((response: AxiosResponse<OpplastetFil>) => {
         const filData = {
           opplastetFil: {
