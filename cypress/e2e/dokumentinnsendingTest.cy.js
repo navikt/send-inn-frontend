@@ -129,4 +129,10 @@ describe('Tester dokumentinnsendingsløpet', () => {
     cy.get('[data-cy="kvitteringOverskrift"]').should('be.visible');
     cy.checkA11y('#__next');
   });
+
+  it('Should not make request to fyllut if visningsType is dokumentinnsending', () => {
+    cy.intercept('GET', '/sendinn/api/fyllut/forms/*', cy.spy().as('getFormSpy'));
+    cy.visit('/dokumentinnsending-default');
+    cy.get('@getFormSpy').should('not.have.been.called');
+  });
 });

@@ -2,7 +2,6 @@ describe('Axe testing', () => {
   const id = 'a0a16a31-a943-4c29-b954-d841c9f411e7';
   const formPath = `/sendinn/api/backend/frontend/v1/soknad/${id}`;
   before(() => {
-    cy.intercept('POST', 'https://sentry.gc.nav.no/**', {}).as('sentry');
     cy.intercept('POST', 'https://amplitude.nav.no/**', {}).as('amplitude');
     cy.intercept('GET', 'https://www.nav.no/dekoratoren/client**', {}).as('dekoratoren');
 

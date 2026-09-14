@@ -33,8 +33,6 @@ jobs:
       - name: Set environment variables
         run: cp environments/${{ inputs.environment }}.env .env
       - name: Build
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: npm run build
       - name: Build and push Docker image
         uses: nais/docker-build-push@v0

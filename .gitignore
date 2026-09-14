@@ -44,9 +44,6 @@ docs/.obsidian/
 
 .env
 
-# Sentry
-.sentryclirc
-
 # Cypress
 cypress/videos/
 cypress/screenshots/

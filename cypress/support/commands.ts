@@ -28,7 +28,6 @@
 import '@testing-library/cypress/add-commands';
 
 Cypress.Commands.add('defaultIntercepts', () => {
-  cy.intercept('POST', 'https://sentry.gc.nav.no/**', {}).as('sentry');
   cy.intercept('POST', 'https://amplitude.nav.no/**', {}).as('amplitude');
   cy.intercept('GET', 'https://www.nav.no/dekoratoren/client**').as('decorator');
   cy.intercept('GET', '/sendinn/api/user', {
