@@ -172,7 +172,7 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
       })
       .catch(async (error) => {
         if (soknad.visningsType === 'fyllUt') {
-          logUmamiEvent('skjemainnsending feilet', getUmamiAttributes(soknad));
+          logUmamiEvent('skjema innsending feilet', getUmamiAttributes(soknad));
         }
         showError(error);
       });
