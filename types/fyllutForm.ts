@@ -1,5 +1,3 @@
-export type AllowedSubmissionType = 'PAPER' | 'DIGITAL';
-
 export interface BasicForm {
   _id: string;
   modified: string;
@@ -12,8 +10,6 @@ export interface FyllytFormProperties {
   tema: string;
   enhetstyper?: string[];
   enhetMaVelgesVedPapirInnsending?: boolean;
-  uxSignalsId?: string;
-  uxSignalsSubmissionTypes?: AllowedSubmissionType[];
 }
 
 export interface FyllutForm extends BasicForm {

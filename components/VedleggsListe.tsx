@@ -15,7 +15,6 @@ import { navigerTil } from '../utils/navigerTil';
 import { logUmamiEvent } from '../utils/tracking/umami';
 import { useAppConfig } from './AppConfigContext';
 import { AutomatiskInnsending } from './AutomatiskInnsending';
-import { KvitteringsTillegg } from './KvitteringsTillegg';
 import { useLagringsProsessContext } from './LagringsProsessProvider';
 import LastOppVedlegg from './LastOppVedlegg';
 import SkjemaOpplasting from './SkjemaOpplasting';
@@ -307,10 +306,6 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
                   {t('kvittering.minSideKnapp')}
                 </Button>
               </StyledButtonContainer>
-              <KvitteringsTillegg
-                uxSignalsId={fyllutForm?.properties?.uxSignalsId}
-                uxSignalsSubmissionTypes={fyllutForm?.properties?.uxSignalsSubmissionTypes}
-              />
             </>
           )}
         </Style>
