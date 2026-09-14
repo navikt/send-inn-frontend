@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios';
+import axios from 'axios';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ErrorMessageType, useErrorMessageContext } from '../components/ErrorMessageProvider';
@@ -11,12 +11,12 @@ export const useErrorMessage = () => {
   const { t: tB, i18n } = useTranslation('backend');
 
   const handleError = useCallback(
-    (error: AxiosError<ErrorResponsDto>): ErrorMessageType => {
-      if (error.response) {
+    (error: unknown): ErrorMessageType => {
+      if (axios.isAxiosError<ErrorResponsDto>(error) && error.response) {
         // Feil fra server (4xx eller 5xx)
         const errorCode = error.response.data?.errorCode;
 
-        const messageKey: TranslationKey<'backend'> = `${errorCode}.message`;
+        const messageKey = `${errorCode}.message` as TranslationKey<'backend'>;
         const titleKey = `${errorCode}.title`;
 
         if (
@@ -34,7 +34,7 @@ export const useErrorMessage = () => {
           };
         }
         return { message: t('feil.fraBackend') };
-      } else if (error.request) {
+      } else if (axios.isAxiosError(error) && error.request) {
         // Ingen respons. Bruker har f.eks mistet internett
         return { message: t('feil.medTilkobling') };
       } else {
@@ -46,7 +46,7 @@ export const useErrorMessage = () => {
   );
 
   const showError = useCallback(
-    (error: AxiosError<ErrorResponsDto>) => {
+    (error: unknown) => {
       const formatedError = handleError(error);
       setError(formatedError);
       setOpen(true);

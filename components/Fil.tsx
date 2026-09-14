@@ -1,5 +1,5 @@
 import { BodyShort, Button, Link as NavLink, Panel } from '@navikt/ds-react';
-import axios, { AxiosError, AxiosProgressEvent, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosProgressEvent, AxiosRequestConfig, AxiosResponse } from 'axios';
 import React, { useEffect, useReducer, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -9,6 +9,7 @@ import { FIL_STATUS } from '../types/enums';
 import { ErrorResponsDto, OpplastetFil, VedleggType } from '../types/types';
 import { appConfig } from '../utils/appConfig';
 import { fileUtils } from '../utils/file';
+import { uploadFileWithFallback } from '../utils/fileUpload';
 import { sendLog } from '../utils/frontendLogger';
 import { FilUploadIcon } from './FilUploadIcon';
 import { Filvelger } from './Filvelger';
@@ -328,12 +329,7 @@ export function Fil({
       return;
     }
 
-    const formData = new FormData();
-    formData.append('file', lokalFil!);
     const config: AxiosRequestConfig = {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
       timeout: 0, // Proxy håndterer timeout
       onUploadProgress: (progressEvent: AxiosProgressEvent) => {
         const totalSize = progressEvent.total;
@@ -354,8 +350,9 @@ export function Fil({
       sumLastoppDispatch(1);
     }
 
-    axios
-      .post(`${API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil`, formData, config)
+    uploadFileWithFallback(lokalFil!, (formData) =>
+      axios.post(`${API_URL}/frontend/v1/soknad/${innsendingsId}/vedlegg/${vedlegg.id}/fil`, formData, config),
+    )
       .then((response: AxiosResponse<OpplastetFil>) => {
         const filData = {
           opplastetFil: {
@@ -379,13 +376,14 @@ export function Fil({
         });
         oppdaterLokalOpplastingStatus(vedlegg.id, 'LastetOpp');
       })
-      .catch((error: AxiosError<ErrorResponsDto>) => {
+      .catch((error: unknown) => {
         dispatch({
           type: FIL_ACTIONS.FEIL,
         });
 
-        const { errorCode } = error?.response?.data || {};
-        if (error.response?.status === 413) {
+        const axiosError = axios.isAxiosError<ErrorResponsDto>(error) ? error : undefined;
+        const { errorCode } = axiosError?.response?.data || {};
+        if (axiosError?.response?.status === 413) {
           return setFeilmelding(t('feil.filForStor', { maxFileSize: MAX_FILE_SIZE_IN_MB }));
         }
         if (
