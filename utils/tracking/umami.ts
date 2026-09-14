@@ -17,9 +17,6 @@ export function logUmamiEvent(eventName: EventName, data: EventData) {
       } else {
         const tracker = getAnalyticsInstance('fyllut-sendinn');
         if (eventName === 'skjemainnsending feilet') {
-          if (!('custom' in tracker) || typeof tracker.custom !== 'function') {
-            throw new Error('The analytics client does not support custom events');
-          }
           await tracker.custom(eventName, data);
         } else {
           await tracker(eventName, data);
