@@ -1,4 +1,4 @@
-import { getAnalyticsInstance } from '@navikt/nav-dekoratoren-moduler';
+import { Events, getAnalyticsInstance } from '@navikt/nav-dekoratoren-moduler';
 
 const isLocalOrTest = process.env.NEXT_PUBLIC_APP_ENV === 'local' || process.env.NEXT_PUBLIC_APP_ENV === 'test';
 
@@ -7,7 +7,7 @@ interface EventData {
 }
 
 // See the analytics taxonomy for standardized event names: https://github.com/navikt/analytics-taxonomy
-type EventName = 'skjema fullført' | 'skjemainnsending feilet';
+type EventName = typeof Events.SKJEMA_FULLFORT | typeof Events.SKJEMA_INNSENDING_FEILET;
 
 export function logUmamiEvent(eventName: EventName, data: EventData) {
   (async () => {
