@@ -33,10 +33,12 @@ npm login --registry=https://npm.pkg.github.com --auth-type=legacy
 ### Start applikasjonen i utviklingsmodus
 
 ```bash
-npm run dev
+mise exec -- npm run dev:mock
 ```
 
 Gå til http://localhost:3100/sendinn/dev
+
+The `/dev` links open existing mock applications. Start the mock server to use them.
 
 ### Kjør cypress tester
 

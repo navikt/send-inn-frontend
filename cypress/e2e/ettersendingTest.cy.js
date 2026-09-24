@@ -1,10 +1,8 @@
 /// <reference types="cypress" />
 
 describe('Tester ettersendingsløpet', () => {
-  it('Går igjennom fra åpning av url som oppretter ettersending til kvitteringssiden', () => {
-    cy.visit(
-      '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2',
-    );
+  it('Submits an existing additional-document application and shows the receipt', () => {
+    cy.visit('/ettersending-default');
 
     // Laster opp fil på første vedlegg
     cy.get('[data-cy="VedleggContainer"]')

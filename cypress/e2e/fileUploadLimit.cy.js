@@ -11,7 +11,7 @@ describe('File upload limit', () => {
   });
 
   it('shows the configured limit', () => {
-    cy.visit('/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1');
+    cy.visit('/ettersending-default');
 
     cy.get('[data-cy="VedleggContainer"]')
       .first()
