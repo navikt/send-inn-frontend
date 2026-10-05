@@ -3,9 +3,7 @@ import translations from '../../assets/locales/nb/translation.json';
 
 describe('Tester validering', () => {
   it('Legger til valideringsfeil, og fikser dem', () => {
-    cy.visit(
-      '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2',
-    );
+    cy.visit('/dokumentinnsending-default');
 
     // sjekker at valideringsfeil stopper neste steg, og at valideringsfeil-boksen får fokus
     cy.get('[data-cy="nesteStegKnapp"]').should('be.visible').click();

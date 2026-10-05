@@ -18,10 +18,8 @@ describe('Tester dokumentinnsendingsløpet', () => {
     cy.intercept('POST', /\/sendinn\/api\/backend\/frontend\/v1\/sendInn\/[^/]+$/).as('submitApplication');
   });
 
-  it('Går igjennom fra åpning av url som oppretter søknad til kvitteringssiden', () => {
-    cy.visit(
-      '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2',
-    );
+  it('Submits an existing document application and shows the receipt', () => {
+    cy.visit('/dokumentinnsending-default');
 
     // Bekrefter at siden er rendret
     cy.get('[data-cy="nesteStegKnapp"]').should('be.visible').click();

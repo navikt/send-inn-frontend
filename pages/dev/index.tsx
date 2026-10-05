@@ -8,7 +8,7 @@ const Home: NextPage = () => {
     // <div>
     <div>
       <Head>
-        <title>Opprett søknad</title>
+        <title>Dev</title>
         {/* Denne siden vil ikke bli indeksert i google pga linjen nedenfor, bør kanskje fjernes etterhvert */}
         <meta name="robots" content="noindex,nofollow" />
       </Head>
@@ -16,72 +16,24 @@ const Home: NextPage = () => {
       <main>
         <h1>Dev</h1>
 
-        {/* TODO fix trailing comma buggen ... http://localhost:3000/dokumentinnsending/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2," <- ,*/}
         <div>
-          <Link
-            href={
-              '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false&vedleggsIder=C1,W1,G2'
-            }
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Dokumentinnsending - Opprett søknad
+          <Link href="/dokumentinnsending-default" target="_blank" rel="noopener noreferrer">
+            Document submission
           </Link>
         </div>
         <div>
-          <Link
-            href={
-              '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2'
-            }
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Dokumentinnsending - Opprett ettersending
+          <Link href="/ettersending-default" target="_blank" rel="noopener noreferrer">
+            Additional documents
           </Link>
         </div>
         <div>
-          <Link
-            href={
-              '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=true&vedleggsIder=C1,W1,G2'
-            }
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Dokumentinnsending - Opprett ettersending
+          <Link href="/ettersending-saksbehandler" target="_blank" rel="noopener noreferrer">
+            Additional documents requested by a caseworker
           </Link>
         </div>
-
         <div>
-          <Link
-            href={
-              '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=EN&erEttersendelse=false&vedleggsIder=C1,W1,G2'
-            }
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Dokumentinnsending - Opprett søknad, Engelsk
-          </Link>
-        </div>
-
-        <div>
-          <Link
-            href={
-              '/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NN&erEttersendelse=false&vedleggsIder=C1,W1,G2'
-            }
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Dokumentinnsending - Opprett søknad, Nynorsk
-          </Link>
-        </div>
-
-        <div>
-          <Link
-            href={'/opprettSoknadResource?skjemanummer=NAV%2054-00.04&sprak=NO_NB&erEttersendelse=false'}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Dokumentinnsending - Opprett søknad, uten vedlegg
+          <Link href="/fyll-ut-default" target="_blank" rel="noopener noreferrer">
+            FyllUt application
           </Link>
         </div>
 
