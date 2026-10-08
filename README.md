@@ -62,9 +62,11 @@ Finn en testbruker her og logg deg inn.
 https://confluence.adeo.no/pages/viewpage.action?pageId=419521258 (krever tilgang)
 
 Gå til denne siden:
-https://www.intern.dev.nav.no/sendinn
+https://www.intern.dev.nav.no/sendinn-dokumenter
 Eller:
 https://www.intern.dev.nav.no/sendinn-alt
+
+Den gamle stien `/sendinn` videresendes midlertidig til `/sendinn-dokumenter` (styres av `LEGACY_BASE_PATH`), slik at Sendinn 2.0 kan ta over `/sendinn` senere.
 
 Trykk testid og bruk syntetisk fødselsnummer tilknyttet testbrukern
 
