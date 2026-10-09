@@ -64,9 +64,13 @@ https://confluence.adeo.no/pages/viewpage.action?pageId=419521258 (krever tilgan
 Gå til denne siden:
 https://www.intern.dev.nav.no/sendinn-dokumenter
 Eller:
-https://www.intern.dev.nav.no/sendinn-alt
+https://www.intern.dev.nav.no/sendinn-dokumenter-alt
 
-Den gamle stien `/sendinn` videresendes midlertidig til `/sendinn-dokumenter` (styres av `LEGACY_BASE_PATH`), slik at Sendinn 2.0 kan ta over `/sendinn` senere.
+De gamle stiene videresendes midlertidig til de nye (styres av `LEGACY_BASE_PATH`), slik at Sendinn 2.0 kan ta over `/sendinn` senere:
+
+- `/sendinn` → `/sendinn-dokumenter`
+- `/sendinn-alt` → `/sendinn-dokumenter-alt`
+- `/sendinn-delingslenke` → `/sendinn-dokumenter-delingslenke`
 
 Trykk testid og bruk syntetisk fødselsnummer tilknyttet testbrukern
 
