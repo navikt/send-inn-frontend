@@ -21,13 +21,13 @@ spec:
         - id: loki
         - id: elastic
   liveness:
-    path: /sendinn/api/isAlive
+    path: /sendinn-dokumenter/api/isAlive
     initialDelay: 20
     timeout: 10
     periodSeconds: 5
     failureThreshold: 10
   readiness:
-    path: /sendinn/api/isReady
+    path: /sendinn-dokumenter/api/isReady
     initialDelay: 20
     timeout: 10
   replicas:
@@ -36,7 +36,7 @@ spec:
     cpuThresholdPercentage: 50
   prometheus:
     enabled: true
-    path: /sendinn/api/internal/prometheus
+    path: /sendinn-dokumenter/api/internal/prometheus
   resources:
     limits:
       memory: 786Mi
@@ -58,6 +58,7 @@ spec:
         - application: nav-dekoratoren
           namespace: personbruker
   ingresses:
+    - 'https://www.nav.no/sendinn-dokumenter'
     - 'https://www.nav.no/sendinn'
   env:
     - name: APP_VERSION
