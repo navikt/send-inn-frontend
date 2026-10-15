@@ -52,3 +52,7 @@ linking that `node_modules` directory into the repository works for the
 development server and Cypress. Do not use that workaround for a standalone
 build: Next.js follows the external symlink while tracing files and the build
 fails. Remove temporary links and generated artifacts when finished.
+
+## Next.js
+
+- Ved Next.js-endringer, les relevant dokumentasjon i `node_modules/next/dist/docs/`.
