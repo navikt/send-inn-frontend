@@ -17,6 +17,7 @@ const legacyBasePathRedirects =
     : [];
 
 const nextConfig = {
+  agentRules: false,
   experimental: {
     optimizePackageImports: ['@navikt/ds-react', '@navikt/aksel-icons'],
   },
