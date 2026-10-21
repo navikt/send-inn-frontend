@@ -4,6 +4,7 @@ import pluginCypress from 'eslint-plugin-cypress';
 import { defineConfig } from 'eslint/config';
 
 export default defineConfig([
+  { ignores: ['tests/fixtures/redirects/.next/**'] },
   ...nextVitals,
   pluginCypress.configs.recommended,
   prettier,

@@ -25,6 +25,8 @@ jobs:
         run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Test legacy redirects over HTTP
+        run: npm run test:redirects
       - name: Build with mock
         run: npm run build:mock
       - uses: cypress-io/github-action@v7
@@ -39,4 +41,4 @@ jobs:
         if: failure()
         with:
           name: cypress-screenshots
-          path:  ${{ github.workspace }}/cypress/screenshots/*
+          path: ${{ github.workspace }}/cypress/screenshots/*

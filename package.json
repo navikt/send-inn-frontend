@@ -10,6 +10,7 @@
     "build:mock": "cross-env-shell NODE_ENV=test next build --webpack",
     "start": "next start -p 3100",
     "start:with:test": "cross-env-shell NODE_ENV=test next start -p 3100",
+    "test:redirects": "node --test tests/legacy-redirects.test.js",
     "lint": "eslint .",
     "prepare": "husky",
     "cypress": "npx cypress open",
