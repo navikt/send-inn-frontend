@@ -1,5 +1,22 @@
 /** @type {import('next').NextConfig} */
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+const legacyBasePath = process.env.LEGACY_BASE_PATH || '';
+const locales = ['nb', 'en', 'nn'];
+
+// Temporary (not permanent) so browsers do not cache it: /sendinn will later be served by another app.
+const legacyBasePathRedirects =
+  legacyBasePath && legacyBasePath !== basePath
+    ? [
+        {
+          // Next.js adds an internal locale prefix even for paths outside basePath.
+          source: `/:legacyLocale(${locales.join('|')})?${legacyBasePath}/:path*`,
+          destination: `${basePath}/:path*`,
+          basePath: false,
+          locale: false,
+          permanent: false,
+        },
+      ]
+    : [];
 
 const nextConfig = {
   agentRules: false,
@@ -8,7 +25,7 @@ const nextConfig = {
   },
   reactStrictMode: false,
   i18n: {
-    locales: ['nb', 'en', 'nn'],
+    locales,
     defaultLocale: 'nb',
   },
   compiler: {
@@ -23,6 +40,7 @@ const nextConfig = {
         destination: '/oauth2/login',
         permanent: false,
       },
+      ...legacyBasePathRedirects,
     ];
   },
 };
