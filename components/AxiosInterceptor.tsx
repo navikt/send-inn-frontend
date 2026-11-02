@@ -1,6 +1,8 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useRouter } from 'next/router';
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { appConfig } from '../utils/appConfig';
 
 interface PropsAxiosInterceptor {
   children: React.ReactNode;
@@ -25,8 +27,16 @@ export const AxiosInterceptor = ({ children }: PropsAxiosInterceptor) => {
   const [savedAt, setSavedAt] = useState<string>();
 
   const router = useRouter();
+  const { i18n } = useTranslation();
 
   useEffect(() => {
+    const requestInterceptor = axios.interceptors.request.use((config) => {
+      if (config.url?.startsWith(`${appConfig.apiUrl}/`)) {
+        config.headers.set('Accept-Language', i18n.language || 'nb');
+      }
+      return config;
+    });
+
     const responseInterceptor = (response: AxiosResponse) => {
       const method = response.config.method?.toLowerCase() || '';
       const updateMethods = ['post', 'put', 'patch', 'delete'];
@@ -47,8 +57,11 @@ export const AxiosInterceptor = ({ children }: PropsAxiosInterceptor) => {
 
     setIsSet(true);
 
-    return () => axios.interceptors.response.eject(interceptor);
-  }, [router]);
+    return () => {
+      axios.interceptors.request.eject(requestInterceptor);
+      axios.interceptors.response.eject(interceptor);
+    };
+  }, [router, i18n]);
 
   return <AxiosInterceptorContext.Provider value={{ savedAt }}>{isSet && children}</AxiosInterceptorContext.Provider>;
 };
