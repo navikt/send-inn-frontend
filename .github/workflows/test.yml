@@ -27,6 +27,8 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Test legacy redirects over HTTP
         run: npm run test:redirects
+      - name: Test backend proxy over HTTP
+        run: npm run test:backend-proxy
       - name: Build with mock
         run: npm run build:mock
       - uses: cypress-io/github-action@v7

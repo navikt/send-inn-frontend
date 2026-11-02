@@ -44,7 +44,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const envQualifier = getEnvQualifier(req);
 
   // Removed host-header because of certification issues with node
-  const { host, ...headers } = req.headers as AxiosRequestHeaders;
+  // Tomcat rejects requests with too many locales in Accept-Language.
+  const { host, 'accept-language': acceptLanguage, ...headers } = req.headers as AxiosRequestHeaders;
 
   await axios({
     method: method,
