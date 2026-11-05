@@ -43,6 +43,9 @@ describe('Digital løspost', () => {
 
     // Kvittering
     cy.findByRole('heading', { name: /Vi mottok desse dokumenta/ }).should('exist');
+    cy.findAllByText('På Mi side kan du sjå dokumenta du har sendt inn for deg sjølv.')
+      .should('have.length', 1)
+      .and('be.visible');
     cy.findAllByRole('listitem').should('have.length', 1);
     cy.findAllByRole('button').should('have.length', 1).should('contain.text', 'Gå til Min side');
   });

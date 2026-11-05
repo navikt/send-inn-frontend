@@ -72,7 +72,7 @@
           "manglerFil": "Upload or delete document: {{label}}",
           "manglerNavn": "Describe the document",
           "navnForLangt": "The document description is too long. Max {{maxLength}} characters.",
-          "lasterOppFil" : "Wait until file upload is completed"
+          "lasterOppFil": "Wait until file upload is completed"
         }
       },
       "radio": {
@@ -176,10 +176,10 @@
     "sendesIkkeInn": "Documentation you do not have",
     "navKanInnhente": "Documentation Nav can collect for me",
     "fristEttersending": "Deadline for forwarding documents: {{dato}}",
-    "ettersendingsInfo": "You have to submit the documentation that are missing in order to complete the application. Go to My page to see the submitted documents.",
-    "altMottatInfo": "Go to My page to see the submitted documents.",
-    "manglerInnsendtAvAndre": "Ensure that the documents to be submitted by others are submitted. Go to My page to see the submitted documents.",
-    "manglerInnsendingAvSelvOgAndre": "You have to submit the documentation that are missing in order to complete the application.\n\nAlso ensure that the documents to be submitted by others are submitted.\n\nGo to My page to see the submitted documents.",
+    "ettersendingsInfo": "You have to submit the documentation that are missing in order to complete the application.",
+    "dokumenterPaaMinSide": "On My page, you can see the documents you have submitted on your own behalf.",
+    "manglerInnsendtAvAndre": "Ensure that the documents to be submitted by others are submitted.",
+    "manglerInnsendingAvSelvOgAndre": "You have to submit the documentation that are missing in order to complete the application.\n\nAlso ensure that the documents to be submitted by others are submitted.",
     "minSideKnapp": "Go to My page"
   },
   "feil": {
@@ -224,7 +224,7 @@
       "innhold": "This may be because you have already submitted the documentation, or the deadline for submitting additional documents has passed.",
       "ettersendingMelding": "If you still want to submit additional documentation, you can go to ",
       "ettersendingMelding2": " and choose the form you want to submit documentation for.",
-      "dokumentArkivMelding": "You can see what you have previously submitted in the ",
+      "dokumentArkivMelding": "You can see the documents you have submitted on your own behalf in the ",
       "lenkeTekst": {
         "ettersende": "nav.no/ettersende/en",
         "dokumentArkiv": "document archive."

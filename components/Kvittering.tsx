@@ -136,22 +136,20 @@ export default function Kvittering({ kvprops, visningstype }: KvitteringsProps) 
       <VedleggsGruppe vedleggsGruppe={kvprops.skalSendesAvAndre} tittel={t('kvittering.sendesAvAndre')} />
       <VedleggsGruppe vedleggsGruppe={kvprops.navKanInnhente} tittel={t('kvittering.navKanInnhente')} />
 
-      {((kvprops.skalEttersendes && kvprops.skalEttersendes.length > 0) ||
-        (kvprops.skalSendesAvAndre && kvprops.skalSendesAvAndre.length > 0)) && (
-        <>
-          <StyledAlert variant="info">
+      <StyledAlert variant="info">
+        {((kvprops.skalEttersendes && kvprops.skalEttersendes.length > 0) ||
+          (kvprops.skalSendesAvAndre && kvprops.skalSendesAvAndre.length > 0)) && (
+          <>
             <Heading level={'3'} spacing size="small">
               {t('kvittering.fristEttersending', {
                 dato: formatertDato(new Date(kvprops.ettersendingsfrist)),
               })}
             </Heading>
-            <BodyLong>{ettersendingsTekst({ kvprops, t })}</BodyLong>
-          </StyledAlert>
-        </>
-      )}
-      {!kvprops.skalEttersendes.length && !kvprops.skalSendesAvAndre.length && (
-        <StyledAlert variant="info">{t('kvittering.altMottatInfo')}</StyledAlert>
-      )}
+            <BodyLong spacing>{ettersendingsTekst({ kvprops, t })}</BodyLong>
+          </>
+        )}
+        <BodyLong>{t('kvittering.dokumenterPaaMinSide')}</BodyLong>
+      </StyledAlert>
     </div>
   );
 }
