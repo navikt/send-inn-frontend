@@ -77,7 +77,7 @@ const InnsendingsSide: NextPage = () => {
 
           <div className="side-column"></div>
           <div className="main-column">
-            <VedleggsListe soknad={soknad} setSoknad={setSoknad} erEttersending={erEttersending} />
+            <VedleggsListe soknad={soknad} erEttersending={erEttersending} />
           </div>
         </>
       )}

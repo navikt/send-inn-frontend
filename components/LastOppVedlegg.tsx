@@ -59,12 +59,8 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
   const { fyllutUrl } = useAppConfig();
 
   const { soknad, soknadKlar, soknadDelvisKlar } = useVedleggslisteContext();
-  const {
-    openForstettSenereSoknadModal,
-    openSendInnKomplettSoknadModal,
-    openSendInnUferdigSoknadModal,
-    openSlettSoknadModal,
-  } = useModalContext();
+  const { openForstettSenereSoknadModal, openSendInnKomplettSoknadModal, openSendInnUferdigSoknadModal } =
+    useModalContext();
   const { ventPaaLagring } = useLagringsProsessContext();
   const [antallUnderOpplasting, dispatchLasterOppVedleggState] = useReducer(lasterOppVedleggStateReducer, 0);
 
@@ -218,21 +214,13 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
         </Button>
 
         <Button
-          loading={isLoading}
           onClick={() => {
-            setIsLoading(true);
-            if (antallUnderOpplasting !== undefined && antallUnderOpplasting > 0) {
-              customErrorMessage({
-                message: t('feil.ventTilOpplastingErFerdig'),
-              });
-            }
-            openSlettSoknadModal();
-            setIsLoading(false);
+            navigerTil('https://www.nav.no');
           }}
           variant="tertiary"
-          data-cy="slettSoknadKnapp"
+          data-cy="avbrytKnapp"
         >
-          {t('soknad.knapper.slett')}
+          {t('soknad.knapper.avbryt')}
         </Button>
       </ButtonContainer>
       {/* end */}

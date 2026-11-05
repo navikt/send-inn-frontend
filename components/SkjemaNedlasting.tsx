@@ -5,7 +5,7 @@ import { ButtonContainer } from './common/ButtonContainer';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import styled from 'styled-components';
 import { VedleggType } from '../types/types';
-import { useModalContext } from './SoknadModalProvider';
+import { navigerTil } from '../utils/navigerTil';
 import { VedleggContainer, VedleggPanel } from './Vedlegg';
 import { LastNedKnapp } from './common/LastNedKnapp';
 import { Linje } from './common/Linje';
@@ -28,7 +28,6 @@ function SkjemaNedlasting(props: SkjemanedlastingdProps) {
   const { vedlegg, oppdaterVisningsSteg } = props;
 
   const { t } = useTranslation();
-  const { openSlettSoknadModal } = useModalContext();
 
   return (
     <>
@@ -75,10 +74,10 @@ function SkjemaNedlasting(props: SkjemanedlastingdProps) {
       <ButtonContainer>
         <Button
           onClick={() => {
-            openSlettSoknadModal();
+            navigerTil('https://www.nav.no');
           }}
           variant="tertiary"
-          data-cy="slettSoknadKnapp"
+          data-cy="avbrytKnapp"
         >
           {t('soknad.knapper.avbryt')}
         </Button>

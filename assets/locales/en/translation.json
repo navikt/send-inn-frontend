@@ -72,7 +72,7 @@
           "manglerFil": "Upload or delete document: {{label}}",
           "manglerNavn": "Describe the document",
           "navnForLangt": "The document description is too long. Max {{maxLength}} characters.",
-          "lasterOppFil" : "Wait until file upload is completed"
+          "lasterOppFil": "Wait until file upload is completed"
         }
       },
       "radio": {
@@ -107,10 +107,9 @@
       "fortsettSenere": "Save and continue later",
       "neste": "Next step",
       "forrige": "Previous step",
-      "avbryt": "Cancel",
-      "slett": "Delete form"
+      "avbryt": "Cancel"
     },
-    "opptatt": "You can not send in or remove the application until the problems below are solved",
+    "opptatt": "You cannot submit the application until the problems below are resolved",
     "beskjedOmAvvik": "Have you experienced problems submitting documentation? Please upload the documentation again and press Submit."
   },
   "filvelger": {
@@ -139,12 +138,6 @@
         "The application will be available until {{dato}}."
       ],
       "accept": "Yes, save and continue later",
-      "cancel": "Cancel"
-    },
-    "slett": {
-      "tittel": "Are you sure you want to delete the application?",
-      "liste": ["The application and all documents you have uploaded will be deleted."],
-      "accept": "Yes, delete the application",
       "cancel": "Cancel"
     },
     "sendInnUferdig": {
