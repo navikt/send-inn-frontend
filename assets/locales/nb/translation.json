@@ -72,7 +72,7 @@
           "manglerFil": "Last opp eller slett dokumentasjonen: {{label}}",
           "manglerNavn": "Gi en beskrivelse av dokumentasjonen",
           "navnForLangt": "Beskrivelsen er for lang. Maks {{maxLength}} tegn",
-          "lasterOppFil" : "Vent til fil er blitt lastet opp"
+          "lasterOppFil": "Vent til fil er blitt lastet opp"
         }
       },
       "radio": {
@@ -107,11 +107,10 @@
       "fortsettSenere": "Lagre og fortsett senere",
       "neste": "Neste steg",
       "forrige": "Forrige steg",
-      "avbryt": "Avbryt",
-      "slett": "Avbryt og slett"
+      "avbryt": "Avbryt"
     },
     "beskjedOmAvvik": "Får du ikke ettersendt dokumentasjon? Da må du laste opp dokumentasjonen på nytt og trykke Send inn.",
-    "opptatt": "Du kan ikke sende inn søknad eller slette søknad før problemene under er løst"
+    "opptatt": "Du kan ikke sende inn søknaden før problemene under er løst"
   },
   "filvelger": {
     "defaultText": "Velg dine filer",
@@ -139,12 +138,6 @@
         "Søknaden vil være tilgjengelig til {{dato}}."
       ],
       "accept": "Ja, lagre og fortsett senere",
-      "cancel": "Avbryt"
-    },
-    "slett": {
-      "tittel": "Er du sikker på at du vil slette søknaden?",
-      "liste": ["Søknaden og all dokumentasjon du har lastet opp vil bli slettet."],
-      "accept": "Ja, slett søknaden",
       "cancel": "Avbryt"
     },
     "sendInnUferdig": {

@@ -15,7 +15,6 @@ interface SoknadModalProviderProps {
 
 interface ModalContextType {
   openForstettSenereSoknadModal: () => void;
-  openSlettSoknadModal: () => void;
   openSendInnUferdigSoknadModal: () => void;
   openSendInnKomplettSoknadModal: () => void;
 }
@@ -34,21 +33,16 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
   const { t } = useTranslation();
 
   const { minSideUrl } = useAppConfig();
-  const { soknad, onSendInn, slettSoknad } = useVedleggslisteContext();
+  const { soknad, onSendInn } = useVedleggslisteContext();
   const { lagrer } = useLagringsProsessContext();
   const { open: hasError } = useErrorMessageContext();
 
   const [fortsettSenereSoknadModal, setForstettSenereSoknadModal] = useState(false);
-  const [slettSoknadModal, setSlettSoknadModal] = useState(false);
   const [sendInnUferdigSoknadModal, setSendInnUferdigSoknadModal] = useState(false);
   const [sendInnKomplettSoknadModal, setSendInnKomplettSoknadModal] = useState(false);
 
-  if (
-    hasError &&
-    (fortsettSenereSoknadModal || slettSoknadModal || sendInnUferdigSoknadModal || sendInnKomplettSoknadModal)
-  ) {
+  if (hasError && (fortsettSenereSoknadModal || sendInnUferdigSoknadModal || sendInnKomplettSoknadModal)) {
     setForstettSenereSoknadModal(false);
-    setSlettSoknadModal(false);
     setSendInnUferdigSoknadModal(false);
     setSendInnKomplettSoknadModal(false);
   }
@@ -56,10 +50,6 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
   const openForstettSenereSoknadModal = useCallback(() => {
     setForstettSenereSoknadModal(true);
   }, [setForstettSenereSoknadModal]);
-
-  const openSlettSoknadModal = useCallback(() => {
-    setSlettSoknadModal(true);
-  }, [setSlettSoknadModal]);
 
   const openSendInnUferdigSoknadModal = useCallback(() => {
     setSendInnUferdigSoknadModal(true);
@@ -77,7 +67,6 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
     <ModalContext.Provider
       value={{
         openForstettSenereSoknadModal,
-        openSlettSoknadModal,
         openSendInnUferdigSoknadModal,
         openSendInnKomplettSoknadModal,
       }}
@@ -96,29 +85,6 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
           {(
             t('modal.fortsettSenere.liste', {
               dato: formatertDato(new Date(soknad.skalSlettesDato)),
-              returnObjects: true,
-            }) as string[]
-          ).map((element, key) => (
-            <li key={key}>{element}</li>
-          ))}
-        </BodyLong>
-      </FellesModal>
-
-      <FellesModal
-        heading={t('modal.slett.tittel')}
-        open={slettSoknadModal}
-        setOpen={setSlettSoknadModal}
-        onAccept={async () => {
-          await slettSoknad();
-          setSlettSoknadModal(false);
-        }}
-        acceptButtonText={t('modal.slett.accept')}
-        cancelButtonText={t('modal.slett.cancel')}
-        isLoading={lagrer}
-      >
-        <BodyLong as="ul">
-          {(
-            t('modal.slett.liste', {
               returnObjects: true,
             }) as string[]
           ).map((element, key) => (
