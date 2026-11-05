@@ -1,4 +1,5 @@
 package-lock.json
+next-env.d.ts
 
 # Ignore yaml files because it contains handlebars logic 
 .nais/*.yaml
