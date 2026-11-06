@@ -72,7 +72,7 @@
           "manglerFil": "Last opp eller slett dokumentasjon: {{label}}",
           "manglerNavn": "Gje eit namn til dokumentasjonen",
           "navnForLangt": "Namnet på dokumentasjonen er for langt. Maks {{maxLength}} tegn",
-          "lasterOppFil" : "Vent til fil er lasta opp"
+          "lasterOppFil": "Vent til fil er lasta opp"
         }
       },
       "radio": {
@@ -176,10 +176,10 @@
     "sendesIkkeInn": "Dokumentasjon du ikkje har",
     "navKanInnhente": "Dokumentasjon Nav kan hente inn for meg",
     "fristEttersending": "Frist for å ettersenda dokumenta: {{dato}}",
-    "ettersendingsInfo": "For at søknaden skal bli komplett må du sende inn dokumentasjonen som manglar. På Mi side kan du sjå kva dokument som er sendt inn.",
-    "altMottatInfo": "På Mi side kan du sjå dokumenta som er sendt inn.",
-    "manglerInnsendtAvAndre": "Sørg for at dokumenta som skal sendast inn av andre blir sende inn. På Mi side kan du sjå kva dokument som er sendt inn.",
-    "manglerInnsendingAvSelvOgAndre": "For at søknaden skal bli komplett må du sende inn dokumentasjonen som manglar.\n\nSørg også for at dokumenta som skal sendast inn av andre blir sende inn.\n\nPå Mi side kan du sjå kva dokument som er sendt inn.",
+    "ettersendingsInfo": "For at søknaden skal bli komplett må du sende inn dokumentasjonen som manglar.",
+    "dokumenterPaaMinSide": "På Mi side kan du sjå dokumenta du har sendt inn for deg sjølv.",
+    "manglerInnsendtAvAndre": "Sørg for at dokumenta som skal sendast inn av andre blir sende inn.",
+    "manglerInnsendingAvSelvOgAndre": "For at søknaden skal bli komplett må du sende inn dokumentasjonen som manglar.\n\nSørg også for at dokumenta som skal sendast inn av andre blir sende inn.",
 
     "minSideKnapp": "Gå til Min side"
   },
@@ -225,7 +225,7 @@
       "innhold": "Det kan skuldast at du allereie har sendt inn dokumentasjonen, eller at fristen for å ettersende har gått ut.",
       "ettersendingMelding": "Ønsker du likevel å ettersende dokumentasjon, kan du gå til ",
       "ettersendingMelding2": " og velge skjemaet du ønsker å ettersende dokumentasjon til.",
-      "dokumentArkivMelding": "Du kan sjå kva du har sendt inn tidlegare i ",
+      "dokumentArkivMelding": "Du kan sjå dokumenta du har sendt inn for deg sjølv i ",
       "lenkeTekst": {
         "ettersende": "nav.no/ettersende/nn",
         "dokumentArkiv": "dokumentarkivet."
