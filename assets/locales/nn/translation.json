@@ -130,9 +130,9 @@
   },
   "modal": {
     "avbryt": {
-      "tittel": "Vil du forlate sida?",
-      "innhold": "Du går til nav.no utan å slette noko. Dette trekkjer ikkje ein søknad du allereie har sendt inn.",
-      "accept": "Ja, gå til nav.no",
+      "tittel": "Vil du avbryte innsendinga?",
+      "innhold": "Ingenting blir sendt inn. Søknader som allereie er sende inn, blir ikkje sletta. Du kjem til framsida på nav.no.",
+      "accept": "Ja, avbryt",
       "cancel": "Nei, bli på sida"
     },
     "fortsettSenere": {

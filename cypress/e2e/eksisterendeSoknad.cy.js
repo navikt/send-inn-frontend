@@ -9,7 +9,7 @@ describe('Avbryt uten å slette søknaden', () => {
     { id: 'lospost-default' },
   ].forEach(({ id, steg }) => {
     it(`Bekrefter før navigasjon til nav.no fra ${id}${steg !== undefined ? ` steg ${steg}` : ''}`, () => {
-      const heading = id === 'lospost-default' ? 'Vil du forlate sida?' : 'Vil du forlate siden?';
+      const heading = id === 'lospost-default' ? 'Vil du avbryte innsendinga?' : 'Vil du avbryte innsendingen?';
       const stay = id === 'lospost-default' ? 'Nei, bli på sida' : 'Nei, bli på siden';
       const deleteRequest = cy.spy().as('deleteRequest');
       cy.intercept('DELETE', '**/api/backend/**', (req) => {
@@ -53,7 +53,7 @@ describe('Avbryt uten å slette søknaden', () => {
       cy.injectAxe();
       cy.checkA11y('dialog[open]');
       cy.findByRole('dialog', { name: heading }).within(() => {
-        cy.findByRole('button', { name: 'Ja, gå til nav.no' }).click();
+        cy.findByRole('button', { name: 'Ja, avbryt' }).click();
       });
       cy.wait('@navFrontPage');
       cy.origin('https://www.nav.no', () => {
@@ -66,7 +66,7 @@ describe('Avbryt uten å slette søknaden', () => {
   it('Blir på siden når bekreftelsen lukkes med Escape eller lukkeknappen', () => {
     cy.visit('/ettersending-default');
     cy.findByRole('button', { name: 'Avbryt', exact: true }).click();
-    cy.findByRole('dialog', { name: 'Vil du forlate siden?' })
+    cy.findByRole('dialog', { name: 'Vil du avbryte innsendingen?' })
       .should('be.visible')
       .then(($dialog) => {
         $dialog[0].addEventListener('close', cy.stub().as('dialogClosed'), { once: true });
@@ -88,12 +88,12 @@ describe('Avbryt uten å slette søknaden', () => {
         params: { type: 'keyUp', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 },
       }),
     );
-    cy.findByRole('dialog', { name: 'Vil du forlate siden?' }).should('not.exist');
+    cy.findByRole('dialog', { name: 'Vil du avbryte innsendingen?' }).should('not.exist');
     cy.findByRole('button', { name: 'Avbryt', exact: true }).should('have.focus').click();
-    cy.findByRole('dialog', { name: 'Vil du forlate siden?' }).within(() => {
+    cy.findByRole('dialog', { name: 'Vil du avbryte innsendingen?' }).within(() => {
       cy.findByRole('button', { name: 'Lukk' }).click();
     });
-    cy.findByRole('dialog', { name: 'Vil du forlate siden?' }).should('not.exist');
+    cy.findByRole('dialog', { name: 'Vil du avbryte innsendingen?' }).should('not.exist');
     cy.location('pathname').should('eq', '/sendinn/ettersending-default');
     cy.findByRole('button', { name: 'Avbryt', exact: true }).should('have.focus');
   });

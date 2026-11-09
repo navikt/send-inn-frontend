@@ -130,9 +130,9 @@
   },
   "modal": {
     "avbryt": {
-      "tittel": "Do you want to leave this page?",
-      "innhold": "You will go to nav.no without deleting anything. This does not withdraw an application you have already submitted.",
-      "accept": "Yes, go to nav.no",
+      "tittel": "Do you want to cancel the submission?",
+      "innhold": "Nothing will be submitted. Applications you have already submitted will not be deleted. You will go to the nav.no homepage.",
+      "accept": "Yes, cancel",
       "cancel": "No, stay on this page"
     },
     "fortsettSenere": {
