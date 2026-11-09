@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { SoknadType, VedleggType } from '../types/types';
-import { navigerTil } from '../utils/navigerTil';
 import { SideValideringProvider } from './SideValideringProvider';
+import { useModalContext } from './SoknadModalProvider';
 import Vedlegg from './Vedlegg';
 import { ButtonContainer } from './common/ButtonContainer';
 import { Linje } from './common/Linje';
@@ -26,6 +26,7 @@ function SkjemaOpplasting(props: SkjemaOpplastingdProps) {
   const { vedlegg, soknad, oppdaterVisningsSteg } = props;
 
   const { t } = useTranslation();
+  const { openAvbrytModal } = useModalContext();
 
   const [side1HarFeil, setSide1HarFeil] = useState(false);
   const [visSide1Feil, setVisSide1Feil] = useState(false);
@@ -77,13 +78,7 @@ function SkjemaOpplasting(props: SkjemaOpplastingdProps) {
           </Button>
         </ButtonContainer>
         <ButtonContainer>
-          <Button
-            onClick={() => {
-              navigerTil('https://www.nav.no');
-            }}
-            variant="tertiary"
-            data-cy="avbrytKnapp"
-          >
+          <Button onClick={openAvbrytModal} variant="tertiary" data-cy="avbrytKnapp">
             {t('soknad.knapper.avbryt')}
           </Button>
         </ButtonContainer>

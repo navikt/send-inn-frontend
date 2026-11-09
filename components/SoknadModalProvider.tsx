@@ -14,6 +14,7 @@ interface SoknadModalProviderProps {
 }
 
 interface ModalContextType {
+  openAvbrytModal: () => void;
   openForstettSenereSoknadModal: () => void;
   openSendInnUferdigSoknadModal: () => void;
   openSendInnKomplettSoknadModal: () => void;
@@ -38,6 +39,7 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
   const { open: hasError } = useErrorMessageContext();
 
   const [fortsettSenereSoknadModal, setForstettSenereSoknadModal] = useState(false);
+  const [avbrytModal, setAvbrytModal] = useState(false);
   const [sendInnUferdigSoknadModal, setSendInnUferdigSoknadModal] = useState(false);
   const [sendInnKomplettSoknadModal, setSendInnKomplettSoknadModal] = useState(false);
 
@@ -50,6 +52,10 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
   const openForstettSenereSoknadModal = useCallback(() => {
     setForstettSenereSoknadModal(true);
   }, [setForstettSenereSoknadModal]);
+
+  const openAvbrytModal = useCallback(() => {
+    setAvbrytModal(true);
+  }, []);
 
   const openSendInnUferdigSoknadModal = useCallback(() => {
     setSendInnUferdigSoknadModal(true);
@@ -66,12 +72,24 @@ export const SoknadModalProvider = ({ children }: SoknadModalProviderProps) => {
   return (
     <ModalContext.Provider
       value={{
+        openAvbrytModal,
         openForstettSenereSoknadModal,
         openSendInnUferdigSoknadModal,
         openSendInnKomplettSoknadModal,
       }}
     >
       {children}
+
+      <FellesModal
+        heading={t('modal.avbryt.tittel')}
+        open={avbrytModal}
+        setOpen={setAvbrytModal}
+        onAccept={() => navigerTil('https://www.nav.no')}
+        acceptButtonText={t('modal.avbryt.accept')}
+        cancelButtonText={t('modal.avbryt.cancel')}
+      >
+        <BodyLong>{t('modal.avbryt.innhold')}</BodyLong>
+      </FellesModal>
 
       <FellesModal
         heading={t('modal.fortsettSenere.tittel')}

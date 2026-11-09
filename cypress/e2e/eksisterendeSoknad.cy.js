@@ -8,7 +8,9 @@ describe('Avbryt uten å slette søknaden', () => {
     { id: 'ettersending-saksbehandler' },
     { id: 'lospost-default' },
   ].forEach(({ id, steg }) => {
-    it(`Går direkte til nav.no fra ${id}${steg !== undefined ? ` steg ${steg}` : ''}`, () => {
+    it(`Bekrefter før navigasjon til nav.no fra ${id}${steg !== undefined ? ` steg ${steg}` : ''}`, () => {
+      const heading = id === 'lospost-default' ? 'Vil du forlate sida?' : 'Vil du forlate siden?';
+      const stay = id === 'lospost-default' ? 'Nei, bli på sida' : 'Nei, bli på siden';
       const deleteRequest = cy.spy().as('deleteRequest');
       cy.intercept('DELETE', '**/api/backend/**', (req) => {
         deleteRequest();
@@ -27,20 +29,73 @@ describe('Avbryt uten å slette søknaden', () => {
         });
       }
 
-      cy.visit(`/${id}`, {
-        onBeforeLoad(win) {
-          cy.spy(win.HTMLDialogElement.prototype, 'showModal').as('showModal');
-        },
-      });
+      cy.visit(`/${id}`);
       cy.findByRole('button', { name: 'Avbryt', exact: true }).click();
-      cy.get('@showModal').should('not.have.been.called');
+      cy.findByRole('dialog', { name: heading })
+        .should('be.visible')
+        .then(($dialog) => {
+          $dialog[0].addEventListener('close', cy.stub().as('dialogClosed'), { once: true });
+        })
+        .within(() => {
+          cy.findByRole('button', { name: stay }).click();
+        });
+      cy.get('@dialogClosed').should('have.been.calledOnce');
+      cy.findByRole('dialog', { name: heading }).should('not.exist');
+      cy.location('pathname').should('eq', `/sendinn/${id}`);
+      cy.findByRole('button', { name: 'Avbryt', exact: true }).should('have.focus');
+      cy.get('@navFrontPage.all').should('have.length', 0);
+      cy.get('@deleteRequest').should('not.have.been.called');
+
+      cy.findByRole('button', { name: 'Avbryt', exact: true }).click();
+      cy.findByRole('dialog', { name: heading })
+        .should('be.visible')
+        .then(($dialog) => Promise.all($dialog[0].getAnimations().map((animation) => animation.finished)));
+      cy.injectAxe();
+      cy.checkA11y('dialog[open]');
+      cy.findByRole('dialog', { name: heading }).within(() => {
+        cy.findByRole('button', { name: 'Ja, gå til nav.no' }).click();
+      });
       cy.wait('@navFrontPage');
       cy.origin('https://www.nav.no', () => {
         cy.location('href').should('eq', 'https://www.nav.no/');
       });
       cy.get('@deleteRequest').should('not.have.been.called');
-      cy.get('@showModal').should('not.have.been.called');
     });
+  });
+
+  it('Blir på siden når bekreftelsen lukkes med Escape eller lukkeknappen', () => {
+    cy.visit('/ettersending-default');
+    cy.findByRole('button', { name: 'Avbryt', exact: true }).click();
+    cy.findByRole('dialog', { name: 'Vil du forlate siden?' })
+      .should('be.visible')
+      .then(($dialog) => {
+        $dialog[0].addEventListener('close', cy.stub().as('dialogClosed'), { once: true });
+      })
+      .within(() => {
+        cy.findByRole('button', { name: 'Nei, bli på siden' }).focus();
+      });
+    // Send the virtual key code so the browser performs native dialog dismissal.
+    cy.then(() =>
+      Cypress.automation('remote:debugger:protocol', {
+        command: 'Input.dispatchKeyEvent',
+        params: { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 },
+      }),
+    );
+    cy.get('@dialogClosed').should('have.been.calledOnce');
+    cy.then(() =>
+      Cypress.automation('remote:debugger:protocol', {
+        command: 'Input.dispatchKeyEvent',
+        params: { type: 'keyUp', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 },
+      }),
+    );
+    cy.findByRole('dialog', { name: 'Vil du forlate siden?' }).should('not.exist');
+    cy.findByRole('button', { name: 'Avbryt', exact: true }).should('have.focus').click();
+    cy.findByRole('dialog', { name: 'Vil du forlate siden?' }).within(() => {
+      cy.findByRole('button', { name: 'Lukk' }).click();
+    });
+    cy.findByRole('dialog', { name: 'Vil du forlate siden?' }).should('not.exist');
+    cy.location('pathname').should('eq', '/sendinn/ettersending-default');
+    cy.findByRole('button', { name: 'Avbryt', exact: true }).should('have.focus');
   });
 });
 

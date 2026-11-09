@@ -59,8 +59,12 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
   const { fyllutUrl } = useAppConfig();
 
   const { soknad, soknadKlar, soknadDelvisKlar } = useVedleggslisteContext();
-  const { openForstettSenereSoknadModal, openSendInnKomplettSoknadModal, openSendInnUferdigSoknadModal } =
-    useModalContext();
+  const {
+    openAvbrytModal,
+    openForstettSenereSoknadModal,
+    openSendInnKomplettSoknadModal,
+    openSendInnUferdigSoknadModal,
+  } = useModalContext();
   const { ventPaaLagring } = useLagringsProsessContext();
   const [antallUnderOpplasting, dispatchLasterOppVedleggState] = useReducer(lasterOppVedleggStateReducer, 0);
 
@@ -213,13 +217,7 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
           {t('soknad.knapper.fortsettSenere')}
         </Button>
 
-        <Button
-          onClick={() => {
-            navigerTil('https://www.nav.no');
-          }}
-          variant="tertiary"
-          data-cy="avbrytKnapp"
-        >
+        <Button onClick={openAvbrytModal} variant="tertiary" data-cy="avbrytKnapp">
           {t('soknad.knapper.avbryt')}
         </Button>
       </ButtonContainer>

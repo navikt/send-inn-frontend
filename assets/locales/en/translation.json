@@ -129,6 +129,12 @@
     "nyFane": "{{tekst}} (opens in a new tab)"
   },
   "modal": {
+    "avbryt": {
+      "tittel": "Do you want to leave this page?",
+      "innhold": "You will go to nav.no without deleting anything. This does not withdraw an application you have already submitted.",
+      "accept": "Yes, go to nav.no",
+      "cancel": "No, stay on this page"
+    },
     "fortsettSenere": {
       "tittel": "Are you sure you want to save the form and continue later?",
       "liste": [

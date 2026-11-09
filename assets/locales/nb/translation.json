@@ -129,6 +129,12 @@
     "nyFane": "{{tekst}} (åpnes i ny fane)"
   },
   "modal": {
+    "avbryt": {
+      "tittel": "Vil du forlate siden?",
+      "innhold": "Du går til nav.no uten å slette noe. Dette trekker ikke en søknad du allerede har sendt inn.",
+      "accept": "Ja, gå til nav.no",
+      "cancel": "Nei, bli på siden"
+    },
     "fortsettSenere": {
       "tittel": "Er du sikker på at du vil lagre søknaden og fortsette senere?",
       "liste": [
