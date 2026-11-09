@@ -107,10 +107,9 @@
       "fortsettSenere": "Save and continue later",
       "neste": "Next step",
       "forrige": "Previous step",
-      "avbryt": "Cancel",
-      "slett": "Delete form"
+      "avbryt": "Cancel"
     },
-    "opptatt": "You can not send in or remove the application until the problems below are solved",
+    "opptatt": "You cannot submit the application until the problems below are resolved",
     "beskjedOmAvvik": "Have you experienced problems submitting documentation? Please upload the documentation again and press Submit."
   },
   "filvelger": {
@@ -130,6 +129,12 @@
     "nyFane": "{{tekst}} (opens in a new tab)"
   },
   "modal": {
+    "avbryt": {
+      "tittel": "Do you want to cancel the submission?",
+      "innhold": "Nothing will be submitted. Applications you have already submitted will not be deleted. You will go to the nav.no homepage.",
+      "accept": "Yes, cancel",
+      "cancel": "No, stay on this page"
+    },
     "fortsettSenere": {
       "tittel": "Are you sure you want to save the form and continue later?",
       "liste": [
@@ -139,12 +144,6 @@
         "The application will be available until {{dato}}."
       ],
       "accept": "Yes, save and continue later",
-      "cancel": "Cancel"
-    },
-    "slett": {
-      "tittel": "Are you sure you want to delete the application?",
-      "liste": ["The application and all documents you have uploaded will be deleted."],
-      "accept": "Yes, delete the application",
       "cancel": "Cancel"
     },
     "sendInnUferdig": {

@@ -26,8 +26,7 @@ function SkjemaOpplasting(props: SkjemaOpplastingdProps) {
   const { vedlegg, soknad, oppdaterVisningsSteg } = props;
 
   const { t } = useTranslation();
-
-  const { openSlettSoknadModal } = useModalContext();
+  const { openAvbrytModal } = useModalContext();
 
   const [side1HarFeil, setSide1HarFeil] = useState(false);
   const [visSide1Feil, setVisSide1Feil] = useState(false);
@@ -79,13 +78,7 @@ function SkjemaOpplasting(props: SkjemaOpplastingdProps) {
           </Button>
         </ButtonContainer>
         <ButtonContainer>
-          <Button
-            onClick={() => {
-              openSlettSoknadModal();
-            }}
-            variant="tertiary"
-            data-cy="slettSoknadKnapp"
-          >
+          <Button onClick={openAvbrytModal} variant="tertiary" data-cy="avbrytKnapp">
             {t('soknad.knapper.avbryt')}
           </Button>
         </ButtonContainer>

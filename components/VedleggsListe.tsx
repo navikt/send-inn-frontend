@@ -1,7 +1,7 @@
 import { Button } from '@navikt/ds-react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
+import { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import useSWR from 'swr';
@@ -11,7 +11,6 @@ import { useErrorMessage } from '../hooks/useErrorMessage';
 import { FyllutForm } from '../types/fyllutForm';
 import { KvitteringsDto, OpplastingsStatus, SoknadType, VedleggType } from '../types/types';
 import { appConfig } from '../utils/appConfig';
-import { navigerTil } from '../utils/navigerTil';
 import { logUmamiEvent } from '../utils/tracking/umami';
 import { useAppConfig } from './AppConfigContext';
 import { AutomatiskInnsending } from './AutomatiskInnsending';
@@ -20,8 +19,6 @@ import LastOppVedlegg from './LastOppVedlegg';
 import SkjemaOpplasting from './SkjemaOpplasting';
 import { SoknadModalProvider } from './SoknadModalProvider';
 import { ExtendedVedleggType } from './Vedlegg';
-
-const initialVedleggsliste: VedleggType[] = [];
 
 const Style = styled.div`
   padding-top: 44px;
@@ -36,7 +33,6 @@ const StyledButtonContainer = styled.div`
 
 export interface VedleggsListeProps {
   soknad: SoknadType;
-  setSoknad: React.Dispatch<React.SetStateAction<SoknadType | null>>;
   erEttersending: boolean;
   visningsSteg?: number;
   visningsType?: string;
@@ -66,7 +62,6 @@ interface VedleggslisteContextType {
   soknadKlar: boolean;
   soknadDelvisKlar: boolean;
   onSendInn: () => Promise<void>;
-  slettSoknad: () => void;
   oppdaterLokalOpplastingStatus: (id: number, opplastingsStatus: OpplastingsStatus) => void;
   leggTilVedlegg: (vedlegg: ExtendedVedleggType) => void;
   slettAnnetVedlegg: (harAktiveEndringer: boolean, vedleggId: number) => Promise<void>;
@@ -92,7 +87,7 @@ const getUmamiAttributes = (soknad: SoknadType) => ({
   language: soknad.spraak,
 });
 
-function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
+function VedleggsListe({ soknad }: VedleggsListeProps) {
   const [fyllutHasError, setFyllutHasError] = useState(false);
   const { t } = useTranslation();
   const { data: fyllutForm, isLoading: fyllutIsLoading } = useSWR(
@@ -178,21 +173,6 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
       });
   };
 
-  const slettSoknad = async () => {
-    if (lagrerNaa()) {
-      return;
-    }
-
-    await nyLagringsProsess(axios.delete(`${appConfig.apiUrl}/frontend/v1/soknad/${soknad?.innsendingsId}`))
-      .then(() => {
-        resetState();
-        navigerTil(minSideUrl);
-      })
-      .catch((error) => {
-        showError(error);
-      });
-  };
-
   const resettFokus = () => {
     if (vedleggsListeContainer.current) {
       vedleggsListeContainer.current.focus();
@@ -245,11 +225,6 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
       });
   };
 
-  const resetState = () => {
-    setVedleggsListe(initialVedleggsliste);
-    setSoknad(null);
-  };
-
   if (visningsType === 'fyllUt' && !fyllutForm) {
     if (fyllutHasError) {
       router.push('/500');
@@ -264,7 +239,6 @@ function VedleggsListe({ soknad, setSoknad }: VedleggsListeProps) {
         soknadKlar,
         soknadDelvisKlar,
         onSendInn,
-        slettSoknad,
         oppdaterLokalOpplastingStatus,
         leggTilVedlegg,
         slettAnnetVedlegg,

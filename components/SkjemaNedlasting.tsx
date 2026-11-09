@@ -28,7 +28,7 @@ function SkjemaNedlasting(props: SkjemanedlastingdProps) {
   const { vedlegg, oppdaterVisningsSteg } = props;
 
   const { t } = useTranslation();
-  const { openSlettSoknadModal } = useModalContext();
+  const { openAvbrytModal } = useModalContext();
 
   return (
     <>
@@ -73,13 +73,7 @@ function SkjemaNedlasting(props: SkjemanedlastingdProps) {
         </Button>
       </ButtonContainer>
       <ButtonContainer>
-        <Button
-          onClick={() => {
-            openSlettSoknadModal();
-          }}
-          variant="tertiary"
-          data-cy="slettSoknadKnapp"
-        >
+        <Button onClick={openAvbrytModal} variant="tertiary" data-cy="avbrytKnapp">
           {t('soknad.knapper.avbryt')}
         </Button>
       </ButtonContainer>

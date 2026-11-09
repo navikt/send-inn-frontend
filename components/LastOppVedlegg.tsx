@@ -60,10 +60,10 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
 
   const { soknad, soknadKlar, soknadDelvisKlar } = useVedleggslisteContext();
   const {
+    openAvbrytModal,
     openForstettSenereSoknadModal,
     openSendInnKomplettSoknadModal,
     openSendInnUferdigSoknadModal,
-    openSlettSoknadModal,
   } = useModalContext();
   const { ventPaaLagring } = useLagringsProsessContext();
   const [antallUnderOpplasting, dispatchLasterOppVedleggState] = useReducer(lasterOppVedleggStateReducer, 0);
@@ -217,22 +217,8 @@ function LastOppVedlegg(props: LastOppVedleggdProps) {
           {t('soknad.knapper.fortsettSenere')}
         </Button>
 
-        <Button
-          loading={isLoading}
-          onClick={() => {
-            setIsLoading(true);
-            if (antallUnderOpplasting !== undefined && antallUnderOpplasting > 0) {
-              customErrorMessage({
-                message: t('feil.ventTilOpplastingErFerdig'),
-              });
-            }
-            openSlettSoknadModal();
-            setIsLoading(false);
-          }}
-          variant="tertiary"
-          data-cy="slettSoknadKnapp"
-        >
-          {t('soknad.knapper.slett')}
+        <Button onClick={openAvbrytModal} variant="tertiary" data-cy="avbrytKnapp">
+          {t('soknad.knapper.avbryt')}
         </Button>
       </ButtonContainer>
       {/* end */}
