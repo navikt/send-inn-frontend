@@ -14,8 +14,8 @@ jobs:
       contents: 'read'
       packages: 'read'
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24.22.3
           cache: 'npm'
@@ -29,7 +29,7 @@ jobs:
         run: npm run test:http
       - name: Build with mock
         run: npm run build:mock
-      - uses: cypress-io/github-action@v7
+      - uses: cypress-io/github-action@0ed14f5d30c4ad6e5e8ffb6f57dbb69150137a3f # v7.4.10
         with:
           install: false
           start: npm run start:with:test
@@ -37,7 +37,7 @@ jobs:
           config: video=false
           config-file: cypress.config.ts
       - name: Upload screenshots
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: failure()
         with:
           name: cypress-screenshots
