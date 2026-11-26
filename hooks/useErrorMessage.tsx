@@ -16,7 +16,7 @@ export const useErrorMessage = () => {
         // Feil fra server (4xx eller 5xx)
         const errorCode = error.response.data?.errorCode;
 
-        const messageKey = `${errorCode}.message` as TranslationKey<'backend'>;
+        const messageKey = `${errorCode}.message`;
         const titleKey = `${errorCode}.title`;
 
         if (
@@ -25,7 +25,7 @@ export const useErrorMessage = () => {
           })
         ) {
           return {
-            message: tB(messageKey),
+            message: tB(messageKey as TranslationKey<'backend'>),
             title: i18n.exists(titleKey, {
               ns: 'backend',
             })
